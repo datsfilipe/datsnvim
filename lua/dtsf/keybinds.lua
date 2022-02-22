@@ -24,6 +24,9 @@ nmap("<leader>s", ":w")
 nmap("<leader>q", ":q")
 nmap("<ESC>", ":nohlsearch")
 
+-- wrap
+nmap("<leader>w", ":set wrap!")
+
 -- Truezen toggle
 nmap("<leader>m", ":TZAtaraxis")
 
