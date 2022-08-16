@@ -2,7 +2,7 @@
 
 ## description
 
-The datsnvim project is a neovim personal configuration for working with javascript, typescript and React.i
+The datsnvim project is a Neovim personal configuration for working with javascript, typescript and React.
 
 ## installation
 
@@ -10,6 +10,8 @@ The datsnvim project is a neovim personal configuration for working with javascr
   git clone 'https://github.com/datsfilipe/datsnvim.git' $HOME/.config/nvim
 
   nvim +:PackSync
+
+  # you may need to install some of the plugins manually, check their repository for more info
 ```
 
 ## how it looks like
@@ -18,4 +20,4 @@ The datsnvim project is a neovim personal configuration for working with javascr
 
 # credits
 
-Took the major part of the config from [Craftzdog](https://github.com/craftzdog/dotfiles-public) and added [Oxocarbon colorscheme](https://github.com/shaunsingh/oxocarbon.nvim).
+Took the major part of the config from [Craftzdog](https://github.com/craftzdog/dotfiles-public) and added [Oxocarbon color scheme](https://github.com/shaunsingh/oxocarbon.nvim).
