@@ -16,7 +16,7 @@ The datsnvim project is a Neovim personal configuration for working with javascr
 
 ## how it looks like
 
-![](assets/howitlooks.png)
+![](assets/vimlooks.png)
 
 # credits
 
