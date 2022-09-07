@@ -42,3 +42,7 @@ keymap.set('n', '<leader>k', ':m .-2<CR>==', opts)
 keymap.set('n', '<leader>cd', ':Copilot disable<CR>', opts)
 keymap.set('n', '<leader>ce', ':Copilot enable<CR>', opts)
 keymap.set('n', '<leader>cp', ':Copilot panel<CR>', opts)
+
+-- toggle wrap
+keymap.set('n', '<A-z>', ':set wrap!<CR>', opts)
+keymap.set('i', '<A-z>', '<esc> :set wrap!<CR>', opts)

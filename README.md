@@ -1,23 +1,17 @@
-# datsnvim
+# Datsnvim
 
-## description
+### Description
 
-The datsnvim project is a Neovim personal configuration for working with javascript, typescript and React.
+The datsnvim project is a Neovim personal configuration for working with javascript, typescript and React. It also don't have a file tree at the side 😅!
 
-## installation
+### Installation
 
 ```bash
   git clone 'https://github.com/datsfilipe/datsnvim.git' $HOME/.config/nvim
 
-  nvim +:PackSync
-
-  # you may need to install some of the plugins manually, check their repository for more info
+  nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 ```
 
-## how it looks like
+### How it looks like
 
 ![](assets/vimlooks.png)
-
-# credits
-
-Took the major part of the config from [Craftzdog](https://github.com/craftzdog/dotfiles-public) and added [Oxocarbon color scheme](https://github.com/shaunsingh/oxocarbon.nvim).
