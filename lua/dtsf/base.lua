@@ -28,6 +28,7 @@ vim.opt.wrap = false -- No Wrap lines
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
+vim.opt.mouse = 'a'
 
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
@@ -41,12 +42,3 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:append { 'r' }
-
--- Add clipboard integration
-vim.opt.clipboard:append { 'unnamedplus' }
-
--- Uncomment to use other base16 color themes
--- _G.theme = "paradise-dark"
-
--- Uncomment to use oxocarbon colorscheme
-vim.cmd("colorscheme oxocarbon")
