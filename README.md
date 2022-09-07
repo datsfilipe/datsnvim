@@ -7,9 +7,9 @@ The datsnvim project is a Neovim personal configuration for working with javascr
 ### Installation
 
 ```bash
-  git clone 'https://github.com/datsfilipe/datsnvim.git' $HOME/.config/nvim
+git clone 'https://github.com/datsfilipe/datsnvim.git' $HOME/.config/nvim
 
-  nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
 ```
 
 ### How it looks like
