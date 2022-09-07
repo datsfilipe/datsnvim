@@ -18,6 +18,13 @@ keymap.set('n', 'J', 'mzJ`z', opts)
 keymap.set('n', '<leader>sv', ':vsplit<Return><C-w>w', opts)
 keymap.set('n', '<leader>ss', ':split<Return><C-w>w', opts)
 
+-- move windows
+keymap.set('n', '<leader>s', '<C-w>w', opts)
+keymap.set('', '<leader>h', '<C-w>h', opts)
+keymap.set('', '<leader>k', '<C-w>k', opts)
+keymap.set('', '<leader>j', '<C-w>j', opts)
+keymap.set('', '<leader>l', '<C-w>l', opts)
+
 -- resize windows
 keymap.set('n', '<leader><left>', '<C-w><', opts)
 keymap.set('n', '<leader><right>', '<C-w>>', opts)
