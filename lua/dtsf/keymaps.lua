@@ -19,11 +19,11 @@ keymap.set('n', '<leader>sv', ':vsplit<Return><C-w>w', opts)
 keymap.set('n', '<leader>ss', ':split<Return><C-w>w', opts)
 
 -- move windows
-keymap.set('n', '<leader>s', '<C-w>w', opts)
-keymap.set('', '<leader>h', '<C-w>h', opts)
-keymap.set('', '<leader>k', '<C-w>k', opts)
-keymap.set('', '<leader>j', '<C-w>j', opts)
-keymap.set('', '<leader>l', '<C-w>l', opts)
+keymap.set('n', '<leader>S', '<C-w>w', opts)
+keymap.set('', '<leader>H', '<C-w>h', opts)
+keymap.set('', '<leader>K', '<C-w>k', opts)
+keymap.set('', '<leader>J', '<C-w>j', opts)
+keymap.set('', '<leader>L', '<C-w>l', opts)
 
 -- resize windows
 keymap.set('n', '<leader><left>', '<C-w><', opts)
@@ -49,6 +49,9 @@ keymap.set('n', '<leader>k', ':m .-2<CR>==', opts)
 keymap.set('n', '<leader>cd', ':Copilot disable<CR>', opts)
 keymap.set('n', '<leader>ce', ':Copilot enable<CR>', opts)
 keymap.set('n', '<leader>cp', ':Copilot panel<CR>', opts)
+
+-- Gitsigns null-ls code actions
+keymap.set('n', '<leader>gs', ':lua vim.lsp.buf.code_action()<CR>', opts)
 
 -- toggle wrap
 keymap.set('n', '<A-z>', ':set wrap!<CR>', opts)
