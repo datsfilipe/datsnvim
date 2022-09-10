@@ -66,10 +66,11 @@ return require('packer').startup(function(use)
   use 'windwp/nvim-autopairs'
   use 'windwp/nvim-ts-autotag'
   use 'github/copilot.vim'
+  use 'ThePrimeagen/harpoon' -- harpoon by ThePrimeagen
 
   -- colorschemes section
-  -- use { 'ellisonleao/gruvbox.nvim' }
-  use 'rebelot/kanagawa.nvim'
+  -- use { "ellisonleao/gruvbox.nvim" }
+  use "rebelot/kanagawa.nvim"
   -- use ({ 'projekt0n/github-nvim-theme' })
 
   if packer_bootstrap then
