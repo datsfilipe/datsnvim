@@ -29,6 +29,8 @@ vim.opt.backspace = { 'start', 'eol', 'indent' }
 vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
 vim.opt.mouse = 'a'
+vim.opt.swapfile = false
+vim.opt.guicursor = 'a:blinkon5' -- set same cursor to all modes (5 is the blink time)
 
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
@@ -42,3 +44,8 @@ vim.api.nvim_create_autocmd("InsertLeave", {
 
 -- Add asterisks in block comments
 vim.opt.formatoptions:append { 'r' }
+
+-- it will disable copilot on startup and avoid the delay of autocmd approach
+vim.g.copilot_enabled = 0
+-- this will allow me to enable it iven if Tab key is used for comp.nvim
+vim.g.copilot_assume_mapped = 1
