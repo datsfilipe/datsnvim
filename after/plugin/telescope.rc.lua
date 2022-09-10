@@ -25,15 +25,31 @@ telescope.setup {
       mappings = {
         -- your custom insert mode mappings
         ["i"] = {
-          ["<C-w>"] = function() vim.cmd('normal vbd') end,
+          -- go to normal mode
+          ['<C-c>'] = function()
+            vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Esc>', true, true, true), 'n', true)
+          end,
         },
         ["n"] = {
-          -- your custom normal mode mappings
           ["N"] = fb_actions.create,
-          ["h"] = fb_actions.goto_parent_dir,
           ["/"] = function()
             vim.cmd('startinsert')
-          end
+          end,
+          -- maps for harpoon
+          ["<C-b>"] = function()
+            local entry = require('telescope.actions.state').get_selected_entry()
+            local filename = entry.path
+            local cmd = string.format(":lua require('harpoon.mark').add_file('%s')", filename)
+            vim.cmd(cmd)
+            actions.close()
+          end,
+          ["<C-B>"] = function()
+            local entry = require('telescope.actions.state').get_selected_entry()
+            local filename = entry.path
+            local cmd = string.format(":lua require('harpoon.mark').rm_file('%s')", filename)
+            vim.cmd(cmd)
+            actions.close()
+          end,
         },
       },
     },
@@ -46,23 +62,39 @@ vim.keymap.set('n', ';f',
   function()
     builtin.find_files({
       no_ignore = false,
-      hidden = true
+      hidden = true,
+      prompt_prefix = "﬌ ",
     })
   end)
 vim.keymap.set('n', ';r', function()
-  builtin.live_grep()
+  builtin.live_grep({
+    prompt_prefix = ' '
+  })
 end)
 vim.keymap.set('n', '\\\\', function()
-  builtin.buffers()
+  builtin.buffers({
+    prompt_prefix = "﬌ ",
+  })
 end)
 vim.keymap.set('n', ';t', function()
-  builtin.help_tags()
+  builtin.help_tags({
+    prompt_prefix = "﬌ ",
+  })
 end)
 vim.keymap.set('n', ';;', function()
-  builtin.resume()
+  builtin.resume({
+    layout_config = {
+      width = 0.4,
+      height = 0.8,
+      prompt_position = "top",
+    },
+    prompt_prefix = "﬌ ",
+  })
 end)
 vim.keymap.set('n', ';e', function()
-  builtin.diagnostics()
+  builtin.diagnostics({
+    prompt_prefix = "﬌ ",
+  })
 end)
 vim.keymap.set("n", "sf", function()
   telescope.extensions.file_browser.file_browser({
@@ -71,8 +103,25 @@ vim.keymap.set("n", "sf", function()
     respect_gitignore = false,
     hidden = true,
     grouped = true,
-    previewer = false,
-    initial_mode = "normal",
-    layout_config = { height = 40 }
+    prompt_prefix = "﬌ ",
+    layout_strategy = "horizontal",
+    layout_config = {
+      width = 0.8,
+      height = 0.8,
+      prompt_position = "top",
+    },
+  })
+end)
+
+vim.keymap.set('n', ';k', function()
+  builtin.keymaps({
+    layout_config = {
+      height = 20,
+      width = 80,
+      prompt_position = "top",
+      preview_cutoff = 120,
+    },
+    prompt_title = "Keymaps",
+    prompt_prefix = "  ",
   })
 end)
