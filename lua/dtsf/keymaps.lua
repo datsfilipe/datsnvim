@@ -18,13 +18,6 @@ keymap.set('n', 'J', 'mzJ`z', opts)
 keymap.set('n', '<leader>sv', ':vsplit<Return><C-w>w', opts)
 keymap.set('n', '<leader>ss', ':split<Return><C-w>w', opts)
 
--- move windows
-keymap.set('n', '<leader>S', '<C-w>w', opts)
-keymap.set('', '<leader>H', '<C-w>h', opts)
-keymap.set('', '<leader>K', '<C-w>k', opts)
-keymap.set('', '<leader>J', '<C-w>j', opts)
-keymap.set('', '<leader>L', '<C-w>l', opts)
-
 -- resize windows
 keymap.set('n', '<leader><left>', '<C-w><', opts)
 keymap.set('n', '<leader><right>', '<C-w>>', opts)
@@ -46,9 +39,10 @@ keymap.set('n', '<leader>j', ':m .+1<CR>==', opts)
 keymap.set('n', '<leader>k', ':m .-2<CR>==', opts)
 
 -- github copilot
-keymap.set('n', '<leader>cd', ':Copilot disable<CR>', opts)
-keymap.set('n', '<leader>ce', ':Copilot enable<CR>', opts)
-keymap.set('n', '<leader>cp', ':Copilot panel<CR>', opts)
+keymap.set('n', '<C-p>', ':Copilot panel<CR>', opts)
+keymap.set('n', '<C-e>', ':Copilot enable<CR>', opts)
+keymap.set('n', '<C-d>', ':Copilot disable<CR>', opts)
+keymap.set('n','<C-;', ':Copilot status<CR>', opts)
 
 -- Gitsigns null-ls code actions
 keymap.set('n', '<leader>gs', ':lua vim.lsp.buf.code_action()<CR>', opts)
