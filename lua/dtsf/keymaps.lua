@@ -6,8 +6,8 @@ vim.g.maplocalleader = ' '
 
 keymap.set('n', 'x', '"_x', opts)
 
--- get out insert mode with <C-c>
-keymap.set('i', '<C-c>', '<esc>', opts)
+-- get out of insert mode with <C-c>
+keymap.set('i', '<C-c>', '<Esc>', opts)
 
 -- keep things centered when searching or joining lines
 keymap.set('n', 'n', 'nzzzv', opts)
@@ -15,8 +15,10 @@ keymap.set('n', 'N', 'Nzzzv', opts)
 keymap.set('n', 'J', 'mzJ`z', opts)
 
 -- split screen
-keymap.set('n', '<leader>sv', ':vsplit<Return><C-w>w', opts)
-keymap.set('n', '<leader>ss', ':split<Return><C-w>w', opts)
+-- set keymaps to open split screen with terminal in it, also open terminal in current directory
+keymap.set('n', '<C-t>', ':vsplit term://fish<CR>', opts)
+keymap.set('n', '<C-s>', ':split term://fish<CR>', opts)
+keymap.set('n', '<C-q>', ':q<CR>', opts)
 
 -- resize windows
 keymap.set('n', '<leader><left>', '<C-w><', opts)
@@ -37,12 +39,17 @@ keymap.set('v', 'J', ":m '>+0<CR>gv=gv")
 keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 keymap.set('n', '<leader>j', ':m .+1<CR>==', opts)
 keymap.set('n', '<leader>k', ':m .-2<CR>==', opts)
+-- harpoon
+keymap.set('n', '<C-h>m', ':lua require("harpoon.ui").toggle_quick_menu()<CR>', opts)
+keymap.set('n', '<C-h>b', ':lua require("harpoon.mark").add_file()<CR>', opts)
+keymap.set('n', '<C-h>k', ':lua require("harpoon.ui").nav_next()<CR>', opts)
+keymap.set('n', '<C-h>j', ':lua require("harpoon.ui").nav_prev()<CR>', opts)
 
 -- github copilot
-keymap.set('n', '<C-p>', ':Copilot panel<CR>', opts)
-keymap.set('n', '<C-e>', ':Copilot enable<CR>', opts)
-keymap.set('n', '<C-d>', ':Copilot disable<CR>', opts)
-keymap.set('n','<C-;', ':Copilot status<CR>', opts)
+keymap.set('n', '<leader>cp', ':Copilot panel<CR>', opts)
+keymap.set('n', '<leader>ce', ':Copilot enable<CR>', opts)
+keymap.set('n', '<leader>cd', ':Copilot disable<CR>', opts)
+keymap.set('n', '<leader>cc', ':Copilot status<CR>', opts)
 
 -- Gitsigns null-ls code actions
 keymap.set('n', '<leader>gs', ':lua vim.lsp.buf.code_action()<CR>', opts)
