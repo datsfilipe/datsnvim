@@ -11,24 +11,26 @@ bufferline.setup({
     color_icons = true
   },
   highlights = {
-    separator = {
-      fg = '#073642',
-      bg = '#002b36',
-    },
-    separator_selected = {
-      fg = '#073642',
+    -- set bufferline config colors with gruvbox colors
+    fill = {
+      bg = "NONE",
     },
     background = {
-      fg = '#657b83',
-      bg = '#002b36'
+      fg = "#ebdbb2",
+      bg = "NONE"
     },
     buffer_selected = {
-      fg = '#fdf6e3',
+      fg = "#ebdbb2",
+      bg = "NONE",
       bold = true,
     },
-    fill = {
-      bg = '#073642'
-    }
+    separator = {
+      fg = "#282828",
+      bg = "NONE",
+    },
+    separator_selected = {
+      fg = "#ebdbb2",
+    },
   },
 })
 
