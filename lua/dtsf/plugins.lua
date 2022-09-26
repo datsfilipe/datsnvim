@@ -69,9 +69,9 @@ return require('packer').startup(function(use)
   use 'ThePrimeagen/harpoon' -- harpoon by ThePrimeagen
 
   -- colorschemes section
-  -- use { "ellisonleao/gruvbox.nvim" }
-  use "rebelot/kanagawa.nvim"
-  -- use ({ 'projekt0n/github-nvim-theme' })
+  use { "ellisonleao/gruvbox.nvim" }
+  -- use "rebelot/kanagawa.nvim"
+  -- use({ 'projekt0n/github-nvim-theme' })
 
   if packer_bootstrap then
     require('packer').sync()

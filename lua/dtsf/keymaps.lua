@@ -57,3 +57,7 @@ keymap.set('n', '<leader>gs', ':lua vim.lsp.buf.code_action()<CR>', opts)
 -- toggle wrap
 keymap.set('n', '<A-z>', ':set wrap!<CR>', opts)
 keymap.set('i', '<A-z>', '<esc> :set wrap!<CR>', opts)
+
+-- indent lines in visual mode
+keymap.set('v', '<', '<gv', opts)
+keymap.set('v', '>', '>gv', opts)
