@@ -26,6 +26,9 @@ keymap.set('n', '<leader><right>', '<C-w>>', opts)
 keymap.set('n', '<leader><up>', '<C-w>+', opts)
 keymap.set('n', '<leader><down>', '<C-w>-', opts)
 
+-- source config
+keymap.set('n', '<leader>.', ':luafile %<CR>', opts)
+
 -- ThePrimeagen vim master keymaps
 -- copy to clipboard / delete
 keymap.set('n', '<space>y', '"+y', opts)
