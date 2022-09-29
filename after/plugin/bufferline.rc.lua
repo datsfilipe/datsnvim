@@ -3,36 +3,37 @@ if (not status) then return end
 
 bufferline.setup({
   options = {
-    mode = "tabs",
-    separator_style = 'slant',
-    always_show_bufferline = false,
-    show_buffer_close_icons = false,
+    mode = 'tabs',
+    show_tab_indicators = false,
     show_close_icon = false,
-    color_icons = true
+    show_buffer_icons = true,
+    show_buffer_close_icons = false,
+    always_show_bufferline = false,
+    separator_style = { '', '' },
+    indicator = {
+      style = "underline"
+    },
   },
   highlights = {
-    -- set bufferline config colors with gruvbox colors
     fill = {
-      bg = "NONE",
-    },
-    background = {
-      fg = "#ebdbb2",
       bg = "NONE"
     },
-    buffer_selected = {
-      fg = "#ebdbb2",
-      bg = "NONE",
+    tab_selected = {
+      fg = '#ebdbb2',
+      bg = 'NONE',
       bold = true,
+      italic = false,
     },
-    separator = {
-      fg = "#282828",
-      bg = "NONE",
+    buffer_selected = {
+      fg = '#ebdbb2',
+      bg = 'NONE',
+      bold = true,
+      italic = false,
     },
-    separator_selected = {
-      fg = "#ebdbb2",
-    },
-  },
+  }
 })
 
+vim.keymap.set('n', '<leader><Tab>n', '<Cmd>tabnew<CR>')
+vim.keymap.set('n', '<leader><Tab>d', '<Cmd>tabclose<CR>')
 vim.keymap.set('n', '<Tab>', '<Cmd>BufferLineCycleNext<CR>', {})
 vim.keymap.set('n', '<S-Tab>', '<Cmd>BufferLineCyclePrev<CR>', {})
