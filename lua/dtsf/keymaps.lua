@@ -16,8 +16,8 @@ keymap.set('n', 'J', 'mzJ`z', opts)
 
 -- split screen
 -- set keymaps to open split screen with terminal in it, also open terminal in current directory
-keymap.set('n', '<C-t>', ':vsplit term://fish<CR>', opts)
-keymap.set('n', '<C-s>', ':split term://fish<CR>', opts)
+keymap.set('n', '<C-t>', ':vsplit', opts)
+keymap.set('n', '<C-s>', ':split', opts)
 keymap.set('n', '<C-q>', ':q<CR>', opts)
 
 -- resize windows
