@@ -16,7 +16,7 @@ local sources = {
   null_ls.builtins.diagnostics.gitlint
 }
 
-null_ls.setup {
+null_ls.setup({
   sources = sources,
   on_attach = function(client, bufnr)
     if client.server_capabilities.documentFormattingProvider then
@@ -30,4 +30,4 @@ null_ls.setup {
       })
     end
   end,
-}
+})
