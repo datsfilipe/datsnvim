@@ -14,15 +14,12 @@ ts.setup {
     "tsx",
     "toml",
     "fish",
-    "php",
     "json",
-    "yaml",
-    "swift",
     "css",
     "html",
     "lua",
     "yaml",
-    "javascript"
+    "javascript",
   },
   autotag = {
     enable = true,
