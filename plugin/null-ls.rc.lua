@@ -24,7 +24,9 @@ null_ls.setup {
       vim.api.nvim_create_autocmd("BufWritePre", {
         group = augroup_format,
         buffer = 0,
-        callback = function() vim.lsp.buf.formatting_seq_sync() end
+        callback = function()
+          vim.lsp.buf.format()
+        end
       })
     end
   end,
