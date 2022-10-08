@@ -63,37 +63,37 @@ vim.keymap.set('n', ';f',
     builtin.find_files({
       no_ignore = false,
       hidden = true,
-      prompt_prefix = "﬌ ",
+      prompt_prefix = "  ",
     })
   end)
 vim.keymap.set('n', ';r', function()
   builtin.live_grep({
-    prompt_prefix = ' '
+    prompt_prefix = "  ",
   })
 end)
 vim.keymap.set('n', '\\\\', function()
   builtin.buffers({
-    prompt_prefix = "﬌ ",
+    prompt_prefix = "  ",
   })
 end)
 vim.keymap.set('n', ';t', function()
   builtin.help_tags({
-    prompt_prefix = "﬌ ",
+    prompt_prefix = "  ",
   })
 end)
 vim.keymap.set('n', ';;', function()
   builtin.resume({
     layout_config = {
-      width = 0.4,
+      width = 0.6,
       height = 0.8,
       prompt_position = "top",
     },
-    prompt_prefix = "﬌ ",
+    prompt_prefix = " גּ ",
   })
 end)
 vim.keymap.set('n', ';e', function()
   builtin.diagnostics({
-    prompt_prefix = "﬌ ",
+    prompt_prefix = "  ",
   })
 end)
 vim.keymap.set("n", "sf", function()
@@ -103,13 +103,13 @@ vim.keymap.set("n", "sf", function()
     respect_gitignore = false,
     hidden = true,
     grouped = true,
-    prompt_prefix = "﬌ ",
     layout_strategy = "horizontal",
     layout_config = {
       width = 0.8,
       height = 0.8,
       prompt_position = "top",
     },
+    prompt_prefix = "  ",
   })
 end)
 
@@ -122,6 +122,6 @@ vim.keymap.set('n', ';k', function()
       preview_cutoff = 120,
     },
     prompt_title = "Keymaps",
-    prompt_prefix = "  ",
+    prompt_prefix = "   ",
   })
 end)
