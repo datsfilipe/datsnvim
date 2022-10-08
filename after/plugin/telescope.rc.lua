@@ -22,6 +22,9 @@ telescope.setup {
       theme = "dropdown",
       -- disables netrw and use telescope-file-browser in its place
       hijack_netrw = true,
+      respect_gitignore = false,
+      hidden = true,
+      grouped = true,
       mappings = {
         -- your custom insert mode mappings
         ["i"] = {
