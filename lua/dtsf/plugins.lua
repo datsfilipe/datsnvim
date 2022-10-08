@@ -67,6 +67,7 @@ return require('packer').startup(function(use)
   use 'windwp/nvim-ts-autotag'
   use 'github/copilot.vim'
   use 'ThePrimeagen/harpoon' -- harpoon by ThePrimeagen
+  use 'wakatime/vim-wakatime' -- wakatime to keep coding track
 
   -- colorschemes section
   use { "ellisonleao/gruvbox.nvim" }
