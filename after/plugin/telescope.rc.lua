@@ -16,6 +16,7 @@ telescope.setup {
         ["q"] = actions.close
       },
     },
+    initial_mode = "normal",
   },
   extensions = {
     file_browser = {
