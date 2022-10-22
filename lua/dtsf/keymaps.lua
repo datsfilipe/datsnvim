@@ -6,7 +6,7 @@ vim.g.maplocalleader = ' '
 
 keymap.set('n', 'x', '"_x', opts)
 
--- get out of insert mode with <C-c>
+-- get out of insert mode with <C-c> (yeah I know, but I can't avoid it)
 keymap.set('i', '<C-c>', '<Esc>', opts)
 
 -- keep things centered when searching or joining lines
@@ -16,8 +16,8 @@ keymap.set('n', 'J', 'mzJ`z', opts)
 
 -- split screen
 -- set keymaps to open split screen with terminal in it, also open terminal in current directory
-keymap.set('n', '<C-t>', ':vsplit', opts)
-keymap.set('n', '<C-s>', ':split', opts)
+keymap.set('n', '<C-t>', ':vsplit<CR>', opts)
+keymap.set('n', '<C-s>', ':split<CR>', opts)
 keymap.set('n', '<C-q>', ':q<CR>', opts)
 
 -- resize windows
@@ -54,7 +54,7 @@ keymap.set('n', '<leader>ce', ':Copilot enable<CR>', opts)
 keymap.set('n', '<leader>cd', ':Copilot disable<CR>', opts)
 keymap.set('n', '<leader>cc', ':Copilot status<CR>', opts)
 
--- Gitsigns null-ls code actions
+-- gitsigns null-ls code actions
 keymap.set('n', '<leader>gs', ':lua vim.lsp.buf.code_action()<CR>', opts)
 
 -- toggle wrap
@@ -64,3 +64,7 @@ keymap.set('i', '<A-z>', '<esc> :set wrap!<CR>', opts)
 -- indent lines in visual mode
 keymap.set('v', '<', '<gv', opts)
 keymap.set('v', '>', '>gv', opts)
+
+-- comment.nvim
+keymap.set('n', '<leader>/', '<cmd>lua require("Comment.api").toggle.linewise.current()<CR>', opts)
+keymap.set('v', '<leader>/', '<ESC><cmd>lua require("Comment.api").toggle.linewise(vim.fn.visualmode())<CR>', opts)
