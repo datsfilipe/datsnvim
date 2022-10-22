@@ -1,80 +1,93 @@
-local ensure_packer = function()
-  local fn = vim.fn
-  local install_path = fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
-    vim.cmd [[packadd packer.nvim]]
-    return true
-  end
-  return false
+local status, packer = pcall(require, 'packer')
+
+if (not status) then
+  print('Packer is not installed')
+  return
 end
 
-local packer_bootstrap = ensure_packer()
+-- packer init options
+packer.init({
+  auto_clean = true,
+  compile_on_sync = true,
+  git = { clone_timeout = 6000 },
+  display = {
+    working_sym = 'ﲊ',
+    error_sym = '✗ ',
+    done_sym = ' ',
+    removed_sym = ' ',
+    moved_sym = '',
+  },
+})
 
-return require('packer').startup(function(use)
-  -- packer
+packer.startup(function(use)
   use 'wbthomason/packer.nvim'
+  use 'nvim-lua/plenary.nvim' -- common utilities
+  use 'L3MON4D3/LuaSnip' -- snippets
 
-  -- luasnip
-  use 'L3MON4D3/LuaSnip'
+  -- ui plugins
+  use 'nvim-lualine/lualine.nvim'
+  use 'kyazdani42/nvim-web-devicons'
+  -- must have telescope
+  use 'nvim-telescope/telescope.nvim'
+  use 'nvim-telescope/telescope-file-browser.nvim'
+  use 'goolord/alpha-nvim' -- greeting for neovim
+  -- colorschemes
+  use 'ellisonleao/gruvbox.nvim'
 
-  -- plenary
-  use 'nvim-lua/plenary.nvim'
-
-  -- lsp section
+  -- coding utilities
+  use 'ThePrimeagen/harpoon' -- harpoon by ThePrimeagen
+  use 'wakatime/vim-wakatime' -- wakatime to keep coding track
+  use 'lewis6991/gitsigns.nvim'
+  use 'dinhhuy258/git.nvim'
+  use({
+    "iamcco/markdown-preview.nvim",
+    run = function() vim.fn["mkdp#util#install"]() end,
+  })
+  -- lsp plugins
   use 'neovim/nvim-lspconfig'
   use 'glepnir/lspsaga.nvim'
   use 'onsails/lspkind-nvim'
-
-  -- mason section
+  -- mason plugins
   use 'williamboman/mason.nvim'
   use 'williamboman/mason-lspconfig.nvim'
+  use 'jose-elias-alvarez/null-ls.nvim' -- must have null-ls
+  -- in order to have completions
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'hrsh7th/cmp-buffer'
+  use 'hrsh7th/cmp-path'
+  use 'github/copilot.vim' -- yep, copilot
 
-  -- treesitter section
+  -- coding style
+  use 'norcalli/nvim-base16.lua'
+  use {
+      'numToStr/Comment.nvim',
+      config = function()
+          require('Comment').setup()
+      end
+  }
+  use 'norcalli/nvim-colorizer.lua'
+  -- treesitter for highlighting code
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate'
   }
   use 'nvim-treesitter/nvim-treesitter-context'
-
-  -- telescope section
-  use 'kyazdani42/nvim-web-devicons'
-  use 'nvim-telescope/telescope.nvim'
-  use 'nvim-telescope/telescope-file-browser.nvim'
-
-  -- utils section
-  use 'folke/zen-mode.nvim'
-  use({
-    "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
-  })
-
-  -- git section
-  use 'akinsho/nvim-bufferline.lua'
-  use 'lewis6991/gitsigns.nvim'
-  use 'dinhhuy258/git.nvim'
-
-  -- code tools section
-  use 'nvim-lualine/lualine.nvim'
-  use 'MunifTanjim/prettier.nvim'
-  use 'jose-elias-alvarez/null-ls.nvim'
-  use 'hrsh7th/nvim-cmp'
-  use 'hrsh7th/cmp-nvim-lsp'
-  use 'hrsh7th/cmp-buffer'
-  use 'hrsh7th/cmp-path'
-  use 'norcalli/nvim-colorizer.lua'
-  use 'windwp/nvim-autopairs'
-  use 'windwp/nvim-ts-autotag'
-  use 'github/copilot.vim'
-  use 'ThePrimeagen/harpoon' -- harpoon by ThePrimeagen
-  use 'wakatime/vim-wakatime' -- wakatime to keep coding track
-
-  -- colorschemes section
-  use { "ellisonleao/gruvbox.nvim" }
-  -- use "rebelot/kanagawa.nvim"
-  -- use({ 'projekt0n/github-nvim-theme' })
+  use 'windwp/nvim-autopairs' -- autopairs
+  use 'windwp/nvim-ts-autotag' -- for react
+  use 'lukas-reineke/indent-blankline.nvim' -- indent lines
 
   if packer_bootstrap then
-    require('packer').sync()
+    packer.sync()
   end
 end)
+
+vim.api.nvim_exec(
+  [[
+  augroup packer_ide_config
+    autocmd!
+    autocmd BufWritePost plugins.lua source <afile> | PackerSync
+  augroup end
+]],
+  false
+)
