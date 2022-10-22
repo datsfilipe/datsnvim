@@ -1,6 +1,30 @@
-local status, cmp = pcall(require, "cmp")
-if (not status) then return end
+local present, cmp = pcall(require, 'cmp')
+if not present then return end
 local lspkind = require 'lspkind'
+
+vim.o.completeopt = 'menu,menuone,noselect'
+
+local function border(hl_name)
+  return {
+    { '╭', hl_name },
+    { '─', hl_name },
+    { '╮', hl_name },
+    { '│', hl_name },
+    { '╯', hl_name },
+    { '─', hl_name },
+    { '╰', hl_name },
+    { '│', hl_name },
+  }
+end
+
+local cmp_window = require 'cmp.utils.window'
+
+cmp_window.info_ = cmp_window.info
+cmp_window.info = function(self)
+  local info = self:info_()
+  info.scrollable = false
+  return info
+end
 
 cmp.setup({
   snippet = {
@@ -46,10 +70,25 @@ cmp.setup({
   }),
   formatting = {
     format = lspkind.cmp_format({ with_text = false, maxwidth = 50 })
-  }
+  },
+  window = {
+    completion = {
+      border = border 'CmpBorder',
+      winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
+    },
+    documentation = {
+      border = border 'CmpDocBorder',
+      winhighlight = 'Normal:CmpDocPmenu,CursorLine:CmpDocPmenuSel,Search:None',
+    },
+  },
 })
 
+-- change highlight for cmp
 vim.cmd [[
   set completeopt=menuone,noinsert,noselect
   highlight! default link CmpItemKind CmpItemMenuDefault
+  highlight CmpBorder guifg=#555555 guibg=NONE
+  highlight CmpPmenu guifg=#fefefe guibg=NONE
+  highlight CmpDocBorder guifg=#555555 guibg=NONE
+  highlight CmpDocPmenu guifg=#fefefe guibg=NONE
 ]]
