@@ -9,7 +9,7 @@ end
 packer.init({
   auto_clean = true,
   compile_on_sync = true,
-  git = { clone_timeout = 6000 },
+  git = { clone_timeout = 4000 },
   display = {
     working_sym = 'ﲊ',
     error_sym = '✗ ',
@@ -25,31 +25,43 @@ packer.startup(function(use)
   use 'L3MON4D3/LuaSnip' -- snippets
 
   -- ui plugins
-  use 'nvim-lualine/lualine.nvim'
+  use {
+    'nvim-lualine/lualine.nvim',
+    requires = { 'kyazdani42/nvim-web-devicons', opt = true }
+  }
   use 'kyazdani42/nvim-web-devicons'
   -- must have telescope
-  use 'nvim-telescope/telescope.nvim'
-  use 'nvim-telescope/telescope-file-browser.nvim'
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = { 'nvim-lua/plenary.nvim' }
+  }
+  use {
+    'nvim-telescope/telescope-file-browser.nvim',
+    requires = { 'nvim-telescope/telescope.nvim' }
+  }
   use 'goolord/alpha-nvim' -- greeting for neovim
   -- colorschemes
   use 'ellisonleao/gruvbox.nvim'
 
   -- coding utilities
-  use 'ThePrimeagen/harpoon' -- harpoon by ThePrimeagen
+  use {
+    'ThePrimeagen/harpoon',
+    requires = { 'nvim-lua/plenary.nvim' }
+  } -- harpoon by ThePrimeagen
   use 'wakatime/vim-wakatime' -- wakatime to keep coding track
   use 'lewis6991/gitsigns.nvim'
   use 'dinhhuy258/git.nvim'
   use({
-    "iamcco/markdown-preview.nvim",
-    run = function() vim.fn["mkdp#util#install"]() end,
+    'iamcco/markdown-preview.nvim',
+    run = function() vim.fn['mkdp#util#install']() end,
   })
+  -- mason plugins
+  use 'williamboman/mason.nvim'
+  use 'williamboman/mason-lspconfig.nvim'
   -- lsp plugins
   use 'neovim/nvim-lspconfig'
   use 'glepnir/lspsaga.nvim'
   use 'onsails/lspkind-nvim'
-  -- mason plugins
-  use 'williamboman/mason.nvim'
-  use 'williamboman/mason-lspconfig.nvim'
   use 'jose-elias-alvarez/null-ls.nvim' -- must have null-ls
   -- in order to have completions
   use 'hrsh7th/nvim-cmp'
@@ -74,7 +86,11 @@ packer.startup(function(use)
   }
   use 'nvim-treesitter/nvim-treesitter-context'
   use 'windwp/nvim-autopairs' -- autopairs
-  use 'windwp/nvim-ts-autotag' -- for react
+  use {
+    'windwp/nvim-ts-autotag',
+    requires = { 'nvim-treesitter/nvim-treesitter' },
+    after = 'nvim-treesitter'
+  } -- for react
   use 'lukas-reineke/indent-blankline.nvim' -- indent lines
 
   if packer_bootstrap then
