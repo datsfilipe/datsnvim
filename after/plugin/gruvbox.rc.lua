@@ -3,7 +3,7 @@ if not present then
   return
 end
 
-local colors = require("gruvbox.palette")
+local colors = require('gruvbox.palette')
 
 gruvbox.setup({
   undercurl = true,
@@ -16,26 +16,39 @@ gruvbox.setup({
   invert_tabline = false,
   invert_intend_guides = false,
   inverse = true, -- invert background for search, diffs, statuslines and errors
-  contrast = "hard", -- can be "hard", "soft" or empty string
+  contrast = 'hard', -- can be 'hard', 'soft' or empty string
   overrides = {
     Normal = {
-      bg = "NONE"
-      --bg = "#282828"
+      bg = 'NONE'
+      -- bg = '#282828'
     },
     SignColumn = {
-      bg = "NONE"
+      bg = 'NONE'
     },
     -- remove bg from SignColumn with git signs
-    GruvboxRedSign = { fg = colors.red, bg = "NONE", reverse = false },
-    GruvboxGreenSign = { fg = colors.green, bg = "NONE", reverse = false },
-    GruvboxYellowSign = { fg = colors.yellow, bg = "NONE", reverse = false },
-    GruvboxBlueSign = { fg = colors.blue, bg = "NONE", reverse = false },
-    GruvboxPurpleSign = { fg = colors.purple, bg = "NONE", reverse = false },
-    GruvboxAquaSign = { fg = colors.aqua, bg = "NONE", reverse = false },
-    GruvboxOrangeSign = { fg = colors.orange, bg = "NONE", reverse = false },
+    GruvboxRedSign = { fg = colors.red, bg = 'NONE', reverse = false },
+    GruvboxGreenSign = { fg = colors.green, bg = 'NONE', reverse = false },
+    GruvboxYellowSign = { fg = colors.yellow, bg = 'NONE', reverse = false },
+    GruvboxBlueSign = { fg = colors.blue, bg = 'NONE', reverse = false },
+    GruvboxPurpleSign = { fg = colors.purple, bg = 'NONE', reverse = false },
+    GruvboxAquaSign = { fg = colors.aqua, bg = 'NONE', reverse = false },
+    GruvboxOrangeSign = { fg = colors.orange, bg = 'NONE', reverse = false },
   },
   dim_inactive = false,
   transparent_mode = true,
 })
 
-vim.cmd("colorscheme gruvbox")
+vim.cmd('colorscheme gruvbox')
+-- change highlight color for indent blankline
+vim.cmd [[highlight IndentBlanklineIndent1 guifg=#383838 gui=nocombine]]
+-- change highlight colors for telescope
+vim.cmd [[highlight TelescopePromptBorder guifg=#656565 guibg=NONE]]
+vim.cmd [[highlight TelescopePreviewBorder guifg=#656565 guibg=NONE]]
+vim.cmd [[highlight TelescopeResultsBorder guifg=#656565 guibg=NONE]]
+-- vim.cmd [[highlight TelescopeBorder guifg=NONE guibg=#383838]]
+-- vim.cmd [[highlight TelescopePromptNormal guifg=#383838 guibg=#383838]]
+-- vim.cmd [[highlight TelescopeSelection guifg=NONE guibg=#383838]]
+-- vim.cmd [[highlight TelescopePreviewNormal guifg=NONE guibg=#383838]]
+-- vim.cmd [[highlight TelescopeResultsNormal guifg=NONE guibg=#383838]]
+-- change highlight for float window background
+vim.cmd [[highlight NormalFloat guibg=NONE]]
