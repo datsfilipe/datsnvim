@@ -74,21 +74,21 @@ cmp.setup({
   window = {
     completion = {
       border = border 'CmpBorder',
-      winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None',
+      winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None,FloatBorder:None',
     },
     documentation = {
       border = border 'CmpDocBorder',
-      winhighlight = 'Normal:CmpDocPmenu,CursorLine:CmpDocPmenuSel,Search:None',
+      winhighlight = 'Normal:CmpDocPmenu,CursorLine:CmpDocPmenuSel,Search:None,FloatBorder:None',
     },
   },
 })
 
--- change highlight for cmp
-vim.cmd [[
+vim.cmd[[
   set completeopt=menuone,noinsert,noselect
+  set pumblend=0
   highlight! default link CmpItemKind CmpItemMenuDefault
-  highlight CmpBorder guifg=#555555 guibg=NONE
-  highlight CmpPmenu guifg=#fefefe guibg=NONE
-  highlight CmpDocBorder guifg=#555555 guibg=NONE
-  highlight CmpDocPmenu guifg=#fefefe guibg=NONE
+  highlight CmpBorder guibg=NONE
+  highlight CmpPmenu guibg=NONE
+  highlight CmpDocBorder guibg=NONE
+  highlight CmpDocPmenu guibg=NONE
 ]]
