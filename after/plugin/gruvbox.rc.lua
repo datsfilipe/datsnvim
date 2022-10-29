@@ -45,10 +45,8 @@ vim.cmd [[highlight IndentBlanklineIndent1 guifg=#383838 gui=nocombine]]
 vim.cmd [[highlight TelescopePromptBorder guifg=#656565 guibg=NONE]]
 vim.cmd [[highlight TelescopePreviewBorder guifg=#656565 guibg=NONE]]
 vim.cmd [[highlight TelescopeResultsBorder guifg=#656565 guibg=NONE]]
--- vim.cmd [[highlight TelescopeBorder guifg=NONE guibg=#383838]]
--- vim.cmd [[highlight TelescopePromptNormal guifg=#383838 guibg=#383838]]
--- vim.cmd [[highlight TelescopeSelection guifg=NONE guibg=#383838]]
--- vim.cmd [[highlight TelescopePreviewNormal guifg=NONE guibg=#383838]]
--- vim.cmd [[highlight TelescopeResultsNormal guifg=NONE guibg=#383838]]
+-- change cmp border color
+vim.cmd [[highlight CmpPmenuBorder guifg=#656565]]
+vim.cmd [[highlight CmpDocPmenuBorder guifg=#656565]]
 -- change highlight for float window background
 vim.cmd [[highlight NormalFloat guibg=NONE]]
