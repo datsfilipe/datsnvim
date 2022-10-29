@@ -39,7 +39,7 @@ vim.cmd [[highlight TelescopePromptBorder guifg=#2d2e43 gui=NONE]]
 vim.cmd [[highlight TelescopePreviewBorder guifg=#2d2e43 gui=NONE]]
 vim.cmd [[highlight TelescopeResultsBorder guifg=#2d2e43 gui=NONE]]
 -- change cmp border color
-vim.cmd [[highlight CmpPmenuBorder guifg=#2d2e43]]
-vim.cmd [[highlight CmpDocPmenuBorder guifg=#2d2e43]]
+vim.cmd [[highlight CmpBorder guifg=#2d2e43]]
+vim.cmd [[highlight CmpDocBorder guifg=#2d2e43]]
 -- change highlight for float window background
 vim.cmd [[highlight NormalFloat guibg=NONE]]
