@@ -1,4 +1,4 @@
-vim.lsp.set_log_level('debug')
+vim.lsp.set_log_level('error')
 
 local present, nvim_lsp = pcall(require, 'lspconfig')
 if not present then return end
