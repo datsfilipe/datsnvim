@@ -16,13 +16,14 @@ null_ls.setup {
   sources = {
     null_ls.builtins.diagnostics.eslint_d.with({
       diagnostics_format = '[eslint] #{m}\n(#{c})'
-    }),
-    null_ls.builtins.formatting.eslint_d,
+    }), -- diagnostics from eslint_d
+    null_ls.builtins.formatting.eslint_d, -- format with eslint_d on save
+    null_ls.builtins.formatting.rustywind, -- format/organize tailwind classes on save
     null_ls.builtins.diagnostics.fish,
-    null_ls.builtins.code_actions.gitsigns,
+    null_ls.builtins.code_actions.gitsigns, -- gitsigns code actions
     null_ls.builtins.diagnostics.cspell.with({
       filetypes = { 'markdown' }
-    })
+    }) -- cspell diagnostics for md files
   },
   on_attach = function(client, bufnr)
     if client.supports_method('textDocument/formatting') then
