@@ -22,7 +22,13 @@ packer.init({
 packer.startup(function(use)
   use 'wbthomason/packer.nvim'
   use 'nvim-lua/plenary.nvim' -- common utilities
-  use 'L3MON4D3/LuaSnip' -- snippets
+  use {
+    'L3MON4D3/LuaSnip',
+    requires = 'rafamadriz/friendly-snippets',
+    config = function()
+      require('luasnip/loaders/from_vscode').lazy_load()
+    end,
+  } -- snippets
 
   -- ui plugins
   use {
@@ -69,6 +75,7 @@ packer.startup(function(use)
   use 'hrsh7th/cmp-nvim-lsp'
   use 'hrsh7th/cmp-buffer'
   use 'hrsh7th/cmp-path'
+  use 'saadparwaiz1/cmp_luasnip'
   use 'github/copilot.vim' -- yep, copilot
 
   -- coding style
