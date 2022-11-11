@@ -47,8 +47,8 @@ packer.startup(function(use)
   }
   use 'goolord/alpha-nvim' -- greeting for neovim
   -- colorschemes
-  -- use 'ellisonleao/gruvbox.nvim'
-  use 'folke/tokyonight.nvim'
+  use 'ellisonleao/gruvbox.nvim'
+  -- use 'folke/tokyonight.nvim'
 
   -- coding utilities
   use {
