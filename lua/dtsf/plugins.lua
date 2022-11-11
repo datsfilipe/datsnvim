@@ -79,12 +79,11 @@ packer.startup(function(use)
   use 'github/copilot.vim' -- yep, copilot
 
   -- coding style
-  use 'norcalli/nvim-base16.lua'
   use {
-      'numToStr/Comment.nvim',
-      config = function()
-          require('Comment').setup()
-      end
+    'numToStr/Comment.nvim',
+    config = function()
+      require('Comment').setup()
+    end
   }
   use 'norcalli/nvim-colorizer.lua'
   -- treesitter for highlighting code
