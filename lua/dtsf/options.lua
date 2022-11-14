@@ -80,11 +80,6 @@ vim.api.nvim_create_autocmd('InsertLeave', {
 -- add asterisks in block comments
 opt.formatoptions:append { 'r' }
 
--- it will disable copilot on startup and avoid the delay of autocmd approach
-g.copilot_enabled = 0
--- this will allow me to enable it iven if Tab key is used for comp.nvim
-g.copilot_assume_mapped = 1
-
 -- disable some builtin vim plugins
 local default_plugins = {
   '2html_plugin',
