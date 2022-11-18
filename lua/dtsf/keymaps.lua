@@ -8,6 +8,7 @@ keymap.set('n', 'x', '"_x', opts)
 
 -- get out of insert mode with <C-c> (yeah I know, but I can't avoid it)
 keymap.set('i', '<C-c>', '<Esc>', opts)
+keymap.set('i', '<Tab>', '<Tab>', opts) -- something messing up with tab in insert mode, might be copilot
 
 -- keep things centered when searching or joining lines
 keymap.set('n', 'n', 'nzzzv', opts)
