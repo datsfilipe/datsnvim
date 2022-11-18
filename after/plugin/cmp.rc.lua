@@ -46,7 +46,7 @@ cmp.setup({
         cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
       elseif require('luasnip').expand_or_jumpable() then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>luasnip-expand-or-jump', true, true, true), '')
-      elseif vim.b._copilot_suggestion ~= nil then
+      elseif vim.b._copilot_suggestion ~= nil and not cmp.visible() then
         vim.fn.feedkeys(vim.api.nvim_replace_termcodes(vim.fn['copilot#Accept'](), true, true, true), '')
       else
         fallback()
