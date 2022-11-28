@@ -17,9 +17,9 @@ keymap.set('n', 'J', 'mzJ`z', opts)
 
 -- split screen
 -- set keymaps to open split screen with terminal in it, also open terminal in current directory
-keymap.set('n', '<C-t>', ':vsplit<CR>', opts)
-keymap.set('n', '<C-s>', ':split<CR>', opts)
-keymap.set('n', '<C-q>', ':q<CR>', opts)
+keymap.set('n', '<leader>v', ':vsplit<CR>', opts)
+keymap.set('n', '<leader>s', ':split<CR>', opts)
+keymap.set('n', '<leader>q', ':q<CR>', opts)
 
 -- resize windows
 keymap.set('n', '<leader><left>', '<C-w><', opts)
@@ -44,10 +44,10 @@ keymap.set('v', 'K', ":m '<-2<CR>gv=gv")
 keymap.set('n', '<leader>j', ':m .+1<CR>==', opts)
 keymap.set('n', '<leader>k', ':m .-2<CR>==', opts)
 -- harpoon
-keymap.set('n', '<C-h>m', ':lua require("harpoon.ui").toggle_quick_menu()<CR>', opts)
-keymap.set('n', '<C-h>b', ':lua require("harpoon.mark").add_file()<CR>', opts)
-keymap.set('n', '<C-h>k', ':lua require("harpoon.ui").nav_next()<CR>', opts)
-keymap.set('n', '<C-h>j', ':lua require("harpoon.ui").nav_prev()<CR>', opts)
+keymap.set('n', '<C-s>m', ':lua require("harpoon.ui").toggle_quick_menu()<CR>', opts)
+keymap.set('n', '<C-s>b', ':lua require("harpoon.mark").add_file()<CR>', opts)
+keymap.set('n', '<C-s>k', ':lua require("harpoon.ui").nav_next()<CR>', opts)
+keymap.set('n', '<C-s>j', ':lua require("harpoon.ui").nav_prev()<CR>', opts)
 
 -- github copilot
 keymap.set('n', '<leader>cp', ':Copilot panel<CR>', opts)
