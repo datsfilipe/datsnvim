@@ -7,5 +7,12 @@ mason.setup({
 })
 
 lspconfig.setup {
-  automatic_installation = true
+  ensure_installed = {
+    'rust_analyzer',
+    'tsserver',
+    'gopls',
+    'tailwindcss',
+    'sumneko_lua',
+    'astro'
+  }
 }
