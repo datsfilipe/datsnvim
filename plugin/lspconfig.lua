@@ -68,6 +68,41 @@ nvim_lsp.tsserver.setup {
   capabilities = capabilities
 }
 
+nvim_lsp.gopls.setup(({
+}))
+
+nvim_lsp.rust_analyzer.setup({
+  on_attach = on_attach,
+  settings = {
+    ['rust-analyzer'] = {
+      imports = {
+        granularity = {
+          group = 'module',
+        },
+        prefix = 'self',
+      },
+      cargo = {
+        buildScripts = {
+          enable = true,
+        },
+      },
+      procMacro = {
+        enable = true
+      },
+    },
+    inlayHints = {
+      typeHints = true,
+      parameterHints = true,
+      chainingHints = true,
+      maxLength = 30,
+    },
+    checkOnSave = {
+      command = 'clippy',
+    },
+  },
+  capabilities = capabilities
+})
+
 nvim_lsp.sourcekit.setup {
   on_attach = on_attach,
 }
