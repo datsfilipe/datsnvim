@@ -6,9 +6,12 @@ vim.g.maplocalleader = ' '
 
 keymap.set('n', 'x', '"_x', opts)
 
--- get out of insert mode with <C-c> (yeah I know, but I can't avoid it)
-keymap.set('i', '<C-c>', '<Esc>', opts)
-keymap.set('i', '<Tab>', '<Tab>', opts) -- something messing up with tab in insert mode, might be copilot
+-- common actions (return to normal mode, quit, save, save and quit)
+keymap.set('i', '<C-c>', '<Esc>', opts) -- get out of insert mode with <C-c> (yeah I know, but I can't avoid it)
+keymap.set('n', '<leader>w', ':w<CR>', opts)
+keymap.set('n', '<leader>q', ':q<CR>', opts)
+keymap.set('n', '<leader>x', ':x<CR>', opts)
+keymap.set('i', '<Tab>', '<Tab>', opts) -- something messing up with tab in insert mode, might be copilot and/or cmp
 
 -- keep things centered when searching or joining lines
 keymap.set('n', 'n', 'nzzzv', opts)
