@@ -20,7 +20,8 @@ ts.setup {
     'lua',
     'yaml',
     'javascript',
-    'prisma'
+    'prisma',
+    'rust'
   },
   autotag = {
     enable = true,
