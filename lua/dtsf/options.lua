@@ -83,5 +83,14 @@ vim.cmd([[let &t_Ce = '\e[4:0m']])
 -- disable intro
 opt.shortmess:append 'sI'
 
--- add asterisks in block comments
-opt.formatoptions:append { 'r' }
+-- format options
+opt.formatoptions = opt.formatoptions
+  - 'o' -- O and o, don't continue comments
+  - 'a' -- auto formatting is BAD
+  - 't' -- don't auto format code
+  - '2' -- not in gradeschool anymore
+  + 'c' -- comments respect textwidth
+  + 'q' -- allow formatting comments w/ gq
+  + 'r' -- but do continue when pressing enter
+  + 'n' -- indent past the formatlistpat, not underneath it
+  + 'j' -- auto-remove comments if possible
