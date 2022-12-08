@@ -26,9 +26,6 @@ local sources = {
   -- formatting
   null_ls.builtins.formatting.eslint_d,
   null_ls.builtins.formatting.stylua,
-  null_ls.builtins.formatting.prettier.with {
-    filetypes = { 'json', 'yaml', 'markdown', 'css', 'scss', 'html', 'vue', 'javascriptreact', 'typescriptreact' },
-  },
   null_ls.builtins.formatting.rustywind,
   -- code actions
   null_ls.builtins.code_actions.gitsigns,
