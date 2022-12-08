@@ -4,13 +4,14 @@ local imap = require('dtsf.keymap').imap
 
 local opts = { noremap = true, silent = true }
 
+nmap { 'x', '"_x', opts }
+
 -- common actions
 imap { '<C-c>', '<Esc>', opts }
 
--- keep things centered when searching or joining lines
+-- keep things centered when searching
 nmap { 'n', 'nzzzv', opts }
 nmap { 'N', 'Nzzzv', opts }
-nmap { 'J', 'mzJ`z', opts }
 
 -- split screen
 nmap { '<leader>v', ':vsplit<CR>', opts }
@@ -35,8 +36,8 @@ nmap { '<leader>p', [["_diwP]], opts } -- keep pasting over the same thing
 nmap { '<leader>Y', 'gg"+yG', opts } -- copy all
 
 -- move lines
-vmap { 'J', ":m '>+1<CR>gv=gv" }
-vmap { 'K', ":m '<-2<CR>gv=gv" }
+vmap { 'J', ':m \'>+1<CR>gv=gv' }
+vmap { 'K', ':m \'<-2<CR>gv=gv' }
 nmap { '<leader>j', ':m .+1<CR>==', opts }
 nmap { '<leader>k', ':m .-2<CR>==', opts }
 
