@@ -34,6 +34,22 @@ local extensions = {
           actions.close(prompt_bufnr)
         end,
       },
+      i = {
+        ['<C-N>'] = fb_actions.create,
+        -- maps for harpoon
+        ['<C-h>b'] = function(prompt_bufnr)
+          local entry = action_state.get_selected_entry()
+          local path = entry.path
+          vim.cmd('lua require(\'harpoon.mark\').add_file(\'' .. path .. '\')')
+          actions.close(prompt_bufnr)
+        end,
+        ['<C-h>r'] = function(prompt_bufnr)
+          local entry = action_state.get_selected_entry()
+          local path = entry.path
+          vim.cmd('lua require(\'harpoon.mark\').rm_file(\'' .. path .. '\')')
+          actions.close(prompt_bufnr)
+        end,
+      },
     },
   },
 }
