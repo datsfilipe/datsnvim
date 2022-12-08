@@ -17,6 +17,6 @@ nvim .
 nvim ~/.config/nvim/lua/dtsf/plugins.lua +:w
 ```
 
-### How it looks like
+### How it looks like:
 
-![](assets/vimlooks.png)
+![](assets/nvimlooks.png)
