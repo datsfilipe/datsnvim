@@ -50,8 +50,8 @@ packer.startup {
       requires = { 'nvim-telescope/telescope.nvim' },
     }
     -- colorschemes
-    use 'ellisonleao/gruvbox.nvim'
-    -- use 'folke/tokyonight.nvim'
+    -- use 'ellisonleao/gruvbox.nvim'
+    use 'folke/tokyonight.nvim'
 
     -- utilities
     use {
@@ -96,6 +96,7 @@ packer.startup {
     use 'onsails/lspkind-nvim'
 
     use 'jose-elias-alvarez/null-ls.nvim' -- must have null-ls
+    use 'numToStr/Comment.nvim' -- comments
 
     -- cmp
     use 'hrsh7th/nvim-cmp'
