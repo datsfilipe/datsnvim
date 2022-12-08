@@ -72,7 +72,6 @@ opt.fillchars = {
   msgsep = ' ',
 }
 
-opt.pumblend = 15
 opt.wildmode = 'longest:full'
 opt.wildoptions = 'pum'
 
