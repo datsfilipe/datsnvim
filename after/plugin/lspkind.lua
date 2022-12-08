@@ -1,22 +1,14 @@
-local status, lspkind = pcall(require, 'lspkind')
-if (not status) then return end
+local ok, lspkind = pcall(require, 'lspkind')
+if not ok then
+  return
+end
 
-lspkind.init({
-  -- enables text annotations
-  --
+lspkind.init {
   -- default: true
   mode = 'symbol',
 
-  -- default symbol map
-  -- can be either 'default' (requires nerd-fonts font) or
-  -- 'codicons' for codicon preset (requires vscode-codicons font)
-  --
-  -- default: 'default'
-  preset = 'codicons',
+  preset = 'default',
 
-  -- override preset symbols
-  --
-  -- default: {}
   symbol_map = {
     Text = '',
     Method = '',
@@ -42,6 +34,9 @@ lspkind.init({
     Struct = 'פּ',
     Event = '',
     Operator = '',
-    TypeParameter = ''
+    TypeParameter = '',
+    Copilot = '',
   },
-})
+}
+
+vim.api.nvim_set_hl(0, 'CmpItemKindCopilot', { fg = '#6CC644' })

@@ -1,7 +1,9 @@
-local status, git = pcall(require, 'git')
-if (not status) then return end
+local ok, git = pcall(require, 'git')
+if not ok then
+  return
+end
 
-git.setup({
+git.setup {
   keymaps = {
     -- Open blame window
     blame = '<Leader>gb',
@@ -10,5 +12,5 @@ git.setup({
     -- Open a pull request
     open_pull_request = '<Leader>gp',
   },
-  target_branch = 'fork'
-})
+  target_branch = 'fork',
+}

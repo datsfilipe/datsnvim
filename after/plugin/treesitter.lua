@@ -1,5 +1,7 @@
-local status, ts = pcall(require, 'nvim-treesitter.configs')
-if (not status) then return end
+local ok, ts = pcall(require, 'nvim-treesitter.configs')
+if not ok then
+  return
+end
 
 ts.setup {
   highlight = {
@@ -21,12 +23,12 @@ ts.setup {
     'yaml',
     'javascript',
     'prisma',
-    'rust'
+    'rust',
   },
   autotag = {
     enable = true,
   },
 }
 
-local parser_config = require 'nvim-treesitter.parsers'.get_parser_configs()
+local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
 parser_config.tsx.filetype_to_parsername = { 'javascript', 'typescript.tsx' }

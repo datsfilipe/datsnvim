@@ -1,11 +1,11 @@
-local present, gruvbox = pcall(require, 'gruvbox')
-if not present then
+local ok, gruvbox = pcall(require, 'gruvbox')
+if not ok then
   return
 end
 
-local colors = require('gruvbox.palette')
+local colors = require 'gruvbox.palette'
 
-gruvbox.setup({
+gruvbox.setup {
   undercurl = true,
   underline = true,
   bold = true,
@@ -19,11 +19,13 @@ gruvbox.setup({
   contrast = 'hard', -- can be 'hard', 'soft' or empty string
   overrides = {
     Normal = {
-      bg = 'NONE'
-      -- bg = '#282828'
+      bg = 'NONE',
+    },
+    NormalFloat = {
+      bg = 'NONE',
     },
     SignColumn = {
-      bg = 'NONE'
+      bg = 'NONE',
     },
     -- remove bg from SignColumn with git signs
     GruvboxRedSign = { fg = colors.red, bg = 'NONE', reverse = false },
@@ -33,20 +35,19 @@ gruvbox.setup({
     GruvboxPurpleSign = { fg = colors.purple, bg = 'NONE', reverse = false },
     GruvboxAquaSign = { fg = colors.aqua, bg = 'NONE', reverse = false },
     GruvboxOrangeSign = { fg = colors.orange, bg = 'NONE', reverse = false },
+    -- change cmp window highlights
+    Pmenu = { bg = 'NONE' },
+    CmpBorder = { fg = '#504945', bg = 'NONE' },
+    CmpDocBorder = { fg = '#504945', bg = 'NONE' },
+    -- change indent blankline highlight
+    IndentBlanklineIndent1 = { fg = '#504945' },
+    -- change telescope window highlight
+    TelescopeResultsBorder = { fg = '#504945', bg = 'NONE' },
+    TelescopePromptBorder = { fg = '#504945', bg = 'NONE' },
+    TelescopePreviewBorder = { fg = '#504945', bg = 'NONE' },
   },
   dim_inactive = false,
   transparent_mode = true,
-})
+}
 
-vim.cmd('colorscheme gruvbox')
--- change highlight color for indent blankline
-vim.cmd [[highlight IndentBlanklineIndent1 guifg=#383838 gui=nocombine]]
--- change highlight colors for telescope
-vim.cmd [[highlight TelescopePromptBorder guifg=#656565 guibg=NONE]]
-vim.cmd [[highlight TelescopePreviewBorder guifg=#656565 guibg=NONE]]
-vim.cmd [[highlight TelescopeResultsBorder guifg=#656565 guibg=NONE]]
--- change cmp border color
-vim.cmd [[highlight CmpBorder guifg=#656565]]
-vim.cmd [[highlight CmpDocBorder guifg=#656565]]
--- change highlight for float window background
-vim.cmd [[highlight NormalFloat guibg=NONE]]
+vim.cmd [[ colorscheme gruvbox ]]
