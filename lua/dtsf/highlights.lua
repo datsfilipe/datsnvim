@@ -3,7 +3,7 @@ local opt = vim.opt
 opt.signcolumn = 'yes'
 opt.termguicolors = true
 opt.termguicolors = true
-opt.pumblend = 5
+opt.pumblend = 0 -- disable popup menu transparency
 opt.background = 'dark'
 
 -- cursor line
