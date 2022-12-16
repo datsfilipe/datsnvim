@@ -22,7 +22,6 @@ lspconfig.setup {
   ensure_installed = {
     'rust_analyzer',
     'tsserver',
-    'gopls',
     'tailwindcss',
     'sumneko_lua',
     'astro',
