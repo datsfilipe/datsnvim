@@ -8,6 +8,8 @@ nmap { 'x', '"_x', opts }
 
 -- common actions
 imap { '<C-c>', '<Esc>', opts }
+nmap { '<C-s>', ':w<CR>', opts }
+nmap { '<C-q>', ':q<CR>', opts }
 
 -- keep things centered when searching
 nmap { 'n', 'nzzzv', opts }
