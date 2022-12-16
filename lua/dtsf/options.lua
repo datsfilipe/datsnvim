@@ -93,3 +93,9 @@ opt.formatoptions = opt.formatoptions
   + 'r' -- but do continue when pressing enter
   + 'n' -- indent past the formatlistpat, not underneath it
   + 'j' -- auto-remove comments if possible
+
+-- turn off paste mode when leaving insert
+vim.api.nvim_create_autocmd('InsertLeave', {
+  pattern = '*',
+  command = 'set nopaste',
+})
