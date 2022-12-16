@@ -24,4 +24,4 @@ nmap { 'K', '<cmd>Lspsaga hover_doc<CR>', opts }
 nmap { '<C-j>', '<cmd>Lspsaga diagnostic_jump_next<CR>', opts }
 nmap { 'gp', '<cmd>Lspsaga peek_definition<CR>', opts }
 nmap { 'gr', '<cmd>Lspsaga rename<CR>', opts }
-imap { '<C-h>', '<cmd>Lspsaga signature_help<CR>', opts }
+imap { '<C-t>', '<cmd>Lspsaga signature_help<CR>', opts }
