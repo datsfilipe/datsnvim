@@ -3,10 +3,12 @@ if not ok then
   return
 end
 
+local theme = vim.g['THEME']
+
 lualine.setup {
   options = {
     icons_enabled = true,
-    theme = 'tokyonight',
+    theme = theme,
     section_separators = { left = '', right = '' },
     component_separators = { left = '', right = '' },
     disabled_filetypes = {},

@@ -3,6 +3,11 @@ if not ok then
   return
 end
 
+local theme = vim.g['THEME']
+if theme ~= 'gruvbox' then
+  return
+end
+
 local colors = require 'gruvbox.palette'
 
 gruvbox.setup {

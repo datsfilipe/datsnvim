@@ -3,6 +3,11 @@ if not ok then
   return
 end
 
+local theme = vim.g['THEME']
+if theme ~= 'tokyonight' then
+  return
+end
+
 tokyonight.setup {
   transparent = true,
   dim_inactive = false,
