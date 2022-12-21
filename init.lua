@@ -6,6 +6,9 @@ end
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
+-- theme
+vim.g.THEME = "tokyonight"
+
 require 'dtsf.disable_builtins'
 require 'dtsf.highlights'
 require 'dtsf.options'

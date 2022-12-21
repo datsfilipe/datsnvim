@@ -50,7 +50,7 @@ packer.startup {
       requires = { 'nvim-telescope/telescope.nvim' },
     }
     -- colorschemes
-    -- use 'ellisonleao/gruvbox.nvim'
+    use 'ellisonleao/gruvbox.nvim'
     use 'folke/tokyonight.nvim'
 
     -- utilities
