@@ -50,3 +50,13 @@ imap { '<A-z>', '<esc> :set wrap!<CR>', opts }
 -- indent lines in visual mode
 vmap { '<', '<gv', opts }
 vmap { '>', '>gv', opts }
+
+-- change increment / decrement bindings
+nmap { '<leader>a', '<C-a>', opts }
+nmap { '<leader>ga', 'g<C-a>', opts }
+vmap { '<leader>a', '<C-a>', opts }
+vmap { '<leader>ga', 'g<C-a>', opts }
+nmap { '<leader>x', '<C-x>', opts }
+nmap { '<leader>gx', 'g<C-x>', opts }
+vmap { '<leader>x', '<C-x>', opts }
+vmap { '<leader>gx', 'g<C-x>', opts }
