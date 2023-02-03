@@ -1,5 +1,13 @@
+local question_file = '/tmp/.nvim_packer_question'
+
 local download_packer = function()
-  if vim.fn.input 'Download Packer? (y for yes)' ~= 'y' then
+  if os.rename(question_file, question_file) == nil then
+    os.execute('touch ' .. question_file)
+  elseif os.rename(question_file, question_file) ~= nil then
+    return
+  end
+
+  if vim.fn.input('Download Packer? (y for yes)') ~= 'y' then
     return
   end
 
