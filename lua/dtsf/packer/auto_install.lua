@@ -1,5 +1,5 @@
-local download_packer = require('dtsf.packer.download').download_packer
-local prompt_question = require('dtsf.packer.prompt_question').prompt_question
+local download_packer = require('dtsf.packer.download')
+local prompt_question = require('dtsf.packer.prompt_question')
 local has_packer = pcall(require, 'packer')
 
 local auto_install_packer = function()
