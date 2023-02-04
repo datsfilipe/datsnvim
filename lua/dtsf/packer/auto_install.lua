@@ -16,7 +16,7 @@ return function()
 
     -- checking again because auto_install could have installed it
     if not has_packer then
-      vim.api.nvim_set_keymap("n", "<leader>p", "<cmd>lua require'dtsf.packer.download'.download_packer()<CR>", {noremap = true, silent = true})
+      vim.api.nvim_set_keymap("n", "<leader>p", "<cmd>lua require'dtsf.packer.download'()<CR>", {noremap = true, silent = true})
     end
 
     return true
