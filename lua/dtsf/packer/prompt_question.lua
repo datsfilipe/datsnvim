@@ -1,8 +1,6 @@
-local M = {}
-
 local question_file = '/tmp/.nvim_packer_question'
 
-M.prompt_question = function()
+local prompt_question = function()
   if os.rename(question_file, question_file) == nil then
     os.execute('touch ' .. question_file)
   else
@@ -16,4 +14,4 @@ M.prompt_question = function()
   return true
 end
 
-return M
+return prompt_question

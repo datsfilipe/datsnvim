@@ -1,6 +1,4 @@
-local M = {}
-
-M.download_packer = function()
+local download_packer = function()
   local directory = string.format('%s/site/pack/packer/start/', vim.fn.stdpath 'data')
 
   vim.fn.mkdir(directory, 'p')
@@ -14,4 +12,4 @@ M.download_packer = function()
   vim.cmd [[qa]]
 end
 
-return M
+return download_packer
