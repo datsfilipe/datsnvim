@@ -6,14 +6,13 @@ end
 local nmap = require('dtsf.keymap').nmap
 local imap = require('dtsf.keymap').imap
 
-saga.init_lsp_saga {
-  server_filetype_map = {
-    typescript = 'typescript',
-  },
+saga.setup {
   -- if true can press number to execute the codeaction in codeaction window
-  code_action_num_shortcut = true,
+  code_action = {
+    num_shortcut = true,
+  },
   -- same as nvim-lightbulb but async
-  code_action_lightbulb = {
+  lightbulb = {
     enable = false,
   },
 }
