@@ -16,7 +16,6 @@ local extensions = {
     respect_gitignore = false,
     hidden = true,
     grouped = true,
-    theme = 'dropdown',
     mappings = {
       n = {
         ['N'] = fb_actions.create,
