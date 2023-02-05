@@ -6,9 +6,6 @@ if require 'dtsf.packer.auto_install'() then
   return
 end
 
--- colorscheme
-vim.g.THEME = "tokyonight"
-
 require 'dtsf.disable_builtins'
 require 'dtsf.options'
 require 'dtsf.highlights'

@@ -65,6 +65,9 @@ packer.startup {
     use 'wakatime/vim-wakatime'
     use 'lewis6991/gitsigns.nvim'
 
+    -- colorschemes
+    use 'nyoom-engineering/oxocarbon.nvim'
+
     -- treesitter
     use {
       'nvim-treesitter/nvim-treesitter',
