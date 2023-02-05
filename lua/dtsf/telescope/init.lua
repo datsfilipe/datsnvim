@@ -17,6 +17,7 @@ telescope.setup {
     border = {},
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
     layout_strategy = 'flex',
+    sorting_strategy = 'ascending',
     mappings = mappings,
   },
   extensions = extensions,
@@ -36,7 +37,6 @@ nmap {
       path = vim.fn.expand '%:p:h',
       cwd = vim.fn.expand '%:p:h',
       prompt_prefix = '   ',
-      sorting_strategy = 'ascending',
     }
   end,
   opts,
