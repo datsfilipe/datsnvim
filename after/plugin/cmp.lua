@@ -108,3 +108,7 @@ cmp.setup {
     },
   },
 }
+
+vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none' })
+vim.api.nvim_set_hl(0, 'CmpBorder', { fg = '#37474F' })
+vim.api.nvim_set_hl(0, 'CmpDocBorder', { fg = '#37474F' })
