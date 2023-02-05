@@ -36,6 +36,7 @@ nmap {
       path = vim.fn.expand '%:p:h',
       cwd = vim.fn.expand '%:p:h',
       prompt_prefix = '   ',
+      sorting_strategy = 'ascending',
     }
   end,
   opts,
