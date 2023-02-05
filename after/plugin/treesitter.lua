@@ -26,6 +26,7 @@ ts.setup {
     'javascript',
     'prisma',
     'rust',
+    'markdown',
   },
   autotag = {
     enable = true,
