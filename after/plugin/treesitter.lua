@@ -27,6 +27,7 @@ ts.setup {
     'prisma',
     'rust',
     'markdown',
+    'bash',
   },
   autotag = {
     enable = true,
