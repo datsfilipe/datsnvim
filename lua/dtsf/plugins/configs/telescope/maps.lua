@@ -1,8 +1,8 @@
 local M = {}
 
-local actions = require('dtsf.telescope.vars').actions
-local action_state = require('dtsf.telescope.vars').action_state
-local action_layout = require('dtsf.telescope.vars').action_layout
+local actions = require('dtsf.plugins.configs.telescope.vars').actions
+local action_state = require('dtsf.plugins.configs.telescope.vars').action_state
+local action_layout = require('dtsf.plugins.configs.telescope.vars').action_layout
 
 local set_prompt_to_entry_value = function(prompt_bufnr)
   local entry = action_state.get_selected_entry()
