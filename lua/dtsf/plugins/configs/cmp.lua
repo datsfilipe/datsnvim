@@ -73,7 +73,6 @@ cmp.setup {
   sources = cmp.config.sources({
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    { name = 'copilot' },
   }, {
     { name = 'path' },
     { name = 'buffer', keyword_length = 5 },
@@ -93,7 +92,6 @@ cmp.setup {
         nvim_lsp = '[言語]', -- language
         luasnip = '[短い]', -- short from shortcut
         path = '[方法]', -- way
-        copilot = '[完了]', -- completion
       },
     },
   },

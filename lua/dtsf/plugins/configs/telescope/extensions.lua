@@ -1,8 +1,8 @@
 local M = {}
 
-local actions = require('dtsf.telescope.vars').actions
-local action_state = require('dtsf.telescope.vars').action_state
-local fb_actions = require('dtsf.telescope.vars').fb_actions
+local actions = require('dtsf.plugins.configs.telescope.vars').actions
+local action_state = require('dtsf.plugins.configs.telescope.vars').action_state
+local fb_actions = require('dtsf.plugins.configs.telescope.vars').fb_actions
 
 local extensions = {
   fzf = {

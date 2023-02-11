@@ -31,6 +31,3 @@ vim.cmd [[
   au TextYankPost * silent! lua vim.highlight.on_yank({higroup="Visual", timeout=100})
   augroup END
 ]]
-
--- colorscheme
-vim.cmd.colorscheme 'oxocarbon'
