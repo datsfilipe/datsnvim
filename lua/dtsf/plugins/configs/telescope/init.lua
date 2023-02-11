@@ -5,9 +5,9 @@ end
 
 local nmap = require('dtsf.keymap').nmap
 
-local extensions = require('dtsf.telescope.extensions').extensions
-local mappings = require('dtsf.telescope.maps').mappings
-local builtin = require('dtsf.telescope.vars').builtin
+local extensions = require('dtsf.plugins.configs.telescope.extensions').extensions
+local mappings = require('dtsf.plugins.configs.telescope.maps').mappings
+local builtin = require('dtsf.plugins.configs.telescope.vars').builtin
 
 telescope.setup {
   defaults = {
