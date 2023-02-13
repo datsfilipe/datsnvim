@@ -23,7 +23,7 @@ lspconfig.setup {
     'rust_analyzer',
     'tsserver',
     'tailwindcss',
-    'sumneko_lua',
+    'lua_ls',
     'astro',
   },
 }
