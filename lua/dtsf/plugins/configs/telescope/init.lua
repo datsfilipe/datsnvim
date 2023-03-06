@@ -17,7 +17,7 @@ telescope.setup {
     border = {},
     borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
     layout_strategy = 'flex',
-    sorting_strategy = 'ascending',
+    -- sorting_strategy = 'ascending',
     mappings = mappings,
   },
   extensions = extensions,
