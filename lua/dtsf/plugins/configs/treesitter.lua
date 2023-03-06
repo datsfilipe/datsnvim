@@ -27,6 +27,7 @@ ts.setup {
     'prisma',
     'rust',
     'markdown',
+    'markdown_inline',
     'bash',
   },
   autotag = {
