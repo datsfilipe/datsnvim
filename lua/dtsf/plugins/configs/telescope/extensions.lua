@@ -13,9 +13,11 @@ local extensions = {
   },
   file_browser = {
     hijack_netrw = true,
-    respect_gitignore = false,
+    git_status = false,
+    display_stat = { date = true, size = true },
     hidden = true,
     grouped = true,
+    theme = 'dropdown',
     mappings = {
       n = {
         ['N'] = fb_actions.create,
