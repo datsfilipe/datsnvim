@@ -1,5 +1,4 @@
 return {
-  { 'nvim-lua/plenary.nvim' },
   {
     'L3MON4D3/LuaSnip',
     config = function()
@@ -36,6 +35,7 @@ return {
       require 'dtsf.plugins.configs.telescope'
     end,
     dependencies = {
+      'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-file-browser.nvim',
       'nvim-telescope/telescope-dap.nvim',
       {
@@ -74,14 +74,6 @@ return {
     'lewis6991/gitsigns.nvim',
     config = function()
       require 'dtsf.plugins.configs.gitsigns'
-    end,
-  },
-  {
-    'nyoom-engineering/oxocarbon.nvim',
-    lazy = false,
-    priority = 1000,
-    config = function()
-      require 'dtsf.plugins.configs.oxocarbon'
     end,
   },
   {
@@ -168,11 +160,19 @@ return {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'saadparwaiz1/cmp_luasnip',
-      'zbirenbaum/copilot-cmp',
+      {
+        'zbirenbaum/copilot-cmp',
+        config = function()
+          require('copilot_cmp').setup()
+        end,
+      },
+      {
+        'zbirenbaum/copilot.lua',
+        config = function()
+          require('copilot').setup {}
+        end,
+      },
     },
-  },
-  {
-    'zbirenbaum/copilot.lua',
   },
   {
     'windwp/nvim-ts-autotag',
@@ -196,6 +196,22 @@ return {
     'norcalli/nvim-colorizer.lua',
     config = function()
       require 'dtsf.plugins.configs.colorizer'
+    end,
+  },
+  {
+    'nyoom-engineering/oxocarbon.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require 'dtsf.plugins.configs.oxocarbon'
+    end,
+  },
+  {
+    'ellisonleao/gruvbox.nvim',
+    lazy = true,
+    -- priority = 1000,
+    config = function()
+      require 'dtsf.plugins.configs.gruvbox'
     end,
   },
 }
