@@ -200,16 +200,16 @@ return {
   },
   {
     'nyoom-engineering/oxocarbon.nvim',
-    lazy = false,
-    priority = 1000,
+    lazy = true,
+    -- priority = 1000,
     config = function()
       require 'dtsf.plugins.configs.oxocarbon'
     end,
   },
   {
     'ellisonleao/gruvbox.nvim',
-    lazy = true,
-    -- priority = 1000,
+    lazy = false,
+    priority = 1000,
     config = function()
       require 'dtsf.plugins.configs.gruvbox'
     end,
