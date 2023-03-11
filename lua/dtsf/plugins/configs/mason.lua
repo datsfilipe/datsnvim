@@ -25,5 +25,6 @@ lspconfig.setup {
     'tailwindcss',
     'lua_ls',
     'astro',
+    'pyright',
   },
 }

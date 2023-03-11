@@ -29,6 +29,7 @@ ts.setup {
     'markdown',
     'markdown_inline',
     'bash',
+    'python',
   },
   autotag = {
     enable = true,
