@@ -10,12 +10,13 @@ ts.setup {
   },
   indent = {
     enable = true,
-    disable = {
-      'tsx',
-    },
+    -- disable = {
+    --   'tsx',
+    -- },
   },
   ensure_installed = {
     'tsx',
+    'typescript',
     'toml',
     'fish',
     'json',
@@ -23,13 +24,13 @@ ts.setup {
     'html',
     'lua',
     'yaml',
-    'javascript',
     'prisma',
     'rust',
     'markdown',
     'markdown_inline',
     'bash',
     'python',
+    'astro',
   },
   autotag = {
     enable = true,
