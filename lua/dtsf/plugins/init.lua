@@ -30,7 +30,6 @@ return {
   {
     'nvim-telescope/telescope.nvim',
     lazy = false,
-    priority = 1000,
     config = function()
       require 'dtsf.plugins.configs.telescope'
     end,
@@ -213,5 +212,10 @@ return {
     config = function()
       require 'dtsf.plugins.configs.gruvbox'
     end,
+  },
+  {
+    'rawnly/gist.nvim',
+    lazy = true,
+    event = 'BufWinEnter',
   },
 }
