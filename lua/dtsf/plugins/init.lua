@@ -57,6 +57,7 @@ return {
   },
   {
     'dinhhuy258/git.nvim',
+    lazy = true,
     config = function()
       require 'dtsf.plugins.configs.git'
     end,
