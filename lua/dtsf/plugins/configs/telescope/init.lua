@@ -3,7 +3,7 @@ if not ok then
   return
 end
 
-local nmap = require('dtsf.keymap').nmap
+local nmap = require('dtsf.utils').nmap
 
 local extensions = require('dtsf.plugins.configs.telescope.extensions').extensions
 local mappings = require('dtsf.plugins.configs.telescope.maps').mappings
@@ -24,23 +24,10 @@ telescope.setup {
 }
 
 telescope.load_extension 'harpoon'
-telescope.load_extension 'dap'
-telescope.load_extension 'file_browser'
+-- telescope.load_extension 'dap'
 telescope.load_extension 'fzf'
 
 local opts = { noremap = true, silent = true }
-
-nmap {
-  'sf',
-  function()
-    telescope.extensions.file_browser.file_browser {
-      path = vim.fn.expand '%:p:h',
-      cwd = vim.fn.expand '%:p:h',
-      prompt_prefix = '   ',
-    }
-  end,
-  opts,
-}
 
 nmap {
   ';h',

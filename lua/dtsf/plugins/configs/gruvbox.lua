@@ -27,6 +27,8 @@ gruvbox.setup {
     TelescopeResultsBorder = { fg = '#504945', bg = 'NONE' },
     TelescopePromptBorder = { fg = '#504945', bg = 'NONE' },
     TelescopePreviewBorder = { fg = '#504945', bg = 'NONE' },
+    -- Blankline
+    IndentBlanklineIndent1 = { fg = '#504945', bg = 'NONE' },
     -- Make float windows transparent too
     NormalFloat = { bg = 'NONE' },
   },

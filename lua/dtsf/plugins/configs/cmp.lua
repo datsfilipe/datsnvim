@@ -1,41 +1,13 @@
-vim.opt.completeopt = { 'menu', 'menuone', 'noselect', 'noinsert' }
-
--- don't show the dumb matching stuff
-vim.opt.shortmess:append 'c'
-
-local ok, lspkind = pcall(require, 'lspkind')
+local ok, cmp = pcall(require, 'cmp')
 if not ok then
   return
 end
 
-local ok2, cmp = pcall(require, 'cmp')
-if not ok2 then
-  return
-end
-
-local function border(hl_name)
-  return {
-    { '╭', hl_name },
-    { '─', hl_name },
-    { '╮', hl_name },
-    { '│', hl_name },
-    { '╯', hl_name },
-    { '─', hl_name },
-    { '╰', hl_name },
-    { '│', hl_name },
-  }
-end
-
-local cmp_window = require 'cmp.utils.window'
-
-cmp_window.info_ = cmp_window.info
-cmp_window.info = function(self)
-  local info = self:info_()
-  info.scrollable = false
-  return info
-end
-
 cmp.setup {
+  preselect = 'item',
+  completion = {
+    completeopt = 'menu,menuone,noinsert',
+  },
   mapping = {
     ['<Tab>'] = cmp.mapping(function(fallback)
       if cmp.visible() then
@@ -70,44 +42,15 @@ cmp.setup {
       { 'i' }
     ),
   },
-  sources = cmp.config.sources({
+  sources = cmp.config.sources {
     { name = 'nvim_lsp' },
     { name = 'luasnip' },
-    { name = 'copilot' },
-  }, {
-    { name = 'path' },
-    { name = 'buffer', keyword_length = 5 },
-  }),
+    { name = 'buffer', keyword_length = 3 },
+    { name = 'luasnip', keyword_length = 2 },
+  },
   snippet = {
     expand = function(args)
       require('luasnip').lsp_expand(args.body)
     end,
   },
-  formatting = {
-    fields = { 'kind', 'abbr', 'menu' },
-    format = lspkind.cmp_format {
-      with_text = false,
-      maxwidth = 50,
-      menu = {
-        buffer = '[バフ]', -- buff from buffer
-        nvim_lsp = '[言語]', -- language
-        luasnip = '[短い]', -- short from shortcut
-        path = '[方法]', -- way
-      },
-    },
-  },
-  window = {
-    completion = {
-      border = border 'CmpBorder',
-      winhighlight = 'Normal:Pmenu,CursorLine:PmenuSel,Search:None,FloatBorder:Pmenu',
-    },
-    documentation = {
-      border = border 'CmpDocBorder',
-      winhighlight = 'Normal:Pmenu,CursorLine:PmenuSel,Search:None,FloatBorder:Pmenu',
-    },
-  },
 }
-
-vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none' })
-vim.api.nvim_set_hl(0, 'CmpBorder', { fg = '#37474F' })
-vim.api.nvim_set_hl(0, 'CmpDocBorder', { fg = '#37474F' })
