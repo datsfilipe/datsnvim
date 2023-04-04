@@ -1,70 +1,42 @@
 local opt = vim.opt
 
--- general
-opt.backspace = { 'start', 'eol', 'indent' }
-opt.inccommand = 'split'
-opt.path:append { '**' } -- finding files - search down into subfolders
-opt.diffopt = { 'internal', 'filler', 'closeoff', 'hiddenoff', 'algorithm:minimal' }
-opt.joinspaces = false
-opt.shell = 'fish'
+-- global options
+opt.backup = false
+opt.backupskip = { '/tmp/*', '/private/tmp/*' }
 opt.cmdheight = 1
-opt.timeoutlen = 600
-opt.updatetime = 1000 -- make updates happen faster
-opt.showcmd = true
-opt.showmode = false
+opt.encoding = 'utf-8'
+opt.expandtab = true
+opt.hidden = true
+opt.hlsearch = true
+opt.ignorecase = true
+opt.incsearch = true
+opt.laststatus = 3
+opt.linebreak = true
+opt.mouse = 'a'
+opt.path:append { '**' }
+opt.relativenumber = true
 opt.scrolloff = 10
-
--- split
-opt.equalalways = false
+opt.shiftwidth = 2
+opt.shortmess:append 'c'
+opt.showcmd = true
+opt.showmatch = true
+opt.smartcase = true
+opt.smartindent = true
+opt.softtabstop = 2
 opt.splitbelow = true
 opt.splitright = true
-
--- file
-opt.backup = false
-vim.scriptencoding = 'utf-8'
-opt.encoding = 'utf-8'
-opt.fileencoding = 'utf-8'
-opt.swapfile = false
-opt.undofile = true
-opt.wildignore:append { '*/node_modules/*' }
-opt.wildignore:append { 'Cargo.lock' }
-
--- search
-opt.incsearch = true
-opt.hlsearch = true
-opt.showmatch = true
-opt.ignorecase = true -- ignore case when searching...
-opt.smartcase = true
-
--- tabs
-opt.foldmethod = 'marker'
-opt.foldlevel = 0
-opt.modelines = 1
-opt.belloff = 'all'
-opt.shada = { '!', '\'1000', '<50', 's10', 'h' }
-opt.hidden = true
-
--- indent
-opt.expandtab = true
-opt.wrap = false -- no wrap lines
-opt.showbreak = string.rep(' ', 3) -- Make it so that long lines wrap smartly
-opt.smarttab = true
 opt.tabstop = 2
-opt.softtabstop = 2
-opt.shiftwidth = 2
-opt.autoindent = true
-opt.smartindent = true
-opt.breakindent = true
-opt.linebreak = true
-
--- ui options
-opt.number = true
-opt.relativenumber = true
+opt.termguicolors = true
+opt.timeoutlen = 600
 opt.title = true
+opt.undofile = true
+opt.updatetime = 1000
+opt.wrap = false
 
+-- visual options
+opt.guicursor = 'a:blinkon5'
+opt.number = true
 opt.ruler = false
-opt.guicursor = 'a:blinkon5' -- set same cursor to all modes (5 is the blink time)
-opt.laststatus = 3
 opt.fillchars = {
   vert = '│',
   eob = ' ',
@@ -72,28 +44,41 @@ opt.fillchars = {
   msgsep = ' ',
 }
 
+-- search options
+opt.smarttab = true
 
--- undercurl
-vim.cmd [[let &t_Cs = '\e[4:3m']]
-vim.cmd [[let &t_Ce = '\e[4:0m']]
+-- completion options
+opt.completeopt = { 'menu', 'menuone', 'noselect', 'noinsert' }
+opt.complete = { '.,w,b,u,t,i,kspell' }
+opt.dictionary = '/usr/share/dict/words'
 
--- disable intro
-opt.shortmess:append 'sI'
+-- split options
+opt.equalalways = false
 
--- format options
-opt.formatoptions = opt.formatoptions
-  - 'o' -- O and o, don't continue comments
-  - 'a' -- auto formatting is BAD
-  - 't' -- don't auto format code
-  - '2' -- not in gradeschool anymore
-  + 'c' -- comments respect textwidth
-  + 'q' -- allow formatting comments w/ gq
-  + 'r' -- but do continue when pressing enter
-  + 'n' -- indent past the formatlistpat, not underneath it
-  + 'j' -- auto-remove comments if possible
+-- indent options
+opt.autoindent = true
+opt.breakindent = true
+opt.formatoptions:append { 'r' }
 
--- turn off paste mode when leaving insert
-vim.api.nvim_create_autocmd('InsertLeave', {
-  pattern = '*',
-  command = 'set nopaste',
-})
+-- file options
+vim.scriptencoding = 'utf-8'
+opt.fileencoding = 'utf-8'
+opt.swapfile = false
+opt.isfname:append '@-@'
+opt.wildignore:append { '*/node_modules/*' }
+opt.wildignore:append { 'Cargo.lock' }
+
+-- diff options
+opt.diffopt = { 'internal', 'filler', 'closeoff', 'hiddenoff', 'algorithm:minimal' }
+
+-- shell options
+opt.shell = 'fish'
+
+-- shada options
+opt.shada = { '!,\'1000,<50,s10,h' }
+
+-- modeline options
+opt.modelines = 1
+
+-- belloff options
+opt.belloff = 'all'
