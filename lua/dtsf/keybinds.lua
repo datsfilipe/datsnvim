@@ -63,8 +63,8 @@ nmap { '<leader>ve', ':Vexplore<CR>', opts }
 nmap { '<leader>se', ':Sexplore<CR>', opts }
 
 -- cycle tabs
-nmap { '<C-w>j', ':tabnext<CR>', opts }
-nmap { '<C-w>k', ':tabprevious<CR>', opts }
+nmap { '>', ':tabnext<CR>', opts }
+nmap { '<', ':tabprevious<CR>', opts }
 
 -- rename all occurencies
 nmap { '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts }
