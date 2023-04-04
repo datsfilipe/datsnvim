@@ -1,6 +1,6 @@
-local nmap = require('dtsf.keymap').nmap
-local vmap = require('dtsf.keymap').vmap
-local imap = require('dtsf.keymap').imap
+local nmap = require('dtsf.utils').nmap
+local vmap = require('dtsf.utils').vmap
+local imap = require('dtsf.utils').imap
 
 local opts = { noremap = true, silent = true }
 
@@ -8,16 +8,14 @@ nmap { 'x', '"_x', opts }
 
 -- common actions
 imap { '<C-c>', '<Esc>', opts }
-nmap { '<C-s>', ':w<CR>', opts }
-nmap { '<C-q>', ':q<CR>', opts }
 
 -- keep things centered when searching
 nmap { 'n', 'nzzzv', opts }
 nmap { 'N', 'Nzzzv', opts }
 
 -- split screen
-nmap { '<leader>v', ':vsplit<CR>', opts }
-nmap { '<leader>s', ':split<CR>', opts }
+nmap { '<leader>[', ':vsplit<CR>', opts }
+nmap { '<leader>]', ':split<CR>', opts }
 nmap { '<leader>q', ':q<CR>', opts }
 
 -- resize windows
@@ -53,10 +51,20 @@ vmap { '>', '>gv', opts }
 
 -- change increment / decrement bindings
 nmap { '<leader>a', '<C-a>', opts }
-nmap { '<leader>ga', 'g<C-a>', opts }
 vmap { '<leader>a', '<C-a>', opts }
-vmap { '<leader>ga', 'g<C-a>', opts }
+vmap { '<leader>fa', 'g<C-a>', opts }
 nmap { '<leader>x', '<C-x>', opts }
-nmap { '<leader>gx', 'g<C-x>', opts }
 vmap { '<leader>x', '<C-x>', opts }
-vmap { '<leader>gx', 'g<C-x>', opts }
+vmap { '<leader>fx', 'g<C-x>', opts }
+
+-- explorer / split explorer
+nmap { '<leader>e', ':Explore<CR>', opts }
+nmap { '<leader>ve', ':Vexplore<CR>', opts }
+nmap { '<leader>se', ':Sexplore<CR>', opts }
+
+-- cycle tabs
+nmap { '<C-w>j', ':tabnext<CR>', opts }
+nmap { '<C-w>k', ':tabprevious<CR>', opts }
+
+-- rename all occurencies
+nmap { '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts }
