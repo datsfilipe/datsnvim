@@ -10,9 +10,6 @@ ts.setup {
   },
   indent = {
     enable = true,
-    -- disable = {
-    --   'tsx',
-    -- },
   },
   ensure_installed = {
     'tsx',

@@ -1,22 +1,7 @@
-local ok, mason = pcall(require, 'mason')
+local ok, lspconfig = pcall(require, 'mason-lspconfig')
 if not ok then
   return
 end
-
-local ok2, lspconfig = pcall(require, 'mason-lspconfig')
-if not ok2 then
-  return
-end
-
-mason.setup {
-  ui = {
-    icons = {
-      package_installed = ' ',
-      package_pending = '',
-      package_uninstalled = '✗ ',
-    },
-  },
-}
 
 lspconfig.setup {
   ensure_installed = {
@@ -24,7 +9,5 @@ lspconfig.setup {
     'tsserver',
     'tailwindcss',
     'lua_ls',
-    'astro',
-    'pyright',
   },
 }

@@ -6,46 +6,43 @@ end
 local ui = require 'harpoon.ui'
 local mark = require 'harpoon.mark'
 
-local nmap = require('dtsf.keymap').nmap
+local nmap = require('dtsf.utils').nmap
 local opts = { noremap = true, silent = true }
 
 nmap {
-  '<C-h>g',
+  '<leader>hm',
   function()
     ui.toggle_quick_menu()
-    print '[harpoon] Quick Menu'
   end,
   opts,
 }
 nmap {
-  '<C-h>h',
+  '<leader>ha',
   function()
     mark.add_file()
-    print '[harpoon] Add Mark'
+    print '[harpoon] mark added'
   end,
   opts,
 }
 nmap {
-  '<C-h>j',
+  '<C-k>',
   function()
     ui.nav_prev()
-    print '[harpoon] Jump to previous mark'
   end,
   opts,
 }
 nmap {
-  '<C-h>k',
+  '<C-j>',
   function()
     ui.nav_next()
-    print '[harpoon] Jump to next mark'
   end,
   opts,
 }
 nmap {
-  '<C-h>l',
+  '<leader>hd',
   function()
     mark.rm_file(vim.fn.expand '%')
-    print '[harpoon] Remove Mark'
+    print '[harpoon] mark deleted'
   end,
   opts,
 }

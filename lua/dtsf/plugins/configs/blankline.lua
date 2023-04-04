@@ -9,5 +9,3 @@ blankline.setup {
     'IndentBlanklineIndent1',
   },
 }
-
-vim.api.nvim_set_hl(0, 'IndentBlanklineIndent1', { fg = '#262626' })
