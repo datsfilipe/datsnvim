@@ -1,80 +1,37 @@
 return {
+  -- essential
   {
-    'L3MON4D3/LuaSnip',
+    'VonHeikemen/lsp-zero.nvim',
+    branch = 'v2.x',
     config = function()
-      require 'dtsf.plugins.configs.luasnip'
+      require 'dtsf.plugins.configs.lsp'
     end,
     dependencies = {
-      'rafamadriz/friendly-snippets',
-    },
-  },
-  {
-    'nvim-lualine/lualine.nvim',
-    lazy = false,
-    config = function()
-      require 'dtsf.plugins.configs.lualine'
-    end,
-  },
-  {
-    'kyazdani42/nvim-web-devicons',
-    config = function()
-      require 'dtsf.plugins.configs.nvim-web-devicons'
-    end,
-  },
-  {
-    'kyazdani42/nvim-web-devicons',
-    config = function()
-      require 'dtsf.plugins.configs.web-devicons'
-    end,
-  },
-  {
-    'nvim-telescope/telescope.nvim',
-    lazy = false,
-    config = function()
-      require 'dtsf.plugins.configs.telescope'
-    end,
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope-file-browser.nvim',
-      'nvim-telescope/telescope-dap.nvim',
+      -- LSP support
+      { 'neovim/nvim-lspconfig' },
       {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        build = 'make',
+        'williamboman/mason.nvim',
+        build = function()
+          pcall(vim.cmd, 'MasonUpdate')
+        end,
       },
+      { 'williamboman/mason-lspconfig.nvim' },
+      -- autocompletion
+      {
+        'hrsh7th/nvim-cmp',
+        lazy = true,
+        event = 'InsertEnter',
+      },
+      {
+        'hrsh7th/cmp-nvim-lsp',
+        config = function()
+          require 'dtsf.plugins.configs.cmp'
+        end,
+      },
+      { 'saadparwaiz1/cmp_luasnip' },
+      { 'hrsh7th/cmp-buffer' },
+      { 'hrsh7th/cmp-path' },
     },
-  },
-  {
-    'kylechui/nvim-surround',
-    config = function()
-      require 'dtsf.plugins.configs.surround'
-    end,
-  },
-  {
-    'ThePrimeagen/harpoon',
-    config = function()
-      require 'dtsf.plugins.configs.harpoon'
-    end,
-  },
-  {
-    'dinhhuy258/git.nvim',
-    lazy = true,
-    config = function()
-      require 'dtsf.plugins.configs.git'
-    end,
-  },
-  {
-    'iamcco/markdown-preview.nvim',
-    build = function()
-      vim.fn['mkdp#util#install']()
-    end,
-    ft = 'markdown',
-  },
-  { 'wakatime/vim-wakatime' },
-  {
-    'lewis6991/gitsigns.nvim',
-    config = function()
-      require 'dtsf.plugins.configs.gitsigns'
-    end,
   },
   {
     'nvim-treesitter/nvim-treesitter',
@@ -88,54 +45,26 @@ return {
     dependencies = {
       'nvim-treesitter/nvim-treesitter-context',
       config = function()
-        require 'dtsf.plugins.configs.treesitter-context'
+        require('treesitter-context').setup {}
       end,
     },
   },
+  -- utilities
   {
-    'mfussenegger/nvim-dap',
-    lazy = true,
+    'nvim-telescope/telescope.nvim',
+    event = 'VimEnter',
     config = function()
-      require 'dtsf.plugins.configs.dap'
+      require 'dtsf.plugins.configs.telescope'
     end,
     dependencies = {
-      'rcarriga/nvim-dap-ui',
-      'theHamsta/nvim-dap-virtual-text',
+      'nvim-lua/plenary.nvim',
+      -- 'nvim-telescope/telescope-file-browser.nvim',
+      'nvim-telescope/telescope-dap.nvim',
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        build = 'make',
+      },
     },
-  },
-  {
-    'williamboman/mason.nvim',
-    config = function()
-      require 'dtsf.plugins.configs.mason'
-    end,
-  },
-  {
-    'williamboman/mason-lspconfig.nvim',
-    lazy = true,
-  },
-  {
-    'neovim/nvim-lspconfig',
-    config = function()
-      require 'dtsf.plugins.configs.lspconfig'
-    end,
-  },
-  {
-    'glepnir/lspsaga.nvim',
-    config = function()
-      require 'dtsf.plugins.configs.lspsaga'
-    end,
-  },
-  {
-    'onsails/lspkind-nvim',
-    config = function()
-      require 'dtsf.plugins.configs.lspkind'
-    end,
-  },
-  {
-    'folke/lsp-colors.nvim',
-    config = function()
-      require 'dtsf.plugins.configs.lspcolors'
-    end,
   },
   {
     'jose-elias-alvarez/null-ls.nvim',
@@ -144,79 +73,143 @@ return {
     end,
   },
   {
+    'ThePrimeagen/harpoon',
+    config = function()
+      require 'dtsf.plugins.configs.harpoon'
+    end,
+  },
+  {
+    'iamcco/markdown-preview.nvim',
+    build = function()
+      vim.fn['mkdp#util#install']()
+    end,
+    ft = 'markdown',
+  },
+  { 'wakatime/vim-wakatime' },
+  {
     'numToStr/Comment.nvim',
     config = function()
       require 'dtsf.plugins.configs.comment'
     end,
   },
   {
-    'hrsh7th/nvim-cmp',
-    event = 'InsertEnter',
-    config = function()
-      require 'dtsf.plugins.configs.cmp'
-    end,
-    dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'saadparwaiz1/cmp_luasnip',
-      {
-        'zbirenbaum/copilot-cmp',
-        config = function()
-          require('copilot_cmp').setup()
-        end,
-      },
-      {
-        'zbirenbaum/copilot.lua',
-        config = function()
-          require('copilot').setup {}
-        end,
-      },
-    },
+    'rawnly/gist.nvim',
+    lazy = true,
+    event = 'BufWinEnter',
   },
   {
     'windwp/nvim-ts-autotag',
-    config = function()
-      require 'dtsf.plugins.configs.ts-autotag'
-    end,
-  },
-  {
-    'lukas-reineke/indent-blankline.nvim',
-    config = function()
-      require 'dtsf.plugins.configs.blankline'
-    end,
+    lazy = true,
+    event = 'InsertEnter',
   },
   {
     'windwp/nvim-autopairs',
     config = function()
-      require 'dtsf.plugins.configs.autopairs'
+      require('nvim-autopairs').setup {
+        disable_filetype = { 'TelescopePrompt', 'vim' },
+      }
+    end,
+  },
+  {
+    'github/copilot.vim',
+    config = function()
+      require 'dtsf.plugins.configs.copilot'
+    end,
+  },
+  {
+    'folke/zen-mode.nvim',
+    lazy = true,
+    event = 'InsertEnter',
+    config = function()
+      require 'dtsf.plugins.configs.zenmode'
+    end,
+  },
+  -- snippets
+  {
+    'L3MON4D3/LuaSnip',
+    config = function()
+      require 'dtsf.plugins.configs.luasnip'
+    end,
+    dependencies = {
+      'rafamadriz/friendly-snippets',
+    },
+  },
+  -- git
+  {
+    'TimUntersberger/neogit',
+    config = function()
+      require 'dtsf.plugins.configs.neogit'
+    end,
+  },
+  {
+    'sindrets/diffview.nvim',
+    config = function()
+      require 'dtsf.plugins.configs.diffview'
+    end,
+  },
+  {
+    'lewis6991/gitsigns.nvim',
+    config = function()
+      require 'dtsf.plugins.configs.gitsigns'
+    end,
+  },
+  -- ui
+  {
+    'nvim-lualine/lualine.nvim',
+    event = 'VimEnter',
+    config = function()
+      require 'dtsf.plugins.configs.lualine'
     end,
   },
   {
     'norcalli/nvim-colorizer.lua',
     config = function()
-      require 'dtsf.plugins.configs.colorizer'
+      require('colorizer').setup {
+        '*',
+      }
     end,
   },
+  {
+    'lukas-reineke/indent-blankline.nvim',
+    event = 'BufWinEnter',
+    config = function()
+      require 'dtsf.plugins.configs.blankline'
+    end,
+  },
+  {
+    'kyazdani42/nvim-web-devicons',
+    config = function()
+      require('nvim-web-devicons').setup {
+        override = {},
+        default = true,
+      }
+    end,
+  },
+  -- colorschemes
   {
     'nyoom-engineering/oxocarbon.nvim',
     lazy = true,
     -- priority = 1000,
     config = function()
-      require 'dtsf.plugins.configs.oxocarbon'
+      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent1', { fg = '#383838' })
+      vim.cmd.colorscheme 'oxocarbon'
     end,
   },
   {
     'ellisonleao/gruvbox.nvim',
-    lazy = false,
-    priority = 1000,
+    lazy = true,
+    -- priority = 1000,
     config = function()
       require 'dtsf.plugins.configs.gruvbox'
     end,
   },
   {
-    'rawnly/gist.nvim',
-    lazy = true,
-    event = 'BufWinEnter',
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require 'dtsf.plugins.configs.catppuccin'
+    end,
   },
 }
