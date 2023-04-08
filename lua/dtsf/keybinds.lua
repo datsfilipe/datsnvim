@@ -6,6 +6,9 @@ local opts = { noremap = true, silent = true }
 
 nmap { 'x', '"_x', opts }
 
+-- resolve tab conflict in insert mode
+imap { '<Tab>', '<Tab>', opts }
+
 -- common actions
 imap { '<C-c>', '<Esc>', opts }
 
