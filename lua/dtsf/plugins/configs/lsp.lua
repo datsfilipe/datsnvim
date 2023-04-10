@@ -47,14 +47,14 @@ lsp.on_attach(function(_, bufnr)
     opts,
   }
   nmap {
-    '<C-n>',
+    '<leader>n',
     function()
       vim.diagnostic.goto_next()
     end,
     opts,
   }
   nmap {
-    '<C-p>',
+    '<leader>p',
     function()
       vim.diagnostic.goto_prev()
     end,
