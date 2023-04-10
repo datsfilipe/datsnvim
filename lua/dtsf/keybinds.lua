@@ -31,11 +31,11 @@ nmap { '<leader><down>', '<C-w>-', opts }
 nmap { '<leader>.', ':luafile %<CR>', opts }
 
 -- copy to clipboard / delete
-nmap { '<space>y', '"+y', opts }
-vmap { '<space>y', '"+y', opts }
-nmap { '<space>d', '_d', opts }
-vmap { '<space>d', '_d', opts }
-nmap { '<leader>p', [["_diwP]], opts } -- keep pasting over the same thing
+nmap { '<leader>y', '"+y', opts }
+vmap { '<leader>y', '"+y', opts }
+nmap { '<leader>d', '_d', opts }
+vmap { '<leader>d', '_d', opts }
+nmap { '<leader>v', [["_diwP]], opts } -- keep pasting over the same thing
 nmap { '<leader>Y', 'gg"+yG', opts } -- copy all
 
 -- move lines
