@@ -155,6 +155,14 @@ return {
   },
   -- ui
   {
+    'goolord/alpha-nvim',
+    lazy = true,
+    event = 'VimEnter',
+    config = function()
+      require 'dtsf.plugins.configs.alpha'
+    end,
+  },
+  {
     'nvim-lualine/lualine.nvim',
     event = 'VimEnter',
     config = function()
