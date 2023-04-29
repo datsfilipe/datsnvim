@@ -11,9 +11,7 @@ return {
       { 'neovim/nvim-lspconfig' },
       {
         'williamboman/mason.nvim',
-        build = function()
-          pcall(vim.cmd, 'MasonUpdate')
-        end,
+        build = ':MasonUpdate',
       },
       { 'williamboman/mason-lspconfig.nvim' },
       -- autocompletion
@@ -185,7 +183,7 @@ return {
     end,
   },
   {
-    'kyazdani42/nvim-web-devicons',
+    'nvim-tree/nvim-web-devicons',
     config = function()
       require('nvim-web-devicons').setup {
         override = {},
