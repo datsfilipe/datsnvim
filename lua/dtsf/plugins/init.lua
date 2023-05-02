@@ -41,10 +41,13 @@ return {
       ts_update()
     end,
     dependencies = {
-      'nvim-treesitter/nvim-treesitter-context',
-      config = function()
-        require('treesitter-context').setup {}
-      end,
+      {
+        'nvim-treesitter/nvim-treesitter-context',
+        config = function()
+          require('treesitter-context').setup {}
+        end,
+      },
+      'nvim-treesitter/playground',
     },
   },
   -- utilities
