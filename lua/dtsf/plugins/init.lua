@@ -196,29 +196,11 @@ return {
   },
   -- colorschemes
   {
-    'nyoom-engineering/oxocarbon.nvim',
-    lazy = true,
-    -- priority = 1000,
-    config = function()
-      vim.api.nvim_set_hl(0, 'IndentBlanklineIndent1', { fg = '#383838' })
-      vim.cmd.colorscheme 'oxocarbon'
-    end,
-  },
-  {
-    'ellisonleao/gruvbox.nvim',
-    lazy = true,
-    -- priority = 1000,
-    config = function()
-      require 'dtsf.plugins.configs.gruvbox'
-    end,
-  },
-  {
-    'catppuccin/nvim',
-    name = 'catppuccin',
+    'projekt0n/github-nvim-theme', version = 'v0.0.7',
     lazy = false,
     priority = 1000,
     config = function()
-      require 'dtsf.plugins.configs.catppuccin'
+      require 'dtsf.plugins.configs.github-theme'
     end,
   },
 }
