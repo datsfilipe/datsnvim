@@ -3,7 +3,7 @@ if not ok then
   return
 end
 
-local theme = 'catppuccin'
+local theme = 'ayu_dark'
 
 lualine.setup {
   options = {
