@@ -14,7 +14,7 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup {
   install = {
     missing = true,
-    colorscheme = { 'catppuccin' },
+    colorscheme = { 'github_dark' },
   },
   spec = {
     { import = 'dtsf.plugins' },
