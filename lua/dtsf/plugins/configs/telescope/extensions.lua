@@ -1,9 +1,6 @@
 local M = {}
 
-local actions = require('dtsf.plugins.configs.telescope.vars').actions
-local action_state = require('dtsf.plugins.configs.telescope.vars').action_state
-
-local extensions = {
+M.extensions = {
   fzf = {
     fuzzy = true,
     override_generic_sorter = true,
@@ -11,7 +8,5 @@ local extensions = {
     case_mode = 'smart_case',
   },
 }
-
-M.extensions = extensions
 
 return M
