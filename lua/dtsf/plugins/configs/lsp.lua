@@ -16,10 +16,10 @@ lsp.ensure_installed {
 }
 
 lsp.set_sign_icons {
-  error = '',
-  warn = '',
-  hint = '',
-  info = '',
+  error = '',
+  warn = '',
+  hint = '',
+  info = '',
 }
 
 lsp.on_attach(function(_, bufnr)
