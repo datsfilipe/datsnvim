@@ -1,19 +1,32 @@
-# Datsnvim
+<div align="center">
 
-### Description
+# DATSNvim [Evangelion Edition]
 
-Those are just mine personal settings for neovim. I'm using it on my daily basis, so it's not a big deal if you want to use it too. I'm using it on a Linux system.
+A minimal configuration for <a target="_blank" href="https://neovim.io">Neovim</a>. Made for my personal use.
 
-It's a very simple setup, no hard configurations, just a few plugins and some keybindings. But, if you're too new to vim, I recommend you to use [LunarVim](https://github.com/lunarvim/lunarvim) or something like that.
+<br/>
 
-### Installation
+<img src="./assets/01.png"></img>
+
+<br/>
+<br/>
+
+<img src="./assets/02.png"></img>
+
+<br/>
+<br/>
+
+</div>
+
+## Installation
+
+1. Install <a href="https://neovim.io" target="_blank">Neovim</a>
+2. Install <a href="https://git-scm.com" target="_blank">Git</a>
+3. Run the following commands in Linux with bash, zsh or fish (or anything similar):
 
 ```bash
-git clone 'https://github.com/datsfilipe/datsnvim.git' $HOME/.config/nvim
-
+git clone https://github.com/datsfilipe/datsnvim.git ~/.config/nvim
 nvim .
 ```
 
-### How it looks like:
-
-![](assets/showcase.png)
+4. It should open `Lazy.nvim` window and install all plugins automatically.
