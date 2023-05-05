@@ -13,7 +13,7 @@ local set_prompt_to_entry_value = function(prompt_bufnr)
   action_state.get_current_picker(prompt_bufnr):reset_prompt(entry.ordinal)
 end
 
-local mappings = {
+M.mappings = {
   i = {
     ['<C-x>'] = false,
     ['<C-c>'] = function()
@@ -35,7 +35,5 @@ local mappings = {
     ['<C-u>'] = actions.results_scrolling_up,
   },
 }
-
-M.mappings = mappings
 
 return M
