@@ -20,17 +20,15 @@ local sources = {
     diagnostics_format = '[#{c}] #{m} (#{s})',
   },
   null_ls.builtins.diagnostics.fish,
-  null_ls.builtins.diagnostics.cspell.with {
-    filetypes = { 'markdown', 'text' },
-  },
+  null_ls.builtins.diagnostics.commitlint, -- git commit messages
+  null_ls.builtins.diagnostics.proselint, -- prose linter
+  null_ls.builtins.diagnostics.editorconfig_checker, -- editorconfig
   -- formatting
   null_ls.builtins.formatting.eslint_d,
   null_ls.builtins.formatting.stylua,
   null_ls.builtins.formatting.rustywind,
   -- code actions
   null_ls.builtins.code_actions.gitsigns,
-  -- editorconfig
-  null_ls.builtins.diagnostics.editorconfig_checker,
 }
 
 local on_attach = function(client, bufnr)
