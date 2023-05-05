@@ -65,6 +65,7 @@ return {
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',
       },
+      'nvim-telescope/telescope-file-browser.nvim',
     },
   },
   {
@@ -196,7 +197,8 @@ return {
   },
   -- colorschemes
   {
-    'projekt0n/github-nvim-theme', version = 'v0.0.7',
+    'projekt0n/github-nvim-theme',
+    version = 'v0.0.7',
     lazy = false,
     priority = 1000,
     config = function()
