@@ -1,8 +1,6 @@
 local opt = vim.opt
 
 -- global options
-opt.backup = false
-opt.backupskip = { '/tmp/*', '/private/tmp/*' }
 opt.cmdheight = 1
 opt.encoding = 'utf-8'
 opt.expandtab = true
@@ -29,7 +27,6 @@ opt.tabstop = 2
 opt.termguicolors = true
 opt.timeoutlen = 600
 opt.title = true
-opt.undofile = true
 opt.updatetime = 1000
 opt.wrap = false
 
@@ -67,6 +64,10 @@ opt.swapfile = false
 opt.isfname:append '@-@'
 opt.wildignore:append { '*/node_modules/*' }
 opt.wildignore:append { 'Cargo.lock' }
+opt.backup = true
+opt.backupdir = vim.fn.expand '~/.local/share/nvim/backup'
+opt.backupskip = { '/tmp/*', '/private/tmp/*' }
+opt.undofile = true
 
 -- diff options
 opt.diffopt = { 'internal', 'filler', 'closeoff', 'hiddenoff', 'algorithm:minimal' }
