@@ -197,12 +197,10 @@ return {
   },
   -- colorschemes
   {
-    'projekt0n/github-nvim-theme',
-    version = 'v0.0.7',
-    lazy = false,
+    'ellisonleao/gruvbox.nvim',
     priority = 1000,
-    config = function()
-      require 'dtsf.plugins.configs.github-theme'
-    end,
-  },
+    config = function ()
+      require 'dtsf.plugins.configs.colorschemes.gruvbox'
+    end
+  }
 }
