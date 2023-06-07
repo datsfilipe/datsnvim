@@ -129,6 +129,8 @@ return {
   -- snippets
   {
     'L3MON4D3/LuaSnip',
+    version = '1.*',
+    build = 'make install_jsregexp',
     config = function()
       require 'dtsf.plugins.configs.luasnip'
     end,
@@ -199,8 +201,8 @@ return {
   {
     'ellisonleao/gruvbox.nvim',
     priority = 1000,
-    config = function ()
+    config = function()
       require 'dtsf.plugins.configs.colorschemes.gruvbox'
-    end
-  }
+    end,
+  },
 }
