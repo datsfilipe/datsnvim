@@ -28,6 +28,7 @@ ts.setup {
     'bash',
     'python',
     'astro',
+    'go',
   },
   autotag = {
     enable = true,
