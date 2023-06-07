@@ -101,11 +101,11 @@ require('lspconfig').lua_ls.setup {
   },
 }
 
-require('lspconfig').unocss.setup {
-  cmd = { 'unocss-language-server', '--stdio' },
-  filetypes = { 'html', 'javascriptreact', 'rescript', 'typescriptreact', 'vue', 'svelte' },
-  root_dir = require('lspconfig').util.root_pattern('package.json', 'tsconfig.json', '.git'),
-}
+-- require('lspconfig').unocss.setup {
+--   cmd = { 'unocss-language-server', '--stdio' },
+--   filetypes = { 'html', 'javascriptreact', 'rescript', 'typescriptreact', 'vue', 'svelte' },
+--   root_dir = require('lspconfig').util.root_pattern('package.json', 'tsconfig.json', '.git'),
+-- }
 
 -- lsp.format_on_save {
 --   servers = {
