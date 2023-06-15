@@ -15,6 +15,9 @@ lsp.ensure_installed {
   'lua_ls',
 }
 
+-- fix undefined global 'vim'
+lsp.nvim_workspace()
+
 lsp.set_sign_icons {
   error = '',
   warn = '',
@@ -89,17 +92,6 @@ lsp.on_attach(function(_, bufnr)
     opts,
   }
 end)
-
--- fix undefined global 'vim'
-require('lspconfig').lua_ls.setup {
-  settings = {
-    Lua = {
-      diagnostics = {
-        globals = { 'vim' },
-      },
-    },
-  },
-}
 
 -- require('lspconfig').unocss.setup {
 --   cmd = { 'unocss-language-server', '--stdio' },
