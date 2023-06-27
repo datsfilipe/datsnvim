@@ -26,6 +26,7 @@ local sources = {
   -- formatting
   null_ls.builtins.formatting.eslint_d,
   null_ls.builtins.formatting.stylua,
+  null_ls.builtins.formatting.prettierd,
   -- code actions
   null_ls.builtins.code_actions.gitsigns,
 }
