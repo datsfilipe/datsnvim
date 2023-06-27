@@ -73,7 +73,7 @@ opt.undofile = true
 opt.diffopt = { 'internal', 'filler', 'closeoff', 'hiddenoff', 'algorithm:minimal' }
 
 -- shell options
-opt.shell = 'fish'
+opt.shell = 'zsh'
 
 -- shada options
 opt.shada = { '!,\'1000,<50,s10,h' }
