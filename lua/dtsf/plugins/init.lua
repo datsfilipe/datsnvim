@@ -140,7 +140,8 @@ return {
   },
   -- git
   {
-    'TimUntersberger/neogit',
+    'NeogitOrg/neogit',
+    dependencies = 'nvim-lua/plenary.nvim',
     config = function()
       require 'dtsf.plugins.configs.neogit'
     end,
