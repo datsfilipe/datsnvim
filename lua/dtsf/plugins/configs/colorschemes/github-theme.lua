@@ -4,7 +4,9 @@ if not present then
 end
 
 github.setup({
-  transparent = true,
+  options = {
+    transparent = true,
+  }
 })
 
 vim.cmd('colorscheme github_dark')
