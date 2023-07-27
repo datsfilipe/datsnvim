@@ -125,6 +125,13 @@ return {
       require 'dtsf.plugins.configs.zenmode'
     end,
   },
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("todo-comments").setup {}
+    end,
+  },
   -- snippets
   {
     'L3MON4D3/LuaSnip',
