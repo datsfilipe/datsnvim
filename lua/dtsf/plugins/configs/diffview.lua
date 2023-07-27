@@ -14,7 +14,7 @@ diffview.setup {
   },
 }
 
-local nmap = require 'utils'.nmap
+local nmap = require 'dtsf.utils'.nmap
 local opts = { noremap = true, silent = true }
 
 nmap { '<leader>gd', ':DiffviewOpen<CR>', opts }
