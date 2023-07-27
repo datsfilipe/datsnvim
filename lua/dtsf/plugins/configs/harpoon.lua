@@ -25,6 +25,14 @@ nmap {
   opts,
 }
 nmap {
+  '<leader>hd',
+  function()
+    mark.rm_file(vim.fn.expand '%')
+    print '[harpoon] mark deleted'
+  end,
+  opts,
+}
+nmap {
   '<C-k>',
   function()
     ui.nav_prev()
@@ -35,14 +43,6 @@ nmap {
   '<C-j>',
   function()
     ui.nav_next()
-  end,
-  opts,
-}
-nmap {
-  '<leader>hd',
-  function()
-    mark.rm_file(vim.fn.expand '%')
-    print '[harpoon] mark deleted'
   end,
   opts,
 }
