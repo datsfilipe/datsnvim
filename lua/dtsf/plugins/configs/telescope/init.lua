@@ -15,16 +15,16 @@ telescope.setup {
     selection_caret = '  ',
     entry_prefix = '  ',
     border = {},
-    borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+    borderchars = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+    -- borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
     layout_strategy = 'flex',
-    -- sorting_strategy = 'ascending',
+    sorting_strategy = 'ascending',
     mappings = mappings,
   },
   extensions = extensions,
 }
 
 telescope.load_extension 'harpoon'
--- telescope.load_extension 'dap'
 telescope.load_extension 'fzf'
 
 local opts = { noremap = true, silent = true }
@@ -45,7 +45,6 @@ nmap {
     builtin.find_files {
       no_ignore = false,
       hidden = true,
-      prompt_prefix = '   ',
     }
   end,
   opts,
