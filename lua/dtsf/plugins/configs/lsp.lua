@@ -99,11 +99,11 @@ end)
 --   root_dir = require('lspconfig').util.root_pattern('package.json', 'tsconfig.json', '.git'),
 -- }
 
--- lsp.format_on_save {
---   servers = {
---     ['rust_analyzer'] = { 'rust' },
---   },
--- }
+lsp.format_on_save {
+  servers = {
+    ['rust_analyzer'] = { 'rust' },
+  },
+}
 
 lsp.setup()
 
