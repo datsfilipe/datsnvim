@@ -206,10 +206,10 @@ return {
   },
   -- colorschemes
   {
-    'projekt0n/github-nvim-theme',
+    'datsfilipe/min-theme.nvim',
     priority = 1000,
     config = function()
-      require 'dtsf.plugins.configs.colorschemes.github-theme'
+      require 'dtsf.plugins.configs.colorschemes.min-theme'
     end,
-  }
+  },
 }
