@@ -1,1 +1,1 @@
-require('modules.plugins')
+require "modules.plugins"

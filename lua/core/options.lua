@@ -1,11 +1,11 @@
 -- leader key
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ' '
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
 local opt = vim.opt
 
 opt.cursorline = true
-opt.signcolumn = 'yes'
+opt.signcolumn = "yes"
 opt.termguicolors = true
 opt.pumblend = 0 -- important for transparency
 opt.cmdheight = 1
@@ -16,12 +16,12 @@ opt.ignorecase = true
 opt.incsearch = true
 opt.laststatus = 3
 opt.linebreak = true
-opt.mouse = 'a'
-opt.path:append { '**' }
+opt.mouse = "a"
+opt.path:append { "**" }
 opt.relativenumber = true
 opt.scrolloff = 10
 opt.shiftwidth = 2
-opt.shortmess:append 'c'
+opt.shortmess:append "c"
 opt.showcmd = true
 opt.showmatch = true
 opt.smartcase = true
@@ -35,29 +35,29 @@ opt.timeoutlen = 600
 opt.title = true
 opt.updatetime = 200
 opt.wrap = false
-opt.shell = 'zsh'
-opt.shada = { '!,\'1000,<50,s10,h' }
+opt.shell = "zsh"
+opt.shada = { "!,'1000,<50,s10,h" }
 opt.modelines = 1
-opt.belloff = 'all'
+opt.belloff = "all"
 
 -- visual options
-opt.guicursor = 'a:blinkon5'
+opt.guicursor = "a:blinkon5"
 opt.number = true
 opt.ruler = false
 opt.fillchars = {
-  vert = '│',
-  eob = ' ',
-  diff = ' ',
-  msgsep = ' ',
+  vert = "│",
+  eob = " ",
+  diff = " ",
+  msgsep = " ",
 }
 
 -- search options
 opt.smarttab = true
 
 -- completion options
-opt.completeopt = { 'menu', 'menuone', 'noselect', 'noinsert' }
-opt.complete = { '.,w,b,u,t,i,kspell' }
-opt.dictionary = '/usr/share/dict/words'
+opt.completeopt = { "menu", "menuone", "noselect", "noinsert" }
+opt.complete = { ".,w,b,u,t,i,kspell" }
+opt.dictionary = "/usr/share/dict/words"
 
 -- split options
 opt.equalalways = false
@@ -65,22 +65,22 @@ opt.equalalways = false
 -- indent options
 opt.autoindent = true
 opt.breakindent = true
-opt.formatoptions:append { 'r' }
+opt.formatoptions:append { "r" }
 
 -- file options
 opt.swapfile = false
-opt.isfname:append '@-@'
-opt.wildignore:append { '*/node_modules/*' }
-opt.wildignore:append { 'Cargo.lock' }
+opt.isfname:append "@-@"
+opt.wildignore:append { "*/node_modules/*" }
+opt.wildignore:append { "Cargo.lock" }
 opt.backup = true
-opt.backupdir = vim.fn.expand '~/.local/share/nvim/backup'
-opt.backupskip = { '/tmp/*', '/private/tmp/*' }
+opt.backupdir = vim.fn.expand "~/.local/share/nvim/backup"
+opt.backupskip = { "/tmp/*", "/private/tmp/*" }
 opt.undofile = true
 
 -- diff options
-opt.diffopt = { 'internal', 'filler', 'closeoff', 'hiddenoff', 'algorithm:minimal' }
+opt.diffopt = { "internal", "filler", "closeoff", "hiddenoff", "algorithm:minimal" }
 
 -- encoding
-opt.encoding = 'utf-8'
-vim.scriptencoding = 'utf-8'
-opt.fileencoding = 'utf-8'
+opt.encoding = "utf-8"
+vim.scriptencoding = "utf-8"
+opt.fileencoding = "utf-8"

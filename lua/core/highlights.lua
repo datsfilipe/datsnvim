@@ -1,4 +1,4 @@
-local group = vim.api.nvim_create_augroup('CursorLineControl', { clear = true })
+local group = vim.api.nvim_create_augroup("CursorLineControl", { clear = true })
 local set_cursorline = function(event, value, pattern)
   vim.api.nvim_create_autocmd(event, {
     group = group,
@@ -8,9 +8,9 @@ local set_cursorline = function(event, value, pattern)
     end,
   })
 end
-set_cursorline('WinLeave', false)
-set_cursorline('WinEnter', true)
-set_cursorline('FileType', false, 'TelescopePrompt')
+set_cursorline("WinLeave", false)
+set_cursorline("WinEnter", true)
+set_cursorline("FileType", false, "TelescopePrompt")
 
 -- remove highlight for split and vsplit bars after colorscheme is applied
 vim.cmd [[autocmd ColorScheme * highlight VertSplit guibg=NONE]}]]

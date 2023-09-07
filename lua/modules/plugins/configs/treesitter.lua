@@ -1,4 +1,4 @@
-local ok, ts = pcall(require, 'nvim-treesitter.configs')
+local ok, ts = pcall(require, "nvim-treesitter.configs")
 if not ok then
   return
 end
@@ -12,30 +12,30 @@ ts.setup {
     enable = true,
   },
   ensure_installed = {
-    'tsx',
-    'typescript',
-    'toml',
-    'json',
-    'css',
-    'html',
-    'lua',
-    'yaml',
-    'markdown',
-    'markdown_inline',
-    'bash',
+    "tsx",
+    "typescript",
+    "toml",
+    "json",
+    "css",
+    "html",
+    "lua",
+    "yaml",
+    "markdown",
+    "markdown_inline",
+    "bash",
   },
   autotag = {
     enable = true,
   },
 }
 
-local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-parser_config.tsx.filetype_to_parsername = { 'javascript', 'typescript.tsx' }
+local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
 
 vim.filetype.add {
   extension = {
-    mdx = 'mdx',
+    mdx = "mdx",
   },
 }
 
-vim.treesitter.language.register('markdown', 'mdx')
+vim.treesitter.language.register("markdown", "mdx")
