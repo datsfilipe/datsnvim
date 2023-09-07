@@ -11,6 +11,12 @@ return {
       {
         'williamboman/mason.nvim',
         build = ':MasonUpdate',
+        dependencies = {
+          {
+            'WhoIsSethDaniel/mason-tool-installer.nvim',
+            config = require('modules.plugins.configs.masontools'),
+          }
+        }
       },
       { 'williamboman/mason-lspconfig.nvim' },
       -- autocompletion
@@ -48,6 +54,18 @@ return {
       },
       'nvim-treesitter/playground',
     },
+  },
+  {
+    "mhartington/formatter.nvim",
+    config = function ()
+      require 'modules.plugins.configs.formatter'
+    end
+  },
+  {
+    "mfussenegger/nvim-lint",
+    config = function ()
+      require 'modules.plugins.configs.nvimlint'
+    end,
   },
   -- utilities
   {
