@@ -1,1 +1,1 @@
-require('keymap.plugins.harpoon')
+require "keymap.plugins.harpoon"

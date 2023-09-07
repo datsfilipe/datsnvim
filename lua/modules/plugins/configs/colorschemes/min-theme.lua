@@ -1,10 +1,10 @@
-local ok, min = pcall(require, 'min-theme')
+local ok, min = pcall(require, "min-theme")
 if not ok then
   return
 end
 
 min.setup {
-  theme = 'dark',
+  theme = "dark",
   transparent = true,
   italics = {
     comments = false,
@@ -14,7 +14,7 @@ min.setup {
     variables = false,
   },
   overrides = {
-    IndentBlanklineIndent1 = { fg = '#282828', bg = 'NONE' },
+    IndentBlanklineIndent1 = { fg = "#282828", bg = "NONE" },
   },
 }
 
