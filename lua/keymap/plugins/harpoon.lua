@@ -3,6 +3,9 @@ if not ok then
   return
 end
 
+local map = require 'keymap.helper'.map
+local opts = { noremap = true, silent = true }
+
 local ui = require 'harpoon.ui'
 local mark = require 'harpoon.mark'
 

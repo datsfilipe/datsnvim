@@ -14,3 +14,6 @@ map { 'n', '<leader>gs', ':DiffviewToggleFiles<CR>', opts }
 
 -- neogit
 map { 'n', '<leader>gg', '<cmd>Neogit<CR>', opts }
+
+-- markdown preview
+map { 'n', '<F12>', '<cmd>MarkdownPreviewToggle<CR>', opts }
