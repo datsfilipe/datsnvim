@@ -5,7 +5,7 @@ end
 
 local util = require "formatter.util"
 
-local find_git_ancestor = function ()
+local find_git_ancestor = function()
   local path = util.get_current_buffer_file_path()
   local root = path
   while root ~= "/" do
@@ -32,7 +32,7 @@ local prettierd = function()
     ".prettierc.mjs",
     ".prettier.config.mjs",
     ".prettierrc.cjs",
-    ".prettier.config.cjs"
+    ".prettier.config.cjs",
   }
 
   for _, filename in ipairs(possible_filenames) do
@@ -56,14 +56,27 @@ formatter.setup {
   filetype = {
     typescript = {
       require("formatter.filetypes.typescript").eslint_d,
-      prettierd
+      prettierd,
     },
     typescriptreact = {
       require("formatter.filetypes.typescript").eslint_d,
-      prettierd
+      prettierd,
     },
     lua = {
       require("formatter.filetypes.lua").stylua,
     },
+    rust = {
+      require("formatter.filetypes.rust").rust_analyzer,
+    },
   },
 }
+
+vim.api.nvim_exec(
+  [[
+augroup FormatAutogroup
+  autocmd!
+  autocmd BufWritePost * FormatWrite
+augroup END
+]],
+  true
+)
