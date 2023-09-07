@@ -1,3 +1,3 @@
-require("keymap.editor")
-require("keymap.integrations")
-require("keymap.plugins")
+require "keymap.editor"
+require "keymap.integrations"
+require "keymap.plugins"
