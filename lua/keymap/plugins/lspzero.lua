@@ -1,75 +1,75 @@
-local map = require('keymap.helper').map
+local map = require("keymap.helper").map
 
 return function(_, bufnr)
   local opts = { buffer = bufnr, remap = false }
 
   map {
-    'n',
-    'gd',
+    "n",
+    "gd",
     function()
       vim.lsp.buf.definition()
     end,
     opts,
   }
   map {
-    'n',
-    '<leader>vws',
+    "n",
+    "<leader>vws",
     function()
       vim.lsp.buf.workspace_symbol()
     end,
     opts,
   }
   map {
-    'n',
-    '<leader>vd',
+    "n",
+    "<leader>vd",
     function()
       vim.diagnostic.open_float()
     end,
     opts,
   }
   map {
-    'n',
-    '<leader>n',
+    "n",
+    "<leader>n",
     function()
       vim.diagnostic.goto_next()
     end,
     opts,
   }
   map {
-    'n',
-    '<leader>p',
+    "n",
+    "<leader>p",
     function()
       vim.diagnostic.goto_prev()
     end,
     opts,
   }
   map {
-    'n',
-    '<leader>vca',
+    "n",
+    "<leader>vca",
     function()
       vim.lsp.buf.code_action()
     end,
     opts,
   }
   map {
-    'n',
-    '<leader>vrr',
+    "n",
+    "<leader>vrr",
     function()
       vim.lsp.buf.references()
     end,
     opts,
   }
   map {
-    'n',
-    '<leader>vrn',
+    "n",
+    "<leader>vrn",
     function()
       vim.lsp.buf.rename()
     end,
     opts,
   }
   map {
-    'i',
-    '<C-h>',
+    "i",
+    "<C-h>",
     function()
       vim.lsp.buf.signature_help()
     end,

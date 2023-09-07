@@ -1,28 +1,28 @@
-local ok, lsp = pcall(require, 'lsp-zero')
+local ok, lsp = pcall(require, "lsp-zero")
 if not ok then
   return
 end
 
-lsp.preset 'recommended'
+lsp.preset "recommended"
 
 lsp.ensure_installed {
-  'rust_analyzer',
-  'tsserver',
-  'tailwindcss',
-  'lua_ls',
+  "rust_analyzer",
+  "tsserver",
+  "tailwindcss",
+  "lua_ls",
 }
 
 -- fix undefined global 'vim'
 lsp.nvim_workspace()
 
 lsp.set_sign_icons {
-  error = '',
-  warn = '',
-  hint = '',
-  info = '',
+  error = "",
+  warn = "",
+  hint = "",
+  info = "",
 }
 
-local maps = require('keymap.plugins.lspzero')
+local maps = require "keymap.plugins.lspzero"
 
 lsp.on_attach(maps(_, bufnr))
 
@@ -34,7 +34,7 @@ lsp.on_attach(maps(_, bufnr))
 
 lsp.format_on_save {
   servers = {
-    ['rust_analyzer'] = { 'rust' },
+    ["rust_analyzer"] = { "rust" },
   },
 }
 
