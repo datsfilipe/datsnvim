@@ -3,7 +3,7 @@ if not ok then
   return
 end
 
-local map = require("keymap.helper").map
+local map = require("core.utils").map
 
 map {
   "n",

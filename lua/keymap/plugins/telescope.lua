@@ -1,6 +1,6 @@
 local M = {}
 
-local map = require("keymap.helper").map
+local map = require("core.utils").map
 local opts = { noremap = true, silent = true }
 
 M.inner_maps = function(actions, action_layout, set_prompt_to_entry_value)

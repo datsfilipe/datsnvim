@@ -6,7 +6,7 @@ end
 diffview.setup {
   file_panel = {
     win_config = {
-      width = 35,
+      width = 25,
     },
   },
   key_bindings = {

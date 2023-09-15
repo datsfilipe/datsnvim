@@ -1,4 +1,4 @@
-local map = require("keymap.helper").map
+local map = require("core.utils").map
 
 local opts = { noremap = true, silent = true }
 

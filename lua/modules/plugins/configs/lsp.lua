@@ -3,6 +3,8 @@ if not ok then
   return
 end
 
+local symbols = require("core.utils").diagnostic_symbols
+
 lsp.preset "recommended"
 
 lsp.ensure_installed {
@@ -16,10 +18,10 @@ lsp.ensure_installed {
 lsp.nvim_workspace()
 
 lsp.set_sign_icons {
-  error = "",
-  warn = "",
-  hint = "",
-  info = "",
+  error = symbols.error,
+  warn = symbols.warn,
+  info = symbols.info,
+  hint = symbols.hint,
 }
 
 local maps = require "keymap.plugins.lspzero"
