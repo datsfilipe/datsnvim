@@ -1,4 +1,4 @@
-local map = require("keymap.helper").map
+local map = require("core.utils").map
 
 return function(_, bufnr)
   local opts = { buffer = bufnr, remap = false }
