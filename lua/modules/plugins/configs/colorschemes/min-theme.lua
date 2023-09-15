@@ -15,6 +15,7 @@ min.setup {
   },
   overrides = {
     IndentBlanklineIndent1 = { fg = "#282828", bg = "NONE" },
+    NormalFloat = { bg = "NONE" },
   },
 }
 
