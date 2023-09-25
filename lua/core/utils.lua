@@ -5,10 +5,10 @@ M.map = function(table)
 end
 
 M.diagnostic_symbols = {
-  error = "",
-  warn = "",
-  info = "",
-  hint = "",
+  error = "",
+  warn = "",
+  info = "",
+  hint = "󰌶",
 }
 
 return M
