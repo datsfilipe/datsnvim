@@ -9,7 +9,6 @@ opt.signcolumn = "yes"
 opt.termguicolors = true
 opt.pumblend = 0 -- important for transparency
 opt.cmdheight = 1
-opt.expandtab = true
 opt.hidden = true
 opt.hlsearch = true
 opt.ignorecase = true
@@ -20,16 +19,13 @@ opt.mouse = "a"
 opt.path:append { "**" }
 opt.relativenumber = true
 opt.scrolloff = 10
-opt.shiftwidth = 2
 opt.shortmess:append "c"
 opt.showcmd = true
 opt.showmatch = true
 opt.smartcase = true
 opt.smartindent = true
-opt.softtabstop = 2
 opt.splitbelow = true
 opt.splitright = true
-opt.tabstop = 2
 opt.termguicolors = true
 opt.timeoutlen = 600
 opt.title = true
@@ -39,6 +35,12 @@ opt.shell = "zsh"
 opt.shada = { "!,'1000,<50,s10,h" }
 opt.modelines = 1
 opt.belloff = "all"
+
+-- tabs
+opt.tabstop = 2
+opt.softtabstop = 2
+opt.shiftwidth = 2
+opt.expandtab = true
 
 -- visual options
 opt.guicursor = "a:blinkon5"
