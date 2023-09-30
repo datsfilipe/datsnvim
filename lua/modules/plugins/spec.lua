@@ -1,6 +1,7 @@
 return {
   {
     "VonHeikemen/lsp-zero.nvim",
+    event = "BufEnter",
     branch = "v2.x",
     config = function()
       require "modules.plugins.configs.lsp"
@@ -18,26 +19,24 @@ return {
           },
         },
       },
-      { "williamboman/mason-lspconfig.nvim" },
+      "williamboman/mason-lspconfig.nvim",
       -- autocompletion
-      {
-        "hrsh7th/nvim-cmp",
-        lazy = true,
-        event = "InsertEnter",
-      },
+      "hrsh7th/nvim-cmp",
       {
         "hrsh7th/cmp-nvim-lsp",
         config = function()
           require "modules.plugins.configs.cmp"
         end,
       },
-      { "saadparwaiz1/cmp_luasnip" },
-      { "hrsh7th/cmp-buffer" },
-      { "hrsh7th/cmp-path" },
+      "saadparwaiz1/cmp_luasnip",
+      "hrsh7th/cmp-buffer",
+      "hrsh7th/cmp-path",
     },
   },
   {
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    priority = 500,
     config = function()
       require "modules.plugins.configs.treesitter"
     end,
@@ -57,12 +56,14 @@ return {
   },
   {
     "mhartington/formatter.nvim",
+    event = "BufEnter",
     config = function()
       require "modules.plugins.configs.formatter"
     end,
   },
   {
     "mfussenegger/nvim-lint",
+    event = "BufEnter",
     config = function()
       require "modules.plugins.configs.nvimlint"
     end,
@@ -70,7 +71,7 @@ return {
   -- utilities
   {
     "nvim-telescope/telescope.nvim",
-    event = "VimEnter",
+    event = "BufEnter",
     config = function()
       require "modules.plugins.configs.telescope"
     end,
@@ -85,36 +86,40 @@ return {
   },
   {
     "ThePrimeagen/harpoon",
+    event = "BufEnter",
     config = function()
       require "modules.plugins.configs.harpoon"
     end,
   },
   {
     "iamcco/markdown-preview.nvim",
+    ft = "markdown",
     build = function()
       vim.fn["mkdp#util#install"]()
     end,
-    ft = "markdown",
   },
-  { "wakatime/vim-wakatime" },
+  {
+    "wakatime/vim-wakatime",
+    event = "VeryLazy",
+  },
   {
     "numToStr/Comment.nvim",
+    cmd = "CommentToggle",
     config = function()
       require "modules.plugins.configs.comment"
     end,
   },
   {
     "rawnly/gist.nvim",
-    lazy = true,
-    event = "BufWinEnter",
+    event = "VeryLazy",
   },
   {
     "windwp/nvim-ts-autotag",
-    lazy = true,
     event = "InsertEnter",
   },
   {
     "windwp/nvim-autopairs",
+    event = "InsertEnter",
     config = function()
       require("nvim-autopairs").setup {
         disable_filetype = { "TelescopePrompt", "vim" },
@@ -123,20 +128,21 @@ return {
   },
   {
     "github/copilot.vim",
+    event = "InsertEnter",
     config = function()
       require "modules.plugins.configs.copilot"
     end,
   },
   {
     "folke/zen-mode.nvim",
-    lazy = true,
-    event = "InsertEnter",
+    event = "VeryLazy",
     config = function()
       require "modules.plugins.configs.zenmode"
     end,
   },
   {
     "folke/todo-comments.nvim",
+    event = "BufEnter",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
       require("todo-comments").setup {}
@@ -147,6 +153,7 @@ return {
     "L3MON4D3/LuaSnip",
     version = "1.*",
     build = "make install_jsregexp",
+    event = "InsertEnter",
     config = function()
       require "modules.plugins.configs.luasnip"
     end,
@@ -157,6 +164,7 @@ return {
   -- git
   {
     "NeogitOrg/neogit",
+    cmd = "Neogit",
     dependencies = "nvim-lua/plenary.nvim",
     config = function()
       require "modules.plugins.configs.neogit"
@@ -164,25 +172,19 @@ return {
   },
   {
     "sindrets/diffview.nvim",
+    cmd = "DiffviewOpen",
     config = function()
       require "modules.plugins.configs.diffview"
     end,
   },
   {
     "lewis6991/gitsigns.nvim",
+    cmd = "Gitsigns",
     config = function()
       require "modules.plugins.configs.gitsigns"
     end,
   },
   -- ui
-  {
-    "goolord/alpha-nvim",
-    lazy = true,
-    event = "VimEnter",
-    config = function()
-      require "modules.plugins.configs.alpha"
-    end,
-  },
   {
     "nvim-lualine/lualine.nvim",
     event = "VimEnter",
@@ -192,6 +194,7 @@ return {
   },
   {
     "norcalli/nvim-colorizer.lua",
+    event = "VeryLazy",
     config = function()
       require("colorizer").setup {
         "*",
@@ -199,14 +202,15 @@ return {
     end,
   },
   {
-    "lukas-reineke/indent-blankline.nvim",
-    event = "BufWinEnter",
+    "shellRaining/hlchunk.nvim",
+    event = "BufEnter",
     config = function()
-      require "modules.plugins.configs.blankline"
+      require "modules.plugins.configs.indent"
     end,
   },
   {
     "nvim-tree/nvim-web-devicons",
+    lazy = true,
     config = function()
       require("nvim-web-devicons").setup {
         override = {},
@@ -217,6 +221,7 @@ return {
   -- colorschemes
   {
     "datsfilipe/min-theme.nvim",
+    lazy = false,
     priority = 1000,
     config = function()
       require "modules.plugins.configs.colorschemes.min-theme"
