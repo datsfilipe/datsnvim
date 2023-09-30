@@ -1,6 +1,7 @@
 return {
   {
     "VonHeikemen/lsp-zero.nvim",
+    lazy = true,
     event = "BufEnter",
     branch = "v2.x",
     config = function()
@@ -56,6 +57,7 @@ return {
   },
   {
     "mhartington/formatter.nvim",
+    lazy = true,
     event = "BufEnter",
     config = function()
       require "modules.plugins.configs.formatter"
@@ -63,6 +65,7 @@ return {
   },
   {
     "mfussenegger/nvim-lint",
+    lazy = true,
     event = "BufEnter",
     config = function()
       require "modules.plugins.configs.nvimlint"
@@ -71,6 +74,7 @@ return {
   -- utilities
   {
     "nvim-telescope/telescope.nvim",
+    lazy = true,
     event = "BufEnter",
     config = function()
       require "modules.plugins.configs.telescope"
@@ -86,6 +90,7 @@ return {
   },
   {
     "ThePrimeagen/harpoon",
+    lazy = true,
     event = "BufEnter",
     config = function()
       require "modules.plugins.configs.harpoon"
@@ -100,6 +105,7 @@ return {
   },
   {
     "wakatime/vim-wakatime",
+    lazy = true,
     event = "VeryLazy",
   },
   {
@@ -111,14 +117,17 @@ return {
   },
   {
     "rawnly/gist.nvim",
+    lazy = true,
     event = "VeryLazy",
   },
   {
     "windwp/nvim-ts-autotag",
+    lazy = true,
     event = "InsertEnter",
   },
   {
     "windwp/nvim-autopairs",
+    lazy = true,
     event = "InsertEnter",
     config = function()
       require("nvim-autopairs").setup {
@@ -128,6 +137,7 @@ return {
   },
   {
     "github/copilot.vim",
+    lazy = true,
     event = "InsertEnter",
     config = function()
       require "modules.plugins.configs.copilot"
@@ -135,6 +145,7 @@ return {
   },
   {
     "folke/zen-mode.nvim",
+    lazy = true,
     event = "VeryLazy",
     config = function()
       require "modules.plugins.configs.zenmode"
@@ -142,6 +153,7 @@ return {
   },
   {
     "folke/todo-comments.nvim",
+    lazy = true,
     event = "BufEnter",
     dependencies = { "nvim-lua/plenary.nvim" },
     config = function()
@@ -153,6 +165,7 @@ return {
     "L3MON4D3/LuaSnip",
     version = "1.*",
     build = "make install_jsregexp",
+    lazy = true,
     event = "InsertEnter",
     config = function()
       require "modules.plugins.configs.luasnip"
@@ -187,6 +200,7 @@ return {
   -- ui
   {
     "nvim-lualine/lualine.nvim",
+    lazy = true,
     event = "VimEnter",
     config = function()
       require "modules.plugins.configs.lualine"
@@ -194,6 +208,7 @@ return {
   },
   {
     "norcalli/nvim-colorizer.lua",
+    lazy = true,
     event = "VeryLazy",
     config = function()
       require("colorizer").setup {
@@ -203,7 +218,8 @@ return {
   },
   {
     "shellRaining/hlchunk.nvim",
-    event = "BufEnter",
+    lazy = true,
+    event = "VeryLazy",
     config = function()
       require "modules.plugins.configs.indent"
     end,
