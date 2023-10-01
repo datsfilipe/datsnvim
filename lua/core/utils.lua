@@ -4,13 +4,6 @@ M.map = function(table)
   vim.keymap.set(table[1], table[2], table[3], table[4])
 end
 
-M.diagnostic_symbols = {
-  error = "",
-  warn = "",
-  info = "",
-  hint = "󰌶",
-}
-
 -- gh
 local function return_project_root()
   local path = vim.fn.expand "%:p:h"

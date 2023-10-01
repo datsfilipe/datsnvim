@@ -255,6 +255,21 @@ vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "BufWritePost" }, {
   end,
 })
 
+vim.diagnostic.config {
+  virtual_text = {
+    prefix = "●",
+    spacing = 0,
+  },
+}
+
+-- icons
+vim.cmd [[
+  sign define DiagnosticSignError text=● texthl=DiagnosticSignError linehl= numhl=
+  sign define DiagnosticSignWarn text=● texthl=DiagnosticSignWarn linehl= numhl=
+  sign define DiagnosticSignInfo text=● texthl=DiagnosticSignInfo linehl= numhl=
+  sign define DiagnosticSignHint text=● texthl=DiagnosticSignHint linehl= numhl=
+]]
+
 return {
   on_init = custom_init,
   on_attach = custom_attach,
