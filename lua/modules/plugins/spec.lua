@@ -9,6 +9,11 @@ return {
   -- autocompletion
   {
     "hrsh7th/nvim-cmp",
+    lazy = true,
+    event = "InsertEnter",
+    config = function()
+      require "modules.plugins.configs.cmp"
+    end,
     dependencies = {
       "hrsh7th/cmp-nvim-lsp",
       "saadparwaiz1/cmp_luasnip",
