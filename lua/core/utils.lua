@@ -4,6 +4,22 @@ M.map = function(table)
   vim.keymap.set(table[1], table[2], table[3], table[4])
 end
 
+-- autocmd
+M.autocmd = function(args)
+  local event = args[1]
+  local group = args[2]
+  local callback = args[3]
+
+  vim.api.nvim_create_autocmd(event, {
+    group = group,
+    buffer = args[4],
+    callback = function()
+      callback()
+    end,
+    once = args.once,
+  })
+end
+
 -- gh
 local function return_project_root()
   local path = vim.fn.expand "%:p:h"
@@ -26,8 +42,8 @@ M.create_pr = function()
   end
 
   vim.cmd "setlocal filetype=markdown"
-  vim.cmd "setlocal buftype=nofile"
-  vim.cmd "setlocal bufhidden=delete"
+
+  vim.cmd "autocmd BufWritePre <buffer> lua require('core.utils').submit_pr()"
 end
 
 M.submit_pr = function()
@@ -39,23 +55,6 @@ M.submit_pr = function()
 
   local _, result = pcall(vim.fn.system, cmd)
   print(result)
-  vim.cmd "bd!"
-end
-
--- autocmd
-M.autocmd = function(args)
-  local event = args[1]
-  local group = args[2]
-  local callback = args[3]
-
-  vim.api.nvim_create_autocmd(event, {
-    group = group,
-    buffer = args[4],
-    callback = function()
-      callback()
-    end,
-    once = args.once,
-  })
 end
 
 return M
