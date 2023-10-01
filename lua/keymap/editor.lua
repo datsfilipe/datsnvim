@@ -1,4 +1,4 @@
-local map = require("core.utils").map
+local map = require("scripts.map")
 
 local opts = { noremap = true, silent = true }
 
