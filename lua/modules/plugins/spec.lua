@@ -1,34 +1,16 @@
 return {
+  -- LSP support
+  { "neovim/nvim-lspconfig" },
   {
-    "VonHeikemen/lsp-zero.nvim",
-    lazy = true,
-    event = "BufEnter",
-    branch = "v2.x",
-    config = function()
-      require "modules.plugins.configs.lsp"
-    end,
+    "williamboman/mason.nvim",
+    build = ":MasonUpdate",
+  },
+  "williamboman/mason-lspconfig.nvim",
+  -- autocompletion
+  {
+    "hrsh7th/nvim-cmp",
     dependencies = {
-      -- LSP support
-      { "neovim/nvim-lspconfig" },
-      {
-        "williamboman/mason.nvim",
-        build = ":MasonUpdate",
-        dependencies = {
-          {
-            "WhoIsSethDaniel/mason-tool-installer.nvim",
-            config = require "modules.plugins.configs.masontools",
-          },
-        },
-      },
-      "williamboman/mason-lspconfig.nvim",
-      -- autocompletion
-      "hrsh7th/nvim-cmp",
-      {
-        "hrsh7th/cmp-nvim-lsp",
-        config = function()
-          require "modules.plugins.configs.cmp"
-        end,
-      },
+      "hrsh7th/cmp-nvim-lsp",
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
@@ -56,20 +38,14 @@ return {
     },
   },
   {
-    "mhartington/formatter.nvim",
+    "stevearc/conform.nvim",
     lazy = true,
     event = "BufEnter",
-    config = function()
-      require "modules.plugins.configs.formatter"
-    end,
   },
   {
     "mfussenegger/nvim-lint",
     lazy = true,
     event = "BufEnter",
-    config = function()
-      require "modules.plugins.configs.nvimlint"
-    end,
   },
   -- utilities
   {
