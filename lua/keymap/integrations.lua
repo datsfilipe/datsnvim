@@ -6,4 +6,4 @@ map { "n", "<leader>x", "<cmd>!chmod +x %<CR>", opts } -- make file executable
 map { "n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>" }
 
 -- gh
-map { "n", "<leader>pr", "<cmd>lua require('scripts.create_pr').create_pr()<CR>", opts }
+map { "n", "<leader>pr", "<cmd>lua require('scripts.create_pr').create()<CR>", opts }
