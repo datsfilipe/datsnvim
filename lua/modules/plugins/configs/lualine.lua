@@ -3,8 +3,6 @@ if not ok then
   return
 end
 
-local symbols = require("core.utils").diagnostic_symbols
-
 lualine.setup {
   options = {
     icons_enabled = true,
@@ -20,10 +18,10 @@ lualine.setup {
       {
         "diagnostics",
         symbols = {
-          error = symbols.error .. " ",
-          warn = symbols.warn .. " ",
-          info = symbols.info .. " ",
-          hint = symbols.hint .. " ",
+          error = "●" .. " ",
+          warn = "●" .. " ",
+          info = "●" .. " ",
+          hint = "●" .. " ",
         },
       },
     },
