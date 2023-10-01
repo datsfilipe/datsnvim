@@ -31,7 +31,7 @@ M.submit = function()
   local title = vim.fn.getline(1)
   local body = vim.fn.join(vim.fn.getline(3, "$"), "\n")
 
-  local cmd = string.format("gh pr -a @me create --base %s --title '%s' --body '%s'", branch, title, body)
+  local cmd = string.format("gh pr -a @me create --base %s --title \"%s\" --body \"%s\"", branch, title, body)
 
   local _, result = pcall(vim.fn.system, cmd)
   print(result)
