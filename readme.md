@@ -14,6 +14,10 @@ Adventure yourself as you please.
 
 ![preview](./assets/preview.png)
 
+## Plugins
+
+[The most up-to-date list (but may not be)](https://github.com/stars/datsfilipe/lists/neovim).
+
 ## Installation
 
 Good luck.
