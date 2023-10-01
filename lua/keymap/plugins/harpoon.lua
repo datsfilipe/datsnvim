@@ -3,7 +3,7 @@ if not ok then
   return
 end
 
-local map = require("core.utils").map
+local map = require("scripts.map")
 local opts = { noremap = true, silent = true }
 
 local ui = require "harpoon.ui"

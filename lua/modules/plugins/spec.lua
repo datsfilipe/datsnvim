@@ -1,9 +1,27 @@
 return {
-  -- LSP support
-  { "neovim/nvim-lspconfig" },
+  -- LSP Support
+  {
+    "VonHeikemen/lsp-zero.nvim",
+    branch = "v3.x",
+    lazy = true,
+    event = "BufEnter",
+    config = function()
+      require "modules.plugins.configs.lsp"
+    end,
+  },
+  {
+    "neovim/nvim-lspconfig",
+    lazy = true,
+    event = "VeryLazy",
+  },
   {
     "williamboman/mason.nvim",
+    lazy = true,
+    event = "BufEnter",
     build = ":MasonUpdate",
+    config = function()
+      require "modules.plugins.configs.mason"
+    end,
   },
   "williamboman/mason-lspconfig.nvim",
   -- autocompletion
