@@ -168,7 +168,8 @@ return {
   },
   {
     "lewis6991/gitsigns.nvim",
-    cmd = "Gitsigns",
+    lazy = true,
+    event = "BufEnter",
     config = function()
       require "modules.plugins.configs.gitsigns"
     end,
