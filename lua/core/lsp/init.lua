@@ -219,58 +219,7 @@ for server, config in pairs(servers) do
   setup_server(server, config)
 end
 
--- conform.nvim to format on save
-local find_git_ancestor = function()
-  local root = vim.fn.expand "%:p"
-
-  while root ~= "/" do
-    local git_dir = root .. "/.git"
-    local fd = vim.loop.fs_opendir(git_dir)
-    if fd then
-      vim.loop.fs_closedir(fd)
-      return root
-    end
-    root = vim.fn.fnamemodify(root, ":h")
-  end
-end
-
-local prettierd = function()
-  if find_git_ancestor() == nil then
-    return nil
-  end
-
-  local root = find_git_ancestor()
-  local possible_filenames = {
-    ".prettierrc",
-    ".prettierrc.json",
-    ".prettierrc.json5",
-    ".prettierrc.yaml",
-    ".prettierrc.yml",
-    ".prettierrc.js",
-    ".prettier.config.js",
-    ".prettierc.mjs",
-    ".prettier.config.mjs",
-    ".prettierrc.cjs",
-    ".prettier.config.cjs",
-  }
-
-  for _, filename in ipairs(possible_filenames) do
-    local prettier_config = root .. "/" .. filename
-    local fd = vim.loop.fs_open(prettier_config, "r", 438)
-    if fd then
-      vim.loop.fs_close(fd)
-      return "prettierd"
-    end
-  end
-
-  return nil
-end
-
 local ts_fmts = { "eslint_d" }
-local result = prettierd()
-if result then
-  table.insert(ts_fmts, result)
-end
 
 require("conform.formatters.stylua").require_cwd = true
 local conform = require "conform"
