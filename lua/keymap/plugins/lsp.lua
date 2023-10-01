@@ -1,4 +1,4 @@
-local map = require("core.utils").map
+local map = require("scripts.map")
 
 return function(_, bufnr)
   local opts = { buffer = bufnr, remap = false }
@@ -72,6 +72,14 @@ return function(_, bufnr)
     "<C-h>",
     function()
       vim.lsp.buf.signature_help()
+    end,
+    opts,
+  }
+  map {
+    "n",
+    "K",
+    function()
+      vim.lsp.buf.hover()
     end,
     opts,
   }

@@ -1,37 +1,17 @@
 local M = {}
 
-M.map = function(table)
-  vim.keymap.set(table[1], table[2], table[3], table[4])
-end
-
--- autocmd
-M.autocmd = function(args)
-  local event = args[1]
-  local group = args[2]
-  local callback = args[3]
-
-  vim.api.nvim_create_autocmd(event, {
-    group = group,
-    buffer = args[4],
-    callback = function()
-      callback()
-    end,
-    once = args.once,
-  })
-end
-
--- gh
 local function return_project_root()
   local path = vim.fn.expand "%:p:h"
   local git_path = vim.fn.finddir(".git", path .. ";")
-  if git_path == "" then
+  local git_file = vim.fn.findfile(".git", path .. ";")
+  if git_path == "" and git_file == "" then
     return nil
   else
     return vim.fn.fnamemodify(git_path, ":h")
   end
 end
 
-M.create_pr = function()
+M.create = function()
   local template_path = return_project_root() .. "/.github/pull_request_template.md"
 
   vim.cmd("tabe " .. vim.fn.tempname())
@@ -43,15 +23,15 @@ M.create_pr = function()
 
   vim.cmd "setlocal filetype=markdown"
 
-  vim.cmd "autocmd BufWritePre <buffer> lua require('core.utils').submit_pr()"
+  vim.cmd "autocmd BufWritePre <buffer> lua require('scripts.create_pr').submit()"
 end
 
-M.submit_pr = function()
+M.submit = function()
   local branch = "main"
   local title = vim.fn.getline(1)
   local body = vim.fn.join(vim.fn.getline(3, "$"), "\n")
 
-  local cmd = string.format("gh pr -a @me create --base %s --title '%s' --body '%s'", branch, title, body)
+  local cmd = string.format("gh pr -a @me create --base %s --title \"%s\" --body \"%s\"", branch, title, body)
 
   local _, result = pcall(vim.fn.system, cmd)
   print(result)

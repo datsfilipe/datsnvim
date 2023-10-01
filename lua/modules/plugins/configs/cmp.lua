@@ -3,6 +3,30 @@ if not ok then
   return
 end
 
+local cmp_format = require('lsp-zero').cmp_format()
+
+local function border(hl_name)
+  return {
+    { '╭', hl_name },
+    { '─', hl_name },
+    { '╮', hl_name },
+    { '│', hl_name },
+    { '╯', hl_name },
+    { '─', hl_name },
+    { '╰', hl_name },
+    { '│', hl_name },
+  }
+end
+
+local cmp_window = require 'cmp.utils.window'
+
+cmp_window.info_ = cmp_window.info
+cmp_window.info = function(self)
+  local info = self:info_()
+  info.scrollable = false
+  return info
+end
+
 cmp.setup {
   preselect = "item",
   completion = {
@@ -19,4 +43,25 @@ cmp.setup {
       require("luasnip").lsp_expand(args.body)
     end,
   },
+  formatting =  cmp_format,
+  window = {
+    completion = {
+      border = border 'CmpBorder',
+      winhighlight = 'Normal:CmpPmenu,CursorLine:PmenuSel,Search:None,FloatBorder:None',
+    },
+    documentation = {
+      border = border 'CmpDocBorder',
+      winhighlight = 'Normal:CmpDocPmenu,CursorLine:CmpDocPmenuSel,Search:None,FloatBorder:None',
+    },
+  },
 }
+
+vim.cmd[[
+  set completeopt=menuone,noinsert,noselect
+  set pumblend=0
+  highlight! default link CmpItemKind CmpItemMenuDefault
+  highlight CmpBorder guibg=NONE
+  highlight CmpPmenu guibg=NONE
+  highlight CmpDocBorder guibg=NONE
+  highlight CmpDocPmenu guibg=NONE
+]]

@@ -20,3 +20,6 @@ min.setup {
 }
 
 vim.cmd [[colorscheme min-theme]]
+
+vim.cmd [[highlight CmpBorder guifg=#282828]]
+vim.cmd [[highlight CmpDocBorder guifg=#282828]]
