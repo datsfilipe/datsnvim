@@ -3,7 +3,7 @@ if not ok then
   return
 end
 
-local map = require("core.utils").map
+local map = require("scripts.map")
 
 return function()
   map { "n", "<leader>gs", ":Gitsigns stage_hunk<CR>" }
