@@ -49,4 +49,20 @@ M.submit_pr = function()
   vim.cmd "bd!"
 end
 
+-- autocmd
+M.autocmd = function(args)
+  local event = args[1]
+  local group = args[2]
+  local callback = args[3]
+
+  vim.api.nvim_create_autocmd(event, {
+    group = group,
+    buffer = args[4],
+    callback = function()
+      callback()
+    end,
+    once = args.once,
+  })
+end
+
 return M
