@@ -2,6 +2,7 @@ local map = require("scripts.map")
 
 local opts = { noremap = true, silent = true }
 
+map { "n", "<leader>.", ":luafile %<CR>", opts } -- source config
 map { "n", "x", "\"_x", opts }
 map { "n", "Q", "<nop>", opts }
 map { "i", "<C-c>", "<Esc>", opts } -- the cursed vim keymap
@@ -13,15 +14,23 @@ map {
   end,
   opts,
 } -- avoid walking with space
--- keep things centered
+-- zz me daddy
 map { "n", "<C-d>", "<C-d>zz", opts }
 map { "n", "<C-u>", "<C-u>zz", opts }
+map { "n", "{", "{zz", opts }
+map { "n", "}", "}zz", opts }
 map { "n", "n", "nzzzv", opts }
 map { "n", "N", "Nzzzv", opts }
+map { "n", "G", "Gzz", opts }
+map { "n", "gg", "ggzz", opts }
+map { "n", "%", "%zz", opts }
+map { "n", "#", "#zz", opts }
 -- split screen
 map { "n", "<leader>[", ":vsplit<CR>", opts }
 map { "n", "<leader>]", ":split<CR>", opts }
-map { "n", "<leader>.", ":luafile %<CR>", opts } -- source config
+-- maximize
+map { "n", "<leader>-", "<C-w>_<C-w><Bar>", opts }
+map { "n", "<leader>=", "<C-w>=", opts }
 -- clipboard / deletion
 map { { "n", "v" }, "<leader>y", "\"+y", opts }
 map { { "n", "v" }, "<leader>d", "\"_d", opts }
