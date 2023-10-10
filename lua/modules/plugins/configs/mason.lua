@@ -3,7 +3,9 @@ if not ok then
   return
 end
 
-mason.setup({})
+mason.setup({
+  PATH = "append",
+})
 
 local lsp_zero = require("lsp-zero")
 
