@@ -60,4 +60,3 @@ map { { "n", "v" }, "<leader>a", "<C-a>", opts } -- C-a is used for tmux
 map { { "n", "v" }, "<leader>x", "<C-x>", opts } -- C-x is vim mode in alacritty
 map { "v", "<leader>fa", "g<C-a>", opts }
 map { "v", "<leader>fx", "g<C-x>", opts }
-map { "i", "<Tab>", "<Tab>", opts } -- fix tab conflict between cmp, copilot and default behaviour
