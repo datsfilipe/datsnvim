@@ -1,8 +1,14 @@
-vim.g.copilot_filetypes = {
-  ["*"] = true,
-  ["yaml"] = true,
-}
+local ok, copilot = pcall(require, "copilot")
+if not ok then
+  return
+end
 
-vim.g.copilot_no_tab_map = 1
-vim.g.copilot_assume_mapped = 1
-vim.g.copilot_tab_fallback = ""
+copilot.setup({
+  suggestion = {
+    enable = true,
+    auto_trigger = true,
+    keymap = {
+      accept = "<C-Space>"
+    }
+  }
+})
