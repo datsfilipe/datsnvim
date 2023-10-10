@@ -3,6 +3,14 @@ if not ok then
   return
 end
 
+cmp.event:on("menu_opened", function()
+  vim.b.copilot_suggestion_hidden = true
+end)
+
+cmp.event:on("menu_closed", function()
+  vim.b.copilot_suggestion_hidden = false
+end)
+
 local cmp_format = require('lsp-zero').cmp_format()
 
 local function border(hl_name)
@@ -44,7 +52,7 @@ cmp.setup {
       require("luasnip").lsp_expand(args.body)
     end,
   },
-  formatting =  cmp_format,
+  formatting = cmp_format,
   window = {
     completion = {
       border = border 'CmpBorder',
