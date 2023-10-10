@@ -135,8 +135,8 @@ return {
     end,
   },
   {
-    "github/copilot.vim",
-    lazy = true,
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
     event = "InsertEnter",
     config = function()
       require "modules.plugins.configs.copilot"
