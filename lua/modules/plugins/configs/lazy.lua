@@ -12,6 +12,9 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup {
+  -- the following option is set here because I'm using nixos
+  -- and editing nvim config from another place, not the usual
+  lockfile = vim.fn.expand("$HOME/.dotfiles/modules/nvim") .. "/lazy-lock.json",
   install = {
     missing = true,
     colorscheme = { "min-theme" },
