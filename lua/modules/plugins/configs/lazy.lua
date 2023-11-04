@@ -11,13 +11,15 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+local theme = require("core/colorscheme")
+
 require("lazy").setup {
   -- the following option is set here because I'm using nixos
   -- and editing nvim config from another place, not the usual
   lockfile = vim.fn.expand("$HOME/.dotfiles/modules/nvim") .. "/lazy-lock.json",
   install = {
     missing = true,
-    colorscheme = { "min-theme" },
+    colorscheme = { theme },
   },
   spec = {
     { import = "modules.plugins.spec" },
