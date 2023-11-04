@@ -3,10 +3,15 @@ if not ok then
   return
 end
 
+local theme = require("core/colorscheme")
+if theme == "oxocarbon" then
+  theme = "codedark"
+end
+
 lualine.setup {
   options = {
     icons_enabled = true,
-    theme = "min-theme",
+    theme,
     component_separators = { left = "|", right = "|" },
     section_separators = { left = "", right = "" },
   },
