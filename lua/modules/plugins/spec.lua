@@ -1,4 +1,4 @@
-return {
+local plugins = {
   -- LSP Support
   {
     "VonHeikemen/lsp-zero.nvim",
@@ -234,8 +234,10 @@ return {
       }
     end,
   },
-  -- colorschemes
-  {
+}
+
+local colorschemes = {
+  ["min-theme"] = {
     "datsfilipe/min-theme.nvim",
     lazy = false,
     priority = 1000,
@@ -243,4 +245,34 @@ return {
       require "modules.plugins.configs.colorschemes.min-theme"
     end,
   },
+  ["gruvbox"] = {
+    'ellisonleao/gruvbox.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require 'modules.plugins.configs.colorschemes.gruvbox'
+    end,
+  },
+  ["catppuccin"] = {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require 'modules.plugins.configs.colorschemes.catppuccin'
+    end,
+  },
+  ["oxocarbon"] = {
+    'nyoom-engineering/oxocarbon.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      require 'modules.plugins.configs.colorschemes.oxocarbon'
+    end,
+  },
 }
+
+local theme = require("core/colorscheme")
+plugins[#plugins+1] = colorschemes[theme]
+
+return plugins
