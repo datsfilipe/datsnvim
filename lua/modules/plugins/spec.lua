@@ -234,6 +234,10 @@ local plugins = {
       }
     end,
   },
+  {
+    "andweeb/presence.nvim",
+    lazy = false,
+  },
 }
 
 local colorschemes = {
