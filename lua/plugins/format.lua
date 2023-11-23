@@ -1,23 +1,29 @@
-local ok, conform = pcall(require, "conform")
-if not ok then
-  return
-end
+local formatter = require "utils.config".formatter
 
-require("conform.formatters.stylua").require_cwd = true
+return {
+  "stevearc/conform.nvim",
+  event = "BufEnter",
+  enabled = formatter == "conform",
+  config = function()
+    local conform = require "conform"
 
-conform.setup {
-  formatters_by_ft = {
-    lua = { "stylua" },
-    typescript = { "eslint_d" },
-    typescriptreact = { "eslint_d" },
-    javascript = { "eslint_d" },
-    javascriptreact = { "eslint_d" },
-  },
-}
+    require("conform.formatters.stylua").require_cwd = true
 
-vim.api.nvim_create_autocmd("BufWritePre", {
-  pattern = "*",
-  callback = function(args)
-    conform.format { bufnr = args.buf, lsp_fallback = true }
+    conform.setup({
+      formatters_by_ft = {
+        lua = { "stylua" },
+        typescript = { "eslint_d" },
+        typescriptreact = { "eslint_d" },
+        javascript = { "eslint_d" },
+        javascriptreact = { "eslint_d" },
+      },
+    })
+
+    vim.api.nvim_create_autocmd("BufWritePre", {
+      pattern = "*",
+      callback = function(args)
+        conform.format { bufnr = args.buf, lsp_fallback = true }
+      end,
+    })
   end,
-})
+}

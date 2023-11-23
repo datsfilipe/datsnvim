@@ -1,15 +1,21 @@
-local ok, diffview = pcall(require, "diffview")
-if not ok then
-  return
-end
+local keymap = vim.keymap
 
-diffview.setup {
-  file_panel = {
-    win_config = {
-      width = 25,
+keymap.set("n", "<leader>ge", "<cmd>DiffviewOpen<CR>", { remap = true })
+keymap.set("n", "<leader>gx", "<cmd>DiffviewClose<CR>", { remap = true })
+keymap.set("n", "<leader>gs", "<cmd>DiffviewToggleFiles<CR>", { remap = true })
+keymap.set("n", "<leader>gr", "<cmd>DiffviewRefresh<CR>", { remap = true })
+
+return {
+  "sindrets/diffview.nvim",
+  cmd = "DiffviewOpen",
+  opts = {
+    file_panel = {
+      win_config = {
+        width = 35,
+      },
     },
-  },
-  key_bindings = {
-    disable_defaults = false,
+    keymaps = {
+      disable_defaults = false,
+    },
   },
 }
