@@ -1,4 +1,4 @@
-local colorscheme = require("utils/colorscheme")
+local colorscheme = require("utils/config").colorscheme
 
 return {
   -- LSP Support
