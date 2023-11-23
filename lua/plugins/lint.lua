@@ -10,8 +10,8 @@ return {
     lint.linters_by_ft = {
       typescript = { "eslint_d" },
       typescriptreact = { "eslint_d" },
-      javascript = { "eslint_d" },
-      javascriptreact = { "eslint_d" },
+      dockerfile = { "hadolint" },
+      markdown = { "markdownlint" },
     }
 
     vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "BufWritePost" }, {
