@@ -1,0 +1,5 @@
+require "core/unset"
+require "core/options"
+require "core/autocmds"
+require "core/keymaps"
+require "plugins/lazy"
