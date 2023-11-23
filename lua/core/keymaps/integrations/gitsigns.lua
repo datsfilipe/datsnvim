@@ -16,6 +16,6 @@ return function()
     "<leader>gb",
     function()
       gitsigns.blame_line { full = true }
-    end,
+    end
   )
 end
