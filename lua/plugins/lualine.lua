@@ -6,7 +6,7 @@ end
 lualine.setup {
   options = {
     icons_enabled = true,
-    require "utils/colorscheme",
+    require "utils/config".colorscheme,
     component_separators = { left = "|", right = "|" },
     section_separators = { left = "", right = "" },
   },
