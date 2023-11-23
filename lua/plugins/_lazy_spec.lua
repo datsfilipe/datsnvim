@@ -202,10 +202,10 @@ return {
       default = true,
     },
   },
-  {
-    "andweeb/presence.nvim",
-    lazy = false,
-  },
+  -- {
+  --   "andweeb/presence.nvim",
+  --   lazy = false,
+  -- },
   -- colorschemes
   {
     "datsfilipe/min-theme.nvim",
