@@ -51,10 +51,6 @@ keymap.set("v", ">", ">gv", opts)
 keymap.set("n", "<leader>e", ":Explore<Return><Return>", opts)
 keymap.set("n", "<leader>s", ":Sex<Return><Return>", opts)
 
--- replace occurences
-keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
-keymap.set("v", "<leader>r", ":%s/<C-r><C-w>//gc<Left><Left><Left>", opts)
-
 -- copy all
 keymap.set("n", "<leader>Y", "ggVG\"+y", opts)
 -- copy to clipboard
@@ -65,14 +61,8 @@ keymap.set({ "n", "v" }, "<leader>d", [["_d]], opts)
 -- paste but don't yank the deleted text
 keymap.set("x", "<leader>p", [["_dP]], opts)
 
--- diagnostics
-keymap.set("n", "<C-j>", function()
-	vim.diagnostic.goto_next()
-end, opts)
-
-keymap.set("n", "<C-k>", function()
-  vim.diagnostic.goto_prev()
-end, opts)
+-- replace occurences
+keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
 
 -- make file executable
 keymap.set("n", "<leader>x", ":!chmod +x %<Return>", opts)
