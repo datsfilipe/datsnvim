@@ -21,7 +21,6 @@ return {
           "gopls",
           "gomodifytags",
           "impl",
-          "delve",
           -- json
           "jsonls",
           -- markdown
@@ -44,8 +43,6 @@ return {
         }
       })
     end,
-    dependencies = {
-      "williamboman/mason-lspconfig.nvim",
-    },
+    dependencies = { "williamboman/mason-lspconfig.nvim" },
   },
 }
