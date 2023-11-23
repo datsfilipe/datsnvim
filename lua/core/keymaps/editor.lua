@@ -31,18 +31,18 @@ keymap.set("n", "<Leader>O", "O<Esc>^Da", opts)
 
 -- new tab
 keymap.set("n", "te", ":tabedit", opts)
-keymap.set("n", ">", ":tabnext<Return>", opts)
-keymap.set("n", "<", ":tabprev<Return>", opts)
+keymap.set("n", ">", ":tabnext<CR>", opts)
+keymap.set("n", "<", ":tabprev<CR>", opts)
 -- split window
-keymap.set("n", "<leader>]", ":split<Return>", opts)
-keymap.set("n", "<leader>[", ":vsplit<Return>", opts)
+keymap.set("n", "<leader>]", ":split<CR>", opts)
+keymap.set("n", "<leader>[", ":vsplit<CR>", opts)
 -- maximize window
 keymap.set("n", "<leader>-", "<C-w>_<C-w><Bar>", opts)
 -- equalize windows
 keymap.set("n", "<leader>=", "<C-w>=", opts)
 
 -- wrap lines
-keymap.set("n", "<A-z>", ":set wrap!<Return>", opts)
+keymap.set("n", "<A-z>", ":set wrap!<CR>", opts)
 -- indent lines
 keymap.set("v", "<", "<gv", opts)
 keymap.set("v", ">", ">gv", opts)
@@ -75,7 +75,7 @@ keymap.set("n", "<C-k>", function()
 end, opts)
 
 -- make file executable
-keymap.set("n", "<leader>x", ":!chmod +x %<Return>", opts)
+keymap.set("n", "<leader>x", ":!chmod +x %<CR>", opts)
 
 -- tmux-sessionizer (https://github.com/datsfilipe/unix-scripts/blob/main/tmux-sessionizer)
-keymap.set("n", "<C-f>", ":silent !tmux neww tmux-sessionizer<Return>", opts)
+keymap.set("n", "<C-f>", ":silent !tmux neww tmux-sessionizer<CR>", opts)
