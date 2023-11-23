@@ -37,12 +37,6 @@ return {
     lazy = false,
   },
   {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {},
-    dependencies = { "MunifTanjim/nui.nvim" },
-  },
-  {
     'echasnovski/mini.pairs',
     version = false,
     opts = {},
