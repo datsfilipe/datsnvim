@@ -13,6 +13,10 @@ return {
         enable = true,
       },
       ensure_installed = {
+        "vim",
+        "regex",
+        "lua",
+        "bash",
         -- typescript
         "typescript",
         "tsx",
@@ -63,4 +67,3 @@ return {
     "nvim-treesitter/playground",
   },
 }
-
