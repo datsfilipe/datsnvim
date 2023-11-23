@@ -7,7 +7,7 @@ return {
     end,
     config = function()
       local keymap = vim.keymap
-      keymap.set("n", "<F12>", "<cmd>MarkdownPreviewToggle<CR>", opts)
+      keymap.set("n", "<F12>", "<cmd>MarkdownPreviewToggle<CR>", { noremap = true, silent = true })
     end,
   },
   {
