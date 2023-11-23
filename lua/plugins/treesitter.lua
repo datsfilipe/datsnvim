@@ -13,17 +13,27 @@ return {
         enable = true,
       },
       ensure_installed = {
-        "tsx",
+        -- typescript
         "typescript",
-        "toml",
+        "tsx",
+        -- docker
+        "dockerfile",
+        -- elixir
+        "elixir",
+        "heex",
+        "eex",
+        -- go
+        "go",
+        "gomod",
+        "gosum",
+        -- json
         "json",
-        "css",
-        "html",
-        "lua",
-        "yaml",
+        -- markdown
         "markdown",
         "markdown_inline",
-        "bash",
+        -- rust
+        "rust",
+        "toml",
       },
       autotag = {
         enable = true,
