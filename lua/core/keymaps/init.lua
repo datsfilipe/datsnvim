@@ -1,2 +1,2 @@
-require "keymaps.editor"
-require "keymaps.integrations"
+require "core.keymaps.editor"
+require "core.keymaps.integrations"
