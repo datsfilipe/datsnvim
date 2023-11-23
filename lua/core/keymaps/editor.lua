@@ -48,8 +48,8 @@ keymap.set("v", "<", "<gv", opts)
 keymap.set("v", ">", ">gv", opts)
 
 -- netrw
-keymap.set("n", "<leader>e", ":Explore<Return>", opts)
-keymap.set("n", "<leader>s", ":Sexplore<Return>", opts)
+keymap.set("n", "<leader>e", ":Explore<CR>", opts)
+keymap.set("n", "<leader>s", ":Sexplore<CR>", opts)
 
 -- replace occurences
 keymap.set("n", "<leader>r", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
