@@ -50,11 +50,8 @@ return {
       transparent_mode = true,
       overrides = {
         IndentLineChar = { fg = config.indent_color, bg = "NONE" },
-        -- change telescope window highlight
-        TelescopeResultsBorder = { fg = config.indent_color, bg = 'NONE' },
-        TelescopePromptBorder = { fg = config.indent_color, bg = 'NONE' },
-        TelescopePreviewBorder = { fg = config.indent_color, bg = 'NONE' },
-        -- Make float windows transparent too
+        CmpBorder = { fg = config.indent_color, bg = "NONE" },
+        CmpDocBorder = { fg = config.indent_color, bg = "NONE" },
         NormalFloat = { bg = 'NONE' },
       },
     },
@@ -73,14 +70,11 @@ return {
         percentage = 0.15,
       },
       transparent_background = true,
-      custom_highlights = function(colors)
+      custom_highlights = function()
         return {
           IndentLineChar = { fg = config.indent_color, bg = "NONE" },
-          -- change telescope window highlight
-          TelescopeResultsBorder = { fg = colors.surface2, bg = 'NONE' },
-          TelescopePromptBorder = { fg = colors.surface2, bg = 'NONE' },
-          TelescopePreviewBorder = { fg = colors.surface2, bg = 'NONE' },
-          -- Make float windows transparent too
+          CmpBorder = { fg = config.indent_color, bg = "NONE" },
+          CmpDocBorder = { fg = config.indent_color, bg = "NONE" },
           NormalFloat = { bg = 'NONE' },
         }
       end,
