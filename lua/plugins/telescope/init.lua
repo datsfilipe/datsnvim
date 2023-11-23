@@ -27,7 +27,6 @@ return {
         entry_prefix = "  ",
         border = {},
         borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
-        -- borderchars = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
         layout_strategy = "flex",
         sorting_strategy = "ascending",
         mappings = maps.inner_maps(actions, action_layout, set_prompt_to_entry_value),
