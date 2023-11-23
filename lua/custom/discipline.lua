@@ -8,6 +8,10 @@ function M.cowboy()
 		local timer = assert(vim.loop.new_timer())
 		local map = key
 		vim.keymap.set("n", key, function()
+      if vim.bo.filetype == "NeogitStatus" then
+        return map
+      end
+
 			if vim.v.count > 0 then
 				count = 0
 			end
