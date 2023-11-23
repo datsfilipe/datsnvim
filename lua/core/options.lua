@@ -5,8 +5,13 @@ vim.opt.encoding = "utf-8"
 vim.opt.fileencoding = "utf-8"
 
 vim.opt.number = true
-
+vim.opt.relativenumber = true
+vim.opt.cursorline = true
+vim.opt.termguicolors = true
+vim.opt.signcolumn = "yes"
 vim.opt.guicursor = "a:blinkon5"
+vim.opt.belloff = "all"
+
 vim.opt.title = true
 vim.opt.autoindent = true
 vim.opt.smartindent = true
@@ -33,6 +38,7 @@ vim.opt.splitbelow = true -- put new windows below current
 vim.opt.splitright = true -- put new windows right of current
 vim.opt.splitkeep = "cursor"
 vim.opt.mouse = ""
+vim.opt.conceallevel = 3
 
 -- undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
