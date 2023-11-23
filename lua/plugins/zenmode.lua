@@ -1,8 +1,15 @@
-local ok, zenmode = pcall(require, "zen-mode")
-if not ok then
-  return
-end
+return {
+  "folke/zen-mode.nvim",
+  event = "VeryLazy",
+  config = function()
+    local keymap = vim.keymap
 
-zenmode.setup {}
-
-require "core.keymaps.integrations.zenmode"
+    keymap.set(
+      "n",
+      "<leader>z",
+      function()
+        require "zen-mode".toggle()
+      end
+    )
+  end,
+}

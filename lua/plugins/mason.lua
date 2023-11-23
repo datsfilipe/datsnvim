@@ -1,21 +1,25 @@
-local ok, mason = pcall(require, "mason")
-if not ok then
-  return
-end
+return {
+  {
+    "williamboman/mason.nvim",
+    event = "BufEnter",
+    build = ":MasonUpdate",
+    config = function()
+      local lsp_zero = require("lsp-zero")
 
-mason.setup({
-  PATH = "append",
-})
-
-local lsp_zero = require("lsp-zero")
-
-require('mason-lspconfig').setup({
-  ensure_installed = {},
-  handlers = {
-    lsp_zero.default_setup,
-    lua_ls = function()
-      local lua_opts = lsp_zero.nvim_lua_ls()
-      require('lspconfig').lua_ls.setup(lua_opts)
+      require('mason-lspconfig').setup({
+        ensure_installed = {},
+        handlers = {
+          lsp_zero.default_setup,
+          lua_ls = function()
+            local lua_opts = lsp_zero.nvim_lua_ls()
+            require('lspconfig').lua_ls.setup(lua_opts)
+          end,
+        }
+      })
     end,
-  }
-})
+  },
+  {
+    "williamboman/mason-lspconfig.nvim",
+    event = "BufEnter",
+  },
+}

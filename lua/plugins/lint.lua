@@ -1,17 +1,23 @@
-local ok, lint = pcall(require, "lint")
-if not ok then
-  return
-end
+local linter = require "utils.config".linter
 
-lint.linters_by_ft = {
-  typescript = { "eslint_d" },
-  typescriptreact = { "eslint_d" },
-  javascript = { "eslint_d" },
-  javascriptreact = { "eslint_d" },
-}
+return {
+  "mfussenegger/nvim-lint",
+  event = "BufEnter",
+  enabled = linter == "nvim-lint",
+  config = function()
+    local lint = require "lint"
 
-vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "BufWritePost" }, {
-  callback = function()
-    lint.try_lint()
+    lint.linters_by_ft = {
+      typescript = { "eslint_d" },
+      typescriptreact = { "eslint_d" },
+      javascript = { "eslint_d" },
+      javascriptreact = { "eslint_d" },
+    }
+
+    vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "BufWritePost" }, {
+      callback = function()
+        lint.try_lint()
+      end,
+    })
   end,
-})
+}
