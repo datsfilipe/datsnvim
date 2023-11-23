@@ -19,26 +19,10 @@ return {
     event = "VeryLazy",
   },
   {
-    "windwp/nvim-ts-autotag",
-    event = "InsertEnter",
-  },
-  {
-    "windwp/nvim-autopairs",
-    event = "InsertEnter",
-    opts = {
-      disable_filetype = { "TelescopePrompt", "vim" },
-    },
-  },
-  {
     "folke/todo-comments.nvim",
     event = "BufEnter",
     dependencies = { "nvim-lua/plenary.nvim" },
     opts = {},
-  },
-  {
-    "norcalli/nvim-colorizer.lua",
-    event = "VeryLazy",
-    opts = { "*" },
   },
   {
     "nvim-tree/nvim-web-devicons",
@@ -51,5 +35,16 @@ return {
   {
     "andweeb/presence.nvim",
     lazy = false,
+  },
+  {
+    "folke/noice.nvim",
+    event = "VeryLazy",
+    opts = {},
+    dependencies = { "MunifTanjim/nui.nvim" },
+  },
+  {
+    'echasnovski/mini.pairs',
+    version = false,
+    opts = {},
   },
 }
