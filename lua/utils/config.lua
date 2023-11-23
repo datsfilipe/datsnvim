@@ -7,8 +7,8 @@ end
 
 M.colorscheme = "min-theme"
 
-local ok, nixos_path = pcall(require, "utils/_nix_lazylock")
-if ok then
+local ok2, nixos_path = pcall(require, "utils/_nix_lazylock")
+if ok2 then
   M.lockfile = nixos_path
 end
 
