@@ -86,4 +86,11 @@ return {
       end,
     },
   },
+  {
+    "craftzdog/solarized-osaka.nvim",
+    enabled = config.colorscheme == "solarized-osaka",
+    lazy = false,
+    priority = 1000,
+    opts = {},
+  },
 }
