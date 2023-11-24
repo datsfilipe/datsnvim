@@ -1,6 +1,6 @@
 local M = {}
 
-local ok, nix_colorscheme = pcall(require, "utils/_nix-colorscheme")
+local ok, nix_colorscheme = pcall(require, "utils/_nix_colorscheme")
 if ok then
   M.colorscheme = nix_colorscheme
 else
