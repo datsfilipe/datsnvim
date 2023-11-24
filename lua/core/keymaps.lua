@@ -30,7 +30,7 @@ keymap.set("n", "<Leader>o", "o<Esc>^Da", opts)
 keymap.set("n", "<Leader>O", "O<Esc>^Da", opts)
 
 -- new tab
-keymap.set("n", "te", ":tabedit", opts)
+keymap.set("n", "tn", ":tabnew", opts)
 keymap.set("n", ">", ":tabnext<Return>", opts)
 keymap.set("n", "<", ":tabprev<Return>", opts)
 -- split window
