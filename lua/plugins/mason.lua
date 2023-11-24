@@ -12,27 +12,12 @@ return {
 
       require('mason-lspconfig').setup({
         ensure_installed = {
-          -- lua
           "lua_ls",
-          -- elixir
-          -- docker
-          "hadolint",
-          -- go
           "gopls",
-          "gomodifytags",
-          "impl",
-          -- json
-          "jsonls",
-          -- markdown
-          "markdownlint",
           "marksman",
-          -- rust
           "rust_analyzer",
-          -- tailwindcss
           "tailwindcss",
-          -- typescript
           "tsserver",
-          "eslint_d",
         },
         handlers = {
           lsp_zero.default_setup,
