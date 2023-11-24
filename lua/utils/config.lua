@@ -1,13 +1,13 @@
 local M = {}
 
-local ok, nix_colorscheme = pcall(require, "utils/_nix_colorscheme")
+local ok, nix_colorscheme = pcall(require, "utils/nix_colorscheme")
 if ok then
   M.colorscheme = nix_colorscheme
 else
   M.colorscheme = "min-theme"
 end
 
-local ok2, nixos_path = pcall(require, "utils/_nix_lazylock")
+local ok2, nixos_path = pcall(require, "utils/nix_lazylock")
 if ok2 then
   M.lockfile = nixos_path
 else
