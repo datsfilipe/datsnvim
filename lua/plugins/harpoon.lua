@@ -15,16 +15,16 @@ return {
       print "[harpoon] mark added"
     end)
 
-    keymap.set( "n", "<leader>hd", function()
+    keymap.set("n", "<leader>hd", function()
       mark.rm_file(vim.fn.expand "%")
       print "[harpoon] mark deleted"
     end)
 
-    keymap.set("n", "<leader>p", function()
+    keymap.set("n", "<C-j>", function()
       ui.nav_prev()
     end)
 
-    keymap.set("n", "<leader>n", function()
+    keymap.set("n", "<C-k>", function()
       ui.nav_next()
     end)
   end,
