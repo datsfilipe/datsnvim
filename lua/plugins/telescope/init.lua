@@ -30,6 +30,10 @@ return {
         layout_strategy = "flex",
         sorting_strategy = "ascending",
         mappings = maps.inner_maps(actions, action_layout, set_prompt_to_entry_value),
+        file_ignore_patterns = {
+          "node_modules",
+          ".git",
+        },
       },
       extensions = extensions,
     }
