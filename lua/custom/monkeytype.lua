@@ -21,10 +21,10 @@ function M.init(enable)
     vim.cmd(cmd)
   end
 
-  local run_period = 60 * 30 * 1000 -- 30 minutes
+  local run_period = 30 * 60 * 1000 -- 30 minutes
 
   local timer = vim.loop.new_timer()
-  timer:start(0, run_period, vim.schedule_wrap(open_monkeytype))
+  timer:start(run_period, run_period, vim.schedule_wrap(open_monkeytype))
 end
 
 return M
