@@ -1,10 +1,15 @@
+local colorscheme = require "utils/config".colorscheme
+if colorscheme == "oxocarbon" then
+  colorscheme = "codedark"
+end
+
 return {
   "nvim-lualine/lualine.nvim",
   event = "VimEnter",
   opts = {
     options = {
       icons_enabled = true,
-      require "utils/config".colorscheme,
+      colorscheme,
       component_separators = { left = "|", right = "|" },
       section_separators = { left = "", right = "" },
     },

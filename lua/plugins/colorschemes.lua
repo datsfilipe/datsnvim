@@ -87,4 +87,14 @@ return {
     priority = 1000,
     opts = {},
   },
+  {
+    "nyoom-engineering/oxocarbon.nvim",
+    enabled = config.colorscheme == "oxocarbon",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
+    end,
+  }
 }
