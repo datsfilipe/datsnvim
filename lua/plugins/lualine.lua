@@ -1,4 +1,6 @@
-local colorscheme = require "utils/config".colorscheme
+local config = require "utils/config"
+
+local colorscheme = config.colorscheme
 if colorscheme == "oxocarbon" then
   colorscheme = "codedark"
 end
@@ -28,10 +30,10 @@ return {
         {
           "diagnostics",
           symbols = {
-            error = "●" .. " ",
-            warn = "●" .. " ",
-            info = "●" .. " ",
-            hint = "●" .. " ",
+            error = config.signs.Error .. " ",
+            warn = config.signs.Warn .. " ",
+            info = config.signs.Info .. " ",
+            hint = config.signs.Hint .. " ",
           },
         },
         "progress",
