@@ -1,3 +1,5 @@
+local parsers = require "utils.config".parsers
+
 return {
   "nvim-treesitter/nvim-treesitter",
   lazy = false,
@@ -12,33 +14,7 @@ return {
       indent = {
         enable = true,
       },
-      ensure_installed = {
-        "vim",
-        "regex",
-        "lua",
-        "bash",
-        -- typescript
-        "typescript",
-        "tsx",
-        -- docker
-        "dockerfile",
-        -- elixir
-        "elixir",
-        "heex",
-        "eex",
-        -- go
-        "go",
-        "gomod",
-        "gosum",
-        -- json
-        "json",
-        -- markdown
-        "markdown",
-        "markdown_inline",
-        -- rust
-        "rust",
-        "toml",
-      },
+      ensure_installed = parsers,
       autotag = {
         enable = true,
       },
