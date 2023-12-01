@@ -1,30 +1,24 @@
+local servers = require "utils.config".servers
+
 return {
-  {
+  "williamboman/mason-lspconfig.nvim",
+  event = { "BufReadPre", "BufNewFile" },
+  opts = {
+    ensure_installed = servers,
+    automatic_installation = true,
+  },
+  dependencies = {
     "williamboman/mason.nvim",
-    event = "BufEnter",
+    event = { "BufReadPre", "BufNewFile" },
     build = ":MasonUpdate",
-    config = function()
-      local lsp_zero = require("lsp-zero")
-
-      require "mason".setup {
-        PATH = "append",
-      }
-
-      require('mason-lspconfig').setup({
-        ensure_installed = {
-          "lua_ls",
-          "gopls",
-          "elixirls",
-          "tsserver",
-          "marksman",
-          "rust_analyzer",
-          "tailwindcss",
-        },
-        handlers = {
-          lsp_zero.default_setup,
-        }
-      })
-    end,
-    dependencies = { "williamboman/mason-lspconfig.nvim" },
+    cmd = { "Mason", "MasonInstall", "MasonUninstall", "MasonUninstallAll", "MasonUpdate", "MasonLog" },
+    opts = {
+      ui = {
+        border = "rounded",
+        height = 0.8,
+      },
+      log_level = vim.log.levels.INFO,
+      max_concurrent_installers = 4,
+    },
   },
 }
