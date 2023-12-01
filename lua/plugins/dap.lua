@@ -24,12 +24,6 @@ return {
       },
       { "rcarriga/nvim-dap-ui",            event = "BufEnter", opts = {} },
       { "theHamsta/nvim-dap-virtual-text", event = "BufEnter", opts = {} },
-      {
-        "folke/neodev.nvim",
-        opts = {
-          library = { plugins = { "nvim-dap-ui" }, types = true },
-        }
-      },
     },
   },
 }
