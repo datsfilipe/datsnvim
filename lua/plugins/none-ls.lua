@@ -44,7 +44,7 @@ return {
     null_ls.setup({
       debug = false,
       sources = {
-        -- formatting.prettier,
+        formatting.prettierd,
         formatting.eslint_d,
         formatting.rustywind,
         diagnostics.flake8,
