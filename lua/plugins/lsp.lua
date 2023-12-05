@@ -120,6 +120,7 @@ return {
     vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
       border = "rounded",
     })
+
     -- Setting up lua server
     lspconfig.lua_ls.setup({
       on_attach = on_attach,
