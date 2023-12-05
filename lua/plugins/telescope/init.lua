@@ -5,19 +5,17 @@ return {
     local telescope = require "telescope"
 
     local maps = require "plugins.telescope.keymaps"
-    local actions = require("plugins.telescope.vars").actions
-    local action_state = require("plugins.telescope.vars").action_state
-    local action_layout = require("plugins.telescope.vars").action_layout
+    local vars = require("plugins.telescope.vars")
     local extensions = require("plugins.telescope.extensions").extensions
     local builtin = require("plugins.telescope.vars").builtin
 
     local set_prompt_to_entry_value = function(prompt_bufnr)
-      local entry = action_state.get_selected_entry()
+      local entry = vars.action_state.get_selected_entry()
       if not entry or not type(entry) == "table" then
         return
       end
 
-      action_state.get_current_picker(prompt_bufnr):reset_prompt(entry.ordinal)
+      vars.action_state.get_current_picker(prompt_bufnr):reset_prompt(entry.ordinal)
     end
 
     telescope.setup {
@@ -25,11 +23,7 @@ return {
         prompt_prefix = "   ",
         selection_caret = "  ",
         entry_prefix = "  ",
-        border = {},
-        borderchars = { " ", " ", " ", " ", " ", " ", " ", " " },
-        layout_strategy = "flex",
-        sorting_strategy = "ascending",
-        mappings = maps.inner_maps(actions, action_layout, set_prompt_to_entry_value),
+        mappings = maps.inner_maps(vars.actions, vars.action_layout, set_prompt_to_entry_value),
         file_ignore_patterns = {
           "node_modules",
           ".git",
