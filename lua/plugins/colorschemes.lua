@@ -52,7 +52,11 @@ return {
       palette_overrides = {},
       dim_inactive = false,
       transparent_mode = true,
-      overrides = vim.tbl_extend("force", commonHighlights, {}),
+      overrides = vim.tbl_extend("force", commonHighlights, {
+        TelescopePromptBorder = { fg = config.indent_color, bg = "NONE" },
+        TelescopeResultsBorder = { fg = config.indent_color, bg = "NONE" },
+        TelescopePreviewBorder = { fg = config.indent_color, bg = "NONE" },
+      }),
     },
   },
   {
