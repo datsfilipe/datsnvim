@@ -1,5 +1,14 @@
 local config = require "utils/config"
 
+local commonHighlights = {
+  NormalFloat = { bg = "NONE" },
+  CmpBorder = { fg = config.indent_color, bg = "NONE" },
+  CmpDocBorder = { fg = config.indent_color, bg = "NONE" },
+  IndentLineChar = { fg = config.indent_color, bg = "NONE" },
+  TelescopeBorder = { fg = config.indent_color, bg = "NONE" },
+  NotifyINFOBorder = { fg = config.indent_color, bg = "NONE" },
+}
+
 return {
   {
     "datsfilipe/min-theme.nvim",
@@ -16,12 +25,7 @@ return {
         strings = false,
         variables = false,
       },
-      overrides = {
-        NormalFloat = { bg = "NONE" },
-        CmpBorder = { fg = config.indent_color, bg = "NONE" },
-        CmpDocBorder = { fg = config.indent_color, bg = "NONE" },
-        IndentLineChar = { fg = config.indent_color, bg = "NONE" },
-      },
+      overrides = vim.tbl_extend("force", commonHighlights, {}),
     },
   },
   {
@@ -48,12 +52,7 @@ return {
       palette_overrides = {},
       dim_inactive = false,
       transparent_mode = true,
-      overrides = {
-        IndentLineChar = { fg = config.indent_color, bg = "NONE" },
-        CmpBorder = { fg = config.indent_color, bg = "NONE" },
-        CmpDocBorder = { fg = config.indent_color, bg = "NONE" },
-        NormalFloat = { bg = 'NONE' },
-      },
+      overrides = vim.tbl_extend("force", commonHighlights, {}),
     },
   },
   {
@@ -71,12 +70,7 @@ return {
       },
       transparent_background = true,
       custom_highlights = function()
-        return {
-          IndentLineChar = { fg = config.indent_color, bg = "NONE" },
-          CmpBorder = { fg = config.indent_color, bg = "NONE" },
-          CmpDocBorder = { fg = config.indent_color, bg = "NONE" },
-          NormalFloat = { bg = 'NONE' },
-        }
+        return vim.tbl_extend("force", commonHighlights, {})
       end,
     },
   },
@@ -85,16 +79,13 @@ return {
     enabled = config.colorscheme == "solarized-osaka",
     lazy = false,
     priority = 1000,
-    opts = {},
+    opts = {
+      on_highlights = function(hl, _)
+        for k, v in pairs(commonHighlights) do
+          hl[k] = v
+        end
+        hl["TelescopeNormal"] = { bg = "NONE" }
+      end
+    },
   },
-  {
-    "nyoom-engineering/oxocarbon.nvim",
-    enabled = config.colorscheme == "oxocarbon",
-    lazy = false,
-    priority = 1000,
-    config = function()
-      vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
-      vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
-    end,
-  }
 }
