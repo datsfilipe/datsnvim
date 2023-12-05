@@ -9,6 +9,10 @@ return {
       inc_rename = false,
       lsp_doc_border = false,
     },
+    lsp = {
+      signature = { enabled = false },
+      hover = { enabled = false },
+    },
   },
   dependencies = {
     "MunifTanjim/nui.nvim",
