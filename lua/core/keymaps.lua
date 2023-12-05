@@ -1,5 +1,4 @@
-local discipline = require "custom.discipline"
-discipline.cowboy()
+require "custom.discipline".cowboy()
 
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
@@ -30,7 +29,7 @@ keymap.set("n", "<Leader>o", "o<Esc>^Da", opts)
 keymap.set("n", "<Leader>O", "O<Esc>^Da", opts)
 
 -- new tab
-keymap.set("n", "tn", ":tabnew", opts)
+keymap.set("n", "<leader>t", ":tabnew<Return>", opts)
 keymap.set("n", ">", ":tabnext<Return>", opts)
 keymap.set("n", "<", ":tabprev<Return>", opts)
 -- split window
