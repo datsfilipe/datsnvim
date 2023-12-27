@@ -1,22 +1,22 @@
-local config = require "utils/config"
+local config = require 'utils/config'
 
 local commonHighlights = {
-  NormalFloat = { bg = "NONE" },
-  CmpBorder = { fg = config.indent_color, bg = "NONE" },
-  CmpDocBorder = { fg = config.indent_color, bg = "NONE" },
-  IndentLineChar = { fg = config.indent_color, bg = "NONE" },
-  TelescopeBorder = { fg = config.indent_color, bg = "NONE" },
-  NotifyINFOBorder = { fg = config.indent_color, bg = "NONE" },
+  NormalFloat = { bg = 'NONE' },
+  CmpBorder = { fg = config.indent_color, bg = 'NONE' },
+  CmpDocBorder = { fg = config.indent_color, bg = 'NONE' },
+  IndentLineChar = { fg = config.indent_color, bg = 'NONE' },
+  TelescopeBorder = { fg = config.indent_color, bg = 'NONE' },
+  NotifyINFOBorder = { fg = config.indent_color, bg = 'NONE' },
 }
 
 return {
   {
-    "datsfilipe/min-theme.nvim",
+    'datsfilipe/min-theme.nvim',
     lazy = false,
     priority = 1000,
-    enabled = config.colorscheme == "min-theme",
+    enabled = config.colorscheme == 'min-theme',
     opts = {
-      theme = "dark",
+      theme = 'dark',
       transparent = true,
       italics = {
         comments = false,
@@ -25,14 +25,14 @@ return {
         strings = false,
         variables = false,
       },
-      overrides = vim.tbl_extend("force", commonHighlights, {}),
+      overrides = vim.tbl_extend('force', commonHighlights, {}),
     },
   },
   {
     'ellisonleao/gruvbox.nvim',
     lazy = false,
     priority = 1000,
-    enabled = config.colorscheme == "gruvbox",
+    enabled = config.colorscheme == 'gruvbox',
     opts = {
       undercurl = true,
       underline = true,
@@ -52,10 +52,10 @@ return {
       palette_overrides = {},
       dim_inactive = false,
       transparent_mode = true,
-      overrides = vim.tbl_extend("force", commonHighlights, {
-        TelescopePromptBorder = { fg = config.indent_color, bg = "NONE" },
-        TelescopeResultsBorder = { fg = config.indent_color, bg = "NONE" },
-        TelescopePreviewBorder = { fg = config.indent_color, bg = "NONE" },
+      overrides = vim.tbl_extend('force', commonHighlights, {
+        TelescopePromptBorder = { fg = config.indent_color, bg = 'NONE' },
+        TelescopeResultsBorder = { fg = config.indent_color, bg = 'NONE' },
+        TelescopePreviewBorder = { fg = config.indent_color, bg = 'NONE' },
       }),
     },
   },
@@ -64,7 +64,7 @@ return {
     name = 'catppuccin',
     lazy = false,
     priority = 1000,
-    enabled = config.colorscheme == "catppuccin",
+    enabled = config.colorscheme == 'catppuccin',
     opts = {
       flavour = 'mocha',
       dim_inactive = {
@@ -74,13 +74,13 @@ return {
       },
       transparent_background = true,
       custom_highlights = function()
-        return vim.tbl_extend("force", commonHighlights, {})
+        return vim.tbl_extend('force', commonHighlights, {})
       end,
     },
   },
   {
-    "craftzdog/solarized-osaka.nvim",
-    enabled = config.colorscheme == "solarized-osaka",
+    'craftzdog/solarized-osaka.nvim',
+    enabled = config.colorscheme == 'solarized-osaka',
     lazy = false,
     priority = 1000,
     opts = {
@@ -88,8 +88,8 @@ return {
         for k, v in pairs(commonHighlights) do
           hl[k] = v
         end
-        hl["TelescopeNormal"] = { bg = "NONE" }
-      end
+        hl['TelescopeNormal'] = { bg = 'NONE' }
+      end,
     },
   },
 }

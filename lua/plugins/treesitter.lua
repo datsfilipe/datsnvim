@@ -1,10 +1,10 @@
-local parsers = require "utils.config".parsers
+local config = require 'utils.config'
 
 return {
-  "nvim-treesitter/nvim-treesitter",
+  'nvim-treesitter/nvim-treesitter',
   lazy = false,
   config = function()
-    local ts = require "nvim-treesitter.configs"
+    local ts = require 'nvim-treesitter.configs'
 
     ts.setup {
       highlight = {
@@ -14,32 +14,32 @@ return {
       indent = {
         enable = true,
       },
-      ensure_installed = parsers,
+      ensure_installed = config.parsers,
       autotag = {
         enable = true,
       },
     }
 
-    local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-    parser_config.tsx.filetype_to_parsername = { "javascript", "typescript.tsx" }
+    local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+    parser_config.tsx.filetype_to_parsername = { 'javascript', 'typescript.tsx' }
 
     vim.filetype.add {
       extension = {
-        mdx = "mdx",
+        mdx = 'mdx',
       },
     }
 
-    vim.treesitter.language.register("markdown", "mdx")
+    vim.treesitter.language.register('markdown', 'mdx')
   end,
   build = function()
-    local ts_update = require("nvim-treesitter.install").update { with_sync = true }
+    local ts_update = require('nvim-treesitter.install').update { with_sync = true }
     ts_update()
   end,
   dependencies = {
     {
-      "nvim-treesitter/nvim-treesitter-context",
+      'nvim-treesitter/nvim-treesitter-context',
       opts = {},
     },
-    "nvim-treesitter/playground",
+    'nvim-treesitter/playground',
   },
 }

@@ -1,16 +1,16 @@
 return {
   {
-    "wakatime/vim-wakatime",
-    event = "VeryLazy",
+    'wakatime/vim-wakatime',
+    event = 'VeryLazy',
   },
   {
     "rawnly/gist.nvim",
     event = "VeryLazy",
   },
   {
-    "folke/todo-comments.nvim",
-    event = "BufEnter",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    'folke/todo-comments.nvim',
+    event = 'BufEnter',
+    dependencies = { 'nvim-lua/plenary.nvim' },
     opts = {},
   },
   {
@@ -20,9 +20,7 @@ return {
       override = {},
       default = true,
     },
+    'andweeb/presence.nvim',
+    event = 'BufEnter',
   },
-  {
-    "andweeb/presence.nvim",
-    lazy = false,
-  }
 }
