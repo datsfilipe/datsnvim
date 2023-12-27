@@ -4,8 +4,8 @@ return {
     event = 'VeryLazy',
   },
   {
-    "rawnly/gist.nvim",
-    event = "VeryLazy",
+    'rawnly/gist.nvim',
+    cmd = { 'GistCreate', 'GistCreateFromFile', 'GistsList' },
   },
   {
     'folke/todo-comments.nvim',
@@ -14,12 +14,6 @@ return {
     opts = {},
   },
   {
-    "nvim-tree/nvim-web-devicons",
-    lazy = true,
-    opts = {
-      override = {},
-      default = true,
-    },
     'andweeb/presence.nvim',
     event = 'BufEnter',
   },
