@@ -1,9 +1,9 @@
-local config = require "utils.config"
+local config = require 'utils.config'
 
 return {
-  "shellRaining/hlchunk.nvim",
-  event = { "UIEnter" },
-  enabled = config.indent == "hlchunk",
+  'shellRaining/hlchunk.nvim',
+  event = { 'UIEnter' },
+  enabled = config.indent == 'hlchunk',
   opts = {
     blank = {
       enable = false,
