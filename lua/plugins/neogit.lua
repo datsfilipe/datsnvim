@@ -4,6 +4,11 @@ keymap.set('n', '<leader>gg', ':Neogit<Return>', { noremap = true, silent = true
 return {
   'NeogitOrg/neogit',
   cmd = 'Neogit',
+  dependencies = {
+    'nvim-lua/plenary.nvim',
+    'sindrets/diffview.nvim',
+    'nvim-telescope/telescope.nvim',
+  },
   config = function()
     local neogit = require 'neogit'
 
