@@ -6,18 +6,18 @@ function M.init(enable)
   end
 
   local function notify()
-    local msg = "Training time!"
+    local msg = 'Training time!'
     vim.notify(msg, vim.log.levels.INFO, {
-      icon = "🐒",
-      title = "Monkeytype",
+      icon = '🐒',
+      title = 'Monkeytype',
       timeout = 5000,
     })
   end
 
   local function open_monkeytype()
     notify()
-    local url = "https://monkeytype.com/"
-    local cmd = string.format("silent !xdg-open %s", url)
+    local url = 'https://monkeytype.com/'
+    local cmd = string.format('silent !xdg-open %s', url)
     vim.cmd(cmd)
   end
 

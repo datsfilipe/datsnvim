@@ -1,25 +1,24 @@
 local keymap = vim.keymap
-keymap.set("n", "<leader>gg", ":Neogit<Return>", { noremap = true, silent = true })
+keymap.set('n', '<leader>gg', ':Neogit<Return>', { noremap = true, silent = true })
 
 return {
-  "NeogitOrg/neogit",
-  cmd = "Neogit",
-  dependencies = "nvim-lua/plenary.nvim",
+  'NeogitOrg/neogit',
+  cmd = 'Neogit',
   config = function()
-    local neogit = require "neogit"
+    local neogit = require 'neogit'
 
     neogit.setup {
       disable_signs = false,
       disable_context_highlighting = false,
       disable_commit_confirmation = false,
       signs = {
-        section = { "", "" },
-        item = { "", "" },
-        hunk = { "", "" },
+        section = { '', '' },
+        item = { '', '' },
+        hunk = { '', '' },
       },
       integrations = {
         diffview = true,
       },
     }
-  end
+  end,
 }

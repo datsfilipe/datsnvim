@@ -1,16 +1,16 @@
-local kind_icons = require "utils.config".kind
+local config = require('utils.config')
 
 return {
-  "hrsh7th/nvim-cmp",
-  event = "InsertEnter",
+  'hrsh7th/nvim-cmp',
+  event = 'InsertEnter',
   config = function()
-    local cmp = require "cmp"
+    local cmp = require 'cmp'
     local cmp_window = require 'cmp.utils.window'
 
-    cmp.event:on("menu_opened", function()
+    cmp.event:on('menu_opened', function()
       vim.b.copilot_suggestion_hidden = true
     end)
-    cmp.event:on("menu_closed", function()
+    cmp.event:on('menu_closed', function()
       vim.b.copilot_suggestion_hidden = false
     end)
 
@@ -23,74 +23,79 @@ return {
 
     local function border(hl_name)
       return {
-        { '╭', hl_name }, { '─', hl_name }, { '╮', hl_name },
-        { '│', hl_name }, { '╯', hl_name }, { '─', hl_name },
-        { '╰', hl_name }, { '│', hl_name },
+        { '╭', hl_name },
+        { '─', hl_name },
+        { '╮', hl_name },
+        { '│', hl_name },
+        { '╯', hl_name },
+        { '─', hl_name },
+        { '╰', hl_name },
+        { '│', hl_name },
       }
     end
 
     cmp.setup {
-      preselect = "item",
+      preselect = 'item',
       completion = {
-        completeopt = "menu,menuone,noinsert",
+        completeopt = 'menu,menuone,noinsert',
       },
       mapping = {
-        ["<Tab>"] = cmp.mapping(function(fallback)
+        ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
           else
             fallback()
           end
-        end, { "i" }),
-        ["<S-Tab>"] = cmp.mapping(function(fallback)
+        end, { 'i' }),
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
           else
             fallback()
           end
-        end, { "i" }),
-        ["<C-d>"] = cmp.mapping.scroll_docs(-4),
-        ["<C-u>"] = cmp.mapping.scroll_docs(4),
+        end, { 'i' }),
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-u>'] = cmp.mapping.scroll_docs(4),
         -- ["<C-Space>"] = cmp.mapping.complete(),
-        ["<C-e>"] = cmp.mapping.abort(),
-        ["<CR>"] = cmp.mapping(
+        ['<C-e>'] = cmp.mapping.abort(),
+        ['<CR>'] = cmp.mapping(
           cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
             select = false,
           },
-          { "i" }
+          { 'i' }
         ),
-        ["<C-CR>"] = cmp.mapping(
+        ['<C-CR>'] = cmp.mapping(
           cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Insert,
             select = true,
           },
-          { "i" }
+          { 'i' }
         ),
       },
       sources = cmp.config.sources {
-        { name = "nvim_lsp" },
-        { name = "buffer",  keyword_length = 3 },
-        { name = "luasnip", keyword_length = 2 },
-        { name = "path",    keyword_length = 2 },
+        { name = 'nvim_lsp' },
+        { name = 'buffer', keyword_length = 3 },
+        { name = 'luasnip', keyword_length = 2 },
+        { name = 'path', keyword_length = 2 },
       },
       snippet = {
         expand = function(args)
-          require("luasnip").lsp_expand(args.body)
+          require('luasnip').lsp_expand(args.body)
         end,
       },
       formatting = {
-        fields = { "kind", "abbr", "menu" },
+        fields = { 'kind', 'abbr', 'menu' },
         format = function(entry, item)
           item.abbr = string.sub(item.abbr, 1, 40)
-          item.kind = string.format("%s", kind_icons[item.kind])
+          item.kind = string.format('%s', config.kind[item.kind])
           -- item.kind = string.format("%s %s", kind_icons[item.kind], item.kind) -- debug
 
           item.menu = ({
-            nvim_lsp = "[言語]", -- language
-            luasnip = "[短い]", -- short from shortcut
-            buffer = "[バフ]", -- buff from buffer
-            path = "[方法]", -- way
+            nvim_lsp = '[言語]', -- language
+            luasnip = '[短い]', -- short from shortcut
+            buffer = '[バフ]', -- buff from buffer
+            path = '[方法]', -- way
           })[entry.source.name]
 
           return item
@@ -105,13 +110,13 @@ return {
           border = border 'CmpDocBorder',
           winhighlight = 'Normal:CmpDocPmenu,CursorLine:CmpDocPmenuSel,Search:None,FloatBorder:None',
         },
-      }
+      },
     }
   end,
   dependencies = {
-    "hrsh7th/cmp-nvim-lsp",
-    "saadparwaiz1/cmp_luasnip",
-    "hrsh7th/cmp-buffer",
-    "hrsh7th/cmp-path",
+    'hrsh7th/cmp-nvim-lsp',
+    'saadparwaiz1/cmp_luasnip',
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
   },
 }

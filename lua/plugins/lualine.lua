@@ -1,37 +1,21 @@
-local config = require "utils/config"
-local colorscheme = config.colorscheme
+local config = require 'utils/config'
 
 return {
-  "nvim-lualine/lualine.nvim",
-  event = "VimEnter",
+  'nvim-lualine/lualine.nvim',
+  event = 'VimEnter',
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
   opts = {
     options = {
       icons_enabled = true,
-      colorscheme,
-      component_separators = { left = "|", right = "|" },
-      section_separators = { left = "", right = "" },
+      colorscheme = config.colorscheme,
+      component_separators = { left = '|', right = '|' },
+      section_separators = { left = '', right = '' },
     },
     sections = {
-      lualine_a = {
-        "mode",
-        {
-          function()
-            local cmd = require("noice").api.status.command.get()
-            if cmd:sub(1, 1) == "q" then
-              if cmd:sub(2) == "" then
-                return "end"
-              end
-
-              return "rec " .. cmd:sub(2)
-            end
-            return cmd
-          end,
-          cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-        }
-      },
+      lualine_a = { 'mode' },
       lualine_b = {
         {
-          "filename",
+          'filename',
           file_status = true,
           path = 1,
         },
@@ -40,22 +24,22 @@ return {
       lualine_x = {},
       lualine_y = {
         {
-          "diagnostics",
+          'diagnostics',
           symbols = {
-            error = config.signs.Error .. " ",
-            warn = config.signs.Warn .. " ",
-            info = config.signs.Info .. " ",
-            hint = config.signs.Hint .. " ",
+            error = config.signs.Error .. ' ',
+            warn = config.signs.Warn .. ' ',
+            info = config.signs.Info .. ' ',
+            hint = config.signs.Hint .. ' ',
           },
         },
-        "progress",
+        'progress',
       },
       lualine_z = {
-        "branch",
-        "diff",
+        'branch',
+        'diff',
       },
     },
     tabline = {},
     extensions = {},
-  }
+  },
 }

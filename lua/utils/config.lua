@@ -1,97 +1,97 @@
 local M = {}
 
-local ok, nix_colorscheme = pcall(require, "utils/nix_colorscheme")
+local ok, nix_colorscheme = pcall(require, 'utils/nix_colorscheme')
 if ok then
   M.colorscheme = nix_colorscheme
 else
-  M.colorscheme = "min-theme"
+  M.colorscheme = 'min-theme'
 end
 
-local ok2, nixos_path = pcall(require, "utils/nix_lazylock")
+local ok2, nixos_path = pcall(require, 'utils/nix_lazylock')
 if ok2 then
   M.lockfile = nixos_path
 else
-  M.lockfile = vim.fn.stdpath("config") .. "/lazy-lock.json"
+  M.lockfile = vim.fn.stdpath 'config' .. '/lazy-lock.json'
 end
 
 -- M.formatter = "conform"
-M.formatter = "null-ls"
+M.formatter = 'null-ls'
 
 -- M.linter = "nvim-lint"
-M.linter = "null-ls"
+M.linter = 'null-ls'
 
-M.indent = "hlchunk"
-M.indent_color = "#343434"
+M.indent = 'hlchunk'
+M.indent_color = '#343434'
 
 -- lsp stuff
 M.servers = {
-  "lua_ls",
-  "cssls",
-  "html",
-  "tsserver",
-  "bashls",
-  "jsonls",
-  "tailwindcss",
-  "gopls",
-  "astro",
-  "eslint"
+  'lua_ls',
+  'cssls',
+  'html',
+  'tsserver',
+  'bashls',
+  'jsonls',
+  'tailwindcss',
+  'gopls',
+  'astro',
+  'eslint',
 }
 
 M.parsers = {
-  "lua",
-  "vim",
-  "markdown",
-  "markdown_inline",
-  "latex",
-  "bash",
-  "javascript",
-  "typescript",
-  "tsx",
-  "html",
-  "css",
-  "json",
-  "toml",
-  "regex",
-  "go",
-  "rust",
-  "dockerfile",
+  'lua',
+  'vim',
+  'markdown',
+  'markdown_inline',
+  'latex',
+  'bash',
+  'javascript',
+  'typescript',
+  'tsx',
+  'html',
+  'css',
+  'json',
+  'toml',
+  'regex',
+  'go',
+  'rust',
+  'dockerfile',
 }
 
 -- diagnostics icons
 M.signs = {
-  Error = "",
-  Warn = "",
-  Info = "󰄛",
-  Hint = "󰛨",
+  Error = '',
+  Warn = '',
+  Info = '󰄛',
+  Hint = '󰛨',
 }
 
 -- lsp kind icons
 M.kind = {
-  Text = "",
-  Method = "ƒ",
-  Function = "",
-  Constructor = "",
-  Field = "󰫧",
-  Variable = "",
-  Class = "",
-  Interface = "",
-  Module = "",
-  Property = "",
-  Unit = "󰇎",
-  Value = "",
-  Enum = "",
-  Keyword = "󰌆",
-  Snippet = "",
-  Color = "",
-  File = "",
-  Reference = "",
-  Folder = "",
-  EnumMember = "",
-  Constant = "",
-  Struct = "",
-  Event = "",
-  Operator = "",
-  TypeParameter = "",
+  Text = '',
+  Method = 'ƒ',
+  Function = '',
+  Constructor = '',
+  Field = '󰫧',
+  Variable = '',
+  Class = '',
+  Interface = '',
+  Module = '',
+  Property = '',
+  Unit = '󰇎',
+  Value = '',
+  Enum = '',
+  Keyword = '󰌆',
+  Snippet = '',
+  Color = '',
+  File = '',
+  Reference = '',
+  Folder = '',
+  EnumMember = '',
+  Constant = '',
+  Struct = '',
+  Event = '',
+  Operator = '',
+  TypeParameter = '',
 }
 
 return M
