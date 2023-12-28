@@ -30,12 +30,12 @@ vim.opt.smarttab = true
 vim.opt.breakindent = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
-vim.opt.wrap = false -- no Wrap lines
+vim.opt.wrap = false         -- no wrap lines
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
-vim.opt.splitbelow = true -- put new windows below current
-vim.opt.splitright = true -- put new windows right of current
+vim.opt.splitbelow = true    -- put new windows below current
+vim.opt.splitright = true    -- put new windows right of current
 vim.opt.splitkeep = 'cursor'
 vim.opt.mouse = ''
 vim.opt.conceallevel = 3
@@ -47,6 +47,11 @@ vim.opt.backup = true
 vim.opt.backupdir = vim.fn.expand '~/.local/share/nvim/backup'
 vim.opt.backupskip = { '/tmp/*', '/private/tmp/*' }
 vim.opt.undofile = true
+
+-- folding
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldenable = false
 
 -- undercurl
 vim.cmd [[let &t_Cs = "\e[4:3m"]]
