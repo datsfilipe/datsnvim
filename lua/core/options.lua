@@ -53,6 +53,9 @@ vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.foldenable = false
 
+-- line numbers for netrw
+vim.g.netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
+
 -- undercurl
 vim.cmd [[let &t_Cs = "\e[4:3m"]]
 vim.cmd [[let &t_Ce = "\e[4:0m"]]
