@@ -70,3 +70,5 @@ keymap.set('n', '<leader>x', ':!chmod +x %<Return>', opts)
 
 -- tmux-sessionizer (https://github.com/datsfilipe/unix-scripts/blob/main/tmux-sessionizer)
 keymap.set('n', '<C-f>', ':silent !tmux neww tmux-sessionizer<Return>', opts)
+-- datsvault (https://gist.github.com/datsfilipe/15a407d5bfbd21778787ccd02a8a2020)
+keymap.set('n', '<leader>l', ':silent !tmux neww datsvault -l<Return>', opts)
