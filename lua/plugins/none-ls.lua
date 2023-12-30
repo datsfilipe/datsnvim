@@ -40,7 +40,6 @@ return {
       debug = false,
       sources = {
         formatting.eslint_d,
-        formatting.stylelint,
         formatting.stylua,
         formatting.rustywind,
         diagnostics.flake8,
