@@ -93,6 +93,10 @@ return {
         capabilities = capabilities,
       }
 
+      if server == 'elixirls' then
+        Opts.cmd = { 'elixir-ls' }
+      end
+
       server = vim.split(server, '@')[1]
       lspconfig[server].setup(Opts)
     end
@@ -103,9 +107,9 @@ return {
     -- setup icons for diagnostics
     local signs = {
       { name = 'DiagnosticSignError', text = config.signs.Error },
-      { name = 'DiagnosticSignWarn', text = config.signs.Warn },
-      { name = 'DiagnosticSignHint', text = config.signs.Hint },
-      { name = 'DiagnosticSignInfo', text = config.signs.Info },
+      { name = 'DiagnosticSignWarn',  text = config.signs.Warn },
+      { name = 'DiagnosticSignHint',  text = config.signs.Hint },
+      { name = 'DiagnosticSignInfo',  text = config.signs.Info },
     }
     for _, sign in ipairs(signs) do
       vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = '' })
