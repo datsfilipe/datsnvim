@@ -1,4 +1,4 @@
-local config = require('utils.config')
+local config = require 'utils.config'
 
 return {
   'hrsh7th/nvim-cmp',
@@ -33,6 +33,36 @@ return {
         { '│', hl_name },
       }
     end
+
+    -- format fn
+    local function format(entry, item)
+      item.abbr = string.sub(item.abbr, 1, 40)
+      item.kind = string.format('%s', config.kind[item.kind])
+      -- item.kind = string.format("%s %s", config.kind[item.kind], item.kind) -- debug
+
+      item.menu = ({
+        nvim_lsp = '[言語]', -- language
+        luasnip = '[短い]', -- short from shortcut
+        buffer = '[バフ]', -- buff from buffer
+        path = '[方法]', -- way
+        lua_latex_symbols = '[数学]', -- math
+      })[entry.source.name]
+
+      return item
+    end
+
+    -- math symbols
+    cmp.setup.filetype({ 'markdown', 'tex', 'latex' }, {
+      sources = cmp.config.sources {
+        { name = 'nvim_lsp' },
+        { name = 'path',              keyword_length = 2 },
+        { name = 'lua-latex-symbols', option = { cache = true } },
+      },
+      formatting = {
+        fields = { 'kind', 'abbr', 'menu' },
+        format = format,
+      },
+    })
 
     cmp.setup {
       preselect = 'item',
@@ -75,9 +105,9 @@ return {
       },
       sources = cmp.config.sources {
         { name = 'nvim_lsp' },
-        { name = 'buffer', keyword_length = 3 },
-        { name = 'luasnip', keyword_length = 2 },
-        { name = 'path', keyword_length = 2 },
+        { name = 'buffer',            keyword_length = 3 },
+        { name = 'luasnip',           keyword_length = 2 },
+        { name = 'path',              keyword_length = 2 },
       },
       snippet = {
         expand = function(args)
@@ -86,20 +116,7 @@ return {
       },
       formatting = {
         fields = { 'kind', 'abbr', 'menu' },
-        format = function(entry, item)
-          item.abbr = string.sub(item.abbr, 1, 40)
-          item.kind = string.format('%s', config.kind[item.kind])
-          -- item.kind = string.format("%s %s", kind_icons[item.kind], item.kind) -- debug
-
-          item.menu = ({
-            nvim_lsp = '[言語]', -- language
-            luasnip = '[短い]', -- short from shortcut
-            buffer = '[バフ]', -- buff from buffer
-            path = '[方法]', -- way
-          })[entry.source.name]
-
-          return item
-        end,
+        format = format,
       },
       window = {
         completion = {
@@ -118,5 +135,6 @@ return {
     'saadparwaiz1/cmp_luasnip',
     'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-path',
+    'amarakon/nvim-cmp-lua-latex-symbols',
   },
 }
