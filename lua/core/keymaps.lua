@@ -3,6 +3,8 @@ require('custom.discipline').cowboy()
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
+keymap.set('n', 'ze', require('custom.excalidraw').open, opts)
+
 keymap.set('i', '<C-c>', '<Esc>', opts)
 keymap.set('n', 'x', '"_x')
 
