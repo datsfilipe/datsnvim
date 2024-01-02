@@ -24,6 +24,7 @@
   "neogit": { "branch": "master", "commit": "e02121f5aad420dc16411a6cde59879230f9d5b9" },
   "none-ls.nvim": { "branch": "main", "commit": "e7382de51b4cf629e56f1fa18192e716e5ba8145" },
   "nvim-cmp": { "branch": "main", "commit": "538e37ba87284942c1d76ed38dd497e54e65b891" },
+  "nvim-cmp-lua-latex-symbols": { "branch": "master", "commit": "89345d6e333c700d13748e8a7ee6fe57279b7f88" },
   "nvim-dap": { "branch": "master", "commit": "f0dca670fa059eb89dda8869a6310c804241345c" },
   "nvim-dap-ui": { "branch": "master", "commit": "34160a7ce6072ef332f350ae1d4a6a501daf0159" },
   "nvim-dap-virtual-text": { "branch": "master", "commit": "d630b9b8c052fd4a400c57d3da7c67171687d399" },
