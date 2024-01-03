@@ -61,12 +61,6 @@ M.outer_maps = function(extensions, builtin)
     }, theme))
   end, opts)
 
-  keymap.set('n', ';e', function()
-    builtin.diagnostics(vim.tbl_deep_extend('force', {
-      prompt_prefix = '   ',
-    }, theme))
-  end, opts)
-
   keymap.set('n', ';k', function()
     builtin.keymaps(vim.tbl_deep_extend('force', {
       prompt_prefix = '   ',

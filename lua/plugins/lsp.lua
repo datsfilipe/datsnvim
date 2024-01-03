@@ -39,14 +39,6 @@ return {
         vim.diagnostic.open_float()
       end, opts)
 
-      keymap.set('n', '<leader>n', function()
-        vim.diagnostic.goto_next()
-      end, opts)
-
-      keymap.set('n', '<leader>p', function()
-        vim.diagnostic.goto_prev()
-      end, opts)
-
       keymap.set('n', '<leader>vca', function()
         vim.lsp.buf.code_action()
       end, opts)
