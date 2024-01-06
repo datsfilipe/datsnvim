@@ -89,6 +89,7 @@ return {
           hl[k] = v
         end
         hl['TelescopeNormal'] = { bg = 'NONE' }
+        hl['TroubleNormal'] = { bg = 'NONE' }
       end,
     },
   },
