@@ -93,4 +93,35 @@ return {
       end,
     },
   },
+  {
+    'rebelot/kanagawa.nvim',
+    enabled = config.colorscheme == 'kanagawa',
+    lazy = false,
+    priority = 1000,
+    opts = {
+      undercurl = true,
+      transparent = true,
+      overrides = function(_)
+        local newHighlights = {}
+
+        for k, v in pairs(commonHighlights) do
+          newHighlights[k] = v
+        end
+
+        newHighlights['Visual'] = { bg = '#363646' }
+        newHighlights['LineNr'] = { bg = 'NONE' }
+        newHighlights['SignColumn'] = { bg = 'NONE' }
+        newHighlights['GitSignsAdd'] = { bg = 'NONE' }
+        newHighlights['GitSignsChange'] = { bg = 'NONE' }
+        newHighlights['GitSignsDelete'] = { bg = 'NONE' }
+        newHighlights['DiagnosticSignWarn'] = { bg = 'NONE' }
+        newHighlights['DiagnosticSignError'] = { bg = 'NONE' }
+        newHighlights['DiagnosticSignHint'] = { bg = 'NONE' }
+        newHighlights['DiagnosticSignInfo'] = { bg = 'NONE' }
+
+        return vim.tbl_extend('force', newHighlights, {})
+      end,
+      theme = "dragon",
+    },
+  },
 }
