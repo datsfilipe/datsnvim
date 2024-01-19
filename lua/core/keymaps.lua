@@ -5,6 +5,9 @@ local opts = { noremap = true, silent = true }
 
 keymap.set('n', 'ze', require('custom.excalidraw').open, opts)
 
+-- ast-grep
+keymap.set('n', '<leader>A', require('custom.ast-grep').execute, opts)
+
 keymap.set('i', '<C-c>', '<Esc>', opts)
 keymap.set('n', 'x', '"_x')
 
