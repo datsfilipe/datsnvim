@@ -52,6 +52,7 @@ vim.opt.undofile = true
 vim.opt.foldmethod = 'expr'
 vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.foldenable = false
+vim.opt.foldlevelstart = 99
 
 -- line numbers for netrw
 vim.g.netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
