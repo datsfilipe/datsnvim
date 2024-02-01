@@ -29,6 +29,23 @@ return {
     },
   },
   {
+    'datsfilipe/vesper.nvim',
+    lazy = false,
+    priority = 1000,
+    enabled = config.colorscheme == 'vesper',
+    opts = {
+      transparent = true,
+      italics = {
+        comments = false,
+        keywords = false,
+        functions = false,
+        strings = false,
+        variables = false,
+      },
+      overrides = vim.tbl_extend('force', commonHighlights, {}),
+    },
+  },
+  {
     'ellisonleao/gruvbox.nvim',
     lazy = false,
     priority = 1000,
