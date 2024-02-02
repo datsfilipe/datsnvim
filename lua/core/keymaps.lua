@@ -8,6 +8,9 @@ keymap.set('n', 'ze', require('custom.excalidraw').open, opts)
 -- ast-grep
 keymap.set('n', '<leader>A', require('custom.ast-grep').execute, opts)
 
+-- global find and replace
+keymap.set('n', '<leader>F', require('custom.global-fd-and-r').execute, opts)
+
 keymap.set('i', '<C-c>', '<Esc>', opts)
 keymap.set('n', 'x', '"_x')
 
