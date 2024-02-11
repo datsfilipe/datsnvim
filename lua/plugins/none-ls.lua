@@ -40,9 +40,13 @@ return {
       debug = false,
       sources = {
         formatting.eslint_d,
+        formatting.prettier,
+        formatting.biome,
         formatting.stylua,
-        formatting.rustywind,
+
         diagnostics.flake8,
+        diagnostics.codespell,
+        diagnostics.editorconfig_checker,
       },
       on_attach = function(client, bufnr)
         if client.supports_method 'textDocument/formatting' then
