@@ -39,9 +39,17 @@ return {
     null_ls.setup {
       debug = false,
       sources = {
-        formatting.prettier,
-        formatting.biome,
         formatting.stylua,
+        formatting.prettier.with({
+          condition = function(utils)
+            return utils.root_has_file({ '.prettierrc', '.prettierrc.json', '.prettierrc.yaml', '.prettierrc.yml', '.prettierrc.js', 'prettier.config.js' })
+          end,
+        }),
+        formatting.biome.with({
+          condition = function(utils)
+            return utils.root_has_file({ 'biome.toml' })
+          end,
+        }),
 
         diagnostics.codespell,
         diagnostics.editorconfig_checker,
