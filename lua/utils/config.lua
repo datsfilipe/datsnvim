@@ -36,6 +36,7 @@ M.servers = {
   'astro',
   'eslint',
   'elixirls',
+  'eslint',
 }
 
 M.parsers = {
