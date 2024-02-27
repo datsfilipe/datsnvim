@@ -39,12 +39,10 @@ return {
     null_ls.setup {
       debug = false,
       sources = {
-        formatting.eslint_d,
         formatting.prettier,
         formatting.biome,
         formatting.stylua,
 
-        diagnostics.flake8,
         diagnostics.codespell,
         diagnostics.editorconfig_checker,
       },
@@ -61,5 +59,5 @@ return {
         end
       end,
     }
-  end,
+  end
 }

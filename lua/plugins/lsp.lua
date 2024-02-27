@@ -89,6 +89,15 @@ return {
         Opts.cmd = { 'elixir-ls' }
       end
 
+      if server == 'eslint' then
+        Opts.on_attach = function(client, bufnr)
+          vim.api.nvim_create_autocmd('BufWritePre', {
+            buffer = bufnr,
+            command = 'EslintFixAll',
+          })
+        end
+      end
+
       server = vim.split(server, '@')[1]
       lspconfig[server].setup(Opts)
     end
