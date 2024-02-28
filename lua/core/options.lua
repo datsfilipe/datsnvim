@@ -54,6 +54,8 @@ vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.opt.foldenable = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
+vim.opt.foldtext = ''
+vim.opt.fillchars = 'fold: '
 
 -- line numbers for netrw
 vim.g.netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
