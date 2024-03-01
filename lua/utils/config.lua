@@ -37,6 +37,7 @@ M.servers = {
   'eslint',
   'elixirls',
   'eslint',
+  'rust_analyzer',
 }
 
 M.parsers = {
