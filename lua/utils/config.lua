@@ -32,11 +32,9 @@ M.servers = {
   'bashls',
   'jsonls',
   'tailwindcss',
-  'gopls',
   'astro',
   'eslint',
   'elixirls',
-  'eslint',
   'rust_analyzer',
 }
 
