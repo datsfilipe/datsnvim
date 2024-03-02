@@ -39,7 +39,11 @@ return {
     null_ls.setup {
       debug = false,
       sources = {
-        formatting.stylua,
+        formatting.stylua.with({
+          condition = function(utils)
+            return utils.root_has_file { '.stylua.toml' }
+          end,
+        }),
         formatting.prettier.with({
           condition = function(utils)
             return utils.root_has_file({ '.prettierrc', '.prettierrc.json', '.prettierrc.yaml', '.prettierrc.yml', '.prettierrc.js', 'prettier.config.js' })
@@ -52,7 +56,11 @@ return {
         }),
 
         diagnostics.codespell,
-        diagnostics.editorconfig_checker,
+        diagnostics.editorconfig_checker.with({
+          condition = function(utils)
+            return utils.root_has_file { '.editorconfig' }
+          end,
+        }),
       },
       on_attach = function(client, bufnr)
         if client.supports_method 'textDocument/formatting' then
