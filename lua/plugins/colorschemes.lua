@@ -119,26 +119,65 @@ return {
       undercurl = true,
       transparent = true,
       overrides = function(_)
-        local newHighlights = {}
+        local highlights = {}
 
         for k, v in pairs(commonHighlights) do
-          newHighlights[k] = v
+          highlights[k] = v
         end
 
-        newHighlights['Visual'] = { bg = '#363646' }
-        newHighlights['LineNr'] = { bg = 'NONE' }
-        newHighlights['SignColumn'] = { bg = 'NONE' }
-        newHighlights['GitSignsAdd'] = { bg = 'NONE' }
-        newHighlights['GitSignsChange'] = { bg = 'NONE' }
-        newHighlights['GitSignsDelete'] = { bg = 'NONE' }
-        newHighlights['DiagnosticSignWarn'] = { bg = 'NONE' }
-        newHighlights['DiagnosticSignError'] = { bg = 'NONE' }
-        newHighlights['DiagnosticSignHint'] = { bg = 'NONE' }
-        newHighlights['DiagnosticSignInfo'] = { bg = 'NONE' }
+        highlights['Visual'] = { bg = '#363646' }
+        highlights['LineNr'] = { bg = 'NONE' }
+        highlights['SignColumn'] = { bg = 'NONE' }
+        highlights['GitSignsAdd'] = { bg = 'NONE' }
+        highlights['GitSignsChange'] = { bg = 'NONE' }
+        highlights['GitSignsDelete'] = { bg = 'NONE' }
+        highlights['DiagnosticSignWarn'] = { bg = 'NONE' }
+        highlights['DiagnosticSignError'] = { bg = 'NONE' }
+        highlights['DiagnosticSignHint'] = { bg = 'NONE' }
+        highlights['DiagnosticSignInfo'] = { bg = 'NONE' }
 
-        return vim.tbl_extend('force', newHighlights, {})
+        return vim.tbl_extend('force', highlights, {})
       end,
       theme = "dragon",
     },
   },
+  {
+    'folke/tokyonight.nvim',
+    lazy = false,
+    priority = 1000,
+    enabled = config.colorscheme == 'tokyonight',
+    opts = {
+      style = 'night',
+      transparent = true,
+      styles = {
+        comments = { italic = true },
+        keywords = { italic = true }
+      },
+      sidebars = {},
+      dim_inactive = false,
+      lualine_bold = true,
+      on_highlights = function(highlights, colors)
+        for k, v in pairs(commonHighlights) do
+          highlights[k] = v
+        end
+
+        highlights['NormalSB'] = { bg = 'NONE' }
+        highlights['LineNr'] = { bg = 'NONE' }
+        highlights['TabLine'] = { bg = 'NONE' }
+        highlights['TabLineSel'] = { bg = 'NONE' }
+        highlights['SignColumn'] = { bg = 'NONE' }
+        highlights['TabLineFill'] = { bg = 'NONE' }
+        highlights['GitSignsAdd'] = { bg = 'NONE' }
+        highlights['SignColumnSB'] = { bg = 'NONE' }
+        highlights['TroubleNormal'] = { bg = 'NONE' }
+        highlights['GitSignsChange'] = { bg = 'NONE' }
+        highlights['GitSignsDelete'] = { bg = 'NONE' }
+        highlights['TelescopeNormal'] = { bg = 'NONE' }
+        highlights['DiagnosticSignWarn'] = { bg = 'NONE' }
+        highlights['DiagnosticSignHint'] = { bg = 'NONE' }
+        highlights['DiagnosticSignInfo'] = { bg = 'NONE' }
+        highlights['DiagnosticSignError'] = { bg = 'NONE' }
+      end,
+    },
+  }
 }
