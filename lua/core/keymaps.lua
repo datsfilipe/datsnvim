@@ -55,10 +55,6 @@ keymap.set('n', '<A-z>', ':set wrap!<Return>', opts)
 keymap.set('v', '<', '<gv', opts)
 keymap.set('v', '>', '>gv', opts)
 
--- netrw
-keymap.set('n', '<leader>e', ':Explore<Return><Return>', opts)
-keymap.set('n', '<leader>s', ':Sex<Return><Return>', opts)
-
 -- copy all
 keymap.set('n', '<leader>Y', 'ggVG"+y', opts)
 -- copy to clipboard
