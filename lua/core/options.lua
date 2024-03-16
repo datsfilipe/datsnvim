@@ -56,7 +56,7 @@ vim.opt.foldtext = ''
 vim.opt.fillchars = 'fold: '
 
 -- line numbers for netrw
-vim.g.netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
+-- vim.g.netrw_bufsettings = 'noma nomod nu nowrap ro nobl'
 
 -- undercurl
 vim.cmd [[let &t_Cs = "\e[4:3m"]]
