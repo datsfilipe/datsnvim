@@ -2,11 +2,11 @@ return {
   'echasnovski/mini.hipatterns',
   version = false,
   event = 'VeryLazy',
-  config = function()
+  opts = function()
     local hipatterns = require 'mini.hipatterns'
     local hsl = require 'utils.hsl'
 
-    hipatterns.setup {
+    return {
       highlighters = {
         hex_color = hipatterns.gen_highlighter.hex_color(),
         hsl_color = {

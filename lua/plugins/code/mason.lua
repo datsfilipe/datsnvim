@@ -13,7 +13,7 @@ return {
     event = { 'BufReadPre', 'BufNewFile' },
     build = ':MasonUpdate',
     cmd = { 'Mason', 'MasonInstall', 'MasonUninstall', 'MasonUninstallAll', 'MasonUpdate', 'MasonLog' },
-    config = function()
+    opts = function()
       if vim.fn.system("nixos-version") ~= "" then
         local mason_registry = require("mason-registry")
         local script_dir = os.getenv("HOME") .. "/.config/nvim/scripts/"
@@ -23,14 +23,14 @@ return {
         end)
       end
 
-      require('mason').setup({
+      return {
         ui = {
           border = 'rounded',
-          height = 0.6,
+          height = 0.8,
         },
         log_level = vim.log.levels.WARN,
         max_concurrent_installers = 4,
-      })
+      }
     end,
   },
 }

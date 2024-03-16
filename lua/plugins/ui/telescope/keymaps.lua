@@ -2,7 +2,7 @@ local M = {}
 
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
-local theme = require('plugins.telescope.vars').theme
+local theme = require('plugins.ui.telescope.vars').theme
 
 M.inner_maps = function(actions, _, set_prompt_to_entry_value)
   return {

@@ -21,7 +21,12 @@ require('lazy').setup {
     missing = true,
     colorscheme = { config.colorscheme },
   },
-  spec = 'plugins',
+  spec = {
+    { import = "plugins.ui" },
+    { import = "plugins.code" },
+    { import = "plugins.git" },
+    { import = "plugins.others" },
+  },
   defaults = {
     lazy = false,
     version = false,
@@ -33,6 +38,11 @@ require('lazy').setup {
   ui = {
     icons = {
       task = '',
+    },
+  },
+  performance = {
+    cache = {
+      enabled = true,
     },
   },
 }

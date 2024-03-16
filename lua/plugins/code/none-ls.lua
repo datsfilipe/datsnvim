@@ -1,4 +1,3 @@
-local config = require 'utils.config'
 local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
 
 local async_formatting = function(bufnr)
@@ -30,33 +29,28 @@ end
 return {
   'nvimtools/none-ls.nvim',
   event = 'BufReadPre',
-  enabled = config.formatter == 'null-ls' or config.linter == 'null-ls',
-  config = function()
-    local null_ls = require 'null-ls'
-    local formatting = null_ls.builtins.formatting
-    local diagnostics = null_ls.builtins.diagnostics
-
-    null_ls.setup {
+  opts = function()
+    return {
       debug = false,
       sources = {
-        formatting.stylua.with({
+        require 'null-ls'.builtins.formatting.stylua.with({
           condition = function(utils)
             return utils.root_has_file { '.stylua.toml' }
           end,
         }),
-        formatting.prettier.with({
+        require 'null-ls'.builtins.formatting.prettier.with({
           condition = function(utils)
             return utils.root_has_file({ '.prettierrc', '.prettierrc.json', '.prettierrc.yaml', '.prettierrc.yml', '.prettierrc.js', 'prettier.config.js' })
           end,
         }),
-        formatting.biome.with({
+        require 'null-ls'.builtins.formatting.biome.with({
           condition = function(utils)
             return utils.root_has_file({ 'biome.toml' })
           end,
         }),
 
-        diagnostics.codespell,
-        diagnostics.editorconfig_checker.with({
+        require 'null-ls'.builtins.diagnostics.codespell,
+        require 'null-ls'.builtins.diagnostics.editorconfig_checker.with({
           condition = function(utils)
             return utils.root_has_file { '.editorconfig' }
           end,

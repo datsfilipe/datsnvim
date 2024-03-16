@@ -6,7 +6,7 @@ keymap.set('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search({sel
 
 return {
   'nvim-pack/nvim-spectre',
-  lazy = true,
+  event = 'VeryLazy',
   dependencies = {
     'nvim-lua/plenary.nvim',
   },

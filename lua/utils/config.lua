@@ -20,7 +20,6 @@ M.formatter = 'null-ls'
 -- M.linter = "nvim-lint"
 M.linter = 'null-ls'
 
-M.indent = 'hlchunk'
 M.indent_color = '#343434'
 
 -- lsp stuff
@@ -29,33 +28,29 @@ M.servers = {
   'cssls',
   'html',
   'tsserver',
-  'bashls',
   'jsonls',
   'tailwindcss',
-  'astro',
   'eslint',
   'elixirls',
   'rust_analyzer',
 }
 
 M.parsers = {
-  'lua',
-  'vim',
-  'markdown',
-  'markdown_inline',
-  'latex',
-  'bash',
   'javascript',
   'typescript',
   'tsx',
   'html',
   'css',
+  'lua',
+  'markdown',
+  'markdown_inline',
+  'bash',
+  'fish',
+  'rust',
+  'go',
+  'dockerfile',
   'json',
   'toml',
-  'regex',
-  'go',
-  'rust',
-  'dockerfile',
 }
 
 -- diagnostics icons
