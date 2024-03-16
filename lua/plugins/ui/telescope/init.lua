@@ -1,13 +1,11 @@
 return {
   'nvim-telescope/telescope.nvim',
   event = 'BufEnter',
-  config = function()
-    local telescope = require 'telescope'
-
-    local maps = require 'plugins.telescope.keymaps'
-    local vars = require 'plugins.telescope.vars'
-    local extensions = require('plugins.telescope.extensions').extensions
-    local builtin = require('plugins.telescope.vars').builtin
+  opts = function()
+    local maps = require 'plugins.ui.telescope.keymaps'
+    local vars = require 'plugins.ui.telescope.vars'
+    local extensions = require('plugins.ui.telescope.extensions').extensions
+    local builtin = require('plugins.ui.telescope.vars').builtin
 
     local set_prompt_to_entry_value = function(prompt_bufnr)
       local entry = vars.action_state.get_selected_entry()
@@ -18,7 +16,10 @@ return {
       vars.action_state.get_current_picker(prompt_bufnr):reset_prompt(entry.ordinal)
     end
 
-    telescope.setup {
+    require('telescope').load_extension 'fzf'
+    maps.outer_maps(require('telescope').extensions, builtin)
+
+    return {
       defaults = {
         prompt_prefix = '   ',
         selection_caret = '  ',
@@ -31,10 +32,6 @@ return {
       },
       extensions = extensions,
     }
-
-    telescope.load_extension 'fzf'
-
-    maps.outer_maps(telescope.extensions, builtin)
   end,
   dependencies = {
     'nvim-lua/plenary.nvim',

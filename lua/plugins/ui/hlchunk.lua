@@ -3,12 +3,7 @@ local config = require 'utils.config'
 return {
   'shellRaining/hlchunk.nvim',
   event = { 'UIEnter' },
-  enabled = config.indent == 'hlchunk',
   opts = {
-    blank = {
-      enable = false,
-      notify = false,
-    },
     chunk = {
       enable = false,
       notify = false,
@@ -20,5 +15,14 @@ return {
       },
     },
     line_num = { enable = false },
+    blank = {
+      enable = true,
+      chars = {
+        "․",
+      },
+      style = {
+        config.indent_color
+      },
+    },
   },
 }

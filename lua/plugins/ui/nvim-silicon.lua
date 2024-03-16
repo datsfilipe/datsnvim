@@ -1,6 +1,5 @@
 return {
 	"michaelrommel/nvim-silicon",
-	lazy = true,
 	cmd = "Silicon",
   opts = {
     font = "JetBrainsMono Nerd Font=34;Noto Color Emoji=34",

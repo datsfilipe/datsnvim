@@ -9,6 +9,7 @@ keymap.set('n', '<leader>cs', ':Copilot status<Return>', opts)
 return {
   'zbirenbaum/copilot.lua',
   cmd = 'Copilot',
+  build = ':Copilot auth',
   event = 'InsertEnter',
   opts = {
     suggestion = {

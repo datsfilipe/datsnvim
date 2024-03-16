@@ -3,7 +3,7 @@ local config = require 'utils.config'
 return {
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
-  config = function()
+  opts = function()
     local cmp = require 'cmp'
     local cmp_window = require 'cmp.utils.window'
 
@@ -64,7 +64,7 @@ return {
       },
     })
 
-    cmp.setup {
+    return {
       preselect = 'item',
       completion = {
         completeopt = 'menu,menuone,noinsert',
