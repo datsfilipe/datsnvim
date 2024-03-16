@@ -18,7 +18,7 @@ return {
     blank = {
       enable = true,
       chars = {
-        "․",
+        '․',
       },
       style = {
         config.indent_color

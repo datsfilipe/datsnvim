@@ -14,11 +14,11 @@ return {
     build = ':MasonUpdate',
     cmd = { 'Mason', 'MasonInstall', 'MasonUninstall', 'MasonUninstallAll', 'MasonUpdate', 'MasonLog' },
     opts = function()
-      if vim.fn.system("nixos-version") ~= "" then
-        local mason_registry = require("mason-registry")
-        local script_dir = os.getenv("HOME") .. "/.config/nvim/scripts/"
+      if vim.fn.system('nixos-version') ~= '' then
+        local mason_registry = require('mason-registry')
+        local script_dir = os.getenv('HOME') .. '/.config/nvim/scripts/'
 
-        mason_registry:on("package:install:success", function(pkg)
+        mason_registry:on('package:install:success', function(pkg)
           patch_for_nixos(pkg)
         end)
       end

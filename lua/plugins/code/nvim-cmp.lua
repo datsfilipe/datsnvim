@@ -38,7 +38,7 @@ return {
     local function format(entry, item)
       item.abbr = string.sub(item.abbr, 1, 40)
       item.kind = string.format('%s', config.kind[item.kind])
-      -- item.kind = string.format("%s %s", config.kind[item.kind], item.kind) -- debug
+      -- item.kind = string.format('%s %s', config.kind[item.kind], item.kind) -- debug
 
       item.menu = ({
         nvim_lsp = '[言語]', -- language
@@ -86,7 +86,6 @@ return {
         end, { 'i' }),
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-u>'] = cmp.mapping.scroll_docs(4),
-        -- ["<C-Space>"] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping(
           cmp.mapping.confirm {

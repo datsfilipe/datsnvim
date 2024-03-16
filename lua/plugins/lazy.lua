@@ -22,10 +22,10 @@ require('lazy').setup {
     colorscheme = { config.colorscheme },
   },
   spec = {
-    { import = "plugins.ui" },
-    { import = "plugins.code" },
-    { import = "plugins.git" },
-    { import = "plugins.others" },
+    { import = 'plugins.ui' },
+    { import = 'plugins.code' },
+    { import = 'plugins.git' },
+    { import = 'plugins.others' },
   },
   defaults = {
     lazy = false,

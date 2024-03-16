@@ -25,8 +25,8 @@ keymap.set('v', 'g+', 'g<C-a>', opts)
 keymap.set('v', 'g-', 'g<C-x>', opts)
 
 -- move lines
-keymap.set('v', 'J', ":m '>+1<Return>gv=gv", opts)
-keymap.set('v', 'K', ":m '<-2<Return>gv=gv", opts)
+keymap.set('v', 'J', ':m \'>+1<Return>gv=gv', opts)
+keymap.set('v', 'K', ':m \'<-2<Return>gv=gv', opts)
 keymap.set('n', '<leader>j', ':m .+1<Return>==', opts)
 keymap.set('n', '<leader>k', ':m .-2<Return>==', opts)
 
