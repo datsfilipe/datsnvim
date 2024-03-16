@@ -1,3 +1,5 @@
+vim.g.mapleader = ' '
+
 require('custom.discipline').cowboy()
 
 local keymap = vim.keymap
