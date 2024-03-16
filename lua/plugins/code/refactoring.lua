@@ -1,13 +1,13 @@
 return {
-  "ThePrimeagen/refactoring.nvim",
-  event = "BufRead",
+  'ThePrimeagen/refactoring.nvim',
+  event = 'BufRead',
   keys = {
     {
-      "<leader>r",
+      '<leader>r',
       function()
-        require("refactoring").select_refactor()
+        require('refactoring').select_refactor()
       end,
-      mode = "v",
+      mode = 'v',
       noremap = true,
       silent = true,
       expr = false,

@@ -14,12 +14,6 @@ else
   M.lockfile = vim.fn.stdpath 'config' .. '/lazy-lock.json'
 end
 
--- M.formatter = "conform"
-M.formatter = 'null-ls'
-
--- M.linter = "nvim-lint"
-M.linter = 'null-ls'
-
 M.indent_color = '#343434'
 
 -- lsp stuff

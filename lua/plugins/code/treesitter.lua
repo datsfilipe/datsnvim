@@ -2,7 +2,7 @@ local config = require 'utils.config'
 
 return {
   'nvim-treesitter/nvim-treesitter',
-  cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
+  cmd = { 'TSUpdateSync', 'TSUpdate', 'TSInstall' },
   opts = function()
     local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
     parser_config.tsx.filetype_to_parsername = { 'javascript', 'typescript.tsx' }
@@ -30,6 +30,12 @@ return {
       autotag = {
         enable = true,
       },
+      incremental_selection = {
+        enable = false
+      },
+      rainbow = {
+        enable = false
+      },
     }
   end,
   build = function()
@@ -39,13 +45,13 @@ return {
   dependencies = {
     {
       'nvim-treesitter/nvim-treesitter-context',
-      cmd = { "TSContextEnable", "TSContextDisable" },
-      opts = { mode = "cursor", max_lines = 3 },
+      cmd = { 'TSContextEnable', 'TSContextDisable' },
+      opts = { mode = 'cursor', max_lines = 3 },
       keys = {
         {
-          "<leader>ct",
+          '<leader>ct',
           function()
-            local tsc = require("treesitter-context")
+            local tsc = require('treesitter-context')
             tsc.toggle()
           end,
         },

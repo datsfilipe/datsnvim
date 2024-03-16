@@ -138,7 +138,7 @@ return {
 
         return vim.tbl_extend('force', highlights, {})
       end,
-      theme = "dragon",
+      theme = 'dragon',
     },
   },
   {

@@ -13,20 +13,20 @@ return {
     },
     sections = {
       lualine_a = {
-        "mode",
+        'mode',
         {
           function()
-            local cmd = require("noice").api.status.command.get()
-            if cmd:sub(1, 1) == "q" then
-              if cmd:sub(2) == "" then
-                return "end"
+            local cmd = require('noice').api.status.command.get()
+            if cmd:sub(1, 1) == 'q' then
+              if cmd:sub(2) == '' then
+                return 'end'
               end
 
-              return "rec " .. cmd:sub(2)
+              return 'rec ' .. cmd:sub(2)
             end
             return cmd
           end,
-          cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
+          cond = function() return package.loaded['noice'] and require('noice').api.status.command.has() end,
         }
       },
       lualine_b = {
