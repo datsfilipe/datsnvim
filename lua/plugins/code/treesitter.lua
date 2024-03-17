@@ -2,8 +2,7 @@ local config = require 'utils.config'
 
 return {
   'nvim-treesitter/nvim-treesitter',
-  cmd = { 'TSUpdateSync', 'TSUpdate', 'TSInstall' },
-  opts = function()
+  config = function()
     local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
     parser_config.tsx.filetype_to_parsername = { 'javascript', 'typescript.tsx' }
 
@@ -15,27 +14,14 @@ return {
 
     vim.treesitter.language.register('markdown', 'mdx')
 
-    return {
+    require('nvim-treesitter.configs').setup {
       auto_install = true,
       sync_install = false,
-      ignore_install = {},
-      highlight = {
-        enable = true,
-        disable = {},
-      },
-      indent = {
-        enable = true,
-      },
+      highlight = { enable = true },
       ensure_installed = config.parsers,
-      autotag = {
-        enable = true,
-      },
-      incremental_selection = {
-        enable = false
-      },
-      rainbow = {
-        enable = false
-      },
+      autotag = { enable = true },
+      incremental_selection = { enable = false },
+      rainbow = { enable = false },
     }
   end,
   build = function()
