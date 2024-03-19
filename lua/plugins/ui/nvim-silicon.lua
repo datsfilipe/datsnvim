@@ -4,8 +4,8 @@ return {
   opts = {
     font = 'JetBrainsMono Nerd Font=34;Noto Color Emoji=34',
     no_window_controls = true,
-    pad_horiz = 125,
-    pad_vert = 125,
+    pad_horiz = 80,
+    pad_vert = 80,
     background = '#fff',
     tab_width = 2,
     theme = os.getenv('HOME') .. '/.config/bat/themes/dtsf-machine/theme.tmTheme',
