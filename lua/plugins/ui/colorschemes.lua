@@ -141,43 +141,4 @@ return {
       theme = 'dragon',
     },
   },
-  {
-    'folke/tokyonight.nvim',
-    lazy = false,
-    priority = 1000,
-    enabled = config.colorscheme == 'tokyonight',
-    opts = {
-      style = 'night',
-      transparent = true,
-      styles = {
-        comments = { italic = true },
-        keywords = { italic = true }
-      },
-      sidebars = {},
-      dim_inactive = false,
-      lualine_bold = true,
-      on_highlights = function(highlights, colors)
-        for k, v in pairs(commonHighlights) do
-          highlights[k] = v
-        end
-
-        highlights['NormalSB'] = { bg = 'NONE' }
-        highlights['LineNr'] = { bg = 'NONE' }
-        highlights['TabLine'] = { bg = 'NONE' }
-        highlights['TabLineSel'] = { bg = 'NONE' }
-        highlights['SignColumn'] = { bg = 'NONE' }
-        highlights['TabLineFill'] = { bg = 'NONE' }
-        highlights['GitSignsAdd'] = { bg = 'NONE' }
-        highlights['SignColumnSB'] = { bg = 'NONE' }
-        highlights['TroubleNormal'] = { bg = 'NONE' }
-        highlights['GitSignsChange'] = { bg = 'NONE' }
-        highlights['GitSignsDelete'] = { bg = 'NONE' }
-        highlights['TelescopeNormal'] = { bg = 'NONE' }
-        highlights['DiagnosticSignWarn'] = { bg = 'NONE' }
-        highlights['DiagnosticSignHint'] = { bg = 'NONE' }
-        highlights['DiagnosticSignInfo'] = { bg = 'NONE' }
-        highlights['DiagnosticSignError'] = { bg = 'NONE' }
-      end,
-    },
-  }
 }
