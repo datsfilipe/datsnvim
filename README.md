@@ -6,7 +6,7 @@ This is a personal configuration for Neovim. You can use it as starting point fo
 
 ![Preview](./assets/preview.png)
 
-*Note: using [min-theme](https://github.com/datsfilipe/min-theme.nvim) in the screenshot.*
+*Note: using [catppuccin](https://github.com/catppuccin/nvim) in the screenshot.*
 
 ## Installation
 
