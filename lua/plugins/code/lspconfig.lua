@@ -91,6 +91,9 @@ return {
       if server == 'lua_ls' then
         Opts.settings = {
           Lua = {
+            format = {
+              enable = vim.fn.executable 'stylua' == 1,
+            },
             runtime = { version = 'LuaJIT' },
             diagnostics = {
               globals = { 'vim' },
@@ -109,7 +112,7 @@ return {
       end
 
       if server == 'eslint' then
-        Opts.on_attach = function(client, bufnr)
+        Opts.on_attach = function(_, bufnr)
           vim.api.nvim_create_autocmd('BufWritePre', {
             buffer = bufnr,
             command = 'EslintFixAll',
