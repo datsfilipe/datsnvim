@@ -1,4 +1,4 @@
-local config = require 'utils/config'
+local config = require 'utils.config'
 
 return {
   'nvim-lualine/lualine.nvim',
@@ -26,8 +26,11 @@ return {
             end
             return cmd
           end,
-          cond = function() return package.loaded['noice'] and require('noice').api.status.command.has() end,
-        }
+          cond = function()
+            return package.loaded['noice']
+              and require('noice').api.status.command.has()
+          end,
+        },
       },
       lualine_b = {
         {

@@ -1,6 +1,6 @@
 return {
-	'michaelrommel/nvim-silicon',
-	cmd = 'Silicon',
+  'michaelrommel/nvim-silicon',
+  cmd = 'Silicon',
   opts = {
     font = 'JetBrainsMono Nerd Font=34;Noto Color Emoji=34',
     no_window_controls = true,
@@ -8,7 +8,8 @@ return {
     pad_vert = 80,
     background = '#fff',
     tab_width = 2,
-    theme = os.getenv('HOME') .. '/.config/bat/themes/dtsf-machine/theme.tmTheme',
+    theme = os.getenv 'HOME'
+      .. '/.config/bat/themes/dtsf-machine/theme.tmTheme',
     to_clipboard = true,
     gobble = true,
     num_separator = '\u{258f} ',

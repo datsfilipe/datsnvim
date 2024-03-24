@@ -28,12 +28,12 @@ vim.opt.smarttab = true
 vim.opt.breakindent = true
 vim.opt.shiftwidth = 2
 vim.opt.tabstop = 2
-vim.opt.wrap = false         -- no wrap lines
+vim.opt.wrap = false -- no wrap lines
 vim.opt.backspace = { 'start', 'eol', 'indent' }
 vim.opt.path:append { '**' } -- Finding files - Search down into subfolders
 vim.opt.wildignore:append { '*/node_modules/*' }
-vim.opt.splitbelow = true    -- put new windows below current
-vim.opt.splitright = true    -- put new windows right of current
+vim.opt.splitbelow = true -- put new windows below current
+vim.opt.splitright = true -- put new windows right of current
 vim.opt.splitkeep = 'cursor'
 vim.opt.mouse = ''
 vim.opt.conceallevel = 3

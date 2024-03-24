@@ -12,26 +12,36 @@ return {
       end
 
       keymap('n', ']g', function()
-        if vim.wo.diff then return ']g' end
-        vim.schedule(function() gs.next_hunk() end)
+        if vim.wo.diff then
+          return ']g'
+        end
+        vim.schedule(function()
+          gs.next_hunk()
+        end)
         return '<Ignore>'
-      end, { expr=true })
+      end, { expr = true })
 
       keymap('n', '[g', function()
-        if vim.wo.diff then return '[g' end
-        vim.schedule(function() gs.prev_hunk() end)
+        if vim.wo.diff then
+          return '[g'
+        end
+        vim.schedule(function()
+          gs.prev_hunk()
+        end)
         return '<Ignore>'
-      end, { expr=true })
+      end, { expr = true })
 
       keymap('n', '<leader>gs', ':Gitsigns stage_hunk<CR>')
       keymap('n', '<leader>gr', ':Gitsigns reset_hunk<CR>')
       keymap('v', '<leader>gs', ':Gitsigns stage_hunk<CR>')
       keymap('v', '<leader>gr', ':Gitsigns reset_hunk<CR>')
       keymap('n', '<leader>gu', gs.undo_stage_hunk)
-      keymap('n', '<leader>gb', function() gs.blame_line{full=true} end)
+      keymap('n', '<leader>gb', function()
+        gs.blame_line { full = true }
+      end)
       keymap('n', '<leader>gd', function()
         local is_git_head = false
-        local left_win_id = vim.fn.win_getid(vim.fn.winnr('h'))
+        local left_win_id = vim.fn.win_getid(vim.fn.winnr 'h')
 
         if left_win_id ~= -1 then
           local filename = vim.fn.bufname(vim.fn.winbufnr(left_win_id))
@@ -39,10 +49,10 @@ return {
         end
 
         if left_win_id ~= -1 and is_git_head then
-          vim.cmd('wincmd h')
-          vim.cmd('q')
+          vim.cmd 'wincmd h'
+          vim.cmd 'q'
         else
-          gs.diffthis("~")
+          gs.diffthis '~'
         end
       end)
     end,

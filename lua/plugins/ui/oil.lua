@@ -1,6 +1,6 @@
 local keymap = vim.keymap
 
-keymap.set('n', '<leader>e', ':Oil<Return>', opts)
+keymap.set('n', '<leader>e', ':Oil<Return>', { noremap = true, silent = true })
 
 return {
   'stevearc/oil.nvim',

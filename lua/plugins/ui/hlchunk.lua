@@ -21,7 +21,7 @@ return {
         '․',
       },
       style = {
-        config.indent_color
+        config.indent_color,
       },
     },
   },

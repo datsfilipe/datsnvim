@@ -1,4 +1,4 @@
-local config = require 'utils/config'
+local config = require 'utils.config'
 
 local commonHighlights = {
   NormalFloat = { bg = 'NONE' },
