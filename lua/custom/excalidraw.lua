@@ -13,7 +13,7 @@ function M.open()
     return
   end
 
-  vim.fn.system('echo ' .. vim.fn.expand('%:p:h') .. ' | ' .. clipboard_command)
+  vim.fn.system('echo ' .. vim.fn.expand '%:p:h' .. ' | ' .. clipboard_command)
 end
 
 return M

@@ -3,7 +3,7 @@ local keymap = vim.keymap
 keymap.set('n', ';e', ':TroubleToggle<Return>')
 
 keymap.set('n', '<leader>n', function()
-  local trouble = require('trouble')
+  local trouble = require 'trouble'
 
   if trouble.is_open() then
     trouble.next { skip_groups = true, jump = true }
@@ -13,7 +13,7 @@ keymap.set('n', '<leader>n', function()
 end)
 
 keymap.set('n', '<leader>p', function()
-  local trouble = require('trouble')
+  local trouble = require 'trouble'
 
   if trouble.is_open() then
     trouble.next { skip_groups = true, jump = true }

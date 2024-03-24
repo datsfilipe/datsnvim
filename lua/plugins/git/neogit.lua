@@ -1,5 +1,10 @@
 local keymap = vim.keymap
-keymap.set('n', '<leader>gg', ':Neogit<Return>', { noremap = true, silent = true })
+keymap.set(
+  'n',
+  '<leader>gg',
+  ':Neogit<Return>',
+  { noremap = true, silent = true }
+)
 
 return {
   'NeogitOrg/neogit',

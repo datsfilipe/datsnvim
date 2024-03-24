@@ -3,8 +3,10 @@ local config = require 'utils.config'
 return {
   'nvim-treesitter/nvim-treesitter',
   config = function()
-    local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
-    parser_config.tsx.filetype_to_parsername = { 'javascript', 'typescript.tsx' }
+    local parser_config =
+      require('nvim-treesitter.parsers').get_parser_configs()
+    parser_config.tsx.filetype_to_parsername =
+      { 'javascript', 'typescript.tsx' }
 
     vim.filetype.add {
       extension = {
@@ -25,7 +27,8 @@ return {
     }
   end,
   build = function()
-    local ts_update = require('nvim-treesitter.install').update { with_sync = true }
+    local ts_update =
+      require('nvim-treesitter.install').update { with_sync = true }
     ts_update()
   end,
   dependencies = {
@@ -37,7 +40,7 @@ return {
         {
           '<leader>ct',
           function()
-            local tsc = require('treesitter-context')
+            local tsc = require 'treesitter-context'
             tsc.toggle()
           end,
         },

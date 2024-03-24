@@ -30,26 +30,30 @@ return {
     end
 
     vim.api.nvim_create_autocmd('BufRead', {
-      group = vim.api.nvim_create_augroup('CmpBufferDisableGrp', { clear = true }),
+      group = vim.api.nvim_create_augroup(
+        'CmpBufferDisableGrp',
+        { clear = true }
+      ),
       callback = function(ev)
         local sources = {
           { name = 'nvim_lsp' },
           { name = 'luasnip' },
-          { name = 'path' } }
+          { name = 'path' },
+        }
         local performance = {}
 
         if not isFileTooBig(ev.buf) then
           sources[#sources + 1] = { name = 'buffer', keyword_length = 4 }
           performance.max_view_entries = 10
         end
-        cmp.setup.buffer({
+        cmp.setup.buffer {
           sources = cmp.config.sources(sources),
           performance = performance,
-        })
+        }
       end,
     })
 
-    cmp.setup({
+    cmp.setup {
       preselect = 'item',
       completion = {
         completeopt = 'menu,menuone,noinsert',
@@ -91,7 +95,7 @@ return {
         { name = 'nvim_lsp' },
         { name = 'luasnip' },
         { name = 'path' },
-        { name = 'buffer',  keyword_length = 4 },
+        { name = 'buffer', keyword_length = 4 },
       },
       snippet = {
         expand = function(args)
@@ -109,7 +113,7 @@ return {
       experimental = {
         ghost_text = false,
       },
-    })
+    }
 
     cmp.event:on('menu_opened', function()
       vim.b.copilot_suggestion_hidden = true

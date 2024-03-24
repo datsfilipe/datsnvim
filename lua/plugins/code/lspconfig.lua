@@ -7,7 +7,7 @@ return {
   event = 'BufReadPre',
   config = function()
     local lspconfig = require 'lspconfig'
-    local capabilities = require 'cmp_nvim_lsp'.default_capabilities()
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
     -- add null-ls
     local lsp_formatting = function(bufnr)
@@ -130,12 +130,15 @@ return {
     -- setup icons for diagnostics
     local signs = {
       { name = 'DiagnosticSignError', text = config.signs.Error },
-      { name = 'DiagnosticSignWarn',  text = config.signs.Warn },
-      { name = 'DiagnosticSignHint',  text = config.signs.Hint },
-      { name = 'DiagnosticSignInfo',  text = config.signs.Info },
+      { name = 'DiagnosticSignWarn', text = config.signs.Warn },
+      { name = 'DiagnosticSignHint', text = config.signs.Hint },
+      { name = 'DiagnosticSignInfo', text = config.signs.Info },
     }
     for _, sign in ipairs(signs) do
-      vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = '' })
+      vim.fn.sign_define(
+        sign.name,
+        { texthl = sign.name, text = sign.text, numhl = '' }
+      )
     end
 
     vim.diagnostic.config {
@@ -157,12 +160,14 @@ return {
       },
     }
 
-    vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-      border = 'rounded',
-    })
+    vim.lsp.handlers['textDocument/hover'] =
+      vim.lsp.with(vim.lsp.handlers.hover, {
+        border = 'rounded',
+      })
 
-    vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-      border = 'rounded',
-    })
+    vim.lsp.handlers['textDocument/signatureHelp'] =
+      vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = 'rounded',
+      })
   end,
 }

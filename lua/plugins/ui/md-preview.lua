@@ -5,6 +5,11 @@ return {
   build = 'cd app && npm install',
   config = function()
     local keymap = vim.keymap
-    keymap.set('n', '<F12>', '<cmd>MarkdownPreviewToggle<CR>', { noremap = true, silent = true })
+    keymap.set(
+      'n',
+      '<F12>',
+      '<cmd>MarkdownPreviewToggle<CR>',
+      { noremap = true, silent = true }
+    )
   end,
 }

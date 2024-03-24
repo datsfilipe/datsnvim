@@ -1,5 +1,5 @@
 local config = require 'utils.config'
-local patch_for_nixos = require 'utils.patch_mason_binaries'.patch
+local patch_for_nixos = require('utils.patch_mason_binaries').patch
 
 return {
   'williamboman/mason-lspconfig.nvim',
@@ -12,10 +12,17 @@ return {
     'williamboman/mason.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
     build = ':MasonUpdate',
-    cmd = { 'Mason', 'MasonInstall', 'MasonUninstall', 'MasonUninstallAll', 'MasonUpdate', 'MasonLog' },
+    cmd = {
+      'Mason',
+      'MasonInstall',
+      'MasonUninstall',
+      'MasonUninstallAll',
+      'MasonUpdate',
+      'MasonLog',
+    },
     opts = function()
-      if vim.fn.system('nixos-version') ~= '' then
-        local mason_registry = require('mason-registry')
+      if vim.fn.system 'nixos-version' ~= '' then
+        local mason_registry = require 'mason-registry'
 
         mason_registry:on('package:install:success', function(pkg)
           patch_for_nixos(pkg)
