@@ -88,6 +88,26 @@ return {
         Opts.cmd = { 'elixir-ls' }
       end
 
+      if server == 'lua_ls' then
+        Opts.settings = {
+          Lua = {
+            runtime = { version = 'LuaJIT' },
+            diagnostics = {
+              globals = { 'vim' },
+            },
+            workspace = {
+              checkThirdParty = false,
+              library = {
+                vim.env.VIMRUNTIME .. '/lua',
+              },
+            },
+            telemetry = {
+              enable = false,
+            },
+          },
+        }
+      end
+
       if server == 'eslint' then
         Opts.on_attach = function(client, bufnr)
           vim.api.nvim_create_autocmd('BufWritePre', {
@@ -141,27 +161,5 @@ return {
     vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
       border = 'rounded',
     })
-
-    -- Setting up lua server
-    lspconfig.lua_ls.setup {
-      on_attach = on_attach,
-      capabilities = capabilities,
-      settings = {
-        Lua = {
-          diagnostics = {
-            globals = { 'vim' },
-          },
-          workspace = {
-            library = {
-              [vim.fn.expand '$VIMRUNTIME/lua'] = true,
-              [vim.fn.stdpath 'config' .. '/lua'] = true,
-            },
-          },
-          telemetry = {
-            enable = false,
-          },
-        },
-      },
-    }
   end,
 }
