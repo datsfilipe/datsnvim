@@ -45,18 +45,6 @@ return {
       sources = {
         require('null-ls').builtins.formatting.stylua,
 
-        require('null-ls').builtins.formatting.prettier.with {
-          condition = function(utils)
-            return utils.root_has_file {
-              '.prettierrc',
-              '.prettierrc.json',
-              '.prettierrc.yaml',
-              '.prettierrc.yml',
-              '.prettierrc.js',
-              'prettier.config.js',
-            }
-          end,
-        },
         require('null-ls').builtins.formatting.biome.with {
           condition = function(utils)
             return utils.root_has_file { 'biome.toml' }
