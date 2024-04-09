@@ -1,5 +1,7 @@
 return {
   'dmmulroy/tsc.nvim',
-  event = 'VeryLazy',
-  opts = {},
+  opts = {
+    use_trouble_qflist = true,
+    run_as_monorepo = true,
+  },
 }
