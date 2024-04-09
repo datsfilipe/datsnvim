@@ -1,5 +1,5 @@
 return {
   'dmmulroy/tsc.nvim',
-  ft = 'typescript',
+  event = 'VeryLazy',
   opts = {},
 }
