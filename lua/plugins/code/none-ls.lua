@@ -52,27 +52,6 @@ return {
           end,
         },
 
-        require('null-ls').builtins.formatting.prettier.with {
-          condition = function(utils)
-            local git_root_dirname = vim.fn.fnamemodify(
-              vim.fn.systemlist 'git rev-parse --show-toplevel',
-              ':p:h'
-            )
-            if git_root_dirname == 'd3-app' then
-              return false
-            end
-
-            return utils.root_has_file {
-              '.prettierrc',
-              '.prettierrc.json',
-              '.prettierrc.yaml',
-              '.prettierrc.yml',
-              '.prettierrc.js',
-              'prettier.config.js',
-            }
-          end,
-        },
-
         require('null-ls').builtins.diagnostics.codespell,
         require('null-ls').builtins.diagnostics.editorconfig_checker.with {
           condition = function(utils)
