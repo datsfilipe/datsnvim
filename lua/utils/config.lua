@@ -55,6 +55,12 @@ M.signs = {
   Hint = '󰛨',
 }
 
+M.diff = {
+  added = ' ',
+  modified = ' ',
+  removed = ' ',
+}
+
 -- lsp kind icons
 M.kind = {
   Text = '',
