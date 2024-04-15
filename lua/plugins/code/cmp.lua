@@ -1,4 +1,4 @@
-local config = require 'utils.config'
+local config = require 'core.config'
 local function isFileTooBig(bufnr)
   local max_filesize = 30 * 1024 -- 30KB
   local check_stats = (vim.uv or vim.loop).fs_stat
