@@ -1,4 +1,4 @@
-local augroup = vim.api.nvim_create_augroup('LspFormatting', {})
+local helpers = require 'plugins.code.lsp.helpers'
 
 local async_formatting = function(bufnr)
   bufnr = bufnr or vim.api.nvim_get_current_buf()
@@ -16,8 +16,8 @@ local async_formatting = function(bufnr)
 
       -- don't apply results if buffer is unloaded or has been modified
       if
-          not vim.api.nvim_buf_is_loaded(bufnr)
-          or vim.api.nvim_buf_get_option(bufnr, 'modified')
+        not vim.api.nvim_buf_is_loaded(bufnr)
+        or vim.api.nvim_buf_get_option(bufnr, 'modified')
       then
         return
       end
@@ -52,6 +52,26 @@ return {
           end,
         },
 
+        require('null-ls').builtins.formatting.prettier.with {
+          condition = function(utils)
+            if
+              vim.bo.filetype == 'javascriptreact'
+              or vim.bo.filetype == 'typescriptreact'
+            then
+              return false
+            end
+
+            return utils.root_has_file {
+              '.prettierrc',
+              '.prettierrc.json',
+              '.prettierrc.yaml',
+              '.prettierrc.yml',
+              '.prettierrc.js',
+              'prettier.config.js',
+            }
+          end,
+        },
+
         require('null-ls').builtins.diagnostics.codespell,
         require('null-ls').builtins.diagnostics.editorconfig_checker.with {
           condition = function(utils)
@@ -61,9 +81,9 @@ return {
       },
       on_attach = function(client, bufnr)
         if client.supports_method 'textDocument/formatting' then
-          vim.api.nvim_clear_autocmds { group = augroup, buffer = bufnr }
+          vim.api.nvim_clear_autocmds { group = helpers.augroup, buffer = bufnr }
           vim.api.nvim_create_autocmd('BufWritePost', {
-            group = augroup,
+            group = helpers.augroup,
             buffer = bufnr,
             callback = function()
               async_formatting(bufnr)
