@@ -1,4 +1,4 @@
-require('custom.monkeytype').init(false)
+require('utils.monkeytype').init(false)
 
 -- turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd('InsertLeave', {

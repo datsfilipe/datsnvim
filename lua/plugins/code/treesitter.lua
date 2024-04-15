@@ -1,4 +1,4 @@
-local config = require 'utils.config'
+local config = require 'core.config'
 
 return {
   'nvim-treesitter/nvim-treesitter',

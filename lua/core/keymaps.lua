@@ -1,14 +1,14 @@
 vim.g.mapleader = ' '
 
-require('custom.discipline').cowboy()
+require('utils.discipline').cowboy()
 
 local keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
-keymap.set('n', 'ze', require('custom.excalidraw').open, opts)
+keymap.set('n', 'ze', require('utils.excalidraw').open, opts)
 
 -- ast-grep
-keymap.set('n', '<leader>A', require('custom.ast-grep').execute, opts)
+keymap.set('n', '<leader>A', require('utils.ast-grep').execute, opts)
 
 keymap.set('i', '<C-c>', '<Esc>', opts)
 keymap.set('n', 'x', '"_x')
@@ -25,8 +25,8 @@ keymap.set('v', 'g+', 'g<C-a>', opts)
 keymap.set('v', 'g-', 'g<C-x>', opts)
 
 -- move lines
-keymap.set('v', 'J', ':m \'>+1<Return>gv=gv', opts)
-keymap.set('v', 'K', ':m \'<-2<Return>gv=gv', opts)
+keymap.set('v', 'J', ":m '>+1<Return>gv=gv", opts)
+keymap.set('v', 'K', ":m '<-2<Return>gv=gv", opts)
 keymap.set('n', '<leader>j', ':m .+1<Return>==', opts)
 keymap.set('n', '<leader>k', ':m .-2<Return>==', opts)
 
@@ -65,8 +65,13 @@ keymap.set({ 'n', 'v' }, '<leader>d', [["_d]], opts)
 -- paste but don't yank the deleted text
 keymap.set('x', '<leader>p', [["_dP]], opts)
 
--- replace occurences
-keymap.set('n', '<leader>r', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]], opts)
+-- replace occurrences
+keymap.set(
+  'n',
+  '<leader>r',
+  [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]],
+  opts
+)
 
 -- make file executable
 keymap.set('n', '<leader>x', ':!chmod +x %<Return>', opts)
