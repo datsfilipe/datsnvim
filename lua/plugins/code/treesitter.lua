@@ -20,7 +20,9 @@ return {
       auto_install = true,
       sync_install = false,
       highlight = { enable = true },
-      ensure_installed = config.parsers,
+      ensure_installed = {
+        'lua',
+      },
       autotag = { enable = true },
       incremental_selection = { enable = false },
       rainbow = { enable = false },
