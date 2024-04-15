@@ -16,37 +16,6 @@ end
 
 M.indent_color = '#343434'
 
--- lsp stuff
-M.servers = {
-  'lua_ls',
-  'cssls',
-  'html',
-  'tsserver',
-  'jsonls',
-  'tailwindcss',
-  'eslint',
-  'elixirls',
-  'rust_analyzer',
-}
-
-M.parsers = {
-  'javascript',
-  'typescript',
-  'tsx',
-  'html',
-  'css',
-  'lua',
-  'markdown',
-  'markdown_inline',
-  'bash',
-  'fish',
-  'rust',
-  'go',
-  'dockerfile',
-  'json',
-  'toml',
-}
-
 -- diagnostics icons
 M.signs = {
   Error = '',

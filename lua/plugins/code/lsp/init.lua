@@ -104,7 +104,7 @@ return {
           capabilities = vim.deepcopy(capabilities),
         }, servers[server] or {})
 
-        server_opts.on_attach = function (client, bufnr)
+        server_opts.on_attach = function(client, bufnr)
           helpers.on_attach(client, bufnr, opts)
         end
 
@@ -141,7 +141,7 @@ return {
         )
       end
 
-      local ensure_installed = {} ---@type string[]
+      local ensure_installed = {}
       for server, server_opts in pairs(servers) do
         if server_opts then
           server_opts = server_opts == true and {} or server_opts
@@ -181,7 +181,6 @@ return {
     opts = {
       ensure_installed = {
         'stylua',
-        'shfmt',
       },
     },
     config = function(_, opts)
