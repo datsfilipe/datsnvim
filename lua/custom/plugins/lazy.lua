@@ -13,7 +13,7 @@ vim.opt.rtp:prepend(lazypath)
 
 -- nixos compatibility:
 -- set colorscheme and lockfile path with nixos, so it will change with your nixos config
-local config = require 'core.config'
+local config = require 'utils.config'
 
 require('lazy').setup {
   lockfile = config.lockfile,
@@ -22,10 +22,10 @@ require('lazy').setup {
     colorscheme = { config.colorscheme },
   },
   spec = {
-    { import = 'plugins.ui' },
-    { import = 'plugins.code' },
-    { import = 'plugins.git' },
-    { import = 'plugins.others' },
+    { import = 'dtsf.plugins.ui' },
+    { import = 'dtsf.plugins.code' },
+    { import = 'dtsf.plugins.git' },
+    { import = 'dtsf.plugins.others' },
   },
   defaults = {
     lazy = false,
