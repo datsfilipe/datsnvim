@@ -16,47 +16,12 @@ end
 
 M.indent_color = '#343434'
 
--- diagnostics icons
-M.signs = {
-  Error = '',
-  Warn = '',
-  Info = '󰄛',
-  Hint = '󰛨',
-}
-
-M.diff = {
-  added = ' ',
-  modified = ' ',
-  removed = ' ',
-}
-
--- lsp kind icons
-M.kind = {
-  Text = '',
-  Method = 'ƒ',
-  Function = '',
-  Constructor = '',
-  Field = '󰫧',
-  Variable = '',
-  Class = '',
-  Interface = '',
-  Module = '',
-  Property = '',
-  Unit = '󰇎',
-  Value = '',
-  Enum = '',
-  Keyword = '󰌆',
-  Snippet = '',
-  Color = '',
-  File = '',
-  Reference = '',
-  Folder = '',
-  EnumMember = '',
-  Constant = '',
-  Struct = '',
-  Event = '',
-  Operator = '',
-  TypeParameter = '',
+-- diagnostics
+M.sign_icons = {
+  Error = 'E',
+  Warn = 'W',
+  Info = 'I',
+  Hint = 'H',
 }
 
 return M

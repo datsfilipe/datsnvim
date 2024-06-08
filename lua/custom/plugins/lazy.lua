@@ -1,3 +1,5 @@
+vim.g.mapleader = ' '
+
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
@@ -22,10 +24,8 @@ require('lazy').setup {
     colorscheme = { config.colorscheme },
   },
   spec = {
-    { import = 'dtsf.plugins.ui' },
-    { import = 'dtsf.plugins.code' },
-    { import = 'dtsf.plugins.git' },
-    { import = 'dtsf.plugins.others' },
+    { import = 'custom.plugins.ui' },
+    { import = 'custom.plugins.code' },
   },
   defaults = {
     lazy = false,
