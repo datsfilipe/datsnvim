@@ -52,4 +52,3 @@ vim.cmd [[let &t_Ce = "\e[4:0m"]]
 
 -- format options
 vim.opt.formatoptions:append { 'r' }
-vim.opt.formatoptions:remove 'o'

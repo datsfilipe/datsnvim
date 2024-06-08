@@ -6,7 +6,7 @@ vim.api.nvim_create_autocmd('InsertLeave', {
   command = 'set nopaste',
 })
 
--- disable the concealing in some file formats
+-- disable concealing in some file types
 vim.api.nvim_create_autocmd('FileType', {
   pattern = { 'json', 'jsonc', 'markdown' },
   callback = function()
@@ -18,21 +18,13 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.cmd [[au BufNewFile,BufRead *.astro setf astro]]
 
 -- remove background of split and vpslit bars after colorscheme is applied
-vim.api.nvim_create_autocmd('ColorScheme', {
-  pattern = '*',
-  callback = function()
-    vim.cmd [[hi VertSplit guibg=NONE]]
-    vim.cmd [[hi SignColumn guibg=NONE]]
-  end,
-})
-
--- highlight yanked text for 200ms after yanking
-vim.api.nvim_create_autocmd('TextYankPost', {
-  pattern = '*',
-  callback = function()
-    vim.highlight.on_yank { timeout = 200 }
-  end,
-})
+-- vim.api.nvim_create_autocmd('ColorScheme', {
+--   pattern = '*',
+--   callback = function()
+--     vim.cmd [[hi VertSplit guibg=NONE]]
+--     vim.cmd [[hi SignColumn guibg=NONE]]
+--   end,
+-- })
 
 -- highlight current line
 local group = vim.api.nvim_create_augroup('CursorLineControl', { clear = true })
@@ -49,4 +41,4 @@ end
 
 set_cursorline('WinLeave', false, '*')
 set_cursorline('WinEnter', true, '*')
-set_cursorline('FileType', false, 'TelescopePrompt')
+-- set_cursorline('FileType', false, 'TelescopePrompt')

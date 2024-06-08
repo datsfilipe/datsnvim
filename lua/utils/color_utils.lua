@@ -47,4 +47,8 @@ function M.hslToHex(h, s, l)
   return string.format('#%02x%02x%02x', r, g, b)
 end
 
+function M.rgbToHex(r, g, b)
+  return string.format('#%02x%02x%02x', r, g, b)
+end
+
 return M
