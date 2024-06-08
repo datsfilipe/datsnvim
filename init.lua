@@ -1,8 +1,4 @@
-require 'core.unset'
-require 'core.options'
-require 'core.autocmds'
-require 'core.keymaps'
-require 'plugins.lazy'
+require 'custom.plugins.lazy'
 
-local config = require 'core.config'
+local config = require 'utils.config'
 vim.cmd.colorscheme(config.colorscheme)
