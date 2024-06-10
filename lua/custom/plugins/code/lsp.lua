@@ -60,6 +60,7 @@ return {
           },
         },
         biome = true,
+        eslint = true,
 
         jsonls = {
           settings = {
