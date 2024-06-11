@@ -1,31 +1,10 @@
 return {
   'folke/trouble.nvim',
   keys = {
-    { ';e', ':TroubleToggle<Return>' },
-    {
-      '<leader>n',
-      function()
-        local trouble = require 'trouble'
-
-        if trouble.is_open() then
-          trouble.next { skip_groups = true, jump = true }
-        else
-          trouble.open()
-        end
-      end,
-    },
-    {
-      '<leader>p',
-      function()
-        local trouble = require 'trouble'
-
-        if trouble.is_open() then
-          trouble.prev { skip_groups = true, jump = true }
-        else
-          trouble.open()
-        end
-      end,
-    },
+    { ';e', '<cmd>Trouble diagnostics toggle<Return>' },
+    { ';b', '<cmd>Trouble diagnostics toggle filter.buf=0<Return>' },
+    { '<leader>n', '<cmd>Trouble diagnostics next<Return>' },
+    { '<leader>p', '<cmd>Trouble diagnostics prev<Return>' },
   },
   opts = {
     use_diagnostic_signs = true,
