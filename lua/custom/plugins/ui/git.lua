@@ -9,7 +9,7 @@ return {
     { '<leader>gd', '<cmd>vert Git diff %<cr>' },
     { '<leader>gD', '<cmd>vert Git diff<cr>' },
     { '<leader>gl', '<cmd>vert Git log<cr>' },
-    { '<leader>gs', '<cmd>vert Git status<cr>' },
+    { '<leader>gs', '<cmd>Telescope git_status<cr>' },
     { '<leader>gp', '<cmd>Git push origin main<cr>' },
     { '<leader>gP', ':Git push origin ' },
     { '<leader>gg', ':Git ' },
