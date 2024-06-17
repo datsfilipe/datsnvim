@@ -191,8 +191,8 @@ return {
       require('conform').setup {
         formatters_by_ft = {
           lua = { 'stylua' },
-          javascript = { 'biome', 'prettier' },
-          typescript = { 'biome', 'prettier' },
+          javascript = { { 'prettier', 'prettierd' }, 'biome' },
+          typescript = { { 'prettier', 'prettierd' }, 'biome' },
         },
       }
 
@@ -207,10 +207,7 @@ return {
       })
 
       -- linting setup
-      require('lint').linters_by_ft = {
-        javascript = { 'biomejs' },
-        typescript = { 'biomejs' },
-      }
+      require('lint').linters_by_ft = {}
 
       vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
         callback = function()
