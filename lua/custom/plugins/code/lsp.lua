@@ -191,8 +191,8 @@ return {
       require('conform').setup {
         formatters_by_ft = {
           lua = { 'stylua' },
-          javascript = { { 'prettier', 'prettierd' }, 'biome' },
-          typescript = { { 'prettier', 'prettierd' }, 'biome' },
+          javascript = { { 'prettier', 'prettierd' } },
+          typescript = { { 'prettier', 'prettierd' } },
         },
       }
 
