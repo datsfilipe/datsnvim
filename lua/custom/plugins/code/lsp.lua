@@ -187,12 +187,25 @@ return {
         end,
       })
 
+      local function js_formatters()
+        local root_dir = vim.fn.getcwd()
+        local prettier_config = vim.fn.findfile('.prettierrc', root_dir .. ';')
+        if prettier_config ~= '' then
+          return { 'prettier', 'prettierd' }
+        end
+
+        local biome_config = vim.fn.findfile('biome.json', root_dir .. ';')
+        if biome_config ~= '' then
+          return { 'biome' }
+        end
+      end
+
       -- autoformatting setup
       require('conform').setup {
         formatters_by_ft = {
           lua = { 'stylua' },
-          javascript = { { 'prettier', 'prettierd' } },
-          typescript = { { 'prettier', 'prettierd' } },
+          javascript = js_formatters(),
+          typescript = js_formatters(),
         },
       }
 
@@ -207,7 +220,15 @@ return {
       })
 
       -- linting setup
-      require('lint').linters_by_ft = {}
+      require('lint').linters_by_ft = {
+        javascript = function()
+          local root_dir = vim.fn.getcwd()
+          local biome_config = vim.fn.findfile('biome.json', root_dir .. ';')
+          if biome_config ~= '' then
+            return { 'biomejs' }
+          end
+        end,
+      }
 
       vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
         callback = function()
