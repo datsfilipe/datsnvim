@@ -8,6 +8,7 @@ vim.opt.guicursor = 'a:blinkon5'
 vim.opt.belloff = 'all'
 
 vim.opt.inccommand = 'split'
+vim.opt.updatetime = 50
 
 vim.opt.autoindent = true
 vim.opt.smartindent = true
