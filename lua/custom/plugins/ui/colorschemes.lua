@@ -1,12 +1,11 @@
 local config = require 'utils.config'
 
 local commonHighlights = {
-  NormalFloat = { bg = 'NONE' },
-  CmpBorder = { fg = config.indent_color, bg = 'NONE' },
-  CmpDocBorder = { fg = config.indent_color, bg = 'NONE' },
-  IndentLineChar = { fg = config.indent_color, bg = 'NONE' },
-  TelescopeBorder = { fg = config.indent_color, bg = 'NONE' },
-  NotifyINFOBorder = { fg = config.indent_color, bg = 'NONE' },
+  CmpBorder = { fg = config.indent_color },
+  CmpDocBorder = { fg = config.indent_color },
+  IndentLineChar = { fg = config.indent_color },
+  TelescopeBorder = { fg = config.indent_color },
+  NotifyINFOBorder = { fg = config.indent_color },
 }
 
 return {
@@ -70,9 +69,9 @@ return {
       dim_inactive = false,
       transparent_mode = true,
       overrides = vim.tbl_extend('force', commonHighlights, {
-        TelescopePromptBorder = { fg = config.indent_color, bg = 'NONE' },
-        TelescopeResultsBorder = { fg = config.indent_color, bg = 'NONE' },
-        TelescopePreviewBorder = { fg = config.indent_color, bg = 'NONE' },
+        TelescopePromptBorder = { fg = config.indent_color },
+        TelescopeResultsBorder = { fg = config.indent_color },
+        TelescopePreviewBorder = { fg = config.indent_color },
       }),
     },
   },
@@ -105,8 +104,6 @@ return {
         for k, v in pairs(commonHighlights) do
           hl[k] = v
         end
-        hl['TelescopeNormal'] = { bg = 'NONE' }
-        hl['TroubleNormal'] = { bg = 'NONE' }
       end,
     },
   },
@@ -126,15 +123,6 @@ return {
         end
 
         highlights['Visual'] = { bg = '#363646' }
-        highlights['LineNr'] = { bg = 'NONE' }
-        highlights['SignColumn'] = { bg = 'NONE' }
-        highlights['GitSignsAdd'] = { bg = 'NONE' }
-        highlights['GitSignsChange'] = { bg = 'NONE' }
-        highlights['GitSignsDelete'] = { bg = 'NONE' }
-        highlights['DiagnosticSignWarn'] = { bg = 'NONE' }
-        highlights['DiagnosticSignError'] = { bg = 'NONE' }
-        highlights['DiagnosticSignHint'] = { bg = 'NONE' }
-        highlights['DiagnosticSignInfo'] = { bg = 'NONE' }
 
         return vim.tbl_extend('force', highlights, {})
       end,
