@@ -56,7 +56,7 @@ return {
       italic = {
         strings = false,
         operators = false,
-        comments = false,
+        comments = true,
       },
       strikethrough = true,
       invert_selection = false,
