@@ -3,10 +3,12 @@ return {
   keys = {
     { ';e', '<cmd>Trouble diagnostics toggle<Return>' },
     { ';b', '<cmd>Trouble diagnostics toggle filter.buf=0<Return>' },
-    { '<leader>n', '<cmd>Trouble diagnostics next<Return>' },
-    { '<leader>p', '<cmd>Trouble diagnostics prev<Return>' },
+    { ']d', '<cmd>Trouble diagnostics next<Return>' },
+    { '[d', '<cmd>Trouble diagnostics prev<Return>' },
   },
   opts = {
+    focus = true,
+    follow = true,
     use_diagnostic_signs = true,
     icons = {
       indent = {

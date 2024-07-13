@@ -61,3 +61,8 @@ keymap.set('n', '<leader>x', ':!chmod +x %<Return>', opts)
 keymap.set('n', '<C-f>', ':silent !tmux neww zellij-sessionizer<Return>', opts)
 -- datsvault (https://gist.github.com/datsfilipe/15a407d5bfbd21778787ccd02a8a2020)
 keymap.set('n', '<leader>l', ':silent !tmux neww datsvault -l<Return>', opts)
+
+-- toggle inlay hints
+keymap.set('n', '<leader>hh', function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = 0 })
+end, opts)
