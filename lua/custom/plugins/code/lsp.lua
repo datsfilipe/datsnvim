@@ -52,7 +52,11 @@ return {
         },
         rust_analyzer = true,
         templ = true,
-        cssls = true,
+        cssls = {
+          init_options = {
+            provideFormatter = false,
+          },
+        },
 
         tsserver = {
           server_capabilities = {
