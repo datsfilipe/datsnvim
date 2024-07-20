@@ -67,7 +67,23 @@ return {
   config = function()
     local dap, dapui = require 'dap', require 'dapui'
 
-    dapui.setup()
+    local ui_config = {
+      icons = { expanded = '+', collapsed = '-', current_frame = '*' },
+      controls = {
+        icons = {
+          pause = 'P',
+          play = 'RUN',
+          step_into = 'ENTER',
+          step_out = 'OUT',
+          step_over = '>',
+          step_back = '<',
+          run_last = 'LAST',
+          terminate = 'END',
+          disconnect = 'X',
+        },
+      },
+    }
+    dapui.setup(ui_config)
     dap.listeners.before.attach.dapui_config = function()
       dapui.open()
     end
