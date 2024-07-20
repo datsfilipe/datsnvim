@@ -211,6 +211,8 @@ return {
           nix = { 'nixpkgs_fmt' },
           javascript = js_formatters(),
           typescript = js_formatters(),
+          less = { 'prettier', 'prettierd' },
+          css = { 'prettier', 'prettierd' },
         },
       }
 
