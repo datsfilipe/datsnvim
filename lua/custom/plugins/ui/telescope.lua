@@ -19,6 +19,7 @@ return {
             end,
             ['<C-j>'] = actions.move_selection_next,
             ['<C-k>'] = actions.move_selection_previous,
+            ['<C-l>'] = actions.smart_send_to_qflist + actions.open_qflist,
           },
         },
         extensions = {
