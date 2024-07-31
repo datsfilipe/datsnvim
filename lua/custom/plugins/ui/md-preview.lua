@@ -1,9 +1,4 @@
 return {
-  'iamcco/markdown-preview.nvim',
-  cmd = { 'MarkdownPreviewToggle', 'MarkdownPreview', 'MarkdownPreviewStop' },
+  'OXY2DEV/markview.nvim',
   ft = 'markdown',
-  build = 'cd app && yarn install',
-  keys = {
-    { '<F12>', '<cmd>MarkdownPreviewToggle<CR>' },
-  },
 }
