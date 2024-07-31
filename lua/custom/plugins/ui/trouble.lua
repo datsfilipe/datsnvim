@@ -1,7 +1,23 @@
+-- '<cmd><Return>'
 return {
   'folke/trouble.nvim',
+  dependencies = {
+    'artemave/workspace-diagnostics.nvim',
+  },
   keys = {
-    { ';e', '<cmd>Trouble diagnostics toggle<Return>' },
+    {
+      ';e',
+      function()
+        for _, client in ipairs(vim.lsp.get_clients()) do
+          require('workspace-diagnostics').populate_workspace_diagnostics(
+            client,
+            0
+          )
+        end
+
+        vim.cmd [[Trouble diagnostics toggle]]
+      end,
+    },
     { ';b', '<cmd>Trouble diagnostics toggle filter.buf=0<Return>' },
     { ']d', '<cmd>Trouble diagnostics next<Return>' },
     { '[d', '<cmd>Trouble diagnostics prev<Return>' },
