@@ -1,4 +1,3 @@
--- '<cmd><Return>'
 return {
   'folke/trouble.nvim',
   dependencies = {
@@ -8,13 +7,17 @@ return {
     {
       ';e',
       function()
-        for _, client in ipairs(vim.lsp.get_clients()) do
-          require('workspace-diagnostics').populate_workspace_diagnostics(
-            client,
-            0
-          )
+        if not vim.g.workspace_diagnostics_populated then
+          for _, client in ipairs(vim.lsp.get_clients()) do
+            if client.attached_buffers[vim.api.nvim_get_current_buf()] then
+              require('workspace-diagnostics').populate_workspace_diagnostics(
+                client,
+                0
+              )
+            end
+          end
+          vim.g.workspace_diagnostics_populated = true
         end
-
         vim.cmd [[Trouble diagnostics toggle]]
       end,
     },
