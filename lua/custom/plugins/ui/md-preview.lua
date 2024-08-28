@@ -1,15 +1,48 @@
 return {
-  'datsfilipe/md-previewer',
-  cmd = 'MdPreviewer',
+  'MeanderingProgrammer/render-markdown.nvim',
   ft = 'markdown',
-  dependencies = {
-    'nvim-lua/plenary.nvim',
-  },
-  build = ":lua dofile(vim.fn.stdpath('data') .. '/lazy/md-previewer/lua/build.lua')",
-  keys = {
-    { '<F12>', '<cmd>MdPreviewer<cr>' },
-  },
   opts = {
-    quiet = true,
+    heading = {
+      icons = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
+    },
+    bullet = {
+      icons = { '*', '-', '+', '-' },
+    },
+    checkbox = {
+      unchecked = {
+        icon = '[ ]',
+      },
+      checked = {
+        icon = '[x]',
+      },
+    },
+    callout = {
+      note = { raw = '[!NOTE]', rendered = '- Note' },
+      tip = { raw = '[!TIP]', rendered = '- Tip' },
+      important = { raw = '[!IMPORTANT]', rendered = '- Important' },
+      warning = { raw = '[!WARNING]', rendered = '- Warning' },
+      caution = { raw = '[!CAUTION]', rendered = '- Caution' },
+      abstract = { raw = '[!ABSTRACT]', rendered = '- Abstract' },
+      todo = { raw = '[!TODO]', rendered = '- Todo' },
+      success = { raw = '[!SUCCESS]', rendered = '- Success' },
+      question = { raw = '[!QUESTION]', rendered = '- Question' },
+      failure = { raw = '[!FAILURE]', rendered = '- Failure' },
+      danger = { raw = '[!DANGER]', rendered = '- Danger' },
+      bug = { raw = '[!BUG]', rendered = '- Bug' },
+      example = { raw = '[!EXAMPLE]', rendered = '- Example' },
+      quote = { raw = '[!QUOTE]', rendered = '- Quote' },
+    },
+    link = {
+      image = '',
+      email = '',
+      hyperlink = '',
+      custom = {
+        web = { pattern = '^http[s]?://', icon = '' },
+      },
+    },
+    sign = {
+      enabled = false,
+    },
   },
+  dependencies = { 'nvim-treesitter/nvim-treesitter' },
 }
