@@ -2,7 +2,7 @@ return {
   'yetone/avante.nvim',
   lazy = false,
   event = 'VeryLazy',
-  build = 'make',
+  build = ':AvanteBuild',
   opts = {
     provider = 'openai',
     openai = {
