@@ -17,15 +17,6 @@ vim.api.nvim_create_autocmd('FileType', {
 -- set filetype of .astro files
 vim.cmd [[au BufNewFile,BufRead *.astro setf astro]]
 
--- remove background of split and vpslit bars after colorscheme is applied
--- vim.api.nvim_create_autocmd('ColorScheme', {
---   pattern = '*',
---   callback = function()
---     vim.cmd [[hi VertSplit guibg=NONE]]
---     vim.cmd [[hi SignColumn guibg=NONE]]
---   end,
--- })
-
 -- highlight current line
 local group = vim.api.nvim_create_augroup('CursorLineControl', { clear = true })
 
