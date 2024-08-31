@@ -12,6 +12,7 @@ return {
     { '<leader>gs', '<cmd>Telescope git_status<cr>' },
     { '<leader>gp', '<cmd>Git push origin main<cr>' },
     { '<leader>gP', ':Git push origin ' },
+    { '<leader>gb', '<cmd>CustomGitBlame<cr>' },
     { '<leader>gg', ':Git ' },
   },
   opts = {},
