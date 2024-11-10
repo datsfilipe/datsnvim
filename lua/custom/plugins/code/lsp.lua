@@ -1,3 +1,5 @@
+local lsp_utils = require 'utils.lsp'
+
 return {
   {
     'neovim/nvim-lspconfig',
@@ -29,8 +31,8 @@ return {
       local lspconfig = require 'lspconfig'
 
       local servers = {
-        bashls = true,
         gopls = {
+          disabled = not lsp_utils.check_for_bin 'go',
           settings = {
             gopls = {
               hints = {
@@ -53,20 +55,23 @@ return {
         rust_analyzer = true,
         templ = true,
         cssls = {
+          disabled = not lsp_utils.check_for_bin 'node',
           init_options = {
             provideFormatter = false,
           },
         },
 
         ts_ls = {
+          disabled = not lsp_utils.check_for_bin 'node',
           server_capabilities = {
             documentFormattingProvider = false,
           },
         },
-        biome = true,
-        eslint = true,
+        biome = { disabled = not lsp_utils.check_for_bin 'node' },
+        eslint = { disabled = not lsp_utils.check_for_bin 'node' },
 
         jsonls = {
+          disabled = not lsp_utils.check_for_bin 'node',
           settings = {
             json = {
               schemas = require('schemastore').json.schemas(),
@@ -86,26 +91,19 @@ return {
         },
       }
 
-      local servers_to_install = vim.tbl_filter(function(key)
-        local t = servers[key]
-        if type(t) == 'table' then
-          return not t.manual_install
-        else
-          return t
-        end
-      end, vim.tbl_keys(servers))
-
-      require('mason').setup()
-      local ensure_installed = {
-        'stylua',
-        'lua_ls',
-        'codespell',
+      local tools = {
+        stylua = true,
+        lua_ls = true,
+        codespell = { disabled = not lsp_utils.check_for_bin 'python3' },
         -- "tailwind-language-server",
       }
 
-      vim.list_extend(ensure_installed, servers_to_install)
+      require('mason').setup()
       require('mason-tool-installer').setup {
-        ensure_installed = ensure_installed,
+        ensure_installed = vim.list_extend(
+          lsp_utils.filter_by_disabled(servers),
+          lsp_utils.filter_by_disabled(tools)
+        ),
       }
 
       for name, config in pairs(servers) do
