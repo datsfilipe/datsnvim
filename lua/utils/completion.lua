@@ -131,16 +131,20 @@ M.setup_completion = function(args)
               { info = result.documentation.value }
             )
 
-            if
-              not vim.api.nvim_win_is_valid(winData.winid)
-              or winData.winid == nil
-            then
+            if winData.winid == nil then
               return
             end
 
-            vim.api.nvim_win_set_config(winData.winid, {})
-            vim.treesitter.start(winData.bufnr, 'markdown')
-            vim.wo[winData.winid].conceallevel = 3
+            if not vim.api.nvim_win_is_valid(winData.winid) then
+              return
+            end
+
+            vim.api.nvim_win_set_config(winData.winid, { height = 10 })
+            vim.api.nvim_set_option_value(
+              'filetype',
+              'markdown',
+              { buf = winData.bufnr }
+            )
           end,
           bufnr
         )
