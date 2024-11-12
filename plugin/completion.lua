@@ -33,8 +33,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- Enable completion and configure keybindings.
     if client.supports_method(methods.textDocument_completion) then
       -- Configure completion behavior
-      vim.opt.completeopt =
-        { 'menu', 'menuone', 'noselect', 'preview', 'fuzzy' }
+      vim.opt.completeopt = { 'menu', 'menuone', 'noselect', 'noinsert' }
 
       -- Enable LSP completion
       vim.lsp.completion.enable(true, client.id, bufnr, {
