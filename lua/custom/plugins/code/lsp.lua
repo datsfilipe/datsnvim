@@ -1,5 +1,18 @@
 local lsp_utils = require 'utils.lsp'
 
+local function js_formatters()
+  local root_dir = vim.fn.getcwd()
+  local prettier_config = vim.fn.findfile('.prettierrc', root_dir .. ';')
+  if prettier_config ~= '' then
+    return { 'prettier', 'prettierd' }
+  end
+
+  local biome_config = vim.fn.findfile('biome.json', root_dir .. ';')
+  if biome_config ~= '' then
+    return { 'biome' }
+  end
+end
+
 return {
   {
     'neovim/nvim-lspconfig',
@@ -21,14 +34,28 @@ return {
       'b0o/SchemaStore.nvim',
     },
     config = function()
-      require('neodev').setup {}
-
-      -- local capabilities = nil
-      -- if pcall(require, 'cmp_nvim_lsp') then
-      --   capabilities = require('cmp_nvim_lsp').default_capabilities()
-      -- end
-
       local lspconfig = require 'lspconfig'
+
+      require('neodev').setup {}
+      require('conform').setup {
+        formatters_by_ft = {
+          lua = { 'stylua' },
+          nix = { 'nixpkgs_fmt' },
+          javascript = js_formatters(),
+          typescript = js_formatters(),
+          less = { 'prettier', 'prettierd' },
+          css = { 'prettier', 'prettierd' },
+        },
+      }
+      require('lint').linters_by_ft = {
+        javascript = function()
+          local root_dir = vim.fn.getcwd()
+          local biome_config = vim.fn.findfile('biome.json', root_dir .. ';')
+          if biome_config ~= '' then
+            return { 'biomejs' }
+          end
+        end,
+      }
 
       local servers = {
         gopls = {
@@ -126,6 +153,9 @@ return {
             'must have valid client'
           )
 
+          -- completion setup
+          require('utils.completion').setup_completion(args)
+
           local settings = servers[client.name]
           if type(settings) ~= 'table' then
             settings = {}
@@ -183,61 +213,29 @@ return {
               client.server_capabilities[k] = v
             end
           end
-        end,
-      })
 
-      local function js_formatters()
-        local root_dir = vim.fn.getcwd()
-        local prettier_config = vim.fn.findfile('.prettierrc', root_dir .. ';')
-        if prettier_config ~= '' then
-          return { 'prettier', 'prettierd' }
-        end
-
-        local biome_config = vim.fn.findfile('biome.json', root_dir .. ';')
-        if biome_config ~= '' then
-          return { 'biome' }
-        end
-      end
-
-      -- autoformatting setup
-      require('conform').setup {
-        formatters_by_ft = {
-          lua = { 'stylua' },
-          nix = { 'nixpkgs_fmt' },
-          javascript = js_formatters(),
-          typescript = js_formatters(),
-          less = { 'prettier', 'prettierd' },
-          css = { 'prettier', 'prettierd' },
-        },
-      }
-
-      vim.api.nvim_create_autocmd('BufWritePre', {
-        callback = function(args)
-          require('conform').format {
-            bufnr = args.buf,
-            lsp_fallback = true,
-            quiet = true,
-          }
-        end,
-      })
-
-      -- linting setup
-      require('lint').linters_by_ft = {
-        javascript = function()
-          local root_dir = vim.fn.getcwd()
-          local biome_config = vim.fn.findfile('biome.json', root_dir .. ';')
-          if biome_config ~= '' then
-            return { 'biomejs' }
+          -- autoformatting setup
+          if client.supports_method 'textDocument/formatting' then
+            vim.api.nvim_create_autocmd('BufWritePre', {
+              callback = function(format_args)
+                require('conform').format {
+                  bufnr = format_args.buf,
+                  lsp_fallback = true,
+                  quiet = true,
+                }
+              end,
+            })
           end
-        end,
-      }
 
-      vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-        callback = function()
-          require('lint').try_lint()
-          if vim.fn.executable 'codespell' == 1 then
-            require('lint').try_lint 'codespell'
-          end
+          -- linting setup
+          vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
+            callback = function()
+              require('lint').try_lint()
+              if lsp_utils.check_for_bin 'codespell' then
+                require('lint').try_lint 'codespell'
+              end
+            end,
+          })
         end,
       })
 
