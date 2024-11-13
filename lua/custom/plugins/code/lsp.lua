@@ -229,7 +229,7 @@ return {
       vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
         callback = function()
           require('lint').try_lint()
-          if vim.fn.executable 'codespell' == 1 then
+          if lsp_utils.check_for_bin 'codespell' then
             require('lint').try_lint 'codespell'
           end
         end,
