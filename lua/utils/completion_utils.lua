@@ -13,7 +13,7 @@ local function get_kind_priority(kind)
   return 0
 end
 
-M.table_get = function(t, id)
+local function get_from_table(t, id)
   if type(id) ~= 'table' then
     return M.table_get(t, { id })
   end
@@ -30,7 +30,7 @@ M.table_get = function(t, id)
 end
 
 M.get_completion_word = function(item)
-  return M.table_get(item, { 'textEdit', 'newText' })
+  return get_from_table(item, { 'textEdit', 'newText' })
     or item.insertText
     or item.label
     or ''
