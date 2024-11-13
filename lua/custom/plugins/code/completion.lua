@@ -7,8 +7,8 @@ return {
     fallback_action = '<C-n>',
     set_vim_settings = false,
     mappings = {
-      force_twostep = '<A-Space>',
-      force_fallback = '<S-Space>',
+      force_twostep = '',
+      force_fallback = '',
     },
     lsp_completion = {
       process_items = function(items, base)
