@@ -53,3 +53,9 @@ vim.cmd [[let &t_Ce = "\e[4:0m"]]
 
 -- format options
 vim.opt.formatoptions:append { 'r' }
+
+-- completion options
+vim.opt.shortmess:append 'c'
+vim.opt.completeopt = { 'menu', 'menuone', 'noselect', 'noinsert' }
+vim.opt.pumheight = 10
+vim.opt.pumwidth = 40
