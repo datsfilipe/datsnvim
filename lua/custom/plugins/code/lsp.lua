@@ -23,13 +23,7 @@ return {
     config = function()
       require('neodev').setup {}
 
-      local capabilities = nil
-      if pcall(require, 'cmp_nvim_lsp') then
-        capabilities = require('cmp_nvim_lsp').default_capabilities()
-      end
-
       local lspconfig = require 'lspconfig'
-
       local servers = {
         gopls = {
           disabled = not lsp_utils.check_for_bin 'go',
@@ -110,10 +104,7 @@ return {
         if config == true then
           config = {}
         end
-        config = vim.tbl_deep_extend('force', {}, {
-          capabilities = capabilities,
-        }, config)
-
+        config = vim.tbl_deep_extend('force', {}, {}, config)
         lspconfig[name].setup(config)
       end
 
