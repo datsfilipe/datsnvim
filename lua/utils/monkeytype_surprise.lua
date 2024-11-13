@@ -1,7 +1,9 @@
 local M = {}
 
-function M.init(enable)
-  if not enable then
+vim.g.monkeytype_enabled = false
+
+function M.init()
+  if not vim.g.monkeytype_enabled then
     return
   end
 
@@ -21,10 +23,18 @@ function M.init(enable)
     vim.cmd(cmd)
   end
 
-  local run_period = 30 * 60 * 1000 -- 30 minutes
+  local run_period = 15 * 60 * 1000 -- 15 minutes
 
   local timer = vim.loop.new_timer()
   timer:start(run_period, run_period, vim.schedule_wrap(open_monkeytype))
 end
+
+vim.keymap.set('n', '<leader>mt', function()
+  vim.g.monkeytype_enabled = not vim.g.monkeytype_enabled
+  print(
+    'Monkeytype surprise test is now '
+      .. (vim.g.monkeytype_enabled and 'enabled' or 'disabled')
+  )
+end)
 
 return M
