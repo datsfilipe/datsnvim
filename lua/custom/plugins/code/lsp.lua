@@ -217,13 +217,13 @@ return {
 
       -- linting setup
       require('lint').linters_by_ft = {
-        javascript = function()
+        javascript = (function()
           local root_dir = vim.fn.getcwd()
           local biome_config = vim.fn.findfile('biome.json', root_dir .. ';')
           if biome_config ~= '' then
             return { 'biomejs' }
           end
-        end,
+        end)(),
       }
 
       vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
