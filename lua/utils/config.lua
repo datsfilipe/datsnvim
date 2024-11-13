@@ -24,4 +24,32 @@ M.sign_icons = {
   Hint = 'H',
 }
 
+M.kind_priorities = {
+  'Method',
+  'Function',
+  'Constructor',
+  'Field',
+  'Variable',
+  'Class',
+  'Interface',
+  'Module',
+  'Property',
+  'Unit',
+  'Value',
+  'Enum',
+  'Keyword',
+  'File',
+  'Snippet',
+  'Color',
+  'Reference',
+  'Folder',
+  'EnumMember',
+  'Constant',
+  'Struct',
+  'Event',
+  'Operator',
+  'TypeParameter',
+  'Text',
+}
+
 return M

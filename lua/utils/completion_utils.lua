@@ -57,7 +57,7 @@ M.should_come_first = function(a, b, base)
     return a_priority > b_priority
   end
 
-  return a.label < b.label
+  return a_text < b_text
 end
 
 return M
