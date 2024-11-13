@@ -16,7 +16,6 @@ end
 
 M.indent_color = '#343434'
 
--- diagnostics
 M.sign_icons = {
   Error = 'E',
   Warn = 'W',
