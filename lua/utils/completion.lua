@@ -139,12 +139,12 @@ M.setup_completion = function(args)
               return
             end
 
-            vim.api.nvim_win_set_config(winData.winid, { height = 10 })
-            vim.api.nvim_set_option_value(
-              'filetype',
-              'markdown',
-              { buf = winData.bufnr }
-            )
+            vim.api.nvim_win_set_config(winData.winid, {})
+            -- vim.api.nvim_set_option_value(
+            --   'filetype',
+            --   'markdown',
+            --   { buf = winData.bufnr }
+            -- )
           end,
           bufnr
         )
