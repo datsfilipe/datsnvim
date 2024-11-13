@@ -1,52 +1,30 @@
+local completion_utils = require 'utils.completion_utils'
+
 return {
-  {
-    'hrsh7th/nvim-cmp',
-    lazy = false,
-    priority = 100,
-    dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-buffer',
-      { 'L3MON4D3/LuaSnip', build = 'make install_jsregexp' },
-      'saadparwaiz1/cmp_luasnip',
+  'echasnovski/mini.completion',
+  version = '*',
+  opts = {
+    fallback_action = '<C-n>',
+    set_vim_settings = false,
+    mappings = {
+      force_twostep = '<A-Space>',
+      force_fallback = '<S-Space>',
     },
-    opts = {},
-    config = function()
-      local cmp = require 'cmp'
+    lsp_completion = {
+      process_items = function(items, base)
+        local res = vim.tbl_filter(function(item)
+          local text = item.filterText
+            or completion_utils.get_completion_word(item)
+          return vim.startswith(text, base) and item.kind ~= 15
+        end, items)
 
-      cmp.setup {
-        sources = {
-          { name = 'nvim_lsp' },
-          { name = 'cody' },
-          { name = 'path' },
-          { name = 'buffer' },
-        },
-        mapping = {
-          ['<Tab>'] = cmp.mapping.select_next_item {
-            behavior = cmp.SelectBehavior.Insert,
-          },
-          ['<S-Tab>'] = cmp.mapping.select_prev_item {
-            behavior = cmp.SelectBehavior.Insert,
-          },
-          ['<C-u>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-d>'] = cmp.mapping.scroll_docs(4),
-          ['<C-e>'] = cmp.mapping.abort(),
-          ['<CR>'] = cmp.mapping(
-            cmp.mapping.confirm {
-              behavior = cmp.ConfirmBehavior.Insert,
-              select = true,
-            },
-            { 'i', 'c' }
-          ),
-        },
+        res = vim.deepcopy(res)
+        table.sort(res, function(a, b)
+          return completion_utils.should_come_first(a, b, base)
+        end)
 
-        -- enable luasnip to handle snippet expansion for nvim-cmp
-        snippet = {
-          expand = function(args)
-            vim.snippet.expand(args.body)
-          end,
-        },
-      }
-    end,
+        return res
+      end,
+    },
   },
 }
