@@ -4,7 +4,7 @@ return {
   'echasnovski/mini.completion',
   version = '*',
   opts = {
-    fallback_action = '<C-n>',
+    fallback_action = '',
     set_vim_settings = false,
     window = {
       info = { height = 10, width = 80, border = 'none' },
