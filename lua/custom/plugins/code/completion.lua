@@ -1,4 +1,4 @@
-local completion_utils = require 'utils.completion_utils'
+local completion_utils = require 'utils.cmp'
 
 return {
   'echasnovski/mini.completion',
@@ -6,11 +6,16 @@ return {
   opts = {
     fallback_action = '<C-n>',
     set_vim_settings = false,
+    window = {
+      info = { height = 10, width = 80, border = 'none' },
+      signature = { height = 10, width = 80, border = 'none' },
+    },
     mappings = {
       force_twostep = '',
       force_fallback = '',
     },
     lsp_completion = {
+      source_func = 'omnifunc',
       process_items = function(items, base)
         local res = vim.tbl_filter(function(item)
           local text = item.filterText

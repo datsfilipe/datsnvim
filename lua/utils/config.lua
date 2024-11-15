@@ -1,19 +1,8 @@
+local nix = require 'external.nix'
+
 local M = {}
 
-local ok, nix_colorscheme = pcall(require, 'utils/nix_colorscheme')
-if ok then
-  M.colorscheme = nix_colorscheme
-else
-  M.colorscheme = 'min-theme'
-end
-
-local ok2, nixos_path = pcall(require, 'utils/nix_lazylock')
-if ok2 then
-  M.lockfile = nixos_path
-else
-  M.lockfile = vim.fn.stdpath 'config' .. '/lazy-lock.json'
-end
-
+M.colorscheme = nix.colorscheme or 'min-theme'
 M.indent_color = '#343434'
 
 M.sign_icons = {
@@ -23,7 +12,7 @@ M.sign_icons = {
   Hint = 'H',
 }
 
-M.kind_priorities = {
+M.cmp_priorities = {
   'Method',
   'Function',
   'Constructor',
