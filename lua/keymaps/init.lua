@@ -9,12 +9,6 @@ vim.keymap.set('n', '<leader><leader>', function()
   vim.cmd 'so'
 end, opts)
 
--- increment/decrement
-vim.keymap.set({ 'n', 'v' }, '+', '<C-a>')
-vim.keymap.set({ 'n', 'v' }, '-', '<C-x>')
-vim.keymap.set('v', 'g+', 'g<C-a>', opts)
-vim.keymap.set('v', 'g-', 'g<C-x>', opts)
-
 -- move lines
 vim.keymap.set('v', 'J', ":m '>+1<Return>gv=gv", opts)
 vim.keymap.set('v', 'K', ":m '<-2<Return>gv=gv", opts)
