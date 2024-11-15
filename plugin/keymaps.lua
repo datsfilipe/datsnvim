@@ -23,8 +23,6 @@ keymap.set('n', '<leader>j', ':m .+1<Return>==', opts)
 keymap.set('n', '<leader>k', ':m .-2<Return>==', opts)
 
 keymap.set('n', 'g;', '`[', opts) -- go back to last edited line
-keymap.set('n', '<Leader>o', 'o<Esc>^Da', opts)
-keymap.set('n', '<Leader>O', 'O<Esc>^Da', opts)
 
 keymap.set('n', '<leader>t', ':tabnew<Return>', opts)
 keymap.set('n', '>', ':tabnext<Return>', opts)
