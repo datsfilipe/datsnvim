@@ -5,7 +5,7 @@ return {
   config = function()
     local harpoon = require 'harpoon'
 
-    vim.keymap.set('n', '<leader>hm', function()
+    vim.keymap.set('n', ';h', function()
       harpoon.ui:toggle_quick_menu(harpoon:list())
       print 'harpoon!'
     end)
@@ -31,12 +31,12 @@ return {
 
     harpoon:extend {
       UI_CREATE = function(cx)
-        vim.keymap.set('n', '<leader>hv', function()
+        vim.keymap.set('n', ';hv', function()
           harpoon.ui:select_menu_item { vsplit = true }
           print 'harpoon: v'
         end, { buffer = cx.bufnr })
 
-        vim.keymap.set('n', '<leader>hs', function()
+        vim.keymap.set('n', ';hs', function()
           harpoon.ui:select_menu_item { split = true }
           print 'harpoon: h'
         end, { buffer = cx.bufnr })

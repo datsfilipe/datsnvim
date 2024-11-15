@@ -46,7 +46,7 @@ return {
     vim.keymap.set('n', ';g', builtin.git_files)
     vim.keymap.set('n', ';r', builtin.live_grep)
     vim.keymap.set('n', ';c', builtin.current_buffer_fuzzy_find)
-    vim.keymap.set('n', ';h', builtin.help_tags)
+    vim.keymap.set('n', ';t', builtin.help_tags)
     vim.keymap.set('n', ';k', builtin.keymaps)
     vim.keymap.set('n', '\\\\', builtin.buffers)
   end,
