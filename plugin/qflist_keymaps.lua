@@ -29,3 +29,12 @@ end
 
 -- clean quickfix list and close
 vim.keymap.set('n', ';E', '<cmd>call setqflist([], "r")<CR><cmd>ccl<CR>')
+
+-- search with vimgrep through all git tracked files
+vim.keymap.set('n', ';s', function()
+  local pattern = vim.fn.input 'search: '
+  local cmd = [[vimgrep /]]
+    .. pattern
+    .. [[/j `git ls-files --full-name :/ \| sed "s;^;$(git rev-parse --show-toplevel)/;"` | copen | wincmd p]]
+  return vim.cmd(cmd)
+end)
