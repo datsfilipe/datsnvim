@@ -3,7 +3,7 @@ return {
   version = false,
   opts = function()
     local hipatterns = require 'mini.hipatterns'
-    local color_utils = require 'utils.color_utils'
+    local color_utils = require 'utils.color'
 
     local function create_color_highlighter(pattern, extract_fn)
       return {

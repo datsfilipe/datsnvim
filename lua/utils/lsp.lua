@@ -1,6 +1,6 @@
 local M = {}
 
-M.check_for_bin = function(bin)
+M.check_for_binary = function(bin)
   local path = vim.fn.executable(bin)
   return path == 1
 end

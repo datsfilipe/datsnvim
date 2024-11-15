@@ -26,7 +26,7 @@ return {
       local lspconfig = require 'lspconfig'
       local servers = {
         gopls = {
-          disabled = not lsp_utils.check_for_bin 'go',
+          disabled = not lsp_utils.check_for_binary 'go',
           settings = {
             gopls = {
               hints = {
@@ -49,23 +49,23 @@ return {
         rust_analyzer = true,
         templ = true,
         cssls = {
-          disabled = not lsp_utils.check_for_bin 'node',
+          disabled = not lsp_utils.check_for_binary 'node',
           init_options = {
             provideFormatter = false,
           },
         },
 
         ts_ls = {
-          disabled = not lsp_utils.check_for_bin 'node',
+          disabled = not lsp_utils.check_for_binary 'node',
           server_capabilities = {
             documentFormattingProvider = false,
           },
         },
-        biome = { disabled = not lsp_utils.check_for_bin 'node' },
-        eslint = { disabled = not lsp_utils.check_for_bin 'node' },
+        biome = { disabled = not lsp_utils.check_for_binary 'node' },
+        eslint = { disabled = not lsp_utils.check_for_binary 'node' },
 
         jsonls = {
-          disabled = not lsp_utils.check_for_bin 'node',
+          disabled = not lsp_utils.check_for_binary 'node',
           settings = {
             json = {
               schemas = require('schemastore').json.schemas(),
@@ -88,7 +88,7 @@ return {
       local tools = {
         stylua = true,
         lua_ls = true,
-        codespell = { disabled = not lsp_utils.check_for_bin 'python3' },
+        codespell = { disabled = not lsp_utils.check_for_binary 'python3' },
         -- "tailwind-language-server",
       }
 
@@ -231,7 +231,7 @@ return {
       vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
         callback = function()
           require('lint').try_lint()
-          if lsp_utils.check_for_bin 'codespell' then
+          if lsp_utils.check_for_binary 'codespell' then
             require('lint').try_lint 'codespell'
           end
         end,

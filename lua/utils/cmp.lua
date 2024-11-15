@@ -5,7 +5,7 @@ local function get_kind_priority(kind)
       and vim.lsp.protocol.CompletionItemKind[kind]
     or kind
 
-  for i, k in ipairs(require('utils.config').kind_priorities) do
+  for i, k in ipairs(require('utils.config').cmp_priorities) do
     if k == kind_str then
       return 1 / i
     end
