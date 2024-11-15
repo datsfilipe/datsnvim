@@ -125,8 +125,6 @@ return {
             settings = {}
           end
 
-          local builtin = require 'telescope.builtin'
-
           vim.opt_local.omnifunc = 'v:lua.vim.lsp.omnifunc'
           vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = 0 })
           vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { buffer = 0 })
@@ -136,6 +134,12 @@ return {
           vim.keymap.set(
             'n',
             '<leader>vd',
+            vim.diagnostic.setqflist,
+            { buffer = 0 }
+          )
+          vim.keymap.set(
+            'n',
+            '<leader>vD',
             vim.diagnostic.open_float,
             { buffer = 0 }
           )
@@ -151,8 +155,6 @@ return {
             vim.lsp.buf.references,
             { buffer = 0 }
           )
-          vim.keymap.set('n', 'gr', builtin.lsp_references, { buffer = 0 })
-
           vim.keymap.set(
             'n',
             '<leader>vca',
