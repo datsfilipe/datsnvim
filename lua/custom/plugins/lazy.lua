@@ -1,5 +1,3 @@
-vim.g.mapleader = ' '
-
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system {
@@ -16,9 +14,10 @@ vim.opt.rtp:prepend(lazypath)
 -- nixos compatibility:
 -- set colorscheme and lockfile path with nixos, so it will change with your nixos config
 local config = require 'utils.config'
+local nix = require 'external.nix'
 
 require('lazy').setup {
-  lockfile = config.lockfile,
+  lockfile = nix.lockfile or vim.fn.stdpath 'config' .. '/lazy-lock.json',
   install = {
     missing = true,
     colorscheme = { config.colorscheme },
@@ -37,7 +36,29 @@ require('lazy').setup {
   },
   ui = {
     icons = {
-      task = '',
+      cmd = '[cmd]',
+      config = '[conf]',
+      event = '[evnt]',
+      favorite = '[fav]',
+      ft = '[ft]',
+      init = '[init]',
+      import = '[imp]',
+      keys = '[key]',
+      lazy = '[lazy]',
+      loaded = '[x]',
+      not_loaded = '[ ]',
+      plugin = '[plug]',
+      runtime = '[runtime]',
+      require = '[req]',
+      source = '[src]',
+      start = '[start]',
+      task = '[done]',
+      list = {
+        '*',
+        '->',
+        '+',
+        '-',
+      },
     },
   },
   performance = {
