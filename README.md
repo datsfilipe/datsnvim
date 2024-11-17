@@ -6,7 +6,7 @@ This is a personal configuration for Neovim. You can use it as starting point fo
 
 ![Preview](./assets/preview.png)
 
-*Note: using [catppuccin](https://github.com/catppuccin/nvim) in the screenshot.*
+*Note: using [vesper](https://github.com/datsfilipe/vesper.nvim) in the screenshot.*
 
 ## Installation
 
