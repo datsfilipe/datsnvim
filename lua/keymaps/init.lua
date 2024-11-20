@@ -63,5 +63,4 @@ end, opts)
 
 -- load specific keymaps
 require 'keymaps.qflist'
-require 'keymaps.sessionizer'
 require 'keymaps.completion'
