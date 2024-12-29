@@ -8,8 +8,9 @@ function M.create_git_buffer(output, filetype, split)
     vim.cmd('tabnew | b ' .. buf)
     vim.cmd('e ' .. vim.fn.tempname())
   else
-    vim.cmd 'vsplit'
+    vim.cmd 'botright vsplit'
     vim.api.nvim_win_set_buf(0, buf)
+    vim.api.nvim_win_set_width(0, 60)
     vim.bo[buf].modifiable = false
     vim.bo[buf].buftype = 'nofile'
   end

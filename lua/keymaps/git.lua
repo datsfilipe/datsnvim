@@ -31,7 +31,11 @@ vim.keymap.set('n', '<leader>gd', function()
 end, { silent = true })
 vim.keymap.set('n', '<leader>gD', function()
   local output = vim.fn.system 'git diff'
-  utils_functions.create_git_buffer(output, 'diff', true)
+  if vim.fn.len(vim.fn.split(output, '\n')) > 1 then
+    utils_functions.create_git_buffer(output, 'diff', true)
+  else
+    vim.notify('no changes to show', vim.log.levels.INFO)
+  end
 end, { silent = true })
 vim.keymap.set('n', '<leader>gl', function()
   local output = vim.fn.system 'git log'
