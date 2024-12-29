@@ -19,7 +19,6 @@ M.create = function()
     utils_functions.return_project_root()
     .. '/.github/pull_request_template.md'
   ):match '^%a+://(.*)$'
-  print(vim.fn.filereadable(template_path), template_path)
 
   local base_branch = utils_functions.get_base_branch()
   local current_branch = utils_functions.get_current_branch()
