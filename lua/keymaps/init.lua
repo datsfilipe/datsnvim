@@ -64,3 +64,4 @@ end, opts)
 -- load specific keymaps
 require 'keymaps.qflist'
 require 'keymaps.completion'
+require 'keymaps.git'
