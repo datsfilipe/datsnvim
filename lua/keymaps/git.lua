@@ -22,15 +22,15 @@ vim.keymap.set('n', '<leader>gb', '<cmd>CustomGitBlame<cr>', { silent = true })
 vim.keymap.set('n', '<leader>gd', function()
   local current_file = vim.fn.expand '%:p'
   local output = vim.fn.system 'git diff ' .. current_file
-  utils_functions.create_git_buffer(output, 'diff')
+  utils_functions.create_git_buffer(output, 'diff', true)
 end, { silent = true })
 vim.keymap.set('n', '<leader>gD', function()
   local output = vim.fn.system 'git diff'
-  utils_functions.create_git_buffer(output, 'diff')
+  utils_functions.create_git_buffer(output, 'diff', true)
 end, { silent = true })
 vim.keymap.set('n', '<leader>gl', function()
   local output = vim.fn.system 'git log'
-  utils_functions.create_git_buffer(output, 'git')
+  utils_functions.create_git_buffer(output, 'git', true)
 end, { silent = true })
 vim.keymap.set(
   'n',
