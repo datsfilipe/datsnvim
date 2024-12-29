@@ -3,6 +3,18 @@ local M = {}
 local utils_functions = require 'custom.git.utils'
 
 M.create = function()
+  local cli_installed = vim.fn.executable 'gh'
+  if not cli_installed then
+    vim.notify('gh cli not installed', vim.log.levels.ERROR)
+    return
+  end
+
+  local gh_auth_status = vim.fn.system 'gh auth status'
+  if gh_auth_status ~= 'Logged in to github.com' then
+    vim.notify('gh cli not authenticated', vim.log.levels.ERROR)
+    return
+  end
+
   local template_path = (
     utils_functions.return_project_root()
     .. '/.github/pull_request_template.md'
