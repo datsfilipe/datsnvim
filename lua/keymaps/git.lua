@@ -1,5 +1,3 @@
-local commit_functions = require 'custom.git.commit'
-local stage_functions = require 'custom.git.stage'
 local status_functions = require 'custom.git.status'
 local utils_functions = require 'custom.git.utils'
 local push_functions = require 'custom.git.push'
@@ -8,7 +6,6 @@ local pr_functions = require 'custom.git.pr'
 vim.keymap.set('n', '<leader>gm', function()
   pr_functions.create()
 end, { silent = true })
-vim.keymap.set('n', '<leader>ga', stage_functions.stage_hunk)
 vim.keymap.set(
   'n',
   '<leader>gA',
@@ -22,7 +19,6 @@ vim.keymap.set(
   { silent = true }
 )
 vim.keymap.set('n', '<leader>gb', '<cmd>CustomGitBlame<cr>', { silent = true })
-vim.keymap.set('n', '<leader>gc', commit_functions.commit, { silent = true })
 vim.keymap.set('n', '<leader>gd', function()
   local current_file = vim.fn.expand '%:p'
   local output = vim.fn.system 'git diff ' .. current_file
