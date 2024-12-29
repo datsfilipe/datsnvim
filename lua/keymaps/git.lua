@@ -6,19 +6,45 @@ local pr_functions = require 'custom.git.pr'
 vim.keymap.set('n', '<leader>gm', function()
   pr_functions.create()
 end, { silent = true })
+
+vim.keymap.set({ 'n', 'v' }, '<leader>ga', function()
+  local diff = require 'mini.diff'
+  diff.do_hunks(vim.api.nvim_get_current_buf(), 'apply')
+end, { silent = true })
+
 vim.keymap.set(
   'n',
   '<leader>gA',
   '<cmd>silent !git add %<cr>',
   { silent = true }
 )
+
+vim.keymap.set('n', '<leader>gu', function()
+  local diff = require 'mini.diff'
+  diff.do_hunks(vim.api.nvim_get_current_buf(), 'reset')
+end, { silent = true })
+
+vim.keymap.set('n', '[h', function()
+  local diff = require 'mini.diff'
+  diff.goto_hunk 'prev'
+  vim.cmd 'normal zz'
+end, { silent = true })
+
+vim.keymap.set('n', ']h', function()
+  local diff = require 'mini.diff'
+  diff.goto_hunk 'next'
+  vim.cmd 'normal zz'
+end, { silent = true })
+
 vim.keymap.set(
   'n',
-  '<leader>gu',
+  '<leader>gU',
   '<cmd>silent !git reset HEAD --<cr>',
   { silent = true }
 )
+
 vim.keymap.set('n', '<leader>gb', '<cmd>CustomGitBlame<cr>', { silent = true })
+
 vim.keymap.set('n', '<leader>gd', function()
   local current_file = vim.fn.expand '%:p'
   local output = vim.fn.system 'git diff ' .. current_file
@@ -29,6 +55,7 @@ vim.keymap.set('n', '<leader>gd', function()
     vim.notify('no changes to show', vim.log.levels.INFO)
   end
 end, { silent = true })
+
 vim.keymap.set('n', '<leader>gD', function()
   local output = vim.fn.system 'git diff'
   if vim.fn.len(vim.fn.split(output, '\n')) > 1 then
@@ -37,22 +64,26 @@ vim.keymap.set('n', '<leader>gD', function()
     vim.notify('no changes to show', vim.log.levels.INFO)
   end
 end, { silent = true })
+
 vim.keymap.set('n', '<leader>gl', function()
   local output = vim.fn.system 'git log'
   utils_functions.create_git_buffer(output, 'git', true)
 end, { silent = true })
+
 vim.keymap.set(
   'n',
   '<leader>gs',
   status_functions.git_status_quickfix,
   { silent = true }
 )
+
 vim.keymap.set(
   'n',
   '<leader>gp',
   push_functions.git_push_with_prompt,
   { silent = true }
 )
+
 vim.keymap.set(
   'n',
   '<leader>gP',
