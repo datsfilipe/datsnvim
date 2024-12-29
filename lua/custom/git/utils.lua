@@ -1,14 +1,22 @@
 local M = {}
 
-function M.create_git_buffer(output, filetype)
+function M.create_git_buffer(output, filetype, split)
   local buf = vim.api.nvim_create_buf(false, true)
-  vim.cmd('tabnew | b ' .. buf)
-  vim.cmd('e ' .. vim.fn.tempname())
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(output, '\n'))
+
+  if not split then
+    vim.cmd('tabnew | b ' .. buf)
+    vim.cmd('e ' .. vim.fn.tempname())
+  else
+    vim.cmd 'vsplit'
+    vim.api.nvim_win_set_buf(0, buf)
+    vim.bo[buf].modifiable = false
+    vim.bo[buf].buftype = 'nofile'
+  end
+
   vim.bo[buf].filetype = filetype or 'git'
-  vim.bo[buf].modifiable = true
   vim.bo[buf].bufhidden = 'wipe'
-  vim.bo[buf].buftype = ''
+
   return buf
 end
 
