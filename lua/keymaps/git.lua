@@ -22,7 +22,12 @@ vim.keymap.set('n', '<leader>gb', '<cmd>CustomGitBlame<cr>', { silent = true })
 vim.keymap.set('n', '<leader>gd', function()
   local current_file = vim.fn.expand '%:p'
   local output = vim.fn.system 'git diff ' .. current_file
-  utils_functions.create_git_buffer(output, 'diff', true)
+  local line_count = vim.fn.len(vim.fn.split(output, '\n'))
+  if line_count > 1 then
+    utils_functions.create_git_buffer(output, 'diff', true)
+  else
+    vim.notify('no changes to show', vim.log.levels.INFO)
+  end
 end, { silent = true })
 vim.keymap.set('n', '<leader>gD', function()
   local output = vim.fn.system 'git diff'
