@@ -1,0 +1,20 @@
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = '*',
+  callback = function()
+    vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'Pmenu', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'Terminal', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'EndOfBuffer', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'FoldColumn', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'Folded', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'LineNr', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'DiagnosticSignWarn', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'DiagnosticSignError', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'DiagnosticSignHint', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'DiagnosticSignInfo', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'IndentLineChar', { bg = 'none' })
+  end,
+})
