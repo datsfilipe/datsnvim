@@ -21,6 +21,7 @@ return {
         desc = 'status',
       },
       { ';gA', '<cmd>Git add %<cr>', desc = 'add file' },
+      { ';gU', '<cmd>Git reset HEAD --<cr>', desc = 'unstage changes' },
       { ';gc', '<cmd>Git commit<cr>', desc = 'commit' },
       { ';gd', '<cmd>vert Git diff %<cr>', desc = 'diff file' },
       { ';gD', '<cmd>vert Git diff<cr>', desc = 'diff' },

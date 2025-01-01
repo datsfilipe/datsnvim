@@ -5,7 +5,7 @@ return {
   opts = {
     mappings = {
       apply = ';ga',
-      reset = ';gr',
+      reset = ';gu',
       goto_prev = ';gp',
       goto_next = ';gn',
     },
