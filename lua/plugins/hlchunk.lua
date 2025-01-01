@@ -15,14 +15,6 @@ return {
       },
     },
     line_num = { enable = false },
-    blank = {
-      enable = true,
-      chars = {
-        '․',
-      },
-      style = {
-        static_color,
-      },
-    },
+    blank = { enable = false },
   },
 }
