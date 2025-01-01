@@ -19,12 +19,12 @@ vim.o.foldlevelstart = 99
 vim.wo.foldtext = ''
 
 vim.opt.fillchars = {
-    eob = ' ',
-    fold = ' ',
-    foldclose = '<',
-    foldopen = '>',
-    foldsep = ' ',
-    msgsep = '─',
+  eob = ' ',
+  fold = ' ',
+  foldclose = '<',
+  foldopen = '>',
+  foldsep = ' ',
+  msgsep = '─',
 }
 
 vim.o.ignorecase = true
@@ -39,8 +39,8 @@ vim.o.pumheight = 15
 vim.opt.diffopt:append 'vertical,context:99'
 
 vim.opt.shortmess:append {
-    w = true,
-    s = true,
+  w = true,
+  s = true,
 }
 
 vim.o.splitbelow = true
