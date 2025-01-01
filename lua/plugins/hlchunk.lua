@@ -1,3 +1,5 @@
+local static_color = require('utils').static_color
+
 return {
   'shellRaining/hlchunk.nvim',
   event = { 'BufReadPre', 'BufNewFile' },
@@ -9,7 +11,7 @@ return {
     indent = {
       enable = true,
       style = {
-        -- { fg = require('utils.config').indent_color },
+        { fg = static_color },
       },
     },
     line_num = { enable = false },
@@ -19,7 +21,7 @@ return {
         '․',
       },
       style = {
-        -- require('utils.config').indent_color,
+        static_color,
       },
     },
   },
