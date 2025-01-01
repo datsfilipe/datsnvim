@@ -11,59 +11,39 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp = vim.opt.rtp ^ lazypath
 
-local function load_plugin_spec(module_path)
-  local ok, spec = pcall(require, module_path)
-  if not ok then
-    print('error loading module:', module_path, spec)
-    return nil
-  end
-
-  if type(spec) ~= 'table' then
-    return nil
-  end
-  if spec[1] or spec.name or spec.url or spec.dir then
-    return spec
-  else
-    return nil
-  end
-end
-
 local function get_plugin_specs()
   local plugins_dir = vim.fn.stdpath 'config' .. '/lua/plugins'
-  local plugin_specs = {}
+  local plugins = {}
 
   for name, type in vim.fs.dir(plugins_dir) do
-    local module_name
     if type == 'file' and name:match '%.lua$' and name ~= 'init.lua' then
-      module_name = 'plugins.' .. name:gsub('%.lua$', '')
+      local module_name = 'plugins.' .. name:gsub('%.lua$', '')
+      table.insert(plugins, { import = module_name })
     elseif type == 'directory' then
       local init_path = plugins_dir .. '/' .. name .. '/init.lua'
       if vim.loop.fs_stat(init_path) then
-        module_name = 'plugins.' .. name
-      end
-    end
-
-    if module_name then
-      local spec = load_plugin_spec(module_name)
-      if spec then
-        table.insert(plugin_specs, spec)
+        local module_name = 'plugins.' .. name
+        table.insert(plugins, { import = module_name .. '.init' })
       end
     end
   end
 
-  return { spec = plugin_specs }
+  return { spec = plugins }
 end
 
----@type LazySpec
 local plugins = get_plugin_specs()
+local nix = require 'external.nix'
+local colorscheme = nix.colorscheme or 'vesper'
 
 require('lazy').setup {
+  lockfile = nix.lockfile or vim.fn.stdpath 'config' .. '/lazy-lock.json',
   spec = plugins.spec,
   dev = { path = vim.g.projects_dir },
   defaults = {
     lazy = true,
   },
   install = {
+    colorscheme = { colorscheme },
     missing = false,
   },
   change_detection = { notify = false },
