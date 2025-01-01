@@ -5,7 +5,7 @@ vim.opt_local.smartindent = true
 vim.opt_local.cindent = false
 vim.opt_local.expandtab = true
 vim.b.minihipatterns_config = {
-    highlighters = {
-        rust_todo = { pattern = 'todo!', group = 'MiniHipatternsTodo' },
-    },
+  highlighters = {
+    rust_todo = { pattern = 'todo!', group = 'MiniHipatternsTodo' },
+  },
 }
