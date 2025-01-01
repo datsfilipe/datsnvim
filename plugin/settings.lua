@@ -6,7 +6,7 @@ vim.o.et = true
 vim.o.wrap = false
 
 vim.opt.list = true
-vim.opt.listchars = { space = '.', trail = '.', tab = '  -' }
+vim.opt.listchars = { lead = '.', trail = '.', tab = '  -' }
 
 vim.wo.number = true
 vim.wo.relativenumber = true
