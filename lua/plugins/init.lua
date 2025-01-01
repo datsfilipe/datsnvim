@@ -16,7 +16,7 @@ local function get_plugin_specs()
   local plugins = {}
 
   for name, type in vim.fs.dir(plugins_dir) do
-    if type == 'file' and name:match '%.lua$' and name ~= 'init.lua' then
+    if (type == 'file' or type == 'link') and name:match '%.lua$' and name ~= 'init.lua' then
       local module_name = 'plugins.' .. name:gsub('%.lua$', '')
       table.insert(plugins, { import = module_name })
     elseif type == 'directory' then
