@@ -1,4 +1,4 @@
-vim.opt.guicursor = 'a:blinkon5'
+vim.opt.guicursor = 'a:blinkon6'
 
 vim.o.sw = 2
 vim.o.ts = 2
@@ -42,6 +42,9 @@ vim.opt.shortmess:append {
     w = true,
     s = true,
 }
+
+vim.o.splitbelow = true
+vim.o.splitright = true
 
 vim.o.swapfile = false
 vim.opt.isfname:append '@-@'
