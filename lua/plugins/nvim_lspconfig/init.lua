@@ -7,7 +7,7 @@ return {
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     {
       'j-hui/fidget.nvim',
-      event = { 'BufReadPost', 'BufNewFile' },
+      event = { 'LspAttach' },
       opts = {
         progress = { display = { done_icon = 'OK' } },
       },

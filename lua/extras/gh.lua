@@ -144,4 +144,10 @@ local function create_pr()
   )
 end
 
-vim.keymap.set('n', ';gP', create_pr, { desc = 'create pull request' })
+return {
+  dir = vim.fn.stdpath 'config' .. '/lua/extras',
+  name = 'gh',
+  keys = {
+    { ';gP', create_pr, { desc = 'create pull request' } },
+  },
+}

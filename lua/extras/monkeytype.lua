@@ -29,12 +29,23 @@ local function init()
   end
 end
 
-vim.keymap.set('n', '<leader>mt', function()
-  vim.g.monkeytype_enabled = not vim.g.monkeytype_enabled
-  print(
-    'monkeytype surprise test is now '
-      .. (vim.g.monkeytype_enabled and 'enabled' or 'disabled')
-  )
-end, { desc = 'monkeytype surprise test: toggle' })
-
-init()
+return {
+  dir = vim.fn.stdpath 'config' .. '/lua/extras',
+  name = 'monkeytype',
+  keys = {
+    {
+      '<leader>mt',
+      function()
+        vim.g.monkeytype_enabled = not vim.g.monkeytype_enabled
+        print(
+          'monkeytype surprise test is now '
+            .. (vim.g.monkeytype_enabled and 'enabled' or 'disabled')
+        )
+      end,
+      { desc = 'monkeytype surprise test: toggle' },
+    },
+  },
+  config = function()
+    init()
+  end,
+}

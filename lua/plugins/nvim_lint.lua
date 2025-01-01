@@ -1,6 +1,6 @@
 return {
   'mfussenegger/nvim-lint',
-  event = 'LspAttach',
+  event = 'BufWritePost',
   config = function()
     local utils = require 'utils'
 

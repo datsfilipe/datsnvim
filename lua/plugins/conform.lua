@@ -1,6 +1,6 @@
 return {
   'stevearc/conform.nvim',
-  event = 'LspAttach',
+  event = 'BufWritePre',
   config = function()
     local function ts_formatters()
       local root_dir = vim.fn.getcwd()
