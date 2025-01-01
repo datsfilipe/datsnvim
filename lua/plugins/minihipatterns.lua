@@ -2,7 +2,7 @@ return {
   {
     'echasnovski/mini.hipatterns',
     main = 'mini.hipatterns',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = { 'BufReadPost' },
     opts = function()
       local utils = require 'utils'
 

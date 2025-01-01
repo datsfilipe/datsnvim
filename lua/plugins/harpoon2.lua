@@ -1,26 +1,46 @@
 return {
   'ThePrimeagen/harpoon',
   branch = 'harpoon2',
-  event = 'VeryLazy',
   dependencies = { 'nvim-lua/plenary.nvim' },
+  keys = {
+    {
+      '<leader>h',
+      function()
+        local harpoon = require 'harpoon'
+        harpoon.ui:toggle_quick_menu(harpoon:list(), { border = 'none' })
+      end,
+      desc = 'harpoon: toggle quick menu',
+    },
+    {
+      ';h',
+      function()
+        local harpoon = require 'harpoon'
+        harpoon:list():add()
+        print 'harpoon: added'
+      end,
+      desc = 'harpoon: add',
+    },
+    {
+      '<C-j>',
+      function()
+        local harpoon = require 'harpoon'
+        harpoon:list():prev()
+        print 'harpoon: prev'
+      end,
+      desc = 'harpoon: prev',
+    },
+    {
+      '<C-k>',
+      function()
+        local harpoon = require 'harpoon'
+        harpoon:list():next()
+        print 'harpoon: next'
+      end,
+      desc = 'harpoon: next',
+    },
+  },
   config = function()
     local harpoon = require 'harpoon'
-
-    vim.keymap.set('n', '<leader>h', function()
-      harpoon.ui:toggle_quick_menu(harpoon:list(), { border = 'none' })
-    end, { desc = 'harpoon: toggle quick menu' })
-    vim.keymap.set('n', ';h', function()
-      harpoon:list():add()
-      print 'harpoon: added'
-    end, { desc = 'harpoon: add' })
-    vim.keymap.set('n', '<C-j>', function()
-      harpoon:list():prev()
-      print 'harpoon: prev'
-    end, { desc = 'harpoon: prev' })
-    vim.keymap.set('n', '<C-k>', function()
-      harpoon:list():next()
-      print 'harpoon: next'
-    end, { desc = 'harpoon: next' })
 
     for i = 1, 9 do
       vim.keymap.set('n', '<C-h>' .. i, function()

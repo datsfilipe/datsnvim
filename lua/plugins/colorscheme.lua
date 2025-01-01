@@ -1,4 +1,4 @@
-local nix = require 'external.nix'
+local nix = require 'nix'
 local colorscheme = nix.colorscheme or 'vesper'
 local static_color = require('utils').static_color
 
