@@ -3,13 +3,7 @@ local methods = vim.lsp.protocol.Methods
 
 local M = {}
 
----@param client vim.lsp.Client
----@param bufnr integer
 local function on_attach(client, bufnr)
-  ---@param lhs string
-  ---@param rhs string|function
-  ---@param desc string
-  ---@param mode? string|string[]
   local function keymap(lhs, rhs, desc, mode)
     mode = mode or 'n'
     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
@@ -152,10 +146,6 @@ vim.lsp.buf.signature_help = function()
   }
 end
 
----@param bufnr integer
----@param contents string[]
----@param opts table
----@return string[]
 ---@diagnostic disable-next-line: duplicate-set-field
 vim.lsp.util.stylize_markdown = function(bufnr, contents, opts)
   contents = vim.lsp.util._normalize_markdown(contents, {
@@ -193,8 +183,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
----@param server string
----@param settings? table
 function M.configure_server(server, settings)
   local capabilities = vim.lsp.protocol.make_client_capabilities()
   capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
