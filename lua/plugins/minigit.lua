@@ -23,7 +23,7 @@ return {
     { 'gl', '<cmd>vert Git log<cr>' },
     { 'gP', ':Git push origin ' },
             {
-                'gh',
+                'gi',
                 function()
                     require('mini.git').show_at_cursor { split = 'vertical' }
                 end,
