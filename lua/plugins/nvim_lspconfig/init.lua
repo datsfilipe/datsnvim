@@ -21,12 +21,6 @@ return {
     local utils = require 'utils'
     local servers_to_install = {}
 
-    configure_server('cssls', {
-      init_options = {
-        provideFormatter = false,
-      },
-    })
-
     if utils.is_bin_available 'node' or utils.is_bin_available 'rustc' then
       configure_server('rust_analyzer', {
         settings = {
@@ -37,11 +31,13 @@ return {
           },
         },
       })
+
       table.insert(servers_to_install, 'rust_analyzer')
     end
 
     if utils.is_bin_available 'go' then
       configure_server 'gopls'
+
       table.insert(servers_to_install, 'gopls')
     end
 
@@ -113,7 +109,7 @@ return {
                 },
               },
             })
-          client:notify(
+          client.notify(
             vim.lsp.protocol.Methods.workspace_didChangeConfiguration,
             { settings = client.config.settings }
           )
@@ -132,7 +128,16 @@ return {
         },
       },
     })
-    table.insert(servers_to_install, 'lua-language-server')
+
+    configure_server('cssls', {
+      init_options = {
+        provideFormatter = false,
+      },
+    })
+
+    for _, server in ipairs { 'css-lsp', 'lua-language-server' } do
+      table.insert(servers_to_install, server)
+    end
 
     local extra = { 'stylua' }
     if utils.is_bin_available 'python3' then
