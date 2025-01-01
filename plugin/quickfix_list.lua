@@ -8,16 +8,32 @@ local function toggle_qf()
   end
 end
 
-vim.keymap.set('n', ';e', toggle_qf)
+vim.keymap.set('n', ';e', toggle_qf, { desc = 'quickfix list: toggle' })
+
 vim.keymap.set(
   'n',
   '<C-p>',
-  '<cmd>cprev<CR>zz<cmd>lua print("qflist: prev")<CR>'
+  '<cmd>cprev<CR>zz<cmd>lua print("qflist: prev")<CR>',
+  { desc = 'quickfix list: prev' }
 )
+
 vim.keymap.set(
   'n',
   '<C-n>',
-  '<cmd>cnext<CR>zz<cmd>lua print("qflist: next")<CR>'
+  '<cmd>cnext<CR>zz<cmd>lua print("qflist: next")<CR>',
+  { desc = 'quickfix list: next' }
 )
 
-vim.keymap.set('n', ';E', '<cmd>call setqflist([], "r")<CR><cmd>ccl<CR>')
+for i = 1, 9 do
+  vim.keymap.set('n', '<C-e>' .. i, function()
+    vim.cmd('cc ' .. i)
+    print('qflist: selected ' .. i)
+  end, { desc = 'quickfix list: select ' .. i })
+end
+
+vim.keymap.set(
+  'n',
+  ';E',
+  '<cmd>call setqflist([], "r")<CR><cmd>ccl<CR><cmd>lua print("qflist: clear")<CR>',
+  { desc = 'quickfix list: clear' }
+)
