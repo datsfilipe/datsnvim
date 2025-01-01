@@ -6,7 +6,7 @@ return {
     opts = {},
     keys = {
       {
-        'gs',
+        ';gs',
         function()
           local status_output = vim.fn.system 'git status --porcelain'
           local qf_list = {}
@@ -18,16 +18,15 @@ return {
           vim.fn.setqflist(qf_list)
           vim.cmd 'copen'
         end,
-        desc = 'git status',
+        desc = 'status',
       },
-      { 'gA', '<cmd>Git add %<cr>' },
-      { 'gc', '<cmd>Git commit<cr>' },
-      { 'ge', '<cmd>vert Git diff %<cr>' },
-      { 'gE', '<cmd>vert Git diff<cr>' },
-      { 'gl', '<cmd>vert Git log<cr>' },
-      { 'gP', ':Git push origin ' },
+      { ';gA', '<cmd>Git add %<cr>', desc = 'add file' },
+      { ';gc', '<cmd>Git commit<cr>', desc = 'commit' },
+      { ';gd', '<cmd>vert Git diff %<cr>', desc = 'diff file' },
+      { ';gD', '<cmd>vert Git diff<cr>', desc = 'diff' },
+      { ';gl', '<cmd>vert Git log<cr>', desc = 'log' },
       {
-        'gi',
+        ';gi',
         function()
           require('mini.git').show_at_cursor { split = 'vertical' }
         end,

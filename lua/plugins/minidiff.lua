@@ -4,10 +4,10 @@ return {
   main = 'mini.diff',
   opts = {
     mappings = {
-      apply = 'ga',
-      reset = 'gr',
-      goto_prev = '[g',
-      goto_next = ']g',
+      apply = ';ga',
+      reset = ';gr',
+      goto_prev = ';gp',
+      goto_next = ';gn',
     },
   },
 }
