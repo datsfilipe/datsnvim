@@ -38,7 +38,6 @@ local colorscheme = nix.colorscheme or 'vesper'
 require('lazy').setup {
   lockfile = nix.lockfile or vim.fn.stdpath 'config' .. '/lazy-lock.json',
   spec = plugins.spec,
-  dev = { path = vim.g.projects_dir },
   defaults = {
     lazy = true,
   },
