@@ -1,6 +1,4 @@
 vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
-require 'custom.plugins.lazy'
-
-local config = require 'utils.config'
-vim.cmd.colorscheme(config.colorscheme)
+require 'plugins'
