@@ -4,7 +4,7 @@ M.colorscheme = nil
 M.lockfile = nil
 
 local is_nix_colorscheme_set, nix_colorscheme =
-  pcall(require, 'utils/nix_colorscheme')
+  pcall(require, 'nix_colorscheme')
 
 if is_nix_colorscheme_set then
   M.colorscheme = nix_colorscheme
