@@ -12,10 +12,11 @@ return {
             },
           }
         end,
-        desc = 'Grep current buffer',
+        desc = 'grep current buffer',
       },
-      { ';f', '<cmd>FzfLua files<cr>', desc = 'Find files' },
-      { ';r', '<cmd>FzfLua live_grep_glob<cr>', desc = 'Grep' },
+      { ';f', '<cmd>FzfLua files<cr>', desc = 'files' },
+      { ';r', '<cmd>FzfLua live_grep_glob<cr>', desc = 'grep' },
+      { ';k', '<cmd>FzfLua keymaps<cr>', desc = 'keymaps' },
       {
         ';o',
         function()
@@ -24,13 +25,13 @@ return {
         end,
         desc = 'Recently opened files',
       },
-      { 'z=', '<cmd>FzfLua spell_suggest<cr>', desc = 'Spelling suggestions' },
+      { '\\\\', '<cmd>FzfLua buffers<cr>', desc = 'search buffers' },
+      { 'z=', '<cmd>FzfLua spell_suggest<cr>', desc = 'spelling suggestions' },
     },
     opts = function()
       local actions = require 'fzf-lua.actions'
 
       return {
-        -- Make stuff better combine with the editor.
         fzf_colors = {
           bg = { 'bg', 'Normal' },
           gutter = { 'bg', 'Normal' },
@@ -47,8 +48,7 @@ return {
             ['<Tab>'] = 'toggle-preview',
           },
           fzf = {
-            ['alt-s'] = 'toggle',
-            ['alt-a'] = 'toggle-all',
+            ['ctrl-l'] = 'toggle-all+accept',
           },
         },
         winopts = {
@@ -62,7 +62,6 @@ return {
           },
         },
         global_git_icons = false,
-        -- Configuration for specific commands.
         files = {
           winopts = {
             preview = { hidden = 'hidden' },
