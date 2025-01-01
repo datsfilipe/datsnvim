@@ -52,6 +52,8 @@ return {
           },
         },
         winopts = {
+          width = 0.8,
+          height = 0.5,
           border = 'none',
           backdrop = 90,
           preview = {
