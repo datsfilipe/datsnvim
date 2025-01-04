@@ -1,6 +1,7 @@
 return {
   'stevearc/oil.nvim',
   lazy = false,
+  commit = 'ba858b662599eab8ef1cba9ab745afded99cb180',
   keys = {
     { '<leader>e', '<cmd>Oil<cr>' },
   },
