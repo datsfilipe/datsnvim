@@ -1,7 +1,7 @@
 return {
   dir = vim.fn.stdpath 'config' .. '/lua/extras',
   name = 'transparency',
-  event = 'VeryLazy',
+  event = 'ColorScheme',
   config = function()
     local groups = {
       'Normal',
@@ -12,6 +12,7 @@ return {
       'EndOfBuffer',
       'FoldColumn',
       'Folded',
+      'ColorColumn',
       'SignColumn',
       'LineNr',
       'DiagnosticSignWarn',
