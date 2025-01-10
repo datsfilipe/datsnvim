@@ -5,10 +5,13 @@ return {
   keys = {
     { ';f', '<cmd>Pick files<cr>', desc = 'files' },
     { ';r', '<cmd>Pick grep_live<cr>', desc = 'grep' },
+    { ';k', '<cmd>Pick keymaps<cr>', desc = 'keymaps' },
     { '\\\\', '<cmd>Pick buffers<cr>', desc = 'search buffers' },
   },
   config = function()
     local pick = require 'mini.pick'
+    local keymaps = require 'extensions.pickers.keymaps'
+
     pick.setup {
       delay = {
         async = 10,
@@ -35,7 +38,18 @@ return {
         prompt_cursor = '█',
         prompt_prefix = ': ',
       },
-      source = { show = pick.default_show },
+      source = {
+        show = function(buf_id, items, query)
+          return pick.default_show(
+            buf_id,
+            items,
+            query,
+            { show_icons = true, icons = { directory = 'D ', file = 'F ' } }
+          )
+        end,
+      },
     }
+
+    keymaps.setup(pick)
   end,
 }
