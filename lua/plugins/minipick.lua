@@ -20,7 +20,7 @@ return {
       mappings = {
         toggle_preview = '<Tab>',
         choose_all = {
-          char = '<C-e>',
+          char = '<C-l>',
           func = function()
             local mappings = pick.get_picker_opts().mappings
             vim.api.nvim_input(mappings.mark_all .. mappings.choose_marked)
