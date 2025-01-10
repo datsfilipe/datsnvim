@@ -45,5 +45,10 @@ return {
     sign = {
       enabled = false,
     },
+    code = {
+      enabled = true,
+      border = 'none',
+      width = 'block',
+    },
   },
 }
