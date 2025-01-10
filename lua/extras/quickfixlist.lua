@@ -31,7 +31,7 @@ return {
   },
   config = function()
     for i = 1, 9 do
-      vim.keymap.set('n', '<C-e>' .. i, function()
+      vim.keymap.set('n', ';' .. i, function()
         vim.cmd('cc ' .. i)
         print('qflist: selected ' .. i)
       end, { desc = 'quickfix list: select ' .. i })
