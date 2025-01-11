@@ -26,6 +26,8 @@ return {
             vim.api.nvim_input(mappings.mark_all .. mappings.choose_marked)
           end,
         },
+        scroll_right = '<C-f>',
+        scroll_left = '<C-b>',
       },
       options = {
         content_from_bottom = false,
