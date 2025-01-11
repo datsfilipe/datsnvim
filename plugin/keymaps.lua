@@ -63,8 +63,8 @@ vim.keymap.set(
   vim.tbl_extend('force', options, { desc = 'move line down' })
 )
 
-vim.keymap.set('n', '<leader>]', ':split<Return>', options)
-vim.keymap.set('n', '<leader>[', ':vsplit<Return>', options)
+vim.keymap.set('n', ';]', ':split<Return>', options)
+vim.keymap.set('n', ';[', ':vsplit<Return>', options)
 vim.keymap.set('n', '<leader>-', '<C-w>_<C-w><Bar>', options)
 vim.keymap.set('n', '<leader>=', '<C-w>=', options)
 
