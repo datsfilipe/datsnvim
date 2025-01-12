@@ -3,27 +3,50 @@ return {
   event = 'BufWritePre',
   config = function()
     local utils = require 'utils'
-    local prettier_and_biome_handler = function()
-      if utils.is_file_available '.prettierrc' then
-        return { 'prettier', 'prettierd' }
-      end
-      if utils.is_file_available 'biome.json' then
-        return { 'biome' }
-      end
-      return {}
-    end
-
     require('conform').setup {
+      formatters = {
+        alejandra = {
+          command = 'alejandra',
+          args = { '-qq' },
+          stdin = true,
+          condition = function()
+            return utils.is_bin_available 'alejandra'
+          end,
+          inherit = false,
+        },
+        prettier = {
+          command = 'prettier',
+          args = {
+            '--stdin-filepath',
+            vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
+          },
+          stdin = true,
+          condition = function()
+            return utils.is_bin_available 'prettier'
+              and utils.is_file_available '.prettierrc'
+          end,
+          inherit = false,
+        },
+        biome = {
+          command = 'biome',
+          args = {
+            'format',
+            '--stdin-filepath',
+            vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
+          },
+          stdin = true,
+          condition = function()
+            return utils.is_bin_available 'biome'
+              and utils.is_file_available '.biome'
+          end,
+          inherit = false,
+        },
+      },
       formatters_by_ft = {
         lua = { 'stylua' },
-        nix = function()
-          if utils.is_bin_available 'alejandra' then
-            return { command = 'alejandra', args = { '-qq' } }
-          end
-          return {}
-        end,
-        javascript = prettier_and_biome_handler,
-        typescript = prettier_and_biome_handler,
+        nix = { 'alejandra' },
+        javascript = { 'prettier', 'biome' },
+        typescript = { 'prettier', 'biome' },
         less = { 'prettier', 'prettierd' },
         css = { 'prettier', 'prettierd' },
       },
