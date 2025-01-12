@@ -5,6 +5,8 @@ return {
     event = { 'BufReadPost' },
     config = function()
       local hipatterns = require 'mini.hipatterns'
+      local rgb = require 'extensions.highlighters.rgb'
+
       hipatterns.setup {
         highlighters = {
           fixme = {
@@ -24,6 +26,8 @@ return {
             group = 'MiniHipatternsNote',
           },
           hex_color = hipatterns.gen_highlighter.hex_color(),
+          rgb_color = rgb.default,
+          rgba_color = rgb.rgba,
         },
       }
     end,
