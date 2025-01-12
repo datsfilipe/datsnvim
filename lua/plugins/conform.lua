@@ -2,25 +2,28 @@ return {
   'stevearc/conform.nvim',
   event = 'BufWritePre',
   config = function()
-    local function ts_formatters()
-      local root_dir = vim.fn.getcwd()
-      local prettier_config = vim.fn.findfile('.prettierrc', root_dir .. ';')
-      if prettier_config ~= '' then
+    local utils = require 'utils'
+    local prettier_and_biome_handler = function()
+      if utils.is_file_available '.prettierrc' then
         return { 'prettier', 'prettierd' }
       end
-
-      local biome_config = vim.fn.findfile('biome.json', root_dir .. ';')
-      if biome_config ~= '' then
+      if utils.is_file_available 'biome.json' then
         return { 'biome' }
       end
+      return {}
     end
 
     require('conform').setup {
       formatters_by_ft = {
         lua = { 'stylua' },
-        nix = { 'nixpkgs_fmt' },
-        javascript = ts_formatters(),
-        typescript = ts_formatters(),
+        nix = function()
+          if utils.is_bin_available 'alejandra' then
+            return { command = 'alejandra', args = { '-qq' } }
+          end
+          return {}
+        end,
+        javascript = prettier_and_biome_handler,
+        typescript = prettier_and_biome_handler,
         less = { 'prettier', 'prettierd' },
         css = { 'prettier', 'prettierd' },
       },
