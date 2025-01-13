@@ -18,22 +18,6 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
-
-        languageServers = with pkgs; [
-          typescript-language-server
-          bash-language-server
-          lua-language-server
-          rust-analyzer
-          eslint
-          gopls
-        ];
-
-        formattersAndLinters = with pkgs; [
-          biome
-          stylua
-          codespell
-          nodePackages.prettier
-        ];
         
         hlchunk-nvim = pkgs.vimUtils.buildVimPlugin {
           name = "hlchunk-nvim";
