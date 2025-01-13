@@ -32,7 +32,7 @@ return {
         },
       })
 
-      table.insert(servers_to_install, 'rust_analyzer')
+      table.insert(servers_to_install, 'rust-analyzer')
     end
 
     if utils.is_bin_available 'go' then
