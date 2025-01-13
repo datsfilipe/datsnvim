@@ -3,7 +3,6 @@ return {
   event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     'williamboman/mason.nvim',
-    -- 'williamboman/mason-lspconfig.nvim',
     'WhoIsSethDaniel/mason-tool-installer.nvim',
     {
       'j-hui/fidget.nvim',
@@ -31,8 +30,6 @@ return {
           },
         },
       })
-
-      table.insert(servers_to_install, 'rust-analyzer')
     end
 
     if utils.is_bin_available 'go' then
