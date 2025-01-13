@@ -1,17 +1,6 @@
 return {
   'neovim/nvim-lspconfig',
   event = { 'BufReadPre', 'BufNewFile' },
-  dependencies = {
-    'williamboman/mason.nvim',
-    'WhoIsSethDaniel/mason-tool-installer.nvim',
-    {
-      'j-hui/fidget.nvim',
-      event = { 'LspAttach' },
-      opts = {
-        progress = { display = { done_icon = 'OK' } },
-      },
-    },
-  },
   config = function()
     require('lspconfig.ui.windows').default_options.border = 'none'
 
@@ -140,10 +129,5 @@ return {
     if utils.is_bin_available 'python3' then
       table.insert(extra, 'codespell')
     end
-
-    require('mason').setup()
-    require('mason-tool-installer').setup {
-      ensure_installed = vim.list_extend(servers_to_install, extra),
-    }
   end,
 }
