@@ -9,11 +9,7 @@ local function on_attach(client, bufnr)
     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
   end
 
-  keymap(
-    'gr',
-    vim.lsp.buf.references,
-    'buffer references'
-  )
+  keymap('gr', vim.lsp.buf.references, 'buffer references')
   keymap('gR', vim.lsp.buf.rename, 'rename')
   keymap('gvd', vim.diagnostic.open_float, 'show diagnostics')
 
@@ -43,13 +39,13 @@ local function on_attach(client, bufnr)
   end
 
   if client.supports_method(methods.textDocument_signatureHelp) then
-    local blink_window = require 'blink.cmp.completion.windows.menu'
-    local blink = require 'blink.cmp'
+    -- local blink_window = require 'blink.cmp.completion.windows.menu'
+    -- local blink = require 'blink.cmp'
 
     keymap('K', function()
-      if blink_window.win:is_open() then
-        blink.hide()
-      end
+      -- if blink_window.win:is_open() then
+      --   blink.hide()
+      -- end
 
       vim.lsp.buf.signature_help()
     end, 'signature help', 'i')
@@ -192,7 +188,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 function M.configure_server(server, settings)
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
+  -- capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
 
   require('lspconfig')[server].setup(
     vim.tbl_deep_extend(

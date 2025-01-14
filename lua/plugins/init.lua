@@ -12,6 +12,7 @@ end
 vim.opt.rtp = vim.opt.rtp ^ lazypath
 
 local plugins = require 'extensions.specs'
+-- print(vim.inspect(plugins.spec))
 local colorscheme = require 'extensions.colorschemes'
 local lazy = require 'extensions.lazy'
 

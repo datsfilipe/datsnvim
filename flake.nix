@@ -14,7 +14,13 @@
     };
   };
 
-  outputs = { self, nixpkgs, flake-utils, hlchunk, wakatime }@inputs:
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+    hlchunk,
+    wakatime,
+  }@inputs:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs { inherit system; };
@@ -23,7 +29,6 @@
           name = "hlchunk-nvim";
           src = hlchunk;
         };
-        
         vim-wakatime = pkgs.vimUtils.buildVimPlugin {
           name = "vim-wakatime";
           src = wakatime;
@@ -127,9 +132,10 @@
         flakeModule = pkgs.writeText "flake.lua" ''
           local M = {}
           
-          M.specs = {
+          M.spec = {
+            { import = 'extras' },
           ${builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: value: ''
-            ${name} = {
+            {
               dir = '${value.dir}',
               name = '${value.name}',
               ${getPluginContent name value.path},
@@ -188,7 +194,7 @@
                 lock = "${lazy.lock}"
               }
             '';
-          in pkgs.symlinkJoin {
+          in pkgs.symlinkJoin rec {
             name = "datsnvim";
             paths =
               map (file: 
