@@ -1,5 +1,4 @@
-local nix = require 'nix'
-local colorscheme = nix.colorscheme or 'vesper'
+local colorscheme = require 'extensions.colorschemes'
 local static_color = require('utils').static_color
 
 local commonHighlights = {
