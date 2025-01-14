@@ -34,6 +34,7 @@ return {
         node_decremental = '<bs>',
       },
     },
+    parser_install_dir = vim.fn.stdpath 'data' .. '/treesitter',
     indent = {
       enable = true,
       -- Treesitter unindents Yaml lists for some reason.
