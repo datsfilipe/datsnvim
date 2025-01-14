@@ -132,7 +132,7 @@
             ${name} = {
               dir = '${value.dir}',
               name = '${value.name}',
-              ${getPluginContent name value.path}
+              ${getPluginContent name value.path},
           '') pluginMappings))}
           }
           
