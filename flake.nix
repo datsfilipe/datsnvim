@@ -146,15 +146,15 @@
         mkNeovimConfig = { theme ? "default", lazy ? { lock = "default"; } }:
           let
             baseConfig = ./.;
-            optionalFiles = pkgs.runCommand "optional-config" {} ''
-              mkdir -p $out/lua/extensions
+            configFiles = pkgs.runCommand "optional-config" {} ''
+              ${pkgs.coreutils}/bin/cp -r --no-preserve=mode ${baseConfig} $out
+
               ${if theme != "default" then ''
-                mkdir -p $out/lua/extensions/colorschemes
-                echo 'return "${theme}"' > $out/lua/extensions/colorschemes/init.lua
+                ${pkgs.gnused}/bin/sed -i 's/vesper/${theme}/' $out/lua/extensions/colorschemes/init.lua
               '' else ""}
+              
               ${if lazy.lock != "default" then ''
-                mkdir -p $out/lua/extensions/lazy
-                echo 'return { lock = "${lazy.lock}" }' > $out/lua/extensions/lazy/init.lua
+                ${pkgs.gnused}/bin/sed -i 's/lock = .*/{ lock = "${lazy.lock}" }/' $out/lua/extensions/lazy/init.lua
               '' else ""}
             '';
           in
@@ -165,8 +165,7 @@
                 (builtins.readFile flakeModule))
               (pkgs.writeTextDir "lua/extensions/specs/init.lua"
                 (builtins.readFile initSpec))
-              optionalFiles
-              baseConfig
+              configFiles
             ];
           };
       in {
