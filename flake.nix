@@ -142,28 +142,31 @@
         initSpec = pkgs.writeText "init.lua" ''
           return require 'extensions.specs.flake'
         '';
-        initTheme = theme: pkgs.writeText "init.lua" ''
-          return ${theme}
-        '';
-        initLazy = lockfile: pkgs.writeText "init.lua" ''
-          return {
-            lock = ${lockfile}
-          }
-        '';
         
         mkNeovimConfig = { theme ? "default", lazy ? { lock = "default"; } }:
-          pkgs.symlinkJoin {
+          let
+            baseConfig = ./.;
+            optionalFiles = pkgs.runCommand "optional-config" {} ''
+              mkdir -p $out/lua/extensions
+              ${if theme != "default" then ''
+                mkdir -p $out/lua/extensions/colorschemes
+                echo 'return "${theme}"' > $out/lua/extensions/colorschemes/init.lua
+              '' else ""}
+              ${if lazy.lock != "default" then ''
+                mkdir -p $out/lua/extensions/lazy
+                echo 'return { lock = "${lazy.lock}" }' > $out/lua/extensions/lazy/init.lua
+              '' else ""}
+            '';
+          in
+          pkgs.symlinkJoin rec {
             name = "neovim-config";
             paths = [
               (pkgs.writeTextDir "lua/extensions/specs/flake.lua" 
                 (builtins.readFile flakeModule))
               (pkgs.writeTextDir "lua/extensions/specs/init.lua"
                 (builtins.readFile initSpec))
-              (if theme != "default" then pkgs.writeTextDir "lua/extensions/colorschemes/init.lua"
-                (builtins.readFile (initTheme theme)) else "")
-              (if lazy.lock != "default" then pkgs.writeTextDir "lua/extensions/lazy/init.lua"
-                (builtins.readFile (initLazy lazy.lock)) else "")
-              ./.
+              optionalFiles
+              baseConfig
             ];
           };
       in {
