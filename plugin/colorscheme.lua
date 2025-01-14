@@ -1,4 +1,3 @@
-local nix = require 'nix'
-local colorscheme = nix.colorscheme or 'vesper'
+-- local colorscheme = require 'extensions.colorschemes'
 
-vim.cmd('colorscheme ' .. colorscheme)
+vim.cmd('colorscheme ' .. 'slate')
