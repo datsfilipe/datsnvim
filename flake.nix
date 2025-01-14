@@ -139,33 +139,78 @@
           return M
         '';
 
-        initSpec = pkgs.writeText "init.lua" ''
-          return require 'extensions.specs.flake'
-        '';
-        
+        scanPath = dir: ignorePaths:
+          let
+            shouldIgnore = path:
+              builtins.any (ignorePath: 
+                builtins.match ignorePath path != null
+              ) ignorePaths;
+
+            scan = dir: 
+              let
+                dirContent = builtins.readDir dir;
+                handleEntry = name: type:
+                  let path = dir + "/${name}";
+                  in
+                  if shouldIgnore path then []
+                  else if type == "directory" 
+                    then scan path
+                    else if builtins.match ".*\\.lua$" name != null 
+                      then [path]
+                      else [];
+              in
+              builtins.concatLists (
+                builtins.attrValues (
+                  builtins.mapAttrs handleEntry dirContent
+                )
+              );
+          in
+          scan dir;
+
         mkNeovimConfig = { theme ? "default", lazy ? { lock = "default"; } }:
           let
-            baseConfig = ./.;
-            configFiles = pkgs.runCommand "optional-config" {} ''
-              ${pkgs.coreutils}/bin/cp -r --no-preserve=mode ${baseConfig} $out
+            baseConfig = toString ./.;
+            luaFiles = scanPath baseConfig [
+              ".*\\.git.*"
+              (if theme != "default" then ".*/extensions/colorschemes/init.lua" else "")
+              (if lazy.lock != "default" then ".*/extensions/lazy/init.lua" else "")
+              ".*/extensions/specs/init.lua"
+            ];
 
-              ${if theme != "default" then ''
-                ${pkgs.gnused}/bin/sed -i 's/vesper/${theme}/' $out/lua/extensions/colorschemes/init.lua
-              '' else ""}
-              
-              ${if lazy.lock != "default" then ''
-                ${pkgs.gnused}/bin/sed -i 's/lock = .*/{ lock = "${lazy.lock}" }/' $out/lua/extensions/lazy/init.lua
-              '' else ""}
+            initSpecs = pkgs.writeText "init.lua" ''
+              return require 'extensions.specs.flake'
             '';
-          in
-          pkgs.symlinkJoin {
-            name = "neovim-config";
-            paths = [
+            initColoschemes = pkgs.writeText "init.lua" ''
+              return ${theme}
+            '';
+            initLazy = pkgs.writeText "init.lua" ''
+              return {
+                lock = "${lazy.lock}"
+              }
+            '';
+          in pkgs.symlinkJoin {
+            name = "datsnvim";
+            paths =
+              map (file: 
+                pkgs.writeTextDir 
+                  (builtins.substring (builtins.stringLength (toString baseConfig) + 1) (-1) file)
+                  (builtins.readFile file)
+              ) luaFiles ++ [
+
               (pkgs.writeTextDir "lua/extensions/specs/flake.lua" 
                 (builtins.readFile flakeModule))
               (pkgs.writeTextDir "lua/extensions/specs/init.lua"
-                (builtins.readFile initSpec))
-              configFiles
+                (builtins.readFile initSpecs))
+
+              (if theme != "default" then
+                pkgs.writeTextDir "lua/extensions/colorschemes/init.lua"
+                  (builtins.readFile initColoschemes)
+                else null)
+
+              (if lazy.lock != "default" then
+                pkgs.writeTextDir "lua/extensions/lazy/init.lua"
+                  (builtins.readFile initLazy)
+                else null)
             ];
           };
       in {
