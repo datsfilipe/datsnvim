@@ -10,10 +10,12 @@ local function on_attach(client, bufnr)
   end
 
   keymap(
-    '<leader>grr',
-    '<cmd>FzfLua lsp_references<cr>',
-    'vim.lsp.buf.references()'
+    'gr',
+    vim.lsp.buf.references,
+    'buffer references'
   )
+  keymap('gR', vim.lsp.buf.rename, 'rename')
+  keymap('gvd', vim.diagnostic.open_float, 'show diagnostics')
 
   keymap('[d', function()
     vim.diagnostic.jump { count = -1 }
@@ -28,11 +30,16 @@ local function on_attach(client, bufnr)
     vim.diagnostic.jump { count = 1, severity = vim.diagnostic.severity.ERROR }
   end, 'next error')
 
+  if client.supports_method(methods.textDocument_codeAction) then
+    keymap('gA', vim.lsp.buf.code_action, 'code action')
+  end
+
   if client.supports_method(methods.textDocument_definition) then
-    keymap('<leader>gD', '<cmd>FzfLua lsp_definitions<cr>', 'Peek definition')
-    keymap('<leader>gd', function()
-      require('fzf-lua').lsp_definitions { jump_to_single_result = true }
-    end, 'go to definition')
+    keymap('gD', vim.lsp.buf.definition, 'peek definition')
+  end
+
+  if client.supports_method(methods.textDocument_declaration) then
+    keymap('gd', vim.lsp.buf.declaration, 'peek declaration')
   end
 
   if client.supports_method(methods.textDocument_signatureHelp) then
