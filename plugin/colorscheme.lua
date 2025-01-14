@@ -1,3 +1,3 @@
--- local colorscheme = require 'extensions.colorschemes'
+local colorscheme = require 'extensions.colorschemes'
 
-vim.cmd('colorscheme ' .. 'slate')
+vim.cmd('colorscheme ' .. colorscheme)
