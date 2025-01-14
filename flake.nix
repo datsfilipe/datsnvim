@@ -158,7 +158,7 @@
               '' else ""}
             '';
           in
-          pkgs.symlinkJoin rec {
+          pkgs.symlinkJoin {
             name = "neovim-config";
             paths = [
               (pkgs.writeTextDir "lua/extensions/specs/flake.lua" 
