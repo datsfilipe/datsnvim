@@ -9,11 +9,9 @@ local function on_attach(client, bufnr)
     vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
   end
 
-  keymap(
-    '<leader>grr',
-    '<cmd>FzfLua lsp_references<cr>',
-    'vim.lsp.buf.references()'
-  )
+  keymap('gr', vim.lsp.buf.references, 'buffer references')
+  keymap('gR', vim.lsp.buf.rename, 'rename')
+  keymap('gvd', vim.diagnostic.open_float, 'show diagnostics')
 
   keymap('[d', function()
     vim.diagnostic.jump { count = -1 }
@@ -28,21 +26,26 @@ local function on_attach(client, bufnr)
     vim.diagnostic.jump { count = 1, severity = vim.diagnostic.severity.ERROR }
   end, 'next error')
 
+  if client.supports_method(methods.textDocument_codeAction) then
+    keymap('gA', vim.lsp.buf.code_action, 'code action')
+  end
+
   if client.supports_method(methods.textDocument_definition) then
-    keymap('<leader>gD', '<cmd>FzfLua lsp_definitions<cr>', 'Peek definition')
-    keymap('<leader>gd', function()
-      require('fzf-lua').lsp_definitions { jump_to_single_result = true }
-    end, 'go to definition')
+    keymap('gD', vim.lsp.buf.definition, 'peek definition')
+  end
+
+  if client.supports_method(methods.textDocument_declaration) then
+    keymap('gd', vim.lsp.buf.declaration, 'peek declaration')
   end
 
   if client.supports_method(methods.textDocument_signatureHelp) then
-    local blink_window = require 'blink.cmp.completion.windows.menu'
-    local blink = require 'blink.cmp'
+    -- local blink_window = require 'blink.cmp.completion.windows.menu'
+    -- local blink = require 'blink.cmp'
 
     keymap('K', function()
-      if blink_window.win:is_open() then
-        blink.hide()
-      end
+      -- if blink_window.win:is_open() then
+      --   blink.hide()
+      -- end
 
       vim.lsp.buf.signature_help()
     end, 'signature help', 'i')
@@ -185,7 +188,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 function M.configure_server(server, settings)
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
+  -- capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
 
   require('lspconfig')[server].setup(
     vim.tbl_deep_extend(
