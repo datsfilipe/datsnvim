@@ -174,7 +174,6 @@
           };
       in {
         packages.default = mkNeovimConfig defaultConfig;
-        
         lib.mkNeovimConfig = mkNeovimConfig;
       });
 }
