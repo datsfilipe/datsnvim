@@ -232,6 +232,11 @@
               ++ (getPackages languageServerPkgs cfg.settings.language-servers or defaultConfig.language-servers)
               ++ (getPackages formatterPkgs cfg.settings.formatters or defaultConfig.formatters)
               ++ (getPackages linterPkgs cfg.settings.linters or defaultConfig.linters);
+
+            xdg.configFile."nvim" = {
+              source = cfg.package.override cfg.settings;
+              recursive = true;
+            };
           };
         };
     in {
