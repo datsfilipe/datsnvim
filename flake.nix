@@ -153,42 +153,58 @@
             options.programs.datsnvim = {
               enable = mkEnableOption "datsnvim";
 
-              theme = mkOption {
-                type = types.str;
-                default = defaultConfig.theme;
-                description = "Theme to use for datsnvim";
+              package = mkOption {
+                type = types.package;
+                default = self.packages.${pkgs.system}.default;
+                defaultText = literalExpression "datsnvim.packages.${pkgs.system}.default";
+                description = "The datsnvim package to use";
               };
 
-              lazy.lock = mkOption {
-                type = types.str;
-                default = defaultConfig.lazy.lock;
-                description = "Lock file configuration for lazy.nvim";
-              };
+              settings = mkOption {
+                type = types.submodule {
+                  options = {
+                    theme = mkOption {
+                      type = types.str;
+                      default = defaultConfig.theme;
+                      description = "Theme to use for neovim";
+                    };
 
-              language-servers = mkOption {
-                type = types.listOf (types.enum (builtins.attrNames languageServerPkgs));
-                default = defaultConfig.language-servers;
-                description = "List of language servers to install";
-              };
+                    lazy.lock = mkOption {
+                      type = types.str;
+                      default = defaultConfig.lazy.lock;
+                      description = "Lock file configuration for lazy.nvim";
+                    };
 
-              formatters = mkOption {
-                type = types.listOf (types.enum (builtins.attrNames formatterPkgs));
-                default = defaultConfig.formatters;
-                description = "List of formatters to install";
-              };
+                    language-servers = mkOption {
+                      type = types.listOf (types.enum (builtins.attrNames languageServerPkgs));
+                      default = defaultConfig.language-servers;
+                      description = "List of language servers to install";
+                    };
 
-              linters = mkOption {
-                type = types.listOf (types.enum (builtins.attrNames linterPkgs));
-                default = defaultConfig.linters;
-                description = "List of linters to install";
+                    formatters = mkOption {
+                      type = types.listOf (types.enum (builtins.attrNames formatterPkgs));
+                      default = defaultConfig.formatters;
+                      description = "List of formatters to install";
+                    };
+
+                    linters = mkOption {
+                      type = types.listOf (types.enum (builtins.attrNames linterPkgs));
+                      default = defaultConfig.linters;
+                      description = "List of linters to install";
+                    };
+                  };
+                };
+                default = {};
+                description = "Override options for datsnvim";
               };
             };
 
             config = mkIf cfg.enable {
-              home.packages = 
-                (getPackages languageServerPkgs cfg.language-servers) ++
-                (getPackages formatterPkgs cfg.formatters) ++
-                (getPackages linterPkgs cfg.linters);
+              home.packages = [ 
+                (cfg.package.override cfg.settings)
+              ] ++ (getPackages languageServerPkgs cfg.settings.language-servers or defaultConfig.language-servers) ++
+                 (getPackages formatterPkgs cfg.settings.formatters or defaultConfig.formatters) ++
+                 (getPackages linterPkgs cfg.settings.linters or defaultConfig.linters);
             };
           };
 
