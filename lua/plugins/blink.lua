@@ -16,7 +16,7 @@ return {
       list = {
         selection = {
           auto_insert = true,
-          pre_select = false,
+          preselect = false,
         },
         max_items = 10,
       },
