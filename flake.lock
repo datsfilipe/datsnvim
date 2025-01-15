@@ -18,19 +18,23 @@
         "type": "github"
       }
     },
-    "hlchunk": {
-      "flake": false,
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1732349755,
-        "narHash": "sha256-f5VVfpfVZk6ULBWVSVEzXBN9F4ROTzhomV1F2mKIem4=",
-        "owner": "shellRaining",
-        "repo": "hlchunk.nvim",
-        "rev": "5465dd33ade8676d63f6e8493252283060cd72ca",
+        "lastModified": 1736785676,
+        "narHash": "sha256-TY0jUwR3EW0fnS0X5wXMAVy6h4Z7Y6a3m+Yq++C9AyE=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "fc52a210b60f2f52c74eac41a8647c1573d2071d",
         "type": "github"
       },
       "original": {
-        "owner": "shellRaining",
-        "repo": "hlchunk.nvim",
+        "owner": "nix-community",
+        "repo": "home-manager",
         "type": "github"
       }
     },
@@ -53,9 +57,8 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "hlchunk": "hlchunk",
-        "nixpkgs": "nixpkgs",
-        "wakatime": "wakatime"
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs"
       }
     },
     "systems": {
@@ -70,22 +73,6 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
-        "type": "github"
-      }
-    },
-    "wakatime": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1731658836,
-        "narHash": "sha256-S7SymK/GR42abii9bkU8tDELn64GEJ4oIccGiAhPpYE=",
-        "owner": "wakatime",
-        "repo": "vim-wakatime",
-        "rev": "cf51327a9e08935569614d1cb24e779ee9f45519",
-        "type": "github"
-      },
-      "original": {
-        "owner": "wakatime",
-        "repo": "vim-wakatime",
         "type": "github"
       }
     }

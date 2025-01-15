@@ -1,3 +1,3 @@
 local colorscheme = require 'extensions.colorschemes'
 
-require('plugins.colorschemes.' .. colorscheme)
+return require('plugins.colorschemes.' .. colorscheme)
