@@ -14,7 +14,10 @@ return {
     },
     completion = {
       list = {
-        selection = 'auto_insert',
+        selection = {
+          auto_insert = true,
+          pre_select = false,
+        },
         max_items = 10,
       },
       menu = {
