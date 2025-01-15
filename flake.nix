@@ -122,7 +122,7 @@
         ];
 
         initColoschemes = pkgs.writeText "init.lua" ''
-          return ${theme}
+          return "${theme}"
         '';
         initLazy = pkgs.writeText "init.lua" ''
           return {
