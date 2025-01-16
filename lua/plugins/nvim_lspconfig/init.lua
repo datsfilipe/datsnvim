@@ -27,7 +27,7 @@ return {
     )
 
     handle_configure_server({
-      name = 'rust-analyzer',
+      name = 'rust_analyzer',
       opts = {
         settings = {
           ['rust-analyzer'] = {
