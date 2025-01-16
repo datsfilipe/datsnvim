@@ -188,7 +188,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 function M.configure_server(server, settings)
   local capabilities = vim.lsp.protocol.make_client_capabilities()
-  -- capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
+  capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
 
   require('lspconfig')[server].setup(
     vim.tbl_deep_extend(
