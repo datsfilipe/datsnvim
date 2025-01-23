@@ -39,16 +39,9 @@ local function on_attach(client, bufnr)
   end
 
   if client.supports_method(methods.textDocument_signatureHelp) then
-    -- local blink_window = require 'blink.cmp.completion.windows.menu'
-    -- local blink = require 'blink.cmp'
-
     keymap('K', function()
-      -- if blink_window.win:is_open() then
-      --   blink.hide()
-      -- end
-
       vim.lsp.buf.signature_help()
-    end, 'signature help', 'i')
+    end, 'signature help', 'n')
   end
 
   if client.supports_method(methods.textDocument_documentHighlight) then
