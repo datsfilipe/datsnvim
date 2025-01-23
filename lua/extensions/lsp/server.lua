@@ -10,8 +10,9 @@ local function on_attach(client, bufnr)
   end
 
   keymap('gr', vim.lsp.buf.references, 'buffer references')
+  keymap('ge', vim.diagnostic.setqflist, 'list diagnostics')
   keymap('gR', vim.lsp.buf.rename, 'rename')
-  keymap('gvd', vim.diagnostic.open_float, 'show diagnostics')
+  keymap('gK', vim.diagnostic.open_float, 'show diagnostic under cursor')
 
   keymap('[d', function()
     vim.diagnostic.jump { count = -1 }
@@ -31,17 +32,34 @@ local function on_attach(client, bufnr)
   end
 
   if client:supports_method(methods.textDocument_definition) then
-    keymap('gD', vim.lsp.buf.definition, 'peek definition')
+    keymap('gd', vim.lsp.buf.definition, 'peek definition')
+  end
+
+  if client:supports_method(methods.textDocument_typeDefinition) then
+    keymap('gt', vim.lsp.buf.definition, 'peek type definition')
   end
 
   if client:supports_method(methods.textDocument_declaration) then
-    keymap('gd', vim.lsp.buf.declaration, 'peek declaration')
+    keymap('gD', vim.lsp.buf.declaration, 'peek declaration')
+  end
+
+  if client:supports_method(methods.textDocument_hover) then
+    keymap('K', function()
+      vim.lsp.buf.hover()
+    end, 'hover documentation')
   end
 
   if client:supports_method(methods.textDocument_signatureHelp) then
-    keymap('K', function()
+    local blink_window = require 'blink.cmp.completion.windows.menu'
+    local blink = require 'blink.cmp'
+
+    keymap('<C-k>', function()
+      if blink_window.win:is_open() then
+        blink.hide()
+      end
+
       vim.lsp.buf.signature_help()
-    end, 'signature help', 'n')
+    end, 'signature help', 'i')
   end
 
   if client:supports_method(methods.textDocument_documentHighlight) then
