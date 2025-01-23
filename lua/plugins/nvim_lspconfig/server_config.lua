@@ -26,25 +26,25 @@ local function on_attach(client, bufnr)
     vim.diagnostic.jump { count = 1, severity = vim.diagnostic.severity.ERROR }
   end, 'next error')
 
-  if client.supports_method(methods.textDocument_codeAction) then
+  if client:supports_method(methods.textDocument_codeAction) then
     keymap('gA', vim.lsp.buf.code_action, 'code action')
   end
 
-  if client.supports_method(methods.textDocument_definition) then
+  if client:supports_method(methods.textDocument_definition) then
     keymap('gD', vim.lsp.buf.definition, 'peek definition')
   end
 
-  if client.supports_method(methods.textDocument_declaration) then
+  if client:supports_method(methods.textDocument_declaration) then
     keymap('gd', vim.lsp.buf.declaration, 'peek declaration')
   end
 
-  if client.supports_method(methods.textDocument_signatureHelp) then
+  if client:supports_method(methods.textDocument_signatureHelp) then
     keymap('K', function()
       vim.lsp.buf.signature_help()
     end, 'signature help', 'n')
   end
 
-  if client.supports_method(methods.textDocument_documentHighlight) then
+  if client:supports_method(methods.textDocument_documentHighlight) then
     local under_cursor_highlights_group = vim.api.nvim_create_augroup(
       'mariasolos/cursor_highlights',
       { clear = false }
