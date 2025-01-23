@@ -18,11 +18,6 @@ local function markdown_preview()
 
   local file_path = vim.fn.expand '%:p'
   vim.fn.jobstart({ 'gh', 'markdown-preview', file_path }, {
-    on_stderr = function(_, data)
-      if data and #data > 0 then
-        vim.notify(table.concat(data, '\n'), vim.log.levels.ERROR)
-      end
-    end,
     on_exit = function(_, code)
       if code ~= 0 then
         vim.notify('markdown preview failed', vim.log.levels.ERROR)
