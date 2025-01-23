@@ -6,17 +6,31 @@ local function markdown_preview()
 
   local extensions = vim.fn.system('gh extension list'):gsub('\n', '')
   if not extensions:find 'gh markdown%-preview' then
-    print 'markdown preview extension not found'
+    vim.notify('markdown preview extension not found', vim.log.levels.ERROR)
     return
   end
 
   local current_filetype = vim.bo.filetype
   if current_filetype ~= 'markdown' then
-    print 'not a markdown file'
+    vim.notify('not a markdown file', vim.log.levels.WARN)
     return
   end
 
-  vim.fn.system('gh markdown-preview ' .. vim.fn.expand '%:p' .. ' &')
+  local file_path = vim.fn.expand '%:p'
+  vim.fn.jobstart({ 'gh', 'markdown-preview', file_path }, {
+    on_stderr = function(_, data)
+      if data and #data > 0 then
+        vim.notify(table.concat(data, '\n'), vim.log.levels.ERROR)
+      end
+    end,
+    on_exit = function(_, code)
+      if code ~= 0 then
+        vim.notify('markdown preview failed', vim.log.levels.ERROR)
+      else
+        vim.notify('markdown preview opened', vim.log.levels.INFO)
+      end
+    end,
+  })
 end
 
 vim.api.nvim_create_user_command('MarkdownPreview', markdown_preview, {})
