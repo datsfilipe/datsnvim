@@ -14,13 +14,9 @@ vim.wo.relativenumber = true
 vim.o.mouse = 'a'
 vim.o.mousescroll = 'ver:3,hor:0'
 
-vim.o.foldcolumn = '1'
-vim.o.foldlevelstart = 99
-vim.wo.foldtext = ''
-
 vim.opt.fillchars = {
   eob = ' ',
-  fold = ' ',
+  fold = '-',
   foldclose = '<',
   foldopen = '>',
   foldsep = ' ',
