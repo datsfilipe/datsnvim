@@ -4,8 +4,7 @@ return {
   config = function()
     require('lspconfig.ui.windows').default_options.border = 'none'
 
-    local configure_server =
-      require('plugins.nvim_lspconfig.server_config').configure_server
+    local configure_server = require('extensions.lsp.server').configure_server
     local utils = require 'utils'
 
     local handle_configure_server = function(server, binary)
