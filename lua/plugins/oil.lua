@@ -1,7 +1,6 @@
 return {
   'stevearc/oil.nvim',
   lazy = false,
-  commit = 'ba858b662599eab8ef1cba9ab745afded99cb180',
   keys = {
     { '<leader>e', '<cmd>Oil<cr>' },
   },
@@ -9,7 +8,7 @@ return {
     default_file_explorer = true,
     keymaps = {
       ['<leader>v'] = 'actions.select_split',
-      ['<C-l>'] = 'actions.send_files_to_quickfix',
+      ['<C-l>'] = { 'actions.send_to_qflist', opts = { action = 'r' } },
     },
     view_options = {
       show_hidden = true,
