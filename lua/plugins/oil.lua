@@ -9,6 +9,7 @@ return {
     default_file_explorer = true,
     keymaps = {
       ['<leader>v'] = 'actions.select_split',
+      ['<C-l>'] = 'actions.send_files_to_quickfix',
     },
     view_options = {
       show_hidden = true,
