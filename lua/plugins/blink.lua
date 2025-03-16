@@ -28,9 +28,7 @@ return {
         window = { border = 'none' },
       },
     },
-    sources = {
-      cmdline = {},
-    },
+    cmdline = { sources = {} },
     appearance = {
       kind_icons = require('icons').symbol_kinds,
     },
