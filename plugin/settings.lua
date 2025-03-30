@@ -55,3 +55,6 @@ vim.g.loaded_perl_provider = 0
 vim.g.loaded_node_provider = 0
 
 vim.g.netrw_banner = 0
+
+-- required for avante
+vim.opt.laststatus = 3
