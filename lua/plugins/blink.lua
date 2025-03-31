@@ -15,8 +15,8 @@ return {
     completion = {
       list = {
         selection = {
-          auto_insert = true,
-          preselect = false,
+          auto_insert = false,
+          preselect = true,
         },
         max_items = 10,
       },
