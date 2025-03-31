@@ -31,6 +31,7 @@ return {
         },
       },
       virtualtext = {
+        auto_trigger_ft = { '*' },
         show_on_completion_menu = false,
         keymap = {
           accept = '<C-g>',
