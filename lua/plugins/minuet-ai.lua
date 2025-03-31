@@ -21,7 +21,7 @@ return {
       },
       virtualtext = {
         auto_trigger_ft = { '*' },
-        show_on_completion_menu = false,
+        show_on_completion_menu = true,
         keymap = {
           accept = '<C-g>',
           dismiss = '<C-e>',
