@@ -7,6 +7,7 @@ return {
       provider = 'openai_fim_compatible',
       n_completions = 1,
       context_window = 16000,
+      debounce = 600,
       provider_options = {
         openai_fim_compatible = {
           api_key = 'TERM',
