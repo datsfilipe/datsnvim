@@ -1,19 +1,8 @@
-vim.g.minuet_virtualtext_enabled = false
-
 return {
   'milanglacier/minuet-ai.nvim',
-  event = 'InsertEnter',
+  lazy = false,
   version = '*',
   config = function()
-    if not vim.g.minuet_virtualtext_enabled then
-      vim.api.nvim_create_autocmd('InsertEnter', {
-        pattern = '*',
-        command = 'Minuet virtualtext enable',
-        once = true,
-      })
-      vim.g.minuet_virtualtext_enabled = true
-    end
-
     require('minuet').setup {
       provider = 'openai_fim_compatible',
       n_completions = 1,
