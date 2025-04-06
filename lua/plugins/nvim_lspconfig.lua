@@ -26,6 +26,16 @@ return {
     )
 
     handle_configure_server({
+      name = 'solidity_ls',
+      opts = {
+        cmd = { 'nomicfoundation-solidity-language-server', '--stdio' },
+        filetypes = { 'solidity' },
+        root_dir = require('lspconfig.util').find_git_ancestor,
+        single_file_support = true,
+      },
+    }, 'nomicfoundation-solidity-language-server')
+
+    handle_configure_server({
       name = 'rust_analyzer',
       opts = {
         settings = {
