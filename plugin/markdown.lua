@@ -6,7 +6,7 @@ local function markdown_preview()
 
   local extensions = vim.fn.system('gh extension list'):gsub('\n', '')
   if not extensions:find 'gh markdown%-preview' then
-    vim.notify('markdown preview extension not found', vim.log.levels.ERROR)
+    vim.cmd '!gh extension install gh-markdown-preview'
     return
   end
 
