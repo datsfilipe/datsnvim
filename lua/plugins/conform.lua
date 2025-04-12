@@ -45,10 +45,10 @@ return {
       formatters_by_ft = {
         lua = { 'stylua' },
         nix = { 'alejandra' },
-        javascript = { 'prettier', 'biome' },
-        typescript = { 'prettier', 'biome' },
-        less = { 'prettier', 'prettierd' },
-        css = { 'prettier', 'prettierd' },
+        javascript = { 'prettier', 'biome', stop_after_first = true },
+        typescript = { 'prettier', 'biome', stop_after_first = true },
+        less = { 'prettier', 'prettierd', stop_after_first = true },
+        css = { 'prettier', 'prettierd', stop_after_first = true },
       },
       format_on_save = {
         timeout_ms = 500,
