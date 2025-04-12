@@ -1,6 +1,10 @@
 return {
   'neovim/nvim-lspconfig',
+  cmd = { 'LspInfo', 'LspRestart' },
   event = { 'BufReadPre', 'BufNewFile' },
+  keys = {
+    { '<leader>lr', '<cmd>LspRestart<cr>', desc = 'restart LSP' },
+  },
   config = function()
     require('lspconfig.ui.windows').default_options.border = 'none'
 
