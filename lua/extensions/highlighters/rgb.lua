@@ -9,6 +9,12 @@ local function matcher(type, match)
   end
 end
 
+local function is_dark_color(r, g, b)
+  r, g, b = r / 255, g / 255, b / 255
+  local luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
+  return luminance < 0.5
+end
+
 local function gen_highlighter(type)
   return {
     pattern = type == 'rgb' and '()rgb%s*%(%s*%d+%s*,%s*%d+%s*,%s*%d+%s*%)()'
@@ -20,16 +26,14 @@ local function gen_highlighter(type)
         return 'Normal'
       end
 
-      local hex = string.format(
-        '#%02x%02x%02x',
-        tonumber(colors.r),
-        tonumber(colors.g),
-        tonumber(colors.b)
-      )
+      local r, g, b = tonumber(colors.r), tonumber(colors.g), tonumber(colors.b)
+      local hex = string.format('#%02x%02x%02x', r, g, b)
       local hl_group =
         string.format('MiniHipatternsColor_%s', hex:gsub('#', ''))
 
-      vim.api.nvim_set_hl(0, hl_group, { bg = hex, fg = '#000000' })
+      local fg_color = is_dark_color(r, g, b) and '#FFFFFF' or '#000000'
+
+      vim.api.nvim_set_hl(0, hl_group, { bg = hex, fg = fg_color })
       return hl_group
     end,
   }
