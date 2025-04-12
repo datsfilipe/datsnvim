@@ -76,8 +76,3 @@ vim.keymap.set('n', '<leader>Y', 'ggVG"+y', options)
 vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]], options)
 vim.keymap.set({ 'n', 'v' }, '<leader>d', [["_d]], options)
 vim.keymap.set('x', '<leader>p', [["_dP]], options)
-
-vim.keymap.set('n', 'F', function()
-  local ext = vim.fn.expand '%:e'
-  require('utils').format_files_in_dir(ext)
-end, options)
