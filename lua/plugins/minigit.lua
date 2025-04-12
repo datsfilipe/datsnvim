@@ -35,6 +35,19 @@ return {
       '<cmd>vert Git blame HEAD -- %<cr>',
       desc = 'blame',
     },
+    {
+      ';gp',
+      function()
+        vim.ui.input(
+          { prompt = 'Base branch (default: origin/main): ' },
+          function(branch)
+            branch = branch ~= '' and branch or 'origin/main'
+            vim.cmd('vert Git diff ' .. branch .. '...HEAD')
+          end
+        )
+      end,
+      desc = 'diff PR against branch',
+    },
   },
   init = function()
     local au_opts = {
