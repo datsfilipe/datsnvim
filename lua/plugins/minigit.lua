@@ -19,19 +19,28 @@ return {
       end,
       desc = 'status',
     },
+    { ';ga', "<cmd>Git add '<,'><cr>", desc = 'add selected changes' },
     { ';gA', '<cmd>Git add %<cr>', desc = 'add file' },
-    { ';gU', '<cmd>Git reset HEAD --<cr>', desc = 'unstage changes' },
+    {
+      ';gr',
+      '<cmd>Git reset HEAD --<cr>',
+      desc = 'unstage all changes',
+    },
     { ';gc', '<cmd>Git commit<cr>', desc = 'commit' },
     { ';gd', '<cmd>vert Git diff %<cr>', desc = 'diff file' },
-    { ';gD', '<cmd>vert Git diff<cr>', desc = 'diff' },
+    { ';gD', '<cmd>vert Git diff<cr>', desc = 'diff all' },
     { ';gl', '<cmd>vert Git log<cr>', desc = 'log' },
     {
-      ';gi',
-      function()
-        require('mini.git').show_at_cursor { split = 'vertical' }
-      end,
-      desc = 'show info at cursor',
-      mode = { 'n', 'x' },
+      ';gb',
+      '<cmd>vert Git blame HEAD -- %<cr>',
+      desc = 'blame',
     },
   },
+  init = function()
+    local au_opts = {
+      pattern = 'MiniGitCommandSplit',
+      callback = require('extensions.minigit').align_blame,
+    }
+    vim.api.nvim_create_autocmd('User', au_opts)
+  end,
 }
