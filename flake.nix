@@ -19,53 +19,10 @@
     defaultConfig = {
       theme = "default";
       lazy.lock = "default";
-      language-servers = [
-        "lua"
-        "bash"
-        "typescript"
-        "rust-analyzer"
-        "eslint"
-        "json"
-        "css"
-        "html"
-        "go"
-      ];
-      formatters = [
-        "stylua"
-        "prettier"
-        "biome"
-        "alejandra"
-      ];
-      linters = [
-        "codespell"
-      ];
     };
   in
     flake-utils.lib.eachDefaultSystem (system: let
       pkgs = import nixpkgs {inherit system;};
-
-      languageServerPkgs = {
-        "lua" = pkgs.lua-language-server;
-        "bash" = pkgs.nodePackages.bash-language-server;
-        "typescript" = pkgs.nodePackages.typescript-language-server;
-        "rust-analyzer" = pkgs.rust-analyzer;
-        "eslint" = pkgs.nodePackages.vscode-langservers-extracted;
-        "json" = pkgs.nodePackages.vscode-langservers-extracted;
-        "css" = pkgs.nodePackages.vscode-langservers-extracted;
-        "html" = pkgs.nodePackages.vscode-langservers-extracted;
-        "go" = pkgs.gopls;
-      };
-
-      formatterPkgs = {
-        "stylua" = pkgs.stylua;
-        "prettier" = pkgs.nodePackages.prettier;
-        "biome" = pkgs.biome;
-        "alejandra" = pkgs.alejandra;
-      };
-
-      linterPkgs = {
-        "codespell" = pkgs.codespell;
-      };
 
       getPackages = mapping: list:
         builtins.map (name: mapping.${name}) list;
@@ -102,9 +59,6 @@
       mkNeovimConfig = {
         theme ? defaultConfig.theme,
         lazy ? {lock = defaultConfig.lazy.lock;},
-        language-servers ? defaultConfig.language-servers,
-        formatters ? defaultConfig.formatters,
-        linters ? defaultConfig.linters,
       }: let
         baseConfig = toString ./.;
         luaFiles = scanPath baseConfig [
@@ -129,11 +83,6 @@
             lock = "${lazy.lock}"
           }
         '';
-
-        requiredPackages =
-          (getPackages languageServerPkgs language-servers)
-          ++ (getPackages formatterPkgs formatters)
-          ++ (getPackages linterPkgs linters);
       in
         pkgs.symlinkJoin rec {
           name = "datsnvim";
@@ -162,8 +111,6 @@
                 else null
               )
             ];
-
-          buildInputs = requiredPackages;
         };
 
       hmModule = {
@@ -199,24 +146,6 @@
                     default = defaultConfig.lazy.lock;
                     description = "Lock file configuration for lazy.nvim";
                   };
-
-                  language-servers = mkOption {
-                    type = types.listOf (types.enum (builtins.attrNames languageServerPkgs));
-                    default = defaultConfig.language-servers;
-                    description = "List of language servers to install";
-                  };
-
-                  formatters = mkOption {
-                    type = types.listOf (types.enum (builtins.attrNames formatterPkgs));
-                    default = defaultConfig.formatters;
-                    description = "List of formatters to install";
-                  };
-
-                  linters = mkOption {
-                    type = types.listOf (types.enum (builtins.attrNames linterPkgs));
-                    default = defaultConfig.linters;
-                    description = "List of linters to install";
-                  };
                 };
               };
               default = {};
@@ -225,13 +154,9 @@
           };
 
           config = mkIf cfg.enable {
-            home.packages =
-              [
-                (cfg.package.override cfg.settings)
-              ]
-              ++ (getPackages languageServerPkgs cfg.settings.language-servers or defaultConfig.language-servers)
-              ++ (getPackages formatterPkgs cfg.settings.formatters or defaultConfig.formatters)
-              ++ (getPackages linterPkgs cfg.settings.linters or defaultConfig.linters);
+            home.packages = [
+              (cfg.package.override cfg.settings)
+            ];
 
             xdg.configFile."nvim" = {
               source = cfg.package.override cfg.settings;
