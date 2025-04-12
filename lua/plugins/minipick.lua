@@ -42,12 +42,10 @@ return {
       },
       source = {
         show = function(buf_id, items, query)
-          return pick.default_show(
-            buf_id,
-            items,
-            query,
-            { show_icons = true, icons = { directory = 'D ', file = 'F ' } }
-          )
+          return pick.default_show(buf_id, items, query, {
+            show_icons = true,
+            icons = { directory = '/ ', file = '. ' },
+          })
         end,
       },
     }
