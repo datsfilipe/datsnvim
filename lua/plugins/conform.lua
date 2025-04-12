@@ -1,6 +1,7 @@
 return {
   'stevearc/conform.nvim',
-  event = 'BufWritePre',
+  event = { 'BufWritePre' },
+  cmd = { 'ConformInfo' },
   config = function()
     local utils = require 'utils'
     require('conform').setup {
@@ -47,6 +48,8 @@ return {
         nix = { 'alejandra' },
         javascript = { 'prettier', 'biome', stop_after_first = true },
         typescript = { 'prettier', 'biome', stop_after_first = true },
+        javascriptreact = { 'prettier', 'biome', stop_after_first = true },
+        typescriptreact = { 'prettier', 'biome', stop_after_first = true },
         less = { 'prettier', 'prettierd', stop_after_first = true },
         css = { 'prettier', 'prettierd', stop_after_first = true },
       },
