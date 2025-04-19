@@ -11,10 +11,9 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp = vim.opt.rtp ^ lazypath
 
-local plugins = require 'extensions.specs'
--- print(vim.inspect(plugins.spec))
 local colorscheme = require 'extensions.colorschemes'
 local lazy = require 'extensions.lazy'
+local plugins = require 'extensions.specs'
 
 require('lazy').setup {
   lockfile = lazy.lock,

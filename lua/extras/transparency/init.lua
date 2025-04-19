@@ -1,5 +1,5 @@
 return {
-  dir = vim.fn.stdpath 'config' .. '/lua/extras',
+  dir = vim.fn.stdpath 'config' .. '/lua/extras/transparency',
   name = 'transparency',
   event = 'ColorScheme',
   config = function()

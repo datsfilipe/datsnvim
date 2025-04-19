@@ -9,7 +9,7 @@ local function toggle_qf()
 end
 
 return {
-  dir = vim.fn.stdpath 'config' .. '/lua/extras',
+  dir = vim.fn.stdpath 'config' .. '/lua/extras/quickfixlist',
   name = 'DATSquickfixlist',
   keys = {
     { ';e', toggle_qf, desc = 'quickfix list: toggle' },
