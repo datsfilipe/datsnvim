@@ -10,7 +10,7 @@ vim.keymap.set(
 vim.keymap.set(
   'n',
   '<leader><leader>',
-  '<cmd>so<cr>',
+  '',
   vim.tbl_extend('force', options, { desc = 'no walking on space' })
 )
 
@@ -76,3 +76,9 @@ vim.keymap.set('n', '<leader>Y', 'ggVG"+y', options)
 vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]], options)
 vim.keymap.set({ 'n', 'v' }, '<leader>d', [["_d]], options)
 vim.keymap.set('x', '<leader>p', [["_dP]], options)
+
+vim.keymap.set({ 'n', 'v' }, '+', '<C-a>')
+vim.keymap.set({ 'n', 'v' }, '-', '<C-x>')
+
+vim.keymap.set('n', ';o', 'o<Esc>^Da', options)
+vim.keymap.set('n', ';O', 'O<Esc>^Da', options)
