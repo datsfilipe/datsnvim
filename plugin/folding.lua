@@ -17,11 +17,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
   end,
 })
-
-vim.api.nvim_create_autocmd({ 'VimEnter', 'WinEnter' }, {
-  callback = function()
-    if vim.wo.diff then
-      vim.o.foldenable = false
-    end
-  end,
-})
