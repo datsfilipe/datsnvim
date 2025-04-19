@@ -18,35 +18,38 @@ return {
         vim.cmd 'copen'
       end,
       desc = 'status',
+      noremap = true,
     },
-    { ';ga', "<cmd>Git add '<,'><cr>", desc = 'add selected changes' },
-    { ';gA', '<cmd>Git add %<cr>', desc = 'add file' },
+    { ';gA', '<cmd>Git add %<cr>', desc = 'add file', noremap = true },
     {
       ';gr',
       '<cmd>Git reset HEAD --<cr>',
       desc = 'unstage all changes',
+      noremap = true,
     },
-    { ';gc', '<cmd>Git commit<cr>', desc = 'commit' },
-    { ';gd', '<cmd>vert Git diff %<cr>', desc = 'diff file' },
-    { ';gD', '<cmd>vert Git diff<cr>', desc = 'diff all' },
-    { ';gl', '<cmd>vert Git log<cr>', desc = 'log' },
+    { ';gc', '<cmd>Git commit<cr>', desc = 'commit', noremap = true },
+    { ';gd', '<cmd>vert Git diff %<cr>', desc = 'diff file', noremap = true },
+    { ';gD', '<cmd>vert Git diff<cr>', desc = 'diff all', noremap = true },
+    { ';gl', '<cmd>vert Git log<cr>', desc = 'log', noremap = true },
     {
       ';gb',
       '<cmd>vert Git blame HEAD -- %<cr>',
       desc = 'blame',
+      noremap = true,
     },
     {
       ';gB',
       function()
         vim.ui.input(
-          { prompt = 'Base branch (default: origin/main): ' },
+          { prompt = 'base branch (default: origin/main): ' },
           function(branch)
             branch = branch ~= '' and branch or 'origin/main'
             vim.cmd('vert Git diff ' .. branch .. '...HEAD')
           end
         )
       end,
-      desc = 'diff PR against branch',
+      desc = 'diff current branch against default branch',
+      noremap = true,
     },
     {
       ';gp',
@@ -54,6 +57,7 @@ return {
         require('extensions.minigit').create_pr()
       end,
       desc = 'create pull request',
+      noremap = true,
     },
   },
   init = function()
