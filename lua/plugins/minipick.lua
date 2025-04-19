@@ -44,7 +44,7 @@ return {
         show = function(buf_id, items, query)
           return pick.default_show(buf_id, items, query, {
             show_icons = true,
-            icons = { directory = '/ ', file = '. ' },
+            icons = { directory = '/ ', file = '* ' },
           })
         end,
       },
