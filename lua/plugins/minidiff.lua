@@ -6,8 +6,8 @@ return {
     mappings = {
       apply = ';ga',
       reset = ';gu',
-      goto_prev = ';gp',
-      goto_next = ';gn',
+      goto_prev = ';gk',
+      goto_next = ';gj',
     },
   },
 }
