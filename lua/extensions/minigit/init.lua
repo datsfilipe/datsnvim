@@ -3,6 +3,9 @@ local M = {}
 M.create_pr = require('extensions.minigit.create_pr').create_pull_request
 M.git_pr_setup = require('extensions.minigit.create_pr').setup
 
+M.reset_selected = require('extensions.minigit.hunks').reset_selected
+M.list_hunks = require('extensions.minigit.hunks').list_hunks
+
 M.align_blame = function(au_data)
   if au_data.data.git_subcommand ~= 'blame' then
     return
