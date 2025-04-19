@@ -4,10 +4,11 @@ return {
   main = 'mini.diff',
   opts = {
     mappings = {
-      apply = ';ga',
-      reset = ';gu',
-      goto_prev = ';gk',
-      goto_next = ';gj',
+      reset = ';gr',
+      -- reset these, prefer using from minigit when possible
+      apply = '',
+      goto_prev = '',
+      goto_next = '',
     },
   },
 }
