@@ -36,7 +36,7 @@ return {
       desc = 'blame',
     },
     {
-      ';gp',
+      ';gB',
       function()
         vim.ui.input(
           { prompt = 'Base branch (default: origin/main): ' },
@@ -48,6 +48,13 @@ return {
       end,
       desc = 'diff PR against branch',
     },
+    {
+      ';gp',
+      function()
+        require('extensions.minigit').create_pr()
+      end,
+      desc = 'create pull request',
+    },
   },
   init = function()
     local au_opts = {
@@ -55,5 +62,9 @@ return {
       callback = require('extensions.minigit').align_blame,
     }
     vim.api.nvim_create_autocmd('User', au_opts)
+
+    require('extensions.minigit').git_pr_setup {
+      remotes = { 'fork', 'origin', 'develop', 'stage' },
+    }
   end,
 }
