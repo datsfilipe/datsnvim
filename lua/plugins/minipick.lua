@@ -37,7 +37,7 @@ return {
         config = {
           border = 'none',
         },
-        prompt_cursor = '█',
+        prompt_caret = '█',
         prompt_prefix = ': ',
       },
       source = {
