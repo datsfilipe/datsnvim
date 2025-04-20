@@ -5,8 +5,7 @@ return {
   opts = {
     mappings = {
       reset = ';gr',
-      -- reset these, prefer using from minigit when possible
-      apply = '',
+      apply = ';ga',
       goto_prev = '',
       goto_next = '',
     },

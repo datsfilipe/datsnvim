@@ -31,12 +31,6 @@ return {
       '<cmd>Git reset HEAD --<cr>',
       desc = 'unstage all changes',
     },
-    {
-      ';ga',
-      "<cmd>Git add '<,'><cr>",
-      desc = 'add selected changes',
-      mode = 'v',
-    },
     { ';gA', '<cmd>Git add %<cr>', desc = 'add file' },
     { ';gc', '<cmd>Git commit<cr>', desc = 'commit' },
     { ';gd', '<cmd>vert Git diff %<cr>', desc = 'diff file' },
