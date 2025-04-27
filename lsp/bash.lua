@@ -1,6 +1,4 @@
-vim.lsp.config.bash = {
+return {
   cmd = { 'bash-language-server', 'start' },
   filetypes = { 'sh', 'bash', 'zsh' },
 }
-
-vim.lsp.enable 'bash'

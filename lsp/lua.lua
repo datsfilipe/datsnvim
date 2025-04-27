@@ -3,7 +3,7 @@ if not utils.is_bin_available 'lua-language-server' then
   return
 end
 
-vim.lsp.config.lua_ls = {
+return {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
   on_init = function(client)
@@ -54,5 +54,3 @@ vim.lsp.config.lua_ls = {
     },
   },
 }
-
-vim.lsp.enable 'lua_ls'

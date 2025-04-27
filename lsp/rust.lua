@@ -3,7 +3,7 @@ if not utils.is_bin_available 'rust-analyzer' then
   return
 end
 
-vim.lsp.config.rust_analyzer = {
+return {
   cmd = { 'rust-analyzer' },
   filetypes = { 'rust' },
   settings = {
@@ -14,5 +14,3 @@ vim.lsp.config.rust_analyzer = {
     },
   },
 }
-
-vim.lsp.enable 'rust_analyzer'

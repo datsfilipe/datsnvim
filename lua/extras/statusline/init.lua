@@ -98,9 +98,10 @@ local function get_path_info(fname)
 
   local repo_info = ''
   if branch then
-    repo_info = hl_str('DiagnosticError', branch)
+    repo_info = '<'
+      .. hl_str('DiagnosticError', branch)
       .. ' '
-      .. hl_str('Normal', ':')
+      .. hl_str('Normal', '>')
       .. ' '
   end
 

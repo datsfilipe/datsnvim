@@ -3,7 +3,7 @@ if not utils.is_bin_available 'biome' then
   return
 end
 
-vim.lsp.config.biome = {
+return {
   cmd = { 'biome', 'lsp-proxy' },
   filetypes = {
     'astro',
@@ -20,5 +20,3 @@ vim.lsp.config.biome = {
     'vue',
   },
 }
-
-vim.lsp.enable 'biome'

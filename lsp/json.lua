@@ -3,7 +3,7 @@ if not utils.is_bin_available 'vscode-json-language-server' then
   return
 end
 
-vim.lsp.config.json = {
+return {
   cmd = { 'vscode-json-language-server', '--stdio' },
   filetypes = { 'json', 'jsonc' },
   init_options = {
@@ -16,5 +16,3 @@ vim.lsp.config.json = {
     end,
   },
 }
-
-vim.lsp.enable 'json'
