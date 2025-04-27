@@ -19,7 +19,8 @@ return {
       'DiagnosticSignError',
       'DiagnosticSignHint',
       'DiagnosticSignInfo',
-      'IndentLineChar',
+      'IndentLine',
+      'IndentLineCurrent',
       'TabLine',
     }
 
