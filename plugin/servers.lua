@@ -1,35 +1,19 @@
 local diagnostic_icons = require('icons').diagnostics
 local methods = vim.lsp.protocol.Methods
 
-local M = {}
-
 local function on_attach(client, bufnr)
-  local function keymap(lhs, rhs, desc, mode)
+  local function keymap(lhs, rhs, desc, mode, opts)
     mode = mode or 'n'
-    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+    vim.keymap.set(
+      mode,
+      lhs,
+      rhs,
+      vim.tbl_extend('force', { buffer = bufnr, desc = desc }, opts or {})
+    )
   end
 
-  keymap('gr', vim.lsp.buf.references, 'buffer references')
   keymap('ge', vim.diagnostic.setqflist, 'list diagnostics')
-  keymap('gR', vim.lsp.buf.rename, 'rename')
-  keymap('gK', vim.diagnostic.open_float, 'show diagnostic under cursor')
-
-  keymap('[d', function()
-    vim.diagnostic.jump { count = -1 }
-  end, 'previous diagnostic')
-  keymap(']d', function()
-    vim.diagnostic.jump { count = 1 }
-  end, 'next diagnostic')
-  keymap('[e', function()
-    vim.diagnostic.jump { count = -1, severity = vim.diagnostic.severity.ERROR }
-  end, 'previous error')
-  keymap(']e', function()
-    vim.diagnostic.jump { count = 1, severity = vim.diagnostic.severity.ERROR }
-  end, 'next error')
-
-  if client:supports_method(methods.textDocument_codeAction) then
-    keymap('gA', vim.lsp.buf.code_action, 'code action')
-  end
+  keymap('gE', vim.diagnostic.open_float, 'show diagnostic under cursor')
 
   if client:supports_method(methods.textDocument_definition) then
     keymap('gd', vim.lsp.buf.definition, 'peek definition')
@@ -39,34 +23,9 @@ local function on_attach(client, bufnr)
     keymap('gt', vim.lsp.buf.definition, 'peek type definition')
   end
 
-  if client:supports_method(methods.textDocument_declaration) then
-    keymap('gD', vim.lsp.buf.declaration, 'peek declaration')
-  end
-
-  if client:supports_method(methods.textDocument_hover) then
-    keymap('K', function()
-      vim.lsp.buf.hover()
-    end, 'hover documentation')
-  end
-
-  if client:supports_method(methods.textDocument_signatureHelp) then
-    local blink_window = require 'blink.cmp.completion.windows.menu'
-    local blink = require 'blink.cmp'
-
-    keymap('<C-k>', function()
-      if blink_window.win:is_open() then
-        blink.hide()
-      end
-
-      vim.lsp.buf.signature_help()
-    end, 'signature help', 'i')
-  end
-
   if client:supports_method(methods.textDocument_documentHighlight) then
-    local under_cursor_highlights_group = vim.api.nvim_create_augroup(
-      'mariasolos/cursor_highlights',
-      { clear = false }
-    )
+    local under_cursor_highlights_group =
+      vim.api.nvim_create_augroup('cursor_highlights', { clear = false })
     vim.api.nvim_create_autocmd({ 'CursorHold', 'InsertLeave' }, {
       group = under_cursor_highlights_group,
       desc = 'highlight references under the cursor',
@@ -196,18 +155,3 @@ vim.api.nvim_create_autocmd('LspAttach', {
     on_attach(client, args.buf)
   end,
 })
-
-function M.configure_server(server, settings)
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
-
-  require('lspconfig')[server].setup(
-    vim.tbl_deep_extend(
-      'error',
-      { capabilities = capabilities, silent = true },
-      settings or {}
-    )
-  )
-end
-
-return M

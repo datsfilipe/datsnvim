@@ -38,13 +38,13 @@ return {
           border = 'none',
         },
         prompt_caret = '█',
-        prompt_prefix = ': ',
+        prompt_prefix = '検索 ',
       },
       source = {
         show = function(buf_id, items, query)
           return pick.default_show(buf_id, items, query, {
             show_icons = true,
-            icons = { directory = '/ ', file = '* ' },
+            icons = { directory = '| ./ | ', file = '| .* | ' },
           })
         end,
       },

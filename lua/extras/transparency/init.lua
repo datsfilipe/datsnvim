@@ -19,7 +19,9 @@ return {
       'DiagnosticSignError',
       'DiagnosticSignHint',
       'DiagnosticSignInfo',
-      'IndentLineChar',
+      'IndentLine',
+      'IndentLineCurrent',
+      'TabLine',
     }
 
     for _, group in ipairs(groups) do

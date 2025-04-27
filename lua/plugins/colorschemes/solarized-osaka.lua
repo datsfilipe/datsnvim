@@ -5,7 +5,8 @@ return {
   opts = {
     on_highlights = function(hl, _)
       for k, v in pairs {
-        IndentLineChar = { fg = require('utils').static_color },
+        IndentLine = { fg = require('utils').static_color },
+        IndentLineCurrent = { fg = require('utils').static_color },
         NotifyINFOBorder = { fg = require('utils').static_color },
       } do
         hl[k] = v
