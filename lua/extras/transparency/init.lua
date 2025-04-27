@@ -20,6 +20,7 @@ return {
       'DiagnosticSignHint',
       'DiagnosticSignInfo',
       'IndentLineChar',
+      'TabLine',
     }
 
     for _, group in ipairs(groups) do
