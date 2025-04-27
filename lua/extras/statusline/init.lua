@@ -126,11 +126,13 @@ local function get_diag_str()
 
   if err_total > 0 then
     diag_str = diag_str
+      .. ' '
       .. hl_str('DiagnosticError', diagnostics.ERROR .. ' ' .. err_total .. ' ')
   end
 
   if warn_total > 0 then
     diag_str = diag_str
+      .. ' '
       .. hl_str('DiagnosticWarn', diagnostics.WARN .. ' ' .. warn_total .. ' ')
   end
 
