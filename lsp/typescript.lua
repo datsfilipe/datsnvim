@@ -3,7 +3,7 @@ if not utils.is_bin_available ' typescript-language-server' then
   return
 end
 
-vim.lsp.config.typescript = {
+return {
   cmd = { 'typescript-language-server', '--stdio' },
   settings = {
     typescript = {
@@ -24,5 +24,3 @@ vim.lsp.config.typescript = {
     hostInfo = 'neovim',
   },
 }
-
-vim.lsp.enable 'typescript'

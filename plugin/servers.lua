@@ -1,14 +1,3 @@
-require 'servers.bash'
-require 'servers.biome'
-require 'servers.css'
-require 'servers.eslint'
-require 'servers.go'
-require 'servers.json'
-require 'servers.lua'
-require 'servers.rust'
-require 'servers.solidity'
-require 'servers.typescript'
-
 local diagnostic_icons = require('icons').diagnostics
 local methods = vim.lsp.protocol.Methods
 
@@ -23,27 +12,8 @@ local function on_attach(client, bufnr)
     )
   end
 
-  keymap('gr', vim.lsp.buf.references, 'buffer references')
   keymap('ge', vim.diagnostic.setqflist, 'list diagnostics')
-  keymap('gR', vim.lsp.buf.rename, 'rename')
-  keymap('gK', vim.diagnostic.open_float, 'show diagnostic under cursor')
-
-  keymap('[d', function()
-    vim.diagnostic.jump { count = -1 }
-  end, 'previous diagnostic')
-  keymap(']d', function()
-    vim.diagnostic.jump { count = 1 }
-  end, 'next diagnostic')
-  keymap('[e', function()
-    vim.diagnostic.jump { count = -1, severity = vim.diagnostic.severity.ERROR }
-  end, 'previous error')
-  keymap(']e', function()
-    vim.diagnostic.jump { count = 1, severity = vim.diagnostic.severity.ERROR }
-  end, 'next error')
-
-  if client:supports_method(methods.textDocument_codeAction) then
-    keymap('gA', vim.lsp.buf.code_action, 'code action')
-  end
+  keymap('gE', vim.diagnostic.open_float, 'show diagnostic under cursor')
 
   if client:supports_method(methods.textDocument_definition) then
     keymap('gd', vim.lsp.buf.definition, 'peek definition')
@@ -51,29 +21,6 @@ local function on_attach(client, bufnr)
 
   if client:supports_method(methods.textDocument_typeDefinition) then
     keymap('gt', vim.lsp.buf.definition, 'peek type definition')
-  end
-
-  if client:supports_method(methods.textDocument_declaration) then
-    keymap('gD', vim.lsp.buf.declaration, 'peek declaration')
-  end
-
-  if client:supports_method(methods.textDocument_hover) then
-    keymap('K', function()
-      vim.lsp.buf.hover()
-    end, 'hover documentation')
-  end
-
-  if client:supports_method(methods.textDocument_signatureHelp) then
-    local blink_window = require 'blink.cmp.completion.windows.menu'
-    local blink = require 'blink.cmp'
-
-    keymap('<C-k>', function()
-      if blink_window.win:is_open() then
-        blink.hide()
-      end
-
-      vim.lsp.buf.signature_help()
-    end, 'signature help', 'i')
   end
 
   if client:supports_method(methods.textDocument_documentHighlight) then

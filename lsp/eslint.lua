@@ -3,7 +3,7 @@ if not utils.is_bin_available 'vscode-eslint-language-server' then
   return
 end
 
-vim.lsp.config.eslint = {
+return {
   cmd = { 'vscode-eslint-language-server', '--stdio' },
   filetypes = {
     'javascript',
@@ -18,5 +18,3 @@ vim.lsp.config.eslint = {
   },
   settings = { format = true },
 }
-
-vim.lsp.enable 'eslint'
