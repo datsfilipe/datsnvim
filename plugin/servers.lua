@@ -1,7 +1,7 @@
+require 'servers'
+
 local diagnostic_icons = require('icons').diagnostics
 local methods = vim.lsp.protocol.Methods
-
-local M = {}
 
 local function on_attach(client, bufnr)
   local function keymap(lhs, rhs, desc, mode)
@@ -197,17 +197,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-function M.configure_server(server, settings)
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
-
-  require('lspconfig')[server].setup(
-    vim.tbl_deep_extend(
-      'error',
-      { capabilities = capabilities, silent = true },
-      settings or {}
-    )
-  )
-end
-
-return M
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+vim.lsp.config('*', {
+  capabilities = require('blink.cmp').get_lsp_capabilities(capabilities),
+})
