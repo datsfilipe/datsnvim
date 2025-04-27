@@ -1,7 +1,15 @@
 return {
   'echasnovski/mini.diff',
   event = 'BufRead',
-  main = 'mini.diff',
+  keys = {
+    {
+      ';go',
+      function()
+        require('mini.diff').toggle_overlay()
+      end,
+      desc = 'toggle diff overlay',
+    },
+  },
   opts = {
     mappings = {
       reset = ';gr',
