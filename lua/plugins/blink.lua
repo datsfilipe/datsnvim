@@ -1,22 +1,19 @@
 return {
   'saghen/blink.cmp',
+  build = 'nix run .#build-plugin',
   event = 'InsertEnter',
-  version = '*',
   opts = {
     keymap = {
       ['<CR>'] = { 'accept', 'fallback' },
       ['<C-e>'] = { 'hide', 'fallback' },
-      ['<C-n>'] = { 'select_next', 'show' },
       ['<Tab>'] = { 'select_next', 'fallback' },
-      ['<C-p>'] = { 'select_prev' },
-      ['<C-b>'] = { 'scroll_documentation_up', 'fallback' },
-      ['<C-f>'] = { 'scroll_documentation_down', 'fallback' },
+      ['<S-Tab>'] = { 'select_prev', 'fallback' },
     },
     completion = {
       list = {
         selection = {
-          auto_insert = false,
-          preselect = true,
+          auto_insert = true,
+          preselect = false,
         },
         max_items = 10,
       },
@@ -28,9 +25,17 @@ return {
         window = { border = 'none' },
       },
     },
-    cmdline = { enabled = true },
+    cmdline = { enabled = false },
     appearance = {
       kind_icons = require('icons').symbol_kinds,
     },
   },
+  config = function(_, opts)
+    require('blink.cmp').setup(opts)
+
+    vim.lsp.config(
+      '*',
+      { capabilities = require('blink.cmp').get_lsp_capabilities(nil, true) }
+    )
+  end,
 }
