@@ -1,5 +1,5 @@
 local utils = require 'utils'
-if not utils.is_bin_available ' typescript-language-server' then
+if not utils.is_bin_available 'typescript-language-server' then
   return
 end
 
