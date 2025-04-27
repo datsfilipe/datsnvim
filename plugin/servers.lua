@@ -1,4 +1,13 @@
-require 'servers'
+require 'servers.bash'
+require 'servers.biome'
+require 'servers.css'
+require 'servers.eslint'
+require 'servers.go'
+require 'servers.json'
+require 'servers.lua'
+require 'servers.rust'
+require 'servers.solidity'
+require 'servers.typescript'
 
 local diagnostic_icons = require('icons').diagnostics
 local methods = vim.lsp.protocol.Methods
