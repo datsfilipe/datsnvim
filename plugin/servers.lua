@@ -13,9 +13,14 @@ local diagnostic_icons = require('icons').diagnostics
 local methods = vim.lsp.protocol.Methods
 
 local function on_attach(client, bufnr)
-  local function keymap(lhs, rhs, desc, mode)
+  local function keymap(lhs, rhs, desc, mode, opts)
     mode = mode or 'n'
-    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+    vim.keymap.set(
+      mode,
+      lhs,
+      rhs,
+      vim.tbl_extend('force', { buffer = bufnr, desc = desc }, opts or {})
+    )
   end
 
   keymap('gr', vim.lsp.buf.references, 'buffer references')
@@ -72,10 +77,8 @@ local function on_attach(client, bufnr)
   end
 
   if client:supports_method(methods.textDocument_documentHighlight) then
-    local under_cursor_highlights_group = vim.api.nvim_create_augroup(
-      'mariasolos/cursor_highlights',
-      { clear = false }
-    )
+    local under_cursor_highlights_group =
+      vim.api.nvim_create_augroup('cursor_highlights', { clear = false })
     vim.api.nvim_create_autocmd({ 'CursorHold', 'InsertLeave' }, {
       group = under_cursor_highlights_group,
       desc = 'highlight references under the cursor',
@@ -204,9 +207,4 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     on_attach(client, args.buf)
   end,
-})
-
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-vim.lsp.config('*', {
-  capabilities = require('blink.cmp').get_lsp_capabilities(capabilities),
 })
