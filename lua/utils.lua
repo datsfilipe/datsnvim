@@ -13,7 +13,7 @@ M.is_file_available = function(file)
 end
 
 -- this fn was taken from https://github.com/neovim/nvim-lspconfig/blob/master/lua/lspconfig/util.lua
-M.insert_in_package_json = function(config_files, field, fname)
+M.insert_package_json = function(config_files, field, fname)
   local path = vim.fn.fnamemodify(fname, ':h')
   local root_with_package = vim.fs.find(
     { 'package.json', 'package.json5' },

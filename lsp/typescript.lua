@@ -24,22 +24,17 @@ return {
     hostInfo = 'neovim',
   },
   on_attach = function(client)
-    vim.api.nvim_buf_create_user_command(
-      0,
-      'LspTypescriptSourceAction',
-      function()
-        local source_actions = vim.tbl_filter(function(action)
-          return vim.startswith(action, 'source.')
-        end, client.server_capabilities.codeActionProvider.codeActionKinds)
+    local source_actions = vim.tbl_filter(function(action)
+      return vim.startswith(action, 'source.')
+    end, client.server_capabilities.codeActionProvider.codeActionKinds)
 
-        vim.lsp.buf.code_action {
-          ---@diagnostic disable-next-line: missing-fields
-          context = {
-            only = source_actions,
-          },
-        }
-      end,
-      {}
-    )
+    vim.keymap.set('n', 'gsa', function()
+      vim.lsp.buf.code_action {
+        ---@diagnostic disable-next-line: missing-fields
+        context = {
+          only = source_actions,
+        },
+      }
+    end, { desc = 'source actions' })
   end,
 }
