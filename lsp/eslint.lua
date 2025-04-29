@@ -5,6 +5,7 @@ end
 
 return {
   cmd = { 'vscode-eslint-language-server', '--stdio' },
+  workspace_required = true,
   filetypes = {
     'javascript',
     'javascriptreact',
@@ -41,6 +42,26 @@ return {
     on_dir(root_dir)
   end,
   settings = {
+    validate = 'on',
+    packageManager = nil,
+    useESLintClass = false,
+    experimental = {
+      useFlatConfig = false,
+    },
+    codeActionOnSave = {
+      enable = false,
+      mode = 'all',
+    },
+    format = true,
+    quiet = false,
+    onIgnoredFiles = 'off',
+    rulesCustomizations = {},
+    run = 'onType',
+    problems = {
+      shortenToSingleLine = false,
+    },
+    nodePath = '',
+    workingDirectory = { mode = 'location' },
     codeAction = {
       disableRuleComment = {
         enable = true,
@@ -50,26 +71,30 @@ return {
         enable = true,
       },
     },
-    codeActionOnSave = {
-      enable = false,
-      mode = 'all',
-    },
-    experimental = {
-      useFlatConfig = false,
-    },
-    format = true,
-    nodePath = '',
-    onIgnoredFiles = 'off',
-    problems = {
-      shortenToSingleLine = false,
-    },
-    quiet = false,
-    rulesCustomizations = {},
-    run = 'onType',
-    useESLintClass = false,
-    validate = 'on',
-    workingDirectory = {
-      mode = 'location',
-    },
+  },
+  handlers = {
+    ['eslint/openDoc'] = function(_, result)
+      if result then
+        vim.ui.open(result.url)
+      end
+      return {}
+    end,
+    ['eslint/confirmESLintExecution'] = function(_, result)
+      if not result then
+        return
+      end
+      return 4
+    end,
+    ['eslint/probeFailed'] = function()
+      vim.notify('[lspconfig] ESLint probe failed.', vim.log.levels.WARN)
+      return {}
+    end,
+    ['eslint/noLibrary'] = function()
+      vim.notify(
+        '[lspconfig] Unable to find ESLint library.',
+        vim.log.levels.WARN
+      )
+      return {}
+    end,
   },
 }
