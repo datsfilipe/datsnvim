@@ -140,17 +140,40 @@ local function get_path_info(fname)
 
   if git_root and fname:find(git_root, 1, true) == 1 then
     dir_path = fname:sub(#git_root + 2)
+
+    dir_path = dir_path:gsub('(.+)/([^/]+)$', function(path, last_dir)
+      local abbreviated = path:gsub('([^/]+)/', function(dir)
+        return dir:sub(1, 1) .. '/'
+      end)
+      return abbreviated .. '/' .. last_dir
+    end)
+
     dir_path = dir_path:match '(.*)/[^/]*$' or ''
     if dir_path ~= '' then
       dir_path = dir_path .. '/'
     end
   elseif fname:find(os.getenv 'HOME', 1, true) == 1 then
     dir_path = '~/' .. fname:sub(#os.getenv 'HOME' + 2)
+
+    dir_path = dir_path:gsub('(.+)/([^/]+)$', function(path, last_dir)
+      local abbreviated = path:gsub('([^/]+)/', function(dir)
+        return dir:sub(1, 1) .. '/'
+      end)
+      return abbreviated .. '/' .. last_dir
+    end)
+
     dir_path = dir_path:match '(.*)/[^/]*$' or ''
     if dir_path ~= '' then
       dir_path = dir_path .. '/'
     end
   else
+    dir_path = dir_path:gsub('(.+)/([^/]+)$', function(path, last_dir)
+      local abbreviated = path:gsub('([^/]+)/', function(dir)
+        return dir:sub(1, 1) .. '/'
+      end)
+      return abbreviated .. '/' .. last_dir
+    end)
+
     dir_path = vim.fn.fnamemodify(fname, ':h') .. '/'
   end
 
