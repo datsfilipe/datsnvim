@@ -82,3 +82,4 @@ vim.keymap.set({ 'n', 'v' }, '-', '<C-x>')
 
 vim.keymap.set('n', ';o', 'o<Esc>^Da', options)
 vim.keymap.set('n', ';O', 'O<Esc>^Da', options)
+vim.keymap.set('n', ';p', ":let @+=expand('%:p')<Return>", options)
