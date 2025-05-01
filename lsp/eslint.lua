@@ -17,30 +17,6 @@ return {
     'svelte',
     'astro',
   },
-  root_dir = function(bufnr, on_dir)
-    local root_file_patterns = {
-      '.eslintrc',
-      '.eslintrc.js',
-      '.eslintrc.cjs',
-      '.eslintrc.yaml',
-      '.eslintrc.yml',
-      '.eslintrc.json',
-      'eslint.config.js',
-      'eslint.config.mjs',
-      'eslint.config.cjs',
-      'eslint.config.ts',
-      'eslint.config.mts',
-      'eslint.config.cts',
-    }
-
-    local fname = vim.api.nvim_buf_get_name(bufnr)
-    root_file_patterns =
-      utils.insert_package_json(root_file_patterns, 'eslintConfig', fname)
-    local root_dir = vim.fs.dirname(
-      vim.fs.find(root_file_patterns, { path = fname, upward = true })[1]
-    )
-    on_dir(root_dir)
-  end,
   settings = {
     validate = 'on',
     packageManager = nil,
@@ -72,29 +48,64 @@ return {
       },
     },
   },
-  handlers = {
-    ['eslint/openDoc'] = function(_, result)
-      if result then
-        vim.ui.open(result.url)
-      end
-      return {}
-    end,
-    ['eslint/confirmESLintExecution'] = function(_, result)
-      if not result then
-        return
-      end
-      return 4
-    end,
-    ['eslint/probeFailed'] = function()
-      vim.notify('[lspconfig] ESLint probe failed.', vim.log.levels.WARN)
-      return {}
-    end,
-    ['eslint/noLibrary'] = function()
-      vim.notify(
-        '[lspconfig] Unable to find ESLint library.',
-        vim.log.levels.WARN
+  root_dir = function(bufnr, on_dir)
+    local root_file_patterns = {
+      '.eslintrc',
+      '.eslintrc.js',
+      '.eslintrc.cjs',
+      '.eslintrc.yaml',
+      '.eslintrc.yml',
+      '.eslintrc.json',
+      'eslint.config.js',
+      'eslint.config.mjs',
+      'eslint.config.cjs',
+      'eslint.config.ts',
+      'eslint.config.mts',
+      'eslint.config.cts',
+    }
+
+    local fname = vim.api.nvim_buf_get_name(bufnr)
+    root_file_patterns =
+      utils.insert_package_json(root_file_patterns, 'eslintConfig', fname)
+    on_dir(
+      vim.fs.dirname(
+        vim.fs.find(root_file_patterns, { path = fname, upward = true })[1]
       )
-      return {}
-    end,
-  },
+    )
+  end,
+  before_init = function(_, config)
+    local root_dir = config.root_dir
+
+    if root_dir then
+      config.settings = config.settings or {}
+      config.settings.workspaceFolder = {
+        uri = root_dir,
+        name = vim.fn.fnamemodify(root_dir, ':t'),
+      }
+
+      local flat_config_files = {
+        'eslint.config.js',
+        'eslint.config.mjs',
+        'eslint.config.cjs',
+        'eslint.config.ts',
+        'eslint.config.mts',
+        'eslint.config.cts',
+      }
+
+      for _, file in ipairs(flat_config_files) do
+        if vim.fn.filereadable(root_dir .. '/' .. file) == 1 then
+          config.settings.experimental = config.settings.experimental or {}
+          config.settings.experimental.useFlatConfig = true
+          break
+        end
+      end
+
+      local pnp_cjs = root_dir .. '/.pnp.cjs'
+      local pnp_js = root_dir .. '/.pnp.js'
+      if vim.uv.fs_stat(pnp_cjs) or vim.uv.fs_stat(pnp_js) then
+        local cmd = config.cmd
+        config.cmd = vim.list_extend({ 'yarn', 'exec' }, cmd)
+      end
+    end
+  end,
 }
