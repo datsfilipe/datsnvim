@@ -58,3 +58,13 @@ vim.g.netrw_banner = 0
 
 -- required for avante
 vim.opt.laststatus = 3
+
+vim.g.clipboard = {
+  name = 'smart-clipboard',
+  copy = {
+    ['+'] = 'shared-clipboard copy',
+  },
+  paste = {
+    ['+'] = 'shared-clipboard paste',
+  },
+}
