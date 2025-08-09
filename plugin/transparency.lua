@@ -1,8 +1,6 @@
-return {
-  dir = vim.fn.stdpath 'config' .. '/lua/extras/transparency',
-  name = 'transparency',
-  event = 'ColorScheme',
-  config = function()
+vim.api.nvim_create_autocmd('ColorScheme', {
+  pattern = '*',
+  callback = function()
     local groups = {
       'Normal',
       'NormalFloat',
@@ -30,4 +28,4 @@ return {
       vim.api.nvim_set_hl(0, group, hl)
     end
   end,
-}
+})

@@ -1,4 +1,4 @@
-_G.tabline_render = function()
+local render = function()
   local t = {}
   local cur = vim.fn.tabpagenr()
   local total = vim.fn.tabpagenr '$'
@@ -14,11 +14,6 @@ _G.tabline_render = function()
   return table.concat(t)
 end
 
-return {
-  dir = vim.fn.stdpath 'config' .. '/lua/extras/tabline',
-  name = 'TabNew',
-  lazy = false,
-  config = function()
-    vim.o.tabline = '%!v:lua.tabline_render()'
-  end,
-}
+_G.tabline_render = render
+
+vim.o.tabline = '%!v:lua.tabline_render()'
