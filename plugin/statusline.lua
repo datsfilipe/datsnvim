@@ -379,32 +379,28 @@ end
 
 _G.statusline_render = render
 
-return {
-  dir = vim.fn.stdpath 'config' .. '/lua/extras/statusline',
-  name = 'statusline',
-  lazy = false,
-  config = function()
-    for mode, info in pairs(mode_cache) do
-      if #mode == 1 then
-        for _, m in ipairs { 'o', 's', 'r', 't' } do
-          if not mode_cache[m] and m:sub(1, 1) == mode then
-            mode_cache[m] = info
-          end
-        end
+for mode, info in pairs(mode_cache) do
+  if #mode == 1 then
+    for _, m in ipairs { 'o', 's', 'r', 't' } do
+      if not mode_cache[m] and m:sub(1, 1) == mode then
+        mode_cache[m] = info
       end
     end
-    vim.api.nvim_create_autocmd('ModeChanged', {
-      pattern = '*',
-      callback = function()
-        vim.cmd 'redrawstatus'
-      end,
-    })
-    vim.api.nvim_create_autocmd('WinResized', {
-      pattern = '*',
-      callback = function()
-        vim.cmd 'redrawstatus'
-      end,
-    })
-    vim.o.statusline = '%!v:lua.statusline_render()'
+  end
+end
+
+vim.api.nvim_create_autocmd('ModeChanged', {
+  pattern = '*',
+  callback = function()
+    vim.cmd 'redrawstatus'
   end,
-}
+})
+
+vim.api.nvim_create_autocmd('WinResized', {
+  pattern = '*',
+  callback = function()
+    vim.cmd 'redrawstatus'
+  end,
+})
+
+vim.o.statusline = '%!v:lua.statusline_render()'
