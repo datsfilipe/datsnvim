@@ -77,8 +77,10 @@ vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]], options)
 vim.keymap.set({ 'n', 'v' }, '<leader>d', [["_d]], options)
 vim.keymap.set('x', '<leader>p', [["_dP]], options)
 
-vim.keymap.set({ 'n', 'v' }, '+', '<C-a>')
-vim.keymap.set({ 'n', 'v' }, '-', '<C-x>')
+vim.keymap.set('v', '+', '<C-a>:normal! gv=gv<Return>', options)
+vim.keymap.set('v', '-', '<C-x>:normal! gv=gv<Return>', options)
+vim.keymap.set('n', '+', '<C-a>', options)
+vim.keymap.set('n', '-', '<C-x>', options)
 
 vim.keymap.set('n', ';o', 'o<Esc>^Da', options)
 vim.keymap.set('n', ';O', 'O<Esc>^Da', options)
