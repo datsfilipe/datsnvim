@@ -29,11 +29,4 @@ local init = function()
   end
 end
 
-return {
-  dir = vim.fn.stdpath 'config' .. '/lua/extras/discipline',
-  name = 'discipline',
-  event = 'VeryLazy',
-  config = function()
-    init()
-  end,
-}
+init()
