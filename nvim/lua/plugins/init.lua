@@ -1,0 +1,5 @@
+require 'plugins.colorschemes'
+require 'plugins.conform'
+require 'plugins.indentmini'
+require 'plugins.oil'
+require 'plugins.treesitter'
