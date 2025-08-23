@@ -118,7 +118,6 @@
               type = types.package;
               default = self.packages.${pkgs.system}.default;
               defaultText = literalExpression "datsnvim.packages.${pkgs.system}.default";
-              description = "The datsnvim package to use";
             };
             settings = mkOption {
               type = types.submodule {
@@ -126,12 +125,10 @@
                   theme = mkOption {
                     type = types.str;
                     default = defaultConfig.theme;
-                    description = "Theme to use for neovim";
                   };
                 };
               };
               default = {};
-              description = "Override options for datsnvim";
             };
           };
           config = mkIf cfg.enable {
@@ -152,9 +149,8 @@
           stylua
         ];
         shellHook = ''
-          export NVIM_APPNAME=datsnvim-dev
-          echo "Development environment ready!"
-          echo "Use 'nix run .' to test bundled neovim"
+          export NVIM_APPNAME=datsnvim
+          echo "use 'nix run .'"
         '';
       };
     });
