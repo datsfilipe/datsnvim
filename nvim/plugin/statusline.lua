@@ -21,6 +21,8 @@ local cache = {
   path_info = {},
   diag_count = {},
   diag_check_time = 0,
+  wordcount = {},
+  wordcount_buf_tick = {},
 }
 
 local GIT_CACHE_TTL = 5000
@@ -107,9 +109,11 @@ local function get_path_info(fname, level)
   local path_str
 
   if vim.bo.buftype == 'help' then
-    path_str = hl_str('Directory', 'doc')
-      .. ' '
-      .. hl_str('Normal', vim.fn.fnamemodify(fname, ':t'))
+    path_str = table.concat({
+      hl_str('Directory', 'doc'),
+      ' ',
+      hl_str('Normal', vim.fn.fnamemodify(fname, ':t')),
+    }, '')
     cache.path_info[cache_key] = path_str
     return path_str
   end
@@ -126,7 +130,7 @@ local function get_path_info(fname, level)
     dir_only = vim.fn.fnamemodify(fname, ':h')
   end
 
-  local dir_display = nil
+  local dir_display
   if dir_only ~= '.' and dir_only ~= '' then
     if level >= 1 then
       local path_parts = vim.split(dir_only, '/')
@@ -151,21 +155,23 @@ local function get_path_info(fname, level)
     end
   end
 
-  if branch and dir_display then
-    path_str = hl_str('DiagnosticError', branch)
-      .. '  '
-      .. dir_display
-      .. ' '
-      .. hl_str('Normal', vim.fn.fnamemodify(fname, ':t'))
-  elseif branch then
-    path_str = hl_str('DiagnosticError', branch)
-      .. '  '
-      .. hl_str('Normal', vim.fn.fnamemodify(fname, ':t'))
-  elseif dir_display then
-    path_str = dir_display .. hl_str('Normal', vim.fn.fnamemodify(fname, ':t'))
-  else
-    path_str = hl_str('Normal', vim.fn.fnamemodify(fname, ':t'))
+  local parts = {}
+  if branch then
+    table.insert(parts, hl_str('DiagnosticError', branch))
   end
+
+  if dir_display then
+    if #parts > 0 then
+      table.insert(parts, '  ')
+    end
+    table.insert(parts, dir_display)
+  end
+
+  if #parts > 0 then
+    table.insert(parts, ' ')
+  end
+  table.insert(parts, hl_str('Normal', vim.fn.fnamemodify(fname, ':t')))
+  path_str = table.concat(parts, '')
 
   cache.path_info[cache_key] = path_str
   return path_str
@@ -184,20 +190,23 @@ local function get_diag_str()
     return cache.diag_count[buf]
   end
   cache.diag_check_time = current_time
-  local diag_str = ''
+  local parts = {}
   local total = vim.diagnostic.count(0)
   local err_total = total[vim.diagnostic.severity.ERROR] or 0
   local warn_total = total[vim.diagnostic.severity.WARN] or 0
   if err_total > 0 then
-    diag_str = diag_str
-      .. ' '
-      .. hl_str('DiagnosticError', diagnostics.ERROR .. ' ' .. err_total .. ' ')
+    table.insert(
+      parts,
+      hl_str('DiagnosticError', diagnostics.ERROR .. ' ' .. err_total .. ' ')
+    )
   end
   if warn_total > 0 then
-    diag_str = diag_str
-      .. ' '
-      .. hl_str('DiagnosticWarn', diagnostics.WARN .. ' ' .. warn_total .. ' ')
+    table.insert(
+      parts,
+      hl_str('DiagnosticWarn', diagnostics.WARN .. ' ' .. warn_total .. ' ')
+    )
   end
+  local diag_str = table.concat(parts, ' ')
   cache.diag_count[buf] = diag_str
   return diag_str
 end
@@ -208,6 +217,7 @@ local function get_fileinfo_widget()
   local lines = vim.api.nvim_buf_line_count(0)
   local mode = vim.api.nvim_get_mode().mode
   local is_visual = mode:match '^[vV\22]'
+
   if is_visual then
     local wc = vim.fn.wordcount()
     local selected_lines = math.abs(vim.fn.line 'v' - vim.fn.line '.') + 1
@@ -223,7 +233,18 @@ local function get_fileinfo_widget()
       )
     )
   else
-    local wc = vim.fn.wordcount()
+    local buf_num = vim.api.nvim_get_current_buf()
+    local current_tick = vim.b[buf_num].changedtick
+
+    if
+      not cache.wordcount[buf_num]
+      or cache.wordcount_buf_tick[buf_num] ~= current_tick
+    then
+      cache.wordcount[buf_num] = vim.fn.wordcount()
+      cache.wordcount_buf_tick[buf_num] = current_tick
+    end
+    local wc = cache.wordcount[buf_num]
+
     return hl_str(
       'StatusLine',
       string.format(
@@ -266,7 +287,7 @@ local function get_buffer_flags(buf_num)
   local current_time = vim.loop.now()
   if
     buf_flags_cache[buf_num]
-    and (current_time - buf_flags_time[buf_num]) < BUF_FLAGS_TTL
+    and (current_time - (buf_flags_time[buf_num] or 0)) < BUF_FLAGS_TTL
   then
     return buf_flags_cache[buf_num]
   end
