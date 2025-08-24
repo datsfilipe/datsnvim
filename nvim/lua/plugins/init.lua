@@ -1,5 +1,6 @@
 require 'plugins.colorschemes'
+require 'plugins.treesitter'
 require 'plugins.conform'
 require 'plugins.indentmini'
+require 'plugins.lspconfig'
 require 'plugins.oil'
-require 'plugins.treesitter'
