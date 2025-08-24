@@ -195,6 +195,22 @@
         "type": "github"
       }
     },
+    "indentmini-nvim": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1750595059,
+        "narHash": "sha256-iMQn9eJuwThatTg9aTKhgHQaBc1NV4h/6gGt+fhZG9k=",
+        "owner": "nvimdev",
+        "repo": "indentmini.nvim",
+        "rev": "0dc4bc2b3fc763420793e748b672292bc43ee722",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nvimdev",
+        "repo": "indentmini.nvim",
+        "type": "github"
+      }
+    },
     "min-theme-nvim": {
       "flake": false,
       "locked": {
@@ -288,6 +304,7 @@
         "flake-utils": "flake-utils",
         "gruvbox-nvim": "gruvbox-nvim",
         "home-manager": "home-manager",
+        "indentmini-nvim": "indentmini-nvim",
         "min-theme-nvim": "min-theme-nvim",
         "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nixpkgs": "nixpkgs_2",
