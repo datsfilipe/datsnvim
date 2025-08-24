@@ -1,7 +1,7 @@
 vim.api.nvim_create_autocmd('InsertEnter', {
   once = true,
   callback = function()
-    local ok, supermaven = pcall(require, 'supermaven')
+    local ok, supermaven = pcall(require, 'supermaven-nvim')
     if not ok then
       return
     end
