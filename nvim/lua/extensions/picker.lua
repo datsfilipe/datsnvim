@@ -1,8 +1,10 @@
 local M = {}
 
-local ignore_dirs = { '.git', 'node_modules', '.cache', '.next', '.nuxt', 'dist', 'build', 'target', 'out', '.cargo', 'vendor', '.vscode' }
-
+local utils = require('utils')
 local ns = vim.api.nvim_create_namespace('picker_ns')
+
+local ignore_dirs = { '.git', 'node_modules', '.cache', '.next', '.nuxt', 'dist', 'build', 'target', 'out', '.cargo', 'vendor', '.vscode' }
+local is_setup = false
 
 local state = {
   win_id = nil,
@@ -22,16 +24,25 @@ local state = {
 
 local config = {
   window = { width_ratio = 0.5, height_ratio = 0.6, col_ratio = 0.5, row_ratio = 0.5 },
-  highlights = { prompt_and_selected = 'DPrimary' },
+  highlights = { prompt_and_selected = 'PickerSelected' },
   debounce_ms = 100,
   max_results = 20,
 }
 
-local is_setup = false
+M.selection_hl = config.highlights.prompt_and_selected
 
 local function lazy_setup()
   if is_setup then return end
-  vim.api.nvim_set_hl(0, config.highlights.prompt_and_selected, { fg = '#89B4FA', bg = '#313244', bold = true })
+
+  local func_hl = vim.api.nvim_get_hl(0, { name = 'Function', link = false })
+  local picker_hl_def = { bold = true }
+
+  if func_hl and func_hl.fg then
+    picker_hl_def.fg = string.format('#%06x', func_hl.fg)
+    picker_hl_def.bg = utils.darken_color(func_hl.fg, 0.8)
+  end
+
+  vim.api.nvim_set_hl(0, 'PickerSelected', picker_hl_def)
   is_setup = true
 end
 
