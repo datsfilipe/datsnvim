@@ -24,6 +24,7 @@ local config = {
   window = { width_ratio = 0.5, height_ratio = 0.6, col_ratio = 0.5, row_ratio = 0.5 },
   highlights = { prompt_and_selected = 'DPrimary' },
   debounce_ms = 100,
+  max_results = 20,
 }
 
 local is_setup = false
@@ -326,9 +327,9 @@ end
 local function handle_input_change()
   if state.mode == 'files' then
     if state.current_input == '' then
-      state.results = vim.list_slice(state.full_results, 1, 100)
+      state.results = vim.list_slice(state.full_results, 1, config.max_results)
     else
-      state.results = vim.list_slice(rank_results(state.full_results, state.current_input), 1, 100)
+      state.results = vim.list_slice(rank_results(state.full_results, state.current_input), 1, config.max_results)
     end
     state.selected_line = math.min(state.selected_line, math.max(1, #state.results))
     update_results_display()
@@ -336,7 +337,7 @@ local function handle_input_change()
     if #state.current_input > 2 then
       run_command({ 'rg', '--line-number', '--color=never', state.current_input }, function(res)
         if state.mode == 'grep' then
-          state.results = vim.list_slice(res, 1, 100)
+          state.results = vim.list_slice(res, 1, config.max_results)
           state.selected_line = 1
           vim.schedule(update_results_display)
         end
@@ -348,12 +349,15 @@ local function handle_input_change()
     end
   elseif state.mode == 'highlights' or state.mode == 'keymaps' then
     if state.current_input == '' then
-      state.results = state.full_results
+      state.results = vim.list_slice(state.full_results, 1, config.max_results)
     else
       local il = state.current_input:lower()
       state.results = {}
       for _, r in ipairs(state.full_results) do
-        if r:lower():find(il, 1, true) then state.results[#state.results + 1] = r end
+        if r:lower():find(il, 1, true) then
+          state.results[#state.results + 1] = r
+          if #state.results >= config.max_results then break end
+        end
       end
     end
     state.selected_line = math.min(state.selected_line, math.max(1, #state.results))
@@ -494,7 +498,7 @@ function M.open(mode)
     run_command(cmd, function(results)
       if state.mode == 'files' then
         state.full_results = results
-        state.results = vim.list_slice(results, 1, 100)
+        state.results = vim.list_slice(results, 1, config.max_results)
         state.selected_line = 1
         vim.schedule(update_results_display)
       end
@@ -504,14 +508,16 @@ function M.open(mode)
   elseif mode == 'highlights' then
     local out = vim.api.nvim_exec2('silent! hi', { output = true }).output
     for _, l in ipairs(vim.split(out, '\n')) do
-      if #l > 0 and not l:match '^xxx' then state.full_results[#state.full_results + 1] = l; state.results[#state.results + 1] = l end
+      if #l > 0 and not l:match '^xxx' then state.full_results[#state.full_results + 1] = l end
     end
+    state.results = vim.list_slice(state.full_results, 1, config.max_results)
     attach_input_handler()
   elseif mode == 'keymaps' then
     local out = vim.api.nvim_exec2('silent! map', { output = true }).output
     for _, l in ipairs(vim.split(out, '\n')) do
-      if #l > 0 then state.full_results[#state.full_results + 1] = l; state.results[#state.results + 1] = l end
+      if #l > 0 then state.full_results[#state.full_results + 1] = l end
     end
+    state.results = vim.list_slice(state.full_results, 1, config.max_results)
     attach_input_handler()
   end
 
