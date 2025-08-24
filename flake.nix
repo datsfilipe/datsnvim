@@ -87,6 +87,16 @@
         pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
           viAlias = true;
           vimAlias = true;
+          extraWrapperArgs = [
+            "--suffix"
+            "LIBRARY_PATH"
+            ":"
+            "${pkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc pkgs.zlib]}"
+            "--suffix"
+            "PKG_CONFIG_PATH"
+            ":"
+            "${pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" [pkgs.stdenv.cc.cc pkgs.zlib]}"
+          ];
 
           luaRcContent = ''
             dofile("${themeConfigFile}")
