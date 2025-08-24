@@ -9,6 +9,10 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    indentmini-nvim = {
+      url = "github:nvimdev/indentmini.nvim";
+      flake = false;
+    };
     gruvbox-nvim = {
       url = "github:datsfilipe/gruvbox.nvim";
       flake = false;
@@ -40,6 +44,11 @@
         overlays = [neovim-nightly-overlay.overlays.default];
       };
 
+      indentmini-plugin = pkgs.vimUtils.buildVimPlugin {
+        pname = "indentmini.nvim";
+        version = "latest";
+        src = inputs.indentmini-nvim;
+      };
       gruvbox-plugin = pkgs.vimUtils.buildVimPlugin {
         pname = "gruvbox.nvim";
         version = "latest";
@@ -90,14 +99,17 @@
               vimPlugins.conform-nvim
               vimPlugins.indent-blankline-nvim
               vimPlugins.nvim-lspconfig
-              vimPlugins.mini-nvim
+              vimPlugins.mini-diff
               vimPlugins.oil-nvim
               vimPlugins.vim-wakatime
               vimPlugins.nvim-treesitter
-
+              vimPlugins.nvim-lint
+              vimPlugins.supermaven-nvim
+              vimPlugins.fidget-nvim
               vimPlugins.catppuccin-nvim
-              gruvbox-plugin
               vimPlugins.kanagawa-nvim
+              indentmini-plugin
+              gruvbox-plugin
               min-theme-plugin
               vesper-plugin
             ]);
