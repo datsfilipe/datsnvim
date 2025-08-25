@@ -1,2 +1,2 @@
 #!/usr/bin/env sh
-exec nix run .#default "$@"
+exec nix run .#default -- "$@"
