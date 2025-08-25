@@ -1,9 +1,22 @@
 local M = {}
 
-local utils = require('utils')
-local ns = vim.api.nvim_create_namespace('picker_ns')
+local utils = require 'utils'
+local ns = vim.api.nvim_create_namespace 'picker_ns'
 
-local ignore_dirs = { '.git', 'node_modules', '.cache', '.next', '.nuxt', 'dist', 'build', 'target', 'out', '.cargo', 'vendor', '.vscode' }
+local ignore_dirs = {
+  '.git',
+  'node_modules',
+  '.cache',
+  '.next',
+  '.nuxt',
+  'dist',
+  'build',
+  'target',
+  'out',
+  '.cargo',
+  'vendor',
+  '.vscode',
+}
 local is_setup = false
 
 local state = {
@@ -23,7 +36,12 @@ local state = {
 }
 
 local config = {
-  window = { width_ratio = 0.5, height_ratio = 0.6, col_ratio = 0.5, row_ratio = 0.5 },
+  window = {
+    width_ratio = 0.5,
+    height_ratio = 0.6,
+    col_ratio = 0.5,
+    row_ratio = 0.5,
+  },
   highlights = { prompt_and_selected = 'PickerSelected' },
   debounce_ms = 100,
   max_results = 20,
@@ -32,7 +50,9 @@ local config = {
 M.selection_hl = config.highlights.prompt_and_selected
 
 local function lazy_setup()
-  if is_setup then return end
+  if is_setup then
+    return
+  end
 
   local func_hl = vim.api.nvim_get_hl(0, { name = 'Function', link = false })
   local picker_hl_def = { bold = true }
@@ -47,12 +67,18 @@ local function lazy_setup()
 end
 
 local function shrink_path(path)
-  if state.shorten_cache[path] then return state.shorten_cache[path] end
+  if state.shorten_cache[path] then
+    return state.shorten_cache[path]
+  end
   local sep = package.config:sub(1, 1)
   local home = os.getenv 'HOME'
-  if home and path:find(home, 1, true) == 1 then path = path:gsub(home, '~', 1) end
+  if home and path:find(home, 1, true) == 1 then
+    path = path:gsub(home, '~', 1)
+  end
   local parts = {}
-  for p in path:gmatch('([^' .. sep .. ']+)') do parts[#parts + 1] = p end
+  for p in path:gmatch('([^' .. sep .. ']+)') do
+    parts[#parts + 1] = p
+  end
   if #parts <= 3 then
     state.shorten_cache[path] = path
     return path
@@ -77,10 +103,14 @@ local function levenshtein_distance(s1, s2)
     len1, len2 = len2, len1
   end
 
-  if len2 == 0 then return len1 end
+  if len2 == 0 then
+    return len1
+  end
 
   local v0 = {}
-  for i = 0, len2 do v0[i] = i end
+  for i = 0, len2 do
+    v0[i] = i
+  end
 
   local v1 = {}
   for i = 1, len1 do
@@ -89,17 +119,23 @@ local function levenshtein_distance(s1, s2)
       local cost = (s1:sub(i, i) == s2:sub(j, j)) and 0 or 1
       v1[j] = math.min(v1[j - 1] + 1, v0[j] + 1, v0[j - 1] + cost)
     end
-    for k = 0, len2 do v0[k] = v1[k] end
+    for k = 0, len2 do
+      v0[k] = v1[k]
+    end
   end
 
   return v0[len2]
 end
 
 local function get_git_modified_files()
-  local h = io.popen('git diff --name-only 2>/dev/null')
-  if not h then return {} end
+  local h = io.popen 'git diff --name-only 2>/dev/null'
+  if not h then
+    return {}
+  end
   local t = {}
-  for l in h:lines() do t[l] = true end
+  for l in h:lines() do
+    t[l] = true
+  end
   h:close()
   return t
 end
@@ -109,47 +145,119 @@ local function get_open_buffers()
   for _, b in ipairs(vim.api.nvim_list_bufs()) do
     if vim.api.nvim_buf_is_loaded(b) then
       local n = vim.api.nvim_buf_get_name(b)
-      if n and n ~= '' then t[n] = true end
+      if n and n ~= '' then
+        t[n] = true
+      end
     end
   end
   return t
 end
 
-local function rank_results(results, input)
-  if not input or input == '' then return results end
-  local il = input:lower()
+local function fuzzy_match_and_score(pattern, str)
+  local pattern_len = #pattern
+  local str_len = #str
+  if pattern_len == 0 then
+    return true, 100
+  end
+  if pattern_len > str_len then
+    return false, 0
+  end
 
-  if not state.git_files_cache then state.git_files_cache = get_git_modified_files() end
-  if not state.open_buffers_cache then state.open_buffers_cache = get_open_buffers() end
+  local score = 0
+  local pattern_idx = 1
+  local consecutive_bonus = 0
+  local first_match_idx = -1
+
+  for i = 1, str_len do
+    if
+      pattern_idx <= pattern_len
+      and str:sub(i, i):lower()
+        == pattern:sub(pattern_idx, pattern_idx):lower()
+    then
+      if first_match_idx == -1 then
+        first_match_idx = i
+      end
+
+      score = score + 1
+      score = score + consecutive_bonus
+
+      if i > 1 then
+        local prev_char = str:sub(i - 1, i - 1)
+        if
+          prev_char == '_'
+          or prev_char == '-'
+          or prev_char == '/'
+          or prev_char == ' '
+        then
+          score = score + 15
+        elseif prev_char:match '%l' and str:sub(i, i):match '%u' then
+          score = score + 15
+        end
+      end
+
+      consecutive_bonus = 20
+      pattern_idx = pattern_idx + 1
+    else
+      consecutive_bonus = 0
+    end
+  end
+
+  if pattern_idx > pattern_len then
+    local penalty = (first_match_idx - 1) * 0.1
+    return true, math.max(1, score - penalty)
+  end
+
+  return false, 0
+end
+
+local function rank_results(results, input)
+  if not input or input == '' then
+    return results
+  end
+
+  if not state.git_files_cache then
+    state.git_files_cache = get_git_modified_files()
+  end
+  if not state.open_buffers_cache then
+    state.open_buffers_cache = get_open_buffers()
+  end
   local git_files = state.git_files_cache
   local open_buffers = state.open_buffers_cache
 
   local ranked = {}
   for _, r in ipairs(results) do
-    local filename = r:match('[^/]+$') or r
-    local fl, fn = r:lower(), filename:lower()
-    if not fl:find(il, 1, true) then goto continue end
-    local score = 0
+    local filename = r:match '[^/]+$' or r
+    local is_match, score = fuzzy_match_and_score(input, filename)
 
-    if fn == il or fl == il then score = score + 1000 end
-    if fn:sub(1, #il) == il then score = score + 600 end
-    if fn:find(il, 1, true) then score = score + 400 end
-    if fl:find(il, 1, true) then score = score + 200 end
-
-    if #il >= 3 then
-      local ld = levenshtein_distance(fn, il)
-      if ld <= 2 then score = score + (800 - ld * 50) end
+    if not is_match then
+      is_match, score = fuzzy_match_and_score(input, r)
+      score = score * 0.5
     end
 
-    if git_files[r] then score = score + 100 end
-    if open_buffers[r] then score = score + 50 end
+    if is_match then
+      if git_files[r] then
+        score = score + 30
+      end
+      if open_buffers[r] then
+        score = score + 20
+      end
 
-    ranked[#ranked + 1] = { result = r, score = score }
-    ::continue::
+      if filename:lower() == input:lower() then
+        score = score + 1000
+      end
+
+      ranked[#ranked + 1] = { result = r, score = score }
+    end
   end
-  table.sort(ranked, function(a, b) return a.score > b.score end)
+
+  table.sort(ranked, function(a, b)
+    return a.score > b.score
+  end)
+
   local out = {}
-  for i = 1, #ranked do out[i] = ranked[i].result end
+  for i = 1, #ranked do
+    out[i] = ranked[i].result
+  end
   return out
 end
 
@@ -183,7 +291,9 @@ local function create_window()
 end
 
 local function update_results_display()
-  if not state.buf_id or not vim.api.nvim_buf_is_valid(state.buf_id) then return end
+  if not state.buf_id or not vim.api.nvim_buf_is_valid(state.buf_id) then
+    return
+  end
   local prev_mod = vim.bo[state.buf_id].modifiable
   vim.bo[state.buf_id].modifiable = true
   vim.api.nvim_buf_clear_namespace(state.buf_id, ns, 0, -1)
@@ -196,7 +306,12 @@ local function update_results_display()
     elseif state.mode == 'grep' then
       local parts = vim.split(r, ':', { plain = true, trimempty = true })
       if #parts >= 3 then
-        line = string.format('  %s:%s: %s', shrink_path(parts[1]), parts[2], table.concat(parts, ':', 3))
+        line = string.format(
+          '  %s:%s: %s',
+          shrink_path(parts[1]),
+          parts[2],
+          table.concat(parts, ':', 3)
+        )
       else
         line = '  ' .. r
       end
@@ -214,17 +329,34 @@ local function update_results_display()
   if #state.results == 0 then
     state.selected_line = 1
   else
-    if state.selected_line < 1 then state.selected_line = 1 end
-    if state.selected_line > #state.results then state.selected_line = #state.results end
+    if state.selected_line < 1 then
+      state.selected_line = 1
+    end
+    if state.selected_line > #state.results then
+      state.selected_line = #state.results
+    end
   end
 
   if #state.results > 0 and state.selected_line <= #state.results then
     local buf = state.buf_id
     local target = state.selected_line
-    pcall(vim.api.nvim_buf_set_text, buf or 0, target, 0, target, 2, { state.selected_char .. ' ' })
+    pcall(
+      vim.api.nvim_buf_set_text,
+      buf or 0,
+      target,
+      0,
+      target,
+      2,
+      { state.selected_char .. ' ' }
+    )
     vim.api.nvim_buf_clear_namespace(buf or 0, ns, 0, -1)
 
-    local line_text = vim.api.nvim_buf_get_lines(buf or 0, target, target + 1, false)[1] or ''
+    local line_text = vim.api.nvim_buf_get_lines(
+      buf or 0,
+      target,
+      target + 1,
+      false
+    )[1] or ''
     local end_col = #line_text
 
     if vim.hl and vim.hl.range then
@@ -239,7 +371,9 @@ local function update_results_display()
       )
       if ok then
         vim.bo[state.buf_id].modifiable = prev_mod
-        if vim.api.nvim_win_is_valid(state.win_id) then vim.api.nvim_win_set_cursor(state.win_id, { 1, #state.current_input }) end
+        if vim.api.nvim_win_is_valid(state.win_id) then
+          vim.api.nvim_win_set_cursor(state.win_id, { 1, #state.current_input })
+        end
         return
       end
     end
@@ -252,13 +386,24 @@ local function update_results_display()
   end
 
   vim.bo[state.buf_id].modifiable = prev_mod
-  if vim.api.nvim_win_is_valid(state.win_id) then vim.api.nvim_win_set_cursor(state.win_id, { 1, #state.current_input }) end
+  if vim.api.nvim_win_is_valid(state.win_id) then
+    vim.api.nvim_win_set_cursor(state.win_id, { 1, #state.current_input })
+  end
 end
 
 function M.close()
-  if state.job_id then vim.loop.kill(state.job_id, 'SIGTERM'); state.job_id = nil end
-  if state.debounce_timer then state.debounce_timer:stop(); state.debounce_timer:close(); state.debounce_timer = nil end
-  if state.win_id and vim.api.nvim_win_is_valid(state.win_id) then vim.api.nvim_win_close(state.win_id, true) end
+  if state.job_id then
+    vim.loop.kill(state.job_id, 'SIGTERM')
+    state.job_id = nil
+  end
+  if state.debounce_timer then
+    state.debounce_timer:stop()
+    state.debounce_timer:close()
+    state.debounce_timer = nil
+  end
+  if state.win_id and vim.api.nvim_win_is_valid(state.win_id) then
+    vim.api.nvim_win_close(state.win_id, true)
+  end
   state.win_id = nil
   state.buf_id = nil
   state.selected_line = 1
@@ -282,7 +427,9 @@ local function on_select()
     vim.cmd('edit ' .. vim.fn.fnameescape(sel))
   elseif state.mode == 'grep' then
     local parts = vim.split(sel, ':', { plain = true, trimempty = true })
-    if #parts >= 2 then vim.cmd('edit +' .. parts[2] .. ' ' .. vim.fn.fnameescape(parts[1])) end
+    if #parts >= 2 then
+      vim.cmd('edit +' .. parts[2] .. ' ' .. vim.fn.fnameescape(parts[1]))
+    end
   elseif state.mode == 'highlights' then
     local hl = sel:match '%S+'
     if hl then
@@ -293,19 +440,36 @@ local function on_select()
 end
 
 local function run_command(cmd, on_done)
-  if state.job_id then vim.loop.kill(state.job_id, 'SIGTERM'); state.job_id = nil end
+  if state.job_id then
+    vim.loop.kill(state.job_id, 'SIGTERM')
+    state.job_id = nil
+  end
   local results = {}
   local stdout = vim.loop.new_pipe(false)
   local stderr = vim.loop.new_pipe(false)
   local args = {}
-  for i = 2, #cmd do args[#args + 1] = cmd[i] end
-  local handle = vim.loop.spawn(cmd[1], { args = args, stdio = { nil, stdout, stderr } }, function()
-    if stdout then stdout:close() end
-    if stderr then stderr:close() end
-    if handle then handle:close() end
-    state.job_id = nil
-    if on_done then on_done(results) end
-  end)
+  for i = 2, #cmd do
+    args[#args + 1] = cmd[i]
+  end
+  local handle = vim.loop.spawn(
+    cmd[1],
+    { args = args, stdio = { nil, stdout, stderr } },
+    function()
+      if stdout then
+        stdout:close()
+      end
+      if stderr then
+        stderr:close()
+      end
+      if handle then
+        handle:close()
+      end
+      state.job_id = nil
+      if on_done then
+        on_done(results)
+      end
+    end
+  )
   if not handle then
     M.close()
     vim.notify('Error spawning process: ' .. cmd[1], vim.log.levels.ERROR)
@@ -316,17 +480,25 @@ local function run_command(cmd, on_done)
   if stdout then
     local stdout_buf = ''
     vim.loop.read_start(stdout, function(err, data)
-      if err or not data then return end
+      if err or not data then
+        return
+      end
       stdout_buf = stdout_buf .. data
       local start_pos = 1
       while true do
         local end_pos = stdout_buf:find('\n', start_pos, true)
-        if not end_pos then break end
+        if not end_pos then
+          break
+        end
         local line = stdout_buf:sub(start_pos, end_pos - 1)
-        if line ~= '' then results[#results + 1] = line end
+        if line ~= '' then
+          results[#results + 1] = line
+        end
         start_pos = end_pos + 1
       end
-      if start_pos > 1 then stdout_buf = stdout_buf:sub(start_pos) end
+      if start_pos > 1 then
+        stdout_buf = stdout_buf:sub(start_pos)
+      end
     end)
   end
 
@@ -340,19 +512,27 @@ local function handle_input_change()
     if state.current_input == '' then
       state.results = vim.list_slice(state.full_results, 1, config.max_results)
     else
-      state.results = vim.list_slice(rank_results(state.full_results, state.current_input), 1, config.max_results)
+      state.results = vim.list_slice(
+        rank_results(state.full_results, state.current_input),
+        1,
+        config.max_results
+      )
     end
-    state.selected_line = math.min(state.selected_line, math.max(1, #state.results))
+    state.selected_line =
+      math.min(state.selected_line, math.max(1, #state.results))
     update_results_display()
   elseif state.mode == 'grep' then
     if #state.current_input > 2 then
-      run_command({ 'rg', '--line-number', '--color=never', state.current_input }, function(res)
-        if state.mode == 'grep' then
-          state.results = vim.list_slice(res, 1, config.max_results)
-          state.selected_line = 1
-          vim.schedule(update_results_display)
+      run_command(
+        { 'rg', '--line-number', '--color=never', state.current_input },
+        function(res)
+          if state.mode == 'grep' then
+            state.results = vim.list_slice(res, 1, config.max_results)
+            state.selected_line = 1
+            vim.schedule(update_results_display)
+          end
         end
-      end)
+      )
     else
       state.results = {}
       state.selected_line = 1
@@ -367,11 +547,14 @@ local function handle_input_change()
       for _, r in ipairs(state.full_results) do
         if r:lower():find(il, 1, true) then
           state.results[#state.results + 1] = r
-          if #state.results >= config.max_results then break end
+          if #state.results >= config.max_results then
+            break
+          end
         end
       end
     end
-    state.selected_line = math.min(state.selected_line, math.max(1, #state.results))
+    state.selected_line =
+      math.min(state.selected_line, math.max(1, #state.results))
     update_results_display()
   end
 end
@@ -379,10 +562,18 @@ end
 local function debounce(fn, delay)
   return function(...)
     local args = { ... }
-    if state.debounce_timer then state.debounce_timer:stop(); state.debounce_timer:close(); state.debounce_timer = nil end
+    if state.debounce_timer then
+      state.debounce_timer:stop()
+      state.debounce_timer:close()
+      state.debounce_timer = nil
+    end
     state.debounce_timer = vim.loop.new_timer()
     state.debounce_timer:start(delay, 0, function()
-      if state.debounce_timer then state.debounce_timer:stop(); state.debounce_timer:close(); state.debounce_timer = nil end
+      if state.debounce_timer then
+        state.debounce_timer:stop()
+        state.debounce_timer:close()
+        state.debounce_timer = nil
+      end
       fn(unpack(args))
     end)
   end
@@ -390,7 +581,9 @@ end
 
 local function cycle_selected(delta)
   local n = #state.results
-  if n == 0 then return end
+  if n == 0 then
+    return
+  end
   local s = state.selected_line or 1
   s = ((s - 1 + delta) % n) + 1
   state.selected_line = s
@@ -412,7 +605,12 @@ local function send_to_quickfix(items)
         local fname = parts[1]
         local lnum = tonumber(parts[2]) or 1
         local rest = (#parts >= 3) and table.concat(parts, ':', 3) or ''
-        qf[#qf + 1] = { filename = fname, lnum = lnum, col = 1, text = rest ~= '' and rest or it }
+        qf[#qf + 1] = {
+          filename = fname,
+          lnum = lnum,
+          col = 1,
+          text = rest ~= '' and rest or it,
+        }
       else
         qf[#qf + 1] = { filename = it, lnum = 1, col = 1, text = it }
       end
@@ -422,13 +620,20 @@ local function send_to_quickfix(items)
   end
   vim.fn.setqflist({}, ' ', { title = 'Picker Quickfix', items = qf })
   M.close()
-  vim.cmd('copen')
+  vim.cmd 'copen'
   vim.notify(('Sent %d items to quickfix'):format(#qf))
 end
 
 local function setup_keymaps()
   local buf = state.buf_id
-  local map = function(mode, lhs, fn) vim.keymap.set(mode, lhs, fn, { buffer = buf, noremap = true, silent = true }) end
+  local map = function(mode, lhs, fn)
+    vim.keymap.set(
+      mode,
+      lhs,
+      fn,
+      { buffer = buf, noremap = true, silent = true }
+    )
+  end
   map('i', '<Esc>', M.close)
   map('i', '<C-c>', M.close)
   map('i', '<CR>', on_select)
@@ -436,17 +641,37 @@ local function setup_keymaps()
   map('n', '<C-c>', M.close)
   map('n', '<CR>', on_select)
 
-  map('i', '<Down>', function() cycle_selected(1) end)
-  map('i', '<C-n>', function() cycle_selected(1) end)
-  map('i', '<Up>', function() cycle_selected(-1) end)
-  map('i', '<C-p>', function() cycle_selected(-1) end)
-  map('n', '<Down>', function() cycle_selected(1) end)
-  map('n', '<Up>', function() cycle_selected(-1) end)
+  map('i', '<Down>', function()
+    cycle_selected(1)
+  end)
+  map('i', '<C-n>', function()
+    cycle_selected(1)
+  end)
+  map('i', '<Up>', function()
+    cycle_selected(-1)
+  end)
+  map('i', '<C-p>', function()
+    cycle_selected(-1)
+  end)
+  map('n', '<Down>', function()
+    cycle_selected(1)
+  end)
+  map('n', '<Up>', function()
+    cycle_selected(-1)
+  end)
 
-  map('i', '<C-d>', function() cycle_selected(4) end)
-  map('i', '<C-u>', function() cycle_selected(-4) end)
-  map('n', '<C-d>', function() cycle_selected(4) end)
-  map('n', '<C-u>', function() cycle_selected(-4) end)
+  map('i', '<C-d>', function()
+    cycle_selected(4)
+  end)
+  map('i', '<C-u>', function()
+    cycle_selected(-4)
+  end)
+  map('n', '<C-d>', function()
+    cycle_selected(4)
+  end)
+  map('n', '<C-u>', function()
+    cycle_selected(-4)
+  end)
 
   map('i', '<C-l>', function()
     if #state.results == 0 then
@@ -466,7 +691,9 @@ end
 
 function M.open(mode)
   lazy_setup()
-  if state.win_id then M.close() end
+  if state.win_id then
+    M.close()
+  end
   state.mode = mode
   state.current_input = ''
   state.results = {}
@@ -489,17 +716,27 @@ function M.open(mode)
         end
       end)
     end, config.debounce_ms)
-    vim.api.nvim_buf_attach(state.buf_id, false, { on_lines = function() deb() end })
+    vim.api.nvim_buf_attach(state.buf_id, false, {
+      on_lines = function()
+        deb()
+      end,
+    })
   end
 
   if mode == 'files' then
     local cmd
     if vim.fn.executable 'fd' == 1 then
       cmd = { 'fd', '--type', 'f', '--hidden' }
-      for _, d in ipairs(ignore_dirs) do cmd[#cmd + 1] = '--exclude'; cmd[#cmd + 1] = d end
+      for _, d in ipairs(ignore_dirs) do
+        cmd[#cmd + 1] = '--exclude'
+        cmd[#cmd + 1] = d
+      end
     elseif vim.fn.executable 'rg' == 1 then
       cmd = { 'rg', '--files', '--hidden' }
-      for _, d in ipairs(ignore_dirs) do cmd[#cmd + 1] = '--glob'; cmd[#cmd + 1] = '!' .. d end
+      for _, d in ipairs(ignore_dirs) do
+        cmd[#cmd + 1] = '--glob'
+        cmd[#cmd + 1] = '!' .. d
+      end
     else
       M.close()
       vim.notify('fd or rg not found.', vim.log.levels.ERROR)
@@ -519,14 +756,18 @@ function M.open(mode)
   elseif mode == 'highlights' then
     local out = vim.api.nvim_exec2('silent! hi', { output = true }).output
     for _, l in ipairs(vim.split(out, '\n')) do
-      if #l > 0 and not l:match '^xxx' then state.full_results[#state.full_results + 1] = l end
+      if #l > 0 and not l:match '^xxx' then
+        state.full_results[#state.full_results + 1] = l
+      end
     end
     state.results = vim.list_slice(state.full_results, 1, config.max_results)
     attach_input_handler()
   elseif mode == 'keymaps' then
     local out = vim.api.nvim_exec2('silent! map', { output = true }).output
     for _, l in ipairs(vim.split(out, '\n')) do
-      if #l > 0 then state.full_results[#state.full_results + 1] = l end
+      if #l > 0 then
+        state.full_results[#state.full_results + 1] = l
+      end
     end
     state.results = vim.list_slice(state.full_results, 1, config.max_results)
     attach_input_handler()
@@ -534,18 +775,32 @@ function M.open(mode)
 
   update_results_display()
   vim.cmd 'startinsert'
-  if vim.api.nvim_win_is_valid(state.win_id) then vim.api.nvim_win_set_cursor(state.win_id, { 1, 0 }) end
+  if vim.api.nvim_win_is_valid(state.win_id) then
+    vim.api.nvim_win_set_cursor(state.win_id, { 1, 0 })
+  end
 end
 
 M.setup = function()
-  vim.api.nvim_create_user_command('Pick', function(opts) require('extensions.picker').open(opts.fargs[1]) end, {
+  vim.api.nvim_create_user_command('Pick', function(opts)
+    require('extensions.picker').open(opts.fargs[1])
+  end, {
     nargs = 1,
-    complete = function() return { 'files', 'grep', 'highlights', 'keymaps' } end,
+    complete = function()
+      return { 'files', 'grep', 'highlights', 'keymaps' }
+    end,
   })
-  vim.keymap.set('n', ';f', function() require('extensions.picker').open 'files' end, { desc = 'Pick Files' })
-  vim.keymap.set('n', ';r', function() require('extensions.picker').open 'grep' end, { desc = 'Pick Grep' })
-  vim.keymap.set('n', ';h', function() require('extensions.picker').open 'highlights' end, { desc = 'Pick Highlights' })
-  vim.keymap.set('n', ';k', function() require('extensions.picker').open 'keymaps' end, { desc = 'Pick Keymaps' })
+  vim.keymap.set('n', ';f', function()
+    require('extensions.picker').open 'files'
+  end, { desc = 'Pick Files' })
+  vim.keymap.set('n', ';r', function()
+    require('extensions.picker').open 'grep'
+  end, { desc = 'Pick Grep' })
+  vim.keymap.set('n', ';h', function()
+    require('extensions.picker').open 'highlights'
+  end, { desc = 'Pick Highlights' })
+  vim.keymap.set('n', ';k', function()
+    require('extensions.picker').open 'keymaps'
+  end, { desc = 'Pick Keymaps' })
 end
 
 return M
