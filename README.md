@@ -6,12 +6,6 @@ This is a personal configuration for Neovim. You can use it as starting point fo
 
 </div>
 
-## Preview
-
-![Preview](./assets/preview.png)
-
-*Note: using [vesper](https://github.com/datsfilipe/vesper.nvim) (my theme) here.*
-
 ## Try it out (with [Nix](https://nixos.org/download))
 
 ```bash
