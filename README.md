@@ -1,19 +1,15 @@
-# DATSNVIM
+<div align="center">
 
-This is a personal configuration for Neovim. You can use it as starting point for yours, you can use it as yours, etc. Feel free to use it as you wish.
+# `DATSNVIM`
 
-## Preview
+This is a personal configuration for Neovim. You can use it as starting point for yours, you can use it as yours, etc. Feel free to use it as you wish at your own risk.
 
-![Preview](./assets/preview.png)
+</div>
 
-*Note: using [vesper](https://github.com/datsfilipe/vesper.nvim) in the screenshot.*
-
-## Installation
-
-Simple run the following on you terminal (I expect you have `git` cli installed and is using a linux OS or similar):
+## Try it out (with [Nix](https://nixos.org/download))
 
 ```bash
-git clone https://github.com/datsfilipe/datsnvim.git ~/.config/nvim && nvim
+nix run github:datsfilipe/datsnvim
 ```
 
 ## License
