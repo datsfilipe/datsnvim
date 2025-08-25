@@ -165,11 +165,5 @@
       overlays.default = final: prev: {
         datsnvim = self.packages.${prev.system}.default;
       };
-      devShells.default = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          lua-language-server
-          stylua
-        ];
-      };
     });
 }
