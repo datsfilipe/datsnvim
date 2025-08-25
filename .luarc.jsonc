@@ -9,9 +9,6 @@
       "$VIMRUNTIME/lua",
       "${3rd}/luv/library",
       "lua/plugins/nvim_lspconfig/server_config",
-      // plugins
-      "$XDG_DATA_HOME/nvim/lazy/oil.nvim/lua",
-      "$XDG_DATA_HOME/nvim/lazy/treesitter-nvim/lua"
     ]
   }
 }
