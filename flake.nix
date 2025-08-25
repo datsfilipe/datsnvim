@@ -170,10 +170,6 @@
           lua-language-server
           stylua
         ];
-        shellHook = ''
-          export NVIM_APPNAME=datsnvim
-          echo "use 'nix run .'"
-        '';
       };
     });
 }
