@@ -14,6 +14,14 @@ local servers = {
         'typescriptreact',
         'typescript.tsx',
       },
+      init_options = {
+        hostInfo = 'neovim',
+        preferences = {
+          includeCompletionsForImportStatements = true,
+          includeCompletionsWithInsertText = true,
+          includeCompletionsForModuleExports = true,
+        },
+      },
     },
   },
   {
