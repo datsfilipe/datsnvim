@@ -1,8 +1,5 @@
 local M = {}
 
-local docs_debounce_ms = 200
-local docs_timer = vim.loop.new_timer()
-
 local function get_docs(result)
   if not result or not result.documentation then
     return nil
@@ -133,7 +130,6 @@ M.setup = function()
         group = comp_aug,
         buffer = bufnr,
         callback = function()
-          docs_timer:stop()
           if vim.fn.pumvisible() == 0 then
             return
           end
@@ -161,26 +157,16 @@ M.setup = function()
             return
           end
 
-          docs_timer:start(
-            docs_debounce_ms,
-            0,
-            vim.schedule_wrap(function()
-              client.request(
-                'completionItem/resolve',
-                item,
-                function(err, result)
-                  if err or vim.fn.pumvisible() == 0 then
-                    return
-                  end
-                  local doc = get_docs(result)
-                  if doc then
-                    show_docs_popup(doc)
-                  end
-                end,
-                bufnr
-              )
-            end)
-          )
+          if vim.fn.pumvisible() == 0 then
+            return
+          end
+
+          if completed_item and completed_item.documentation then
+            local doc = get_docs(completed_item)
+            if doc then
+              show_docs_popup(doc)
+            end
+          end
         end,
       })
 
