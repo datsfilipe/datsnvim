@@ -1,5 +1,8 @@
 local M = {}
 
+local docs_debounce_ms = 200
+local docs_timer = vim.loop.new_timer()
+
 local function get_docs(result)
   if not result or not result.documentation then
     return nil
@@ -71,6 +74,7 @@ local function setup_auto_completion(client, bufnr)
         vim.schedule_wrap(function()
           local line = vim.api.nvim_get_current_line()
           local col = vim.api.nvim_win_get_cursor(0)[2]
+          local char_before = col > 0 and line:sub(col, col) or ''
           local line_to_cursor = line:sub(1, col)
 
           if
@@ -130,6 +134,7 @@ M.setup = function()
         group = comp_aug,
         buffer = bufnr,
         callback = function()
+          docs_timer:stop()
           if vim.fn.pumvisible() == 0 then
             return
           end
@@ -157,38 +162,70 @@ M.setup = function()
             return
           end
 
-          if vim.fn.pumvisible() == 0 then
-            return
-          end
-
-          if completed_item and completed_item.documentation then
-            local doc = get_docs(completed_item)
-            if doc then
-              show_docs_popup(doc)
-            end
-          end
+          docs_timer:start(
+            docs_debounce_ms,
+            0,
+            vim.schedule_wrap(function()
+              client.request(
+                'completionItem/resolve',
+                item,
+                function(err, result)
+                  if err or vim.fn.pumvisible() == 0 then
+                    return
+                  end
+                  local doc = get_docs(result)
+                  if doc then
+                    show_docs_popup(doc)
+                  end
+                end,
+                bufnr
+              )
+            end)
+          )
         end,
       })
 
+      vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
       vim.api.nvim_create_autocmd('CompleteDone', {
         group = comp_aug,
         buffer = bufnr,
         callback = function()
-          local item = vim.v.completed_item
+          local ci = vim.v.completed_item
           if
-            item
-            and item.user_data
-            and item.user_data.nvim
-            and item.user_data.nvim.lsp
-            and item.user_data.nvim.lsp.completion_item
-            and item.user_data.nvim.lsp.completion_item.additionalTextEdits
-          then
-            vim.lsp.util.apply_text_edits(
-              item.user_data.nvim.lsp.completion_item.additionalTextEdits,
-              bufnr,
-              client.offset_encoding
+            not (
+              ci
+              and ci.user_data
+              and ci.user_data.nvim
+              and ci.user_data.nvim.lsp
+              and ci.user_data.nvim.lsp.completion_item
             )
+          then
+            return
           end
+          local item = ci.user_data.nvim.lsp.completion_item
+          local function apply(edits)
+            if not edits or vim.tbl_isempty(edits) then
+              return
+            end
+            local encoding = client and client.offset_encoding or 'utf-16'
+            vim.schedule(function()
+              pcall(vim.lsp.util.apply_text_edits, edits, bufnr, encoding)
+            end)
+          end
+          client.request('completionItem/resolve', item, function(err, resolved)
+            if err or not resolved then
+              return
+            end
+            if
+              resolved.additionalTextEdits
+              and not vim.tbl_isempty(resolved.additionalTextEdits)
+            then
+              apply(resolved.additionalTextEdits)
+            end
+            if resolved.textEdit and type(resolved.textEdit) == 'table' then
+              apply { resolved.textEdit }
+            end
+          end, bufnr)
         end,
       })
 
