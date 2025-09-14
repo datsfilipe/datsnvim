@@ -74,7 +74,6 @@ local function setup_auto_completion(client, bufnr)
         vim.schedule_wrap(function()
           local line = vim.api.nvim_get_current_line()
           local col = vim.api.nvim_win_get_cursor(0)[2]
-          local char_before = col > 0 and line:sub(col, col) or ''
           local line_to_cursor = line:sub(1, col)
 
           if
@@ -93,7 +92,7 @@ local function setup_auto_completion(client, bufnr)
             end
           end
 
-          if line_to_cursor:match '%w%w+$' and char_before:match '[%w_]' then
+          if line_to_cursor:match '%w$' then
             trigger_completion()
           end
         end)
@@ -182,6 +181,28 @@ M.setup = function()
               )
             end)
           )
+        end,
+      })
+
+      vim.api.nvim_create_autocmd('CompleteDone', {
+        group = comp_aug,
+        buffer = bufnr,
+        callback = function()
+          local item = vim.v.completed_item
+          if
+            item
+            and item.user_data
+            and item.user_data.nvim
+            and item.user_data.nvim.lsp
+            and item.user_data.nvim.lsp.completion_item
+            and item.user_data.nvim.lsp.completion_item.additionalTextEdits
+          then
+            vim.lsp.util.apply_text_edits(
+              item.user_data.nvim.lsp.completion_item.additionalTextEdits,
+              bufnr,
+              client.offset_encoding
+            )
+          end
         end,
       })
 
