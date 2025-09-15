@@ -25,6 +25,10 @@
       url = "github:datsfilipe/vesper.nvim";
       flake = false;
     };
+    fff-nvim = {
+      url = "github:dmtrKovalenko/fff.nvim";
+      flake = true;
+    };
   };
 
   outputs = {
@@ -67,6 +71,7 @@
         src = inputs.vesper-nvim;
         doCheck = false;
       };
+      fff-nvim = inputs.fff-nvim.packages.${system}.fff-nvim;
 
       mkNeovimBundle = {theme ? defaultConfig.theme}: let
         configSource = pkgs.vimUtils.buildVimPlugin {
@@ -122,6 +127,7 @@
               gruvbox-plugin
               min-theme-plugin
               vesper-plugin
+              fff-nvim
             ]);
         };
 
