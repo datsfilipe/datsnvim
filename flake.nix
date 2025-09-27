@@ -25,10 +25,6 @@
       url = "github:datsfilipe/vesper.nvim";
       flake = false;
     };
-    fff-nvim = {
-      url = "github:dmtrKovalenko/fff.nvim";
-      flake = true;
-    };
   };
 
   outputs = {
@@ -71,7 +67,6 @@
         src = inputs.vesper-nvim;
         doCheck = false;
       };
-      fff-nvim = inputs.fff-nvim.packages.${system}.fff-nvim;
 
       mkNeovimBundle = {theme ? defaultConfig.theme}: let
         configSource = pkgs.vimUtils.buildVimPlugin {
@@ -115,6 +110,7 @@
               vimPlugins.indent-blankline-nvim
               vimPlugins.nvim-lspconfig
               vimPlugins.mini-diff
+              vimPlugins.mini-pick
               vimPlugins.oil-nvim
               vimPlugins.vim-wakatime
               vimPlugins.nvim-treesitter
@@ -127,7 +123,6 @@
               gruvbox-plugin
               min-theme-plugin
               vesper-plugin
-              fff-nvim
             ]);
         };
 
