@@ -139,8 +139,8 @@
             enable = mkEnableOption "datsnvim";
             package = mkOption {
               type = types.package;
-              default = self.packages.${pkgs.system}.default;
-              defaultText = literalExpression "datsnvim.packages.${pkgs.system}.default";
+              default = self.packages.${pkgs.stdenv.hostPlatform.system}.default;
+              defaultText = literalExpression "datsnvim.packages.${pkgs.stdenv.hostPlatform.system}.default";
             };
             settings = mkOption {
               type = types.submodule {
