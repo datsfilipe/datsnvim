@@ -1,6 +1,6 @@
 local static_color = require('utils').static_color
 
-require('min-theme.nvim').setup {
+require('min-theme').setup {
   theme = 'dark',
   transparent = true,
   italics = {

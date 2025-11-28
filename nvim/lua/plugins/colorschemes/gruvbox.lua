@@ -1,6 +1,6 @@
 local static_color = require('utils').static_color
 
-require('gruvbox.nvim').setup {
+require('gruvbox').setup {
   theme = 'dark',
   transparent = true,
   italics = {
