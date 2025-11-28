@@ -1,3 +1,1 @@
-local colorscheme = require 'extensions.colorschemes'
-
-return require('plugins.colorschemes.' .. colorscheme)
+return require('plugins.colorschemes.' .. (vim.g.datsnvim_theme or 'vesper'))
