@@ -1,3 +1,1 @@
-local colorscheme = require 'extensions.colorschemes'
-
-vim.cmd('colorscheme ' .. colorscheme)
+vim.cmd('colorscheme ' .. (vim.g.datsnvim_theme or 'vesper'))
