@@ -1,6 +1,6 @@
 local static_color = require('utils').static_color
 
-require('kanagawa.nvim').setup {
+require('kanagawa').setup {
   undercurl = true,
   transparent = true,
   overrides = function(_)

@@ -1,6 +1,6 @@
 local static_color = require('utils').static_color
 
-require('solarized-osaka.nvim').setup {
+require('solarized-osaka').setup {
   on_highlights = function(hl, _)
     for k, v in pairs {
       IndentLine = { fg = static_color },
