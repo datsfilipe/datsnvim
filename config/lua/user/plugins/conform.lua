@@ -19,35 +19,45 @@ function M.setup()
         command = 'alejandra',
         args = { '-qq' },
         stdin = true,
-        condition = function()
+        condition = function(ctx)
+          local bufnr = ctx.bufnr or 0
+          local filename = ctx.filename or vim.api.nvim_buf_get_name(bufnr)
           return utils.is_bin_available 'alejandra'
+            and utils.is_real_file(filename)
         end,
         inherit = false,
       },
       prettier = {
         command = 'prettier',
-        args = {
-          '--stdin-filepath',
-          vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
-        },
+        args = function(ctx)
+          local bufnr = ctx.bufnr or 0
+          local filename = ctx.filename or vim.api.nvim_buf_get_name(bufnr)
+          return { '--stdin-filepath', filename }
+        end,
         stdin = true,
-        condition = function()
+        condition = function(ctx)
+          local bufnr = ctx.bufnr or 0
+          local filename = ctx.filename or vim.api.nvim_buf_get_name(bufnr)
           return utils.is_bin_available 'prettier'
             and utils.is_file_available '.prettierrc'
+            and utils.is_real_file(filename)
         end,
         inherit = false,
       },
       biome = {
         command = 'biome',
-        args = {
-          'format',
-          '--stdin-filepath',
-          vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
-        },
+        args = function(ctx)
+          local bufnr = ctx.bufnr or 0
+          local filename = ctx.filename or vim.api.nvim_buf_get_name(bufnr)
+          return { 'format', '--stdin-filepath', filename }
+        end,
         stdin = true,
-        condition = function()
+        condition = function(ctx)
+          local bufnr = ctx.bufnr or 0
+          local filename = ctx.filename or vim.api.nvim_buf_get_name(bufnr)
           return utils.is_bin_available 'biome'
             and utils.is_file_available '.biome'
+            and utils.is_real_file(filename)
         end,
         inherit = false,
       },

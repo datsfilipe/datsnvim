@@ -7,6 +7,8 @@ function M.setup()
   require('user.core.keymaps').setup()
   require('user.core.folding').setup()
 
+  require('user.plugins').setup()
+
   local theme = require('user.core.theme')
   theme.setup()
 

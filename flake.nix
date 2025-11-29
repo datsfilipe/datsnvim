@@ -64,42 +64,28 @@
         }
       ];
 
-      configPlugin = pkgs.stdenv.mkDerivation {
-        name = "datsnvim-config";
-        src = configDir;
-        buildCommand = ''
-          mkdir -p $out/share/vim-plugins/datsnvim-config
-          cp -r $src/* $out/share/vim-plugins/datsnvim-config/
-        '';
-      };
-
       mkNeovimBundle = {theme ? defaultConfig.theme}: let
-        configRoot = "${configPlugin}/share/vim-plugins/datsnvim-config";
+        settingsFile =
+          pkgs.writeText "datsnvim-settings.json" (builtins.toJSON { inherit theme; });
       in
         pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
           viAlias = true;
           vimAlias = true;
-          extraWrapperArgs = [
-            "--set"
-            "XDG_CONFIG_HOME"
-            "${configHome}"
-            "--set"
-            "DATSNVIM_THEME"
-            "${theme}"
-            "--suffix"
-            "LIBRARY_PATH"
-            ":"
-            "${pkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc pkgs.zlib]}"
-            "--suffix"
-            "PKG_CONFIG_PATH"
-            ":"
-            "${pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" [pkgs.stdenv.cc.cc pkgs.zlib]}"
+          wrapperArgs = [
+            "--set" "XDG_CONFIG_HOME" "${configHome}"
+            "--set" "DATSNVIM_SETTINGS" "${builtins.toJSON { theme = theme; }}"
+            "--set" "DATSNVIM_SETTINGS_FILE" "${settingsFile}"
+            "--suffix" "LIBRARY_PATH" ":" "${pkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc pkgs.zlib]}"
+            "--suffix" "PKG_CONFIG_PATH" ":" "${pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" [pkgs.stdenv.cc.cc pkgs.zlib]}"
           ];
 
           luaRcContent = ''
-            vim.opt.runtimepath:prepend("${configHome}/nvim")
-            vim.opt.runtimepath:prepend("${configRoot}")
-            local init_path = "${configRoot}/init.lua"
+            local config_home = "${configHome}/nvim"
+            vim.opt.runtimepath:prepend(config_home)
+            if vim._update_package_paths then
+              vim._update_package_paths()
+            end
+            local init_path = config_home .. "/init.lua"
             local ok, err = pcall(dofile, init_path)
             if not ok then
               vim.api.nvim_err_writeln(err)
@@ -107,10 +93,7 @@
           '';
 
           plugins =
-            [
-              configPlugin
-            ]
-            ++ (with pkgs; [
+            (with pkgs; [
               vimPlugins.conform-nvim
               vimPlugins.nvim-lspconfig
               vimPlugins.mini-diff

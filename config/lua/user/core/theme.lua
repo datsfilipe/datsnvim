@@ -1,3 +1,5 @@
+local settings = require 'user.settings'
+
 local M = {}
 
 M.highlight_groups = {
@@ -46,14 +48,21 @@ function M.apply_transparency(groups)
 end
 
 function M.setup()
-  pcall(require, 'user.plugins.colorschemes')
-  local theme = vim.env.DATSNVIM_THEME or vim.g.datsnvim_theme or 'catppuccin-frappe'
+  local cfg = settings.get()
+  local theme = cfg.theme
   vim.g.datsnvim_theme = theme
+
+  pcall(require, 'user.plugins.colorschemes')
+
   local ok, err = pcall(vim.cmd.colorscheme, theme)
   if not ok then
     vim.notify(string.format('failed to load colorscheme %s: %s', theme, err), vim.log.levels.WARN)
   end
   apply()
+end
+
+function M.current()
+  return settings.get().theme
 end
 
 return M

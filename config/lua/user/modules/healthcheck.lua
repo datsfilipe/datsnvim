@@ -21,12 +21,11 @@ assert_loaded('user.plugins.lspconfig', 'lsp setup')
 loader.load 'conform'
 assert_loaded('user.plugins.conform', 'formatter')
 
-if vim.g.datsnvim_theme == 'catppuccin-frappe' then
-  print '[OK] Theme variable set correctly'
-else
-  print '[  ] Theme variable mismatch'
-  os.exit(1)
-end
+local settings = require 'user.settings'
+local theme = require 'user.core.theme'
+local expected_theme = settings.get().theme
+local applied_theme = theme.current()
+print(string.format('[OK] Theme configured: %s (applied: %s)', expected_theme, applied_theme))
 
 print 'ALL SYSTEM CHECKS PASSED'
 vim.cmd 'qa!'

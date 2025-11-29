@@ -33,12 +33,13 @@ function M.setup()
   vim.wo.signcolumn = 'yes'
 
   vim.opt.wildignore:append { '.DS_Store' }
-  vim.o.completeopt = 'menu,menuone,noselect'
+  vim.opt.completeopt = { 'menu', 'menuone', 'noselect', 'noinsert', 'popup' }
   vim.o.pumheight = 15
 
   vim.opt.diffopt:append 'vertical,context:99'
 
   vim.opt.shortmess:append {
+    c = true,
     w = true,
     s = true,
   }

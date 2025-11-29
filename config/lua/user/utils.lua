@@ -12,6 +12,24 @@ M.is_file_available = function(file)
   return path ~= ''
 end
 
+M.is_real_file = function(path)
+  local filename = path or vim.api.nvim_buf_get_name(0)
+  if not filename or filename == '' then
+    return false
+  end
+
+  if filename:match '^[%a%d%+%.%-]+://' and not vim.startswith(filename, 'file://') then
+    return false
+  end
+
+  if vim.startswith(filename, 'file://') then
+    filename = vim.uri_to_fname(filename)
+  end
+
+  local stat = vim.uv.fs_stat(filename)
+  return stat and stat.type == 'file'
+end
+
 M.darken_color = function(color_int, factor)
   if not color_int or not factor then
     return nil

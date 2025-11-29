@@ -102,17 +102,6 @@ local function setup_auto_completion(client, bufnr)
 end
 
 M.setup = function()
-  local augroup =
-    vim.api.nvim_create_augroup('DatsCompletionFinalSetup', { clear = true })
-  vim.api.nvim_create_autocmd('VimEnter', {
-    group = augroup,
-    pattern = '*',
-    callback = function()
-      vim.opt.shortmess:append 'c'
-      vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
-    end,
-  })
-
   vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(args)
       local bufnr = args.buf
@@ -146,10 +135,6 @@ M.setup = function()
         buffer = bufnr,
         callback = function()
           docs_timer:stop()
-          if vim.fn.pumvisible() == 0 then
-            return
-          end
-
           local completed_item = vim.v.completed_item
           if
             completed_item.documentation
@@ -172,8 +157,20 @@ M.setup = function()
           if not item then
             return
           end
-
           local key = make_key(item)
+          local cached = resolved_cache[key]
+          if cached then
+            local doc = get_docs(cached)
+            if doc then
+              show_docs_popup(doc)
+              return
+            end
+          end
+
+          docs_timer:stop()
+          if vim.fn.pumvisible() == 0 then
+            return
+          end
           docs_timer:start(
             docs_debounce_ms,
             0,
@@ -199,88 +196,41 @@ M.setup = function()
       })
 
       vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
-      vim.api.nvim_create_autocmd('CompleteDone', {
-        group = comp_aug,
-        buffer = bufnr,
-        callback = function()
-          local ci = vim.v.completed_item
-          if
-            not (
-              ci
-              and ci.user_data
-              and ci.user_data.nvim
-              and ci.user_data.nvim.lsp
-              and ci.user_data.nvim.lsp.completion_item
-            )
-          then
-            return
-          end
-          local item = ci.user_data.nvim.lsp.completion_item
-          local key = make_key(item)
-          local function apply(edits)
-            if not edits or vim.tbl_isempty(edits) then
-              return
-            end
-            local encoding = client and client.offset_encoding or 'utf-16'
-            vim.schedule(function()
-              pcall(vim.lsp.util.apply_text_edits, edits, bufnr, encoding)
-            end)
-          end
-          local cached = resolved_cache[key]
-          if cached then
-            if
-              cached.additionalTextEdits
-              and not vim.tbl_isempty(cached.additionalTextEdits)
-            then
-              apply(cached.additionalTextEdits)
-            end
-            if cached.textEdit and type(cached.textEdit) == 'table' then
-              apply { cached.textEdit }
-            end
-            resolved_cache[key] = nil
-            return
-          end
-          client.request('completionItem/resolve', item, function(err, resolved)
-            if err or not resolved then
-              return
-            end
-            if
-              resolved.additionalTextEdits
-              and not vim.tbl_isempty(resolved.additionalTextEdits)
-            then
-              apply(resolved.additionalTextEdits)
-            end
-            if resolved.textEdit and type(resolved.textEdit) == 'table' then
-              apply { resolved.textEdit }
-            end
-          end, bufnr)
-        end,
-      })
 
-      local expr_opts = { noremap = true, silent = true, expr = true }
-      vim.api.nvim_buf_set_keymap(
-        bufnr,
+      local function t(str)
+        return vim.api.nvim_replace_termcodes(str, true, false, true)
+      end
+      local function confirm_or_newline()
+        if vim.fn.pumvisible() == 0 then
+          return t '<CR>'
+        end
+        local selected = vim.fn.complete_info { 'selected' }.selected or -1
+        if selected == -1 then
+          return t '<C-e><CR>'
+        end
+        return t '<C-y>'
+      end
+
+      local expr_opts = { buffer = bufnr, noremap = true, silent = true, expr = true }
+      vim.keymap.set(
         'i',
         '<CR>',
-        'v:lua.vim.fn.pumvisible() == 1 ? "\\<C-y>" : "\\<CR>"',
+        confirm_or_newline,
         expr_opts
       )
-      vim.api.nvim_buf_set_keymap(
-        bufnr,
+      vim.keymap.set(
         'i',
         '<Tab>',
         'v:lua.vim.fn.pumvisible() == 1 ? "\\<C-n>" : "\\<Tab>"',
         expr_opts
       )
-      vim.api.nvim_buf_set_keymap(
-        bufnr,
+      vim.keymap.set(
         'i',
         '<S-Tab>',
         'v:lua.vim.fn.pumvisible() == 1 ? "\\<C-p>" : "\\<S-Tab>"',
         expr_opts
       )
-      vim.api.nvim_buf_set_keymap(
-        bufnr,
+      vim.keymap.set(
         'i',
         '<C-e>',
         'v:lua.vim.fn.pumvisible() == 1 ? "\\<C-e>" : "\\<End>"',
