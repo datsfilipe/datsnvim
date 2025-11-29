@@ -21,6 +21,21 @@ local function mode_char()
   }
   return map[mode] or mode:sub(1, 1):upper()
 end
+local function mode_segment()
+  local mode = vim.api.nvim_get_mode().mode
+  local mode_hl = {
+    n = 'StatusModeNormal',
+    i = 'StatusModeInsert',
+    v = 'StatusModeVisual',
+    V = 'StatusModeVisual',
+    ['\22'] = 'StatusModeVisual',
+    c = 'StatusModeCommand',
+    s = 'StatusModeSelect',
+    R = 'StatusModeReplace',
+  }
+  local hl = mode_hl[mode] or mode_hl[mode:sub(1, 1)] or 'StatusModeOther'
+  return ' ' .. hl_str(hl, ' ' .. mode_char() .. ' ')
+end
 
 local function shorten_path(path, max_width)
   if not path or path == '' then
@@ -76,7 +91,7 @@ end
 local function render()
   local buf = vim.api.nvim_get_current_buf()
   local name = vim.api.nvim_buf_get_name(buf)
-  local left = string.format('%s   %s', mode_char(), shorten_path(name, 70))
+  local left = string.format('%s  %s', mode_segment(), shorten_path(name, 70))
 
   local lines, words, chars = counts()
   local diag = diag_str()
@@ -101,6 +116,7 @@ function _G.statusline_render()
 end
 
 local function set_highlights()
+  local dark = '#1e1f29'
   vim.api.nvim_set_hl(
     0,
     'StatusScrollLow',
@@ -115,6 +131,41 @@ local function set_highlights()
     0,
     'StatusScrollHigh',
     { fg = '#ff5555', bg = 'NONE', bold = true }
+  )
+  vim.api.nvim_set_hl(
+    0,
+    'StatusModeNormal',
+    { fg = dark, bg = '#8be9fd', bold = true }
+  )
+  vim.api.nvim_set_hl(
+    0,
+    'StatusModeInsert',
+    { fg = dark, bg = '#50fa7b', bold = true }
+  )
+  vim.api.nvim_set_hl(
+    0,
+    'StatusModeVisual',
+    { fg = dark, bg = '#ff79c6', bold = true }
+  )
+  vim.api.nvim_set_hl(
+    0,
+    'StatusModeCommand',
+    { fg = dark, bg = '#ffb86c', bold = true }
+  )
+  vim.api.nvim_set_hl(
+    0,
+    'StatusModeSelect',
+    { fg = dark, bg = '#bd93f9', bold = true }
+  )
+  vim.api.nvim_set_hl(
+    0,
+    'StatusModeReplace',
+    { fg = dark, bg = '#ff5555', bold = true }
+  )
+  vim.api.nvim_set_hl(
+    0,
+    'StatusModeOther',
+    { fg = dark, bg = '#f1fa8c', bold = true }
   )
 end
 

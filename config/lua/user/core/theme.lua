@@ -21,6 +21,8 @@ M.highlight_groups = {
   'IndentLineCurrent',
   'TabLine',
   'QuickFixLine',
+  'StatusLine',
+  'StatusLineNC',
 }
 
 local function apply(groups)
