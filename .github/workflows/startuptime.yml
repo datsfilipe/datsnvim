@@ -18,7 +18,19 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Install Nix
-        uses: cachix/install-nix-action@v27
+        uses: DeterminateSystems/nix-installer-action@v14
+        with:
+          extra-conf: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            auto-optimise-store = false
+            # Performance tweak: Disable fsync for faster unpacking on CI
+            fsync-metadata = false
+
+      - name: Configure Cachix
+        uses: cachix/cachix-action@v15
+        with:
+          name: datsfilipe-dotfiles
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
 
       - name: Measure startup time
         run: nix run .#default -- --headless --startuptime /tmp/startuptime.txt +q
