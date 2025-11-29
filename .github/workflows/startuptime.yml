@@ -1,0 +1,45 @@
+name: Startup Time Benchmark
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v14
+        with:
+          extra-conf: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+            auto-optimise-store = false
+            # Performance tweak: Disable fsync for faster unpacking on CI
+            fsync-metadata = false
+
+      - name: Configure Cachix
+        uses: cachix/cachix-action@v15
+        with:
+          name: datsfilipe-dotfiles
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+
+      - name: Measure startup time
+        run: nix run .#default -- --headless --startuptime /tmp/startuptime.txt +q
+
+      - name: Persist artifact
+        run: |
+          mkdir -p assets
+          mv /tmp/startuptime.txt assets/startuptime.txt
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: assets/startuptime.txt
+          commit_message: "chore: update startuptime benchmark"

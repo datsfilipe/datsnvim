@@ -12,6 +12,12 @@ This is a personal configuration for Neovim. You can use it as starting point fo
 nix run github:datsfilipe/datsnvim
 ```
 
+## Headless validation
+
+- Run the config smoke test: `nix run .#default -- --headless -c "lua require('user.modules.healthcheck')"`
+- Grab startup time: `nix run .#default -- --headless --startuptime /tmp/startuptime.txt +q`
+- Trigger the console from CLI: `nix run .#default -- --headless -c "ConsoleRun echo 'ok'" +qa`
+
 ## License
 
 Refer to [LICENSE](./LICENSE).
