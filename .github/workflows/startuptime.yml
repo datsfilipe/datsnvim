@@ -1,9 +1,10 @@
 name: Startup Time Benchmark
 
 on:
-  push:
   pull_request:
   workflow_dispatch:
+  push:
+    branches: [ "main" ]
 
 permissions:
   contents: write
