@@ -1,0 +1,32 @@
+name: Startup Time Benchmark
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+
+      - name: Measure startup time
+        run: nix run .#default -- --headless --startuptime /tmp/startuptime.txt +q
+
+      - name: Persist artifact
+        run: |
+          mkdir -p assets
+          mv /tmp/startuptime.txt assets/startuptime.txt
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          file_pattern: assets/startuptime.txt
+          commit_message: "chore: update startuptime benchmark"
