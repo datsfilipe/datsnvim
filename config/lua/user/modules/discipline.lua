@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-  for _, key in ipairs { 'h', 'j', 'k', 'l' } do
+  for _, key in ipairs { 'h', 'j', 'k', 'l', 'w', 'b', 'e' } do
     local count = 0
     local timer = assert(vim.uv.new_timer())
     local map = key
@@ -9,13 +9,14 @@ function M.setup()
       if vim.v.count > 0 then
         count = 0
       end
-      if count >= 10 and vim.bo.buftype ~= 'nofile' then
-        local ok = pcall(vim.notify, "u're better than that", vim.log.levels.WARN, {
-          id = 'improve',
-          keep = function()
-            return count >= 10
-          end,
-        })
+      if count >= 5 and vim.bo.buftype ~= 'nofile' then
+        local ok =
+          pcall(vim.notify, "u're better than that", vim.log.levels.WARN, {
+            id = 'improve',
+            keep = function()
+              return count >= 5
+            end,
+          })
         if not ok then
           return map
         end

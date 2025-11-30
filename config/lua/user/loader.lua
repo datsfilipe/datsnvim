@@ -45,7 +45,7 @@ local function load(name)
 end
 
 local function map_keys(entry)
-  for _, key in ipairs(entry.keys or {}) do
+  for _, key in ipairs(entry.keys) do
     local mode, lhs, action, desc = key[1], key[2], key[3], key[4]
     vim.keymap.set(mode, lhs, function()
       load(entry.name)
@@ -59,7 +59,7 @@ local function map_keys(entry)
 end
 
 local function map_commands(entry)
-  for _, command in ipairs(entry.commands or {}) do
+  for _, command in ipairs(entry.commands) do
     local name, action, opts = command[1], command[2], command[3]
     vim.api.nvim_create_user_command(name, function(cmd_opts)
       load(entry.name)
@@ -73,9 +73,6 @@ local function map_commands(entry)
 end
 
 local function register_event(entry)
-  if not entry.event then
-    return
-  end
   vim.api.nvim_create_autocmd(entry.event, {
     group = augroup,
     pattern = entry.pattern,
@@ -92,7 +89,11 @@ function M.setup(opts)
   registry_list = {
     { name = 'statusline', module = 'user.modules.statusline' },
     { name = 'tabline', module = 'user.modules.tabline' },
-    { name = 'quickfix', module = 'user.modules.quickfix', event = 'VimEnter' },
+    {
+      name = 'quickfix',
+      module = 'user.modules.quickfix',
+      event = 'VimEnter',
+    },
     {
       name = 'discipline',
       module = 'user.modules.discipline',
@@ -158,6 +159,7 @@ function M.setup(opts)
         { 'n', '<leader>e', 'Oil', 'file explorer' },
       },
       after = apply_transparency,
+      ensure = true,
     },
     {
       name = 'minipick',
@@ -176,19 +178,24 @@ function M.setup(opts)
   registry = {}
   for _, entry in ipairs(registry_list) do
     registry[entry.name] = entry
+
+    if entry.keys then
+      map_keys(entry)
+    end
+    if entry.commands then
+      map_commands(entry)
+    end
+    if entry.event then
+      register_event(entry)
+    end
   end
 
   for _, entry in ipairs(registry_list) do
-    pcall(map_keys, entry)
-    pcall(map_commands, entry)
-    pcall(register_event, entry)
-  end
-
-  for _, entry in ipairs(registry_list) do
-    if not entry.event and not entry.keys and not entry.commands then
-      pcall(load, entry.name)
-    elseif entry.ensure then
-      pcall(load, entry.name)
+    if
+      entry.ensure
+      or (not entry.event and not entry.keys and not entry.commands)
+    then
+      load(entry.name)
     end
   end
 

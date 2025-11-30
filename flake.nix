@@ -35,7 +35,7 @@
     ...
   } @ inputs: let
     defaultConfig = {
-      theme = "catppuccin-frappe";
+      theme = "vesper";
     };
   in
     flake-utils.lib.eachDefaultSystem (system: let

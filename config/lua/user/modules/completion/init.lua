@@ -62,14 +62,17 @@ local function setup_auto_completion(client, bufnr)
     )
   end
 
+  ---@diagnostic disable-next-line: assign-type-mismatch, param-type-mismatch
   vim.api.nvim_create_autocmd({ 'TextChangedI' }, {
     group = completion_aug,
     buffer = bufnr,
     callback = function()
+      ---@diagnostic disable-next-line: need-check-nil
       completion_timer:stop()
       if vim.fn.pumvisible() == 1 then
         return
       end
+      ---@diagnostic disable-next-line: need-check-nil
       completion_timer:start(
         150,
         0,
@@ -104,6 +107,7 @@ end
 M.setup = function()
   local augroup =
     vim.api.nvim_create_augroup('DatsCompletionFinalSetup', { clear = true })
+  ---@diagnostic disable-next-line: param-type-mismatch
   vim.api.nvim_create_autocmd('VimEnter', {
     group = augroup,
     pattern = '*',
@@ -145,6 +149,7 @@ M.setup = function()
         group = comp_aug,
         buffer = bufnr,
         callback = function()
+          ---@diagnostic disable-next-line: need-check-nil
           docs_timer:stop()
           if vim.fn.pumvisible() == 0 then
             return
@@ -152,7 +157,9 @@ M.setup = function()
 
           local completed_item = vim.v.completed_item
           if
+            ---@diagnostic disable-next-line: undefined-field
             completed_item.documentation
+            ---@diagnostic disable-next-line: undefined-field
             and not vim.tbl_isempty(completed_item.documentation)
           then
             local doc = get_docs(completed_item)
@@ -174,13 +181,16 @@ M.setup = function()
           end
 
           local key = make_key(item)
+          ---@diagnostic disable-next-line: need-check-nil
           docs_timer:start(
             docs_debounce_ms,
             0,
             vim.schedule_wrap(function()
               client.request(
+                ---@diagnostic disable-next-line: param-type-mismatch
                 'completionItem/resolve',
                 item,
+                ---@diagnostic disable-next-line: param-type-mismatch
                 function(err, result)
                   if err then
                     return
@@ -191,6 +201,7 @@ M.setup = function()
                   end
                   resolved_cache[key] = result
                 end,
+                ---@diagnostic disable-next-line: param-type-mismatch
                 bufnr
               )
             end)
@@ -240,6 +251,7 @@ M.setup = function()
             resolved_cache[key] = nil
             return
           end
+          ---@diagnostic disable-next-line: param-type-mismatch
           client.request('completionItem/resolve', item, function(err, resolved)
             if err or not resolved then
               return
@@ -253,6 +265,7 @@ M.setup = function()
             if resolved.textEdit and type(resolved.textEdit) == 'table' then
               apply { resolved.textEdit }
             end
+            ---@diagnostic disable-next-line: param-type-mismatch
           end, bufnr)
         end,
       })

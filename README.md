@@ -1,6 +1,6 @@
 <div align="center">
 
-# `DATSNVIM`
+# `datsnvim`
 
 This is a personal configuration for Neovim. You can use it as starting point for yours, you can use it as yours, etc. Feel free to use it as you wish at your own risk.
 
@@ -12,11 +12,13 @@ This is a personal configuration for Neovim. You can use it as starting point fo
 nix run github:datsfilipe/datsnvim
 ```
 
-## Headless validation
+## Startup time
 
-- Run the config smoke test: `nix run .#default -- --headless -c "lua require('user.modules.healthcheck')"`
-- Grab startup time: `nix run .#default -- --headless --startuptime /tmp/startuptime.txt +q`
-- Trigger the console from CLI: `nix run .#default -- --headless -c "ConsoleRun echo 'ok'" +qa`
+- You can check startup time at [./assets/startuptime.txt](./assets/startuptime.txt) or by running:
+
+```bash
+nix run github:datsfilipe/datsnvim -- --startuptime /tmp/startuptime.txt +q && xdg-open /tmp/startuptime.txt
+```
 
 ## License
 

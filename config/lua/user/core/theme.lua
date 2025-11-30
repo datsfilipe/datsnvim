@@ -36,6 +36,7 @@ local function apply(groups)
     local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
     if ok then
       hl.bg = nil
+      ---@diagnostic disable-next-line: param-type-mismatch
       vim.api.nvim_set_hl(0, group, hl)
     end
   end
@@ -47,11 +48,14 @@ end
 
 function M.setup()
   pcall(require, 'user.plugins.colorschemes')
-  local theme = vim.env.DATSNVIM_THEME or vim.g.datsnvim_theme or 'catppuccin-frappe'
+  local theme = vim.env.DATSNVIM_THEME or vim.g.datsnvim_theme or 'vesper'
   vim.g.datsnvim_theme = theme
   local ok, err = pcall(vim.cmd.colorscheme, theme)
   if not ok then
-    vim.notify(string.format('failed to load colorscheme %s: %s', theme, err), vim.log.levels.WARN)
+    vim.notify(
+      string.format('failed to load colorscheme %s: %s', theme, err),
+      vim.log.levels.WARN
+    )
   end
   apply()
 end

@@ -207,7 +207,8 @@ local function wrap_handlers()
     return contents
   end
 
-  local register_capability = vim.lsp.handlers[methods.client_registerCapability]
+  local register_capability =
+    vim.lsp.handlers[methods.client_registerCapability]
   vim.lsp.handlers[methods.client_registerCapability] = function(err, res, ctx)
     local client = vim.lsp.get_client_by_id(ctx.client_id)
     if client then
