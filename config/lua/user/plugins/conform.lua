@@ -28,7 +28,7 @@ function M.setup()
         command = 'prettier',
         args = {
           '--stdin-filepath',
-          vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
+          '$FILENAME',
         },
         stdin = true,
         condition = function()
@@ -42,7 +42,7 @@ function M.setup()
         args = {
           'format',
           '--stdin-filepath',
-          vim.fn.fnameescape(vim.api.nvim_buf_get_name(0)),
+          '$FILENAME',
         },
         stdin = true,
         condition = function()
@@ -56,36 +56,35 @@ function M.setup()
       lua = { 'stylua' },
       nix = { 'alejandra' },
       javascript = {
-        'prettierd',
-        'prettier',
-        'biome',
-        stop_after_first = true,
+        { 'prettierd', 'prettier', 'biome' },
+        'eslint',
       },
       typescript = {
-        'prettierd',
-        'prettier',
-        'biome',
-        stop_after_first = true,
+        { 'prettierd', 'prettier', 'biome' },
+        'eslint',
       },
       javascriptreact = {
-        'prettierd',
-        'prettier',
-        'biome',
-        stop_after_first = true,
+        { 'prettierd', 'prettier', 'biome' },
+        'eslint',
       },
       typescriptreact = {
-        'prettierd',
-        'prettier',
-        'biome',
-        stop_after_first = true,
+        { 'prettierd', 'prettier', 'biome' },
+        'eslint',
       },
       less = { 'prettierd', 'prettier', stop_after_first = true },
       css = { 'prettierd', 'prettier', stop_after_first = true },
     },
-    format_on_save = {
-      timeout_ms = 500,
-      lsp_format = 'fallback',
-    },
+    format_on_save = function(bufnr)
+      local bufname = vim.api.nvim_buf_get_name(bufnr)
+      if bufname:match 'oil://' then
+        return
+      end
+
+      return {
+        timeout_ms = 1000,
+        lsp_format = 'fallback',
+      }
+    end,
   }
 end
 

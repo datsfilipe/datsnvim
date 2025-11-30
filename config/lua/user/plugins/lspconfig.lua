@@ -31,7 +31,10 @@ local servers = {
   {
     name = 'eslint',
     bin = 'vscode-eslint-language-server',
-    config = { lint = true },
+    config = {
+      lint = true,
+      -- Removed format=true so it acts only as a linter/diagnostic provider
+    },
   },
   {
     name = 'cssls',
