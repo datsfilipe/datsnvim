@@ -105,7 +105,6 @@ function M.setup(opts)
       module = 'user.modules.completion',
       event = 'LspAttach',
     },
-    { name = 'console', module = 'user.modules.console' },
     {
       name = 'treesitter',
       module = 'user.plugins.treesitter',
@@ -151,6 +150,17 @@ function M.setup(opts)
       module = 'user.plugins.minidiff',
       event = 'BufReadPost',
       once = true,
+    },
+    {
+      name = 'console',
+      module = 'user.plugins.console',
+      event = 'CmdlineEnter',
+      keys = {
+        { 'n', ';q', '', 'Close console' },
+      },
+      commands = {
+        { 'ConsoleRun', '', {} },
+      },
     },
     {
       name = 'oil',

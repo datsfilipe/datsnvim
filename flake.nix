@@ -25,6 +25,10 @@
       url = "github:datsfilipe/vesper.nvim";
       flake = false;
     };
+    console-nvim = {
+      url = "github:datsfilipe/console.nvim";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -129,6 +133,7 @@
               (buildPlug "gruvbox-nvim" inputs.gruvbox-nvim)
               (buildPlug "min-theme-nvim" inputs.min-theme-nvim)
               (buildPlug "vesper-nvim" inputs.vesper-nvim)
+              (buildPlug "console-nvim" inputs.console-nvim)
             ];
         };
 
