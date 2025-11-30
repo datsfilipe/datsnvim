@@ -9,11 +9,15 @@ function M.setup()
   local parser_dir = vim.fn.stdpath 'data' .. '/treesitter'
   vim.opt.runtimepath:prepend(parser_dir)
 
+  ---@diagnostic disable-next-line: param-type-mismatch
   pcall(vim.cmd, 'packadd nvim-treesitter')
 
   local ok, ts = pcall(require, 'nvim-treesitter.configs')
   if not ok then
-    vim.notify('nvim-treesitter not available: ' .. tostring(ts), vim.log.levels.WARN)
+    vim.notify(
+      'nvim-treesitter not available: ' .. tostring(ts),
+      vim.log.levels.WARN
+    )
     return
   end
 

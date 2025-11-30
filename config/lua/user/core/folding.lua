@@ -12,12 +12,24 @@ function M.setup()
         return
       end
 
-      if client:supports_method(vim.lsp.protocol.Methods.textDocument_foldingRange) then
+      if
+        client:supports_method(
+          vim.lsp.protocol.Methods.textDocument_foldingRange
+        )
+      then
         -- foldmethod is window-local; set it for all windows displaying this buffer
         for _, win in ipairs(vim.api.nvim_list_wins()) do
           if vim.api.nvim_win_get_buf(win) == args.buf then
-            vim.api.nvim_set_option_value('foldmethod', 'expr', { scope = 'local', win = win })
-            vim.api.nvim_set_option_value('foldexpr', 'v:lua.vim.lsp.foldexpr()', { scope = 'local', win = win })
+            vim.api.nvim_set_option_value(
+              'foldmethod',
+              'expr',
+              { scope = 'local', win = win }
+            )
+            vim.api.nvim_set_option_value(
+              'foldexpr',
+              'v:lua.vim.lsp.foldexpr()',
+              { scope = 'local', win = win }
+            )
           end
         end
       end

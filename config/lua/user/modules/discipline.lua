@@ -10,12 +10,13 @@ function M.setup()
         count = 0
       end
       if count >= 10 and vim.bo.buftype ~= 'nofile' then
-        local ok = pcall(vim.notify, "u're better than that", vim.log.levels.WARN, {
-          id = 'improve',
-          keep = function()
-            return count >= 10
-          end,
-        })
+        local ok =
+          pcall(vim.notify, "u're better than that", vim.log.levels.WARN, {
+            id = 'improve',
+            keep = function()
+              return count >= 10
+            end,
+          })
         if not ok then
           return map
         end
