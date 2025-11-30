@@ -1,7 +1,7 @@
 local M = {}
 
 local scrollbar_blocks =
-  { '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
+  { ' ', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
 
 local function hl_str(group, text)
   return string.format('%%#%s#%s%%#StatusLine#', group, text)
@@ -21,6 +21,7 @@ local function mode_char()
   }
   return map[mode] or mode:sub(1, 1):upper()
 end
+
 local function mode_segment()
   local mode = vim.api.nvim_get_mode().mode
   local mode_hl = {
@@ -37,15 +38,31 @@ local function mode_segment()
   return ' ' .. hl_str(hl, ' ' .. mode_char() .. ' ')
 end
 
-local function shorten_path(path, max_width)
-  if not path or path == '' then
-    return '[_]'
+local function smart_path()
+  local buf = vim.api.nvim_get_current_buf()
+  local name = vim.api.nvim_buf_get_name(buf)
+
+  if name == '' then
+    return '[No Name]'
   end
-  local display = vim.fn.fnamemodify(path, ':~')
-  if vim.fn.strwidth(display) <= max_width then
-    return display
+
+  if name:match '^oil://' then
+    name = name:gsub('^oil://', '')
   end
-  return vim.fn.pathshorten(display)
+
+  local path = vim.fn.fnamemodify(name, ':.')
+  local parts = vim.split(path, '/')
+
+  if #parts > 3 then
+    for i = 1, #parts - 3 do
+      local p = parts[i]
+      if #p > 0 then
+        parts[i] = p:sub(1, 1)
+      end
+    end
+  end
+
+  return table.concat(parts, '/')
 end
 
 local function counts()
@@ -64,20 +81,33 @@ local function diag_str()
     or {}
   local err = total[vim.diagnostic.severity.ERROR] or 0
   local warn = total[vim.diagnostic.severity.WARN] or 0
-  if err == 0 and warn == 0 then
+
+  local parts = {}
+
+  if err > 0 then
+    table.insert(parts, hl_str('DiagnosticError', 'x ' .. err))
+  end
+
+  if warn > 0 then
+    table.insert(parts, hl_str('DiagnosticWarn', '! ' .. warn))
+  end
+
+  if #parts == 0 then
     return ''
   end
-  return string.format('x %d ! %d', err, warn)
+  return table.concat(parts, ' ')
 end
 
 local function scroll_segment()
   local cur = vim.fn.line '.'
   local total = math.max(vim.fn.line '$', 1)
   local pct = math.floor((cur / total) * 100 + 0.5)
-  local idx = math.min(
-    #scrollbar_blocks,
-    math.max(1, math.floor((pct / 100) * #scrollbar_blocks))
-  )
+
+  local idx = 1
+  if pct > 0 then
+    idx = math.ceil((pct / 100) * 7) + 1
+  end
+
   local hl = 'StatusScrollLow'
   if pct >= 67 then
     hl = 'StatusScrollHigh'
@@ -89,14 +119,12 @@ local function scroll_segment()
 end
 
 local function render()
-  local buf = vim.api.nvim_get_current_buf()
-  local name = vim.api.nvim_buf_get_name(buf)
-  local left = string.format('%s  %s', mode_segment(), shorten_path(name, 70))
-
+  local left = string.format('%s  %s', mode_segment(), smart_path())
   local lines, words, chars = counts()
   local diag = diag_str()
+
   local right_parts = {
-    diag ~= '' and diag or '-',
+    diag,
     string.format('%d lines %d words %d chars', lines, words, chars),
     scroll_segment(),
   }
@@ -116,57 +144,29 @@ function _G.statusline_render()
 end
 
 local function set_highlights()
-  local dark = '#1e1f29'
-  vim.api.nvim_set_hl(
-    0,
-    'StatusScrollLow',
-    { fg = '#50fa7b', bg = 'NONE', bold = true }
-  )
-  vim.api.nvim_set_hl(
-    0,
-    'StatusScrollMid',
-    { fg = '#f1fa8c', bg = 'NONE', bold = true }
-  )
-  vim.api.nvim_set_hl(
-    0,
-    'StatusScrollHigh',
-    { fg = '#ff5555', bg = 'NONE', bold = true }
-  )
-  vim.api.nvim_set_hl(
-    0,
-    'StatusModeNormal',
-    { fg = dark, bg = '#8be9fd', bold = true }
-  )
-  vim.api.nvim_set_hl(
-    0,
-    'StatusModeInsert',
-    { fg = dark, bg = '#50fa7b', bold = true }
-  )
-  vim.api.nvim_set_hl(
-    0,
-    'StatusModeVisual',
-    { fg = dark, bg = '#ff79c6', bold = true }
-  )
-  vim.api.nvim_set_hl(
-    0,
-    'StatusModeCommand',
-    { fg = dark, bg = '#ffb86c', bold = true }
-  )
-  vim.api.nvim_set_hl(
-    0,
-    'StatusModeSelect',
-    { fg = dark, bg = '#bd93f9', bold = true }
-  )
-  vim.api.nvim_set_hl(
-    0,
-    'StatusModeReplace',
-    { fg = dark, bg = '#ff5555', bold = true }
-  )
-  vim.api.nvim_set_hl(
-    0,
-    'StatusModeOther',
-    { fg = dark, bg = '#f1fa8c', bold = true }
-  )
+  local dark_text = '#1e1f29'
+
+  local function set_block(target, source)
+    local hl = vim.api.nvim_get_hl(0, { name = source })
+    local fg = hl.fg
+    if not fg then
+      hl = vim.api.nvim_get_hl(0, { name = source, link = false })
+      fg = hl.fg or '#ffffff'
+    end
+    vim.api.nvim_set_hl(0, target, { bg = fg, fg = dark_text, bold = true })
+  end
+
+  vim.api.nvim_set_hl(0, 'StatusScrollLow', { link = 'String' })
+  vim.api.nvim_set_hl(0, 'StatusScrollMid', { link = 'WarningMsg' })
+  vim.api.nvim_set_hl(0, 'StatusScrollHigh', { link = 'ErrorMsg' })
+
+  set_block('StatusModeNormal', 'Function')
+  set_block('StatusModeInsert', 'String')
+  set_block('StatusModeVisual', 'Statement')
+  set_block('StatusModeCommand', 'WarningMsg')
+  set_block('StatusModeReplace', 'ErrorMsg')
+  set_block('StatusModeSelect', 'Constant')
+  set_block('StatusModeOther', 'Normal')
 end
 
 function M.setup()
@@ -175,28 +175,18 @@ function M.setup()
 
   local aug =
     vim.api.nvim_create_augroup('custom_statusline_simple', { clear = true })
-  ---@diagnostic disable-next-line: param-type-mismatch
-  vim.api.nvim_create_autocmd({
-    'BufEnter',
-    'BufLeave',
-    'CursorMoved',
-    'ModeChanged',
-    'DiagnosticChanged',
-    'BufWritePost',
-    ---@diagnostic disable-next-line: assign-type-mismatch
-    'WinEnter',
-    ---@diagnostic disable-next-line: assign-type-mismatch
-    'WinLeave',
-  }, {
-    group = aug,
-    callback = function()
-      vim.o.statusline = '%!v:lua.statusline_render()'
-    end,
-  })
 
   vim.api.nvim_create_autocmd('ColorScheme', {
     group = aug,
     callback = set_highlights,
+  })
+
+  ---@diagnostic disable-next-line: param-type-mismatch
+  vim.api.nvim_create_autocmd({ 'DiagnosticChanged', 'ModeChanged' }, {
+    group = aug,
+    callback = function()
+      vim.cmd 'redrawstatus'
+    end,
   })
 end
 
