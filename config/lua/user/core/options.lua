@@ -59,9 +59,6 @@ function M.setup()
   vim.g.loaded_node_provider = 0
   vim.g.netrw_banner = 0
 
-  -- required for avante
-  vim.opt.laststatus = 3
-
   vim.g.clipboard = {
     name = 'smart-clipboard',
     copy = {

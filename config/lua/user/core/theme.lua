@@ -36,6 +36,7 @@ local function apply(groups)
     local ok, hl = pcall(vim.api.nvim_get_hl, 0, { name = group, link = false })
     if ok then
       hl.bg = nil
+      ---@diagnostic disable-next-line: param-type-mismatch
       vim.api.nvim_set_hl(0, group, hl)
     end
   end
