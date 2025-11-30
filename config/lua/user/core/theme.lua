@@ -46,10 +46,17 @@ function M.apply_transparency(groups)
   apply(groups)
 end
 
-function M.setup()
-  pcall(require, 'user.plugins.colorschemes')
+local function resolve_theme()
   local theme = vim.env.DATSNVIM_THEME or vim.g.datsnvim_theme or 'vesper'
   vim.g.datsnvim_theme = theme
+  return theme
+end
+
+function M.setup()
+  local theme = resolve_theme()
+  -- ensure theme-specific setup runs with the correct theme value
+  pcall(require, 'user.plugins.colorschemes')
+
   local ok, err = pcall(vim.cmd.colorscheme, theme)
   if not ok then
     vim.notify(

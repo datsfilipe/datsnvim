@@ -14,6 +14,7 @@ DATSNVIM_THEME="$THEME" "$NVIM_BIN" --headless -c "lua do
   local env_theme = vim.env.DATSNVIM_THEME
   local g_theme = vim.g.datsnvim_theme
   local colors = vim.g.colors_name or ''
+  local module_name = 'user.plugins.colorschemes.' .. expected
 
   if env_theme ~= expected then
     error(string.format('DATSNVIM_THEME mismatch: expected %s, got %s', expected, tostring(env_theme)))
@@ -25,6 +26,10 @@ DATSNVIM_THEME="$THEME" "$NVIM_BIN" --headless -c "lua do
 
   if not colors:find(expected, 1, true) then
     error(string.format('colorscheme (%s) does not include %s', colors, expected))
+  end
+
+  if not package.loaded[module_name] then
+    error(string.format('colorscheme setup module not loaded: %s', module_name))
   end
 
   print(string.format('Theme override OK: %s (%s)', expected, colors))
