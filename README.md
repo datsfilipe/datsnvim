@@ -14,7 +14,11 @@ nix run github:datsfilipe/datsnvim
 
 ## Startup time
 
-- You can check startup time at [./assets/startuptime.txt](./assets/startuptime.txt) or by running `nix run github:datsfilipe/datsnvim -- --startuptime /tmp/startuptime.txt +q && xdg-open /tmp/startuptime.txt`.
+- You can check startup time at [./assets/startuptime.txt](./assets/startuptime.txt) or by running:
+
+```bash
+nix run github:datsfilipe/datsnvim -- --startuptime /tmp/startuptime.txt +q && xdg-open /tmp/startuptime.txt
+```
 
 ## License
 
