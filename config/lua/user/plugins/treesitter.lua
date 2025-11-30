@@ -31,7 +31,8 @@ function M.setup()
       'html',
       'json',
       'json5',
-      'jsonc',
+      -- file downloaded was not gzip; ts couldn't install it, so commented out for now
+      -- 'jsonc',
       'lua',
       'markdown',
       'markdown_inline',

@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+NVIM_BIN="${1:-$(pwd)/result/bin/nvim}"
+THEME="${2:-catppuccin}"
+
+if [ ! -x "$NVIM_BIN" ]; then
+  echo "nvim binary not found or not executable: $NVIM_BIN" >&2
+  exit 1
+fi
+
+DATSNVIM_THEME="$THEME" "$NVIM_BIN" --headless -c "lua do
+  local expected = '$THEME'
+  local env_theme = vim.env.DATSNVIM_THEME
+  local g_theme = vim.g.datsnvim_theme
+  local colors = vim.g.colors_name or ''
+
+  if env_theme ~= expected then
+    error(string.format('DATSNVIM_THEME mismatch: expected %s, got %s', expected, tostring(env_theme)))
+  end
+
+  if g_theme ~= expected then
+    error(string.format('vim.g.datsnvim_theme mismatch: expected %s, got %s', expected, tostring(g_theme)))
+  end
+
+  if not colors:find(expected, 1, true) then
+    error(string.format('colorscheme (%s) does not include %s', colors, expected))
+  end
+
+  print(string.format('Theme override OK: %s (%s)', expected, colors))
+end" -c q
