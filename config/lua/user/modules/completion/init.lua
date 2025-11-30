@@ -25,6 +25,10 @@ local function show_docs_popup(doc)
   if vim.fn.pumvisible() == 0 then
     return
   end
+  local co = vim.opt.completeopt:get()
+  if not vim.tbl_contains(co, 'popup') then
+    return
+  end
   local info = vim.fn.complete_info { 'selected' }
   if vim.tbl_isempty(info) or info.selected == -1 then
     return
@@ -113,7 +117,7 @@ M.setup = function()
     pattern = '*',
     callback = function()
       vim.opt.shortmess:append 'c'
-      vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+      vim.opt.completeopt = { 'menu', 'menuone', 'noselect', 'popup' }
     end,
   })
 
@@ -181,6 +185,14 @@ M.setup = function()
           end
 
           local key = make_key(item)
+          local cached = resolved_cache[key]
+          if cached then
+            local doc = get_docs(cached)
+            if doc then
+              show_docs_popup(doc)
+              return
+            end
+          end
           ---@diagnostic disable-next-line: need-check-nil
           docs_timer:start(
             docs_debounce_ms,
@@ -210,65 +222,6 @@ M.setup = function()
       })
 
       vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
-      vim.api.nvim_create_autocmd('CompleteDone', {
-        group = comp_aug,
-        buffer = bufnr,
-        callback = function()
-          local ci = vim.v.completed_item
-          if
-            not (
-              ci
-              and ci.user_data
-              and ci.user_data.nvim
-              and ci.user_data.nvim.lsp
-              and ci.user_data.nvim.lsp.completion_item
-            )
-          then
-            return
-          end
-          local item = ci.user_data.nvim.lsp.completion_item
-          local key = make_key(item)
-          local function apply(edits)
-            if not edits or vim.tbl_isempty(edits) then
-              return
-            end
-            local encoding = client and client.offset_encoding or 'utf-16'
-            vim.schedule(function()
-              pcall(vim.lsp.util.apply_text_edits, edits, bufnr, encoding)
-            end)
-          end
-          local cached = resolved_cache[key]
-          if cached then
-            if
-              cached.additionalTextEdits
-              and not vim.tbl_isempty(cached.additionalTextEdits)
-            then
-              apply(cached.additionalTextEdits)
-            end
-            if cached.textEdit and type(cached.textEdit) == 'table' then
-              apply { cached.textEdit }
-            end
-            resolved_cache[key] = nil
-            return
-          end
-          ---@diagnostic disable-next-line: param-type-mismatch
-          client.request('completionItem/resolve', item, function(err, resolved)
-            if err or not resolved then
-              return
-            end
-            if
-              resolved.additionalTextEdits
-              and not vim.tbl_isempty(resolved.additionalTextEdits)
-            then
-              apply(resolved.additionalTextEdits)
-            end
-            if resolved.textEdit and type(resolved.textEdit) == 'table' then
-              apply { resolved.textEdit }
-            end
-            ---@diagnostic disable-next-line: param-type-mismatch
-          end, bufnr)
-        end,
-      })
 
       local expr_opts = { noremap = true, silent = true, expr = true }
       vim.api.nvim_buf_set_keymap(
