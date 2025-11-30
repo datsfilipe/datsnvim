@@ -79,7 +79,7 @@
         pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
           viAlias = true;
           vimAlias = true;
-          extraWrapperArgs = [
+          wrapperArgs = [
             "--set"
             "XDG_CONFIG_HOME"
             "${configHome}"

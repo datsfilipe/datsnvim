@@ -34,3 +34,8 @@ jobs:
       
     - name: Evaluate home-manager module (x86_64-linux)
       run: nix eval .#homeManagerModules.x86_64-linux.default
+
+    - name: Verify theme override (x86_64-linux)
+      run: |
+        OVERRIDE_PATH=$(nix build --no-link --print-out-paths --impure --expr 'let flake = builtins.getFlake (toString ./.); in flake.packages.x86_64-linux.default.override { theme = "catppuccin"; }' | tail -n1)
+        ./bin/test-theme-override "$OVERRIDE_PATH/bin/nvim" catppuccin
