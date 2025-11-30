@@ -65,6 +65,16 @@ local function smart_path()
   return table.concat(parts, '/')
 end
 
+local function get_git_branch()
+  local buf = vim.api.nvim_get_current_buf()
+  local branch = vim.b[buf].gitsigns_head or vim.b[buf].git_branch
+
+  if not branch or branch == '' then
+    return nil
+  end
+  return hl_str('StatusBranch', branch)
+end
+
 local function counts()
   local buf = vim.api.nvim_get_current_buf()
   local wc = vim.fn.wordcount()
@@ -119,24 +129,30 @@ local function scroll_segment()
 end
 
 local function render()
-  local left = string.format('%s  %s', mode_segment(), smart_path())
+  local left_parts = { mode_segment(), smart_path(), get_git_branch() }
+  local left_filtered = {}
+  for _, part in ipairs(left_parts) do
+    if part and part ~= '' then
+      table.insert(left_filtered, part)
+    end
+  end
+  local left = table.concat(left_filtered, '  ')
+
   local lines, words, chars = counts()
   local diag = diag_str()
-
   local right_parts = {
     diag,
     string.format('%d lines %d words %d chars', lines, words, chars),
     scroll_segment(),
   }
-
-  local filtered = {}
+  local right_filtered = {}
   for _, part in ipairs(right_parts) do
     if part and part ~= '' then
-      table.insert(filtered, part)
+      table.insert(right_filtered, part)
     end
   end
 
-  return table.concat({ left, '%=', table.concat(filtered, '  ') }, ' ')
+  return table.concat({ left, '%=', table.concat(right_filtered, '  ') }, ' ')
 end
 
 function _G.statusline_render()
@@ -151,6 +167,7 @@ local function set_highlights()
     local fg = hl.fg
     if not fg then
       hl = vim.api.nvim_get_hl(0, { name = source, link = false })
+      ---@diagnostic disable-next-line: cast-local-type
       fg = hl.fg or '#ffffff'
     end
     vim.api.nvim_set_hl(0, target, { bg = fg, fg = dark_text, bold = true })
@@ -159,6 +176,8 @@ local function set_highlights()
   vim.api.nvim_set_hl(0, 'StatusScrollLow', { link = 'String' })
   vim.api.nvim_set_hl(0, 'StatusScrollMid', { link = 'WarningMsg' })
   vim.api.nvim_set_hl(0, 'StatusScrollHigh', { link = 'ErrorMsg' })
+
+  vim.api.nvim_set_hl(0, 'StatusBranch', { link = 'DiagnosticError' })
 
   set_block('StatusModeNormal', 'Function')
   set_block('StatusModeInsert', 'String')
@@ -186,6 +205,24 @@ function M.setup()
     group = aug,
     callback = function()
       vim.cmd 'redrawstatus'
+    end,
+  })
+
+  ---@diagnostic disable-next-line: param-type-mismatch
+  vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'BufWritePost' }, {
+    group = aug,
+    callback = function()
+      local handle = io.popen 'git branch --show-current 2> /dev/null'
+      if handle then
+        local result = handle:read '*a'
+        handle:close()
+        local branch = result:gsub('[\n\r]', '')
+        if branch ~= '' then
+          vim.b.git_branch = branch
+        else
+          vim.b.git_branch = nil
+        end
+      end
     end,
   })
 end
