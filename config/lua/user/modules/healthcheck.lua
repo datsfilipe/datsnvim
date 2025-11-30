@@ -21,7 +21,7 @@ assert_loaded('user.plugins.lspconfig', 'lsp setup')
 loader.load 'conform'
 assert_loaded('user.plugins.conform', 'formatter')
 
-if vim.g.datsnvim_theme == 'catppuccin-frappe' then
+if vim.g.datsnvim_theme == 'vesper' then
   print '[OK] Theme variable set correctly'
 else
   print '[  ] Theme variable mismatch'

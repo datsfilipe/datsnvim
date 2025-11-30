@@ -48,9 +48,7 @@ end
 
 function M.setup()
   pcall(require, 'user.plugins.colorschemes')
-  local theme = vim.env.DATSNVIM_THEME
-    or vim.g.datsnvim_theme
-    or 'catppuccin-frappe'
+  local theme = vim.env.DATSNVIM_THEME or vim.g.datsnvim_theme or 'vesper'
   vim.g.datsnvim_theme = theme
   local ok, err = pcall(vim.cmd.colorscheme, theme)
   if not ok then
