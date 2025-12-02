@@ -113,7 +113,7 @@ M.setup = function()
     pattern = '*',
     callback = function()
       vim.opt.shortmess:append 'c'
-      vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
+      vim.opt.completeopt = { 'menu', 'menuone', 'noselect', 'popup' }
     end,
   })
 
