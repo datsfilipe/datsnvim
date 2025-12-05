@@ -33,7 +33,6 @@ function M.setup()
         condition = function()
           return utils.is_bin_available 'alejandra'
         end,
-        inherit = false,
       },
       prettier = {
         command = 'prettier',
