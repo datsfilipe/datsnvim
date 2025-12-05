@@ -37,14 +37,6 @@ function M.setup()
       },
       prettier = {
         command = 'prettier',
-        args = function(_, ctx)
-          local filename = ctx.filename
-          if not filename or filename == '' then
-            filename = vim.api.nvim_buf_get_name(ctx.buf or 0)
-          end
-          return { '--stdin-filepath', filename }
-        end,
-        stdin = true,
         condition = function(_, ctx)
           if is_oil_buffer(ctx.buf) then
             return false
@@ -57,17 +49,10 @@ function M.setup()
             and utils.is_file_available '.prettierrc'
             and vim.loop.fs_stat(filename)
         end,
-        inherit = false,
       },
       biome = {
         command = 'biome',
-        args = function(_, ctx)
-          local filename = ctx.filename
-          if not filename or filename == '' then
-            filename = vim.api.nvim_buf_get_name(ctx.buf or 0)
-          end
-          return { 'format', '--stdin-filepath', filename }
-        end,
+        args = { 'format', '--stdin-filepath', '$FILENAME' },
         stdin = true,
         condition = function(_, ctx)
           if is_oil_buffer(ctx.buf) then
@@ -81,7 +66,6 @@ function M.setup()
             and utils.is_file_available '.biome'
             and vim.loop.fs_stat(filename)
         end,
-        inherit = false,
       },
     },
     formatters_by_ft = {
