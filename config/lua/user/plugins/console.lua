@@ -14,6 +14,15 @@ function M.setup()
   console.setup {
     hijack_bang = true,
     close_key = ';q',
+    interactive = {
+      fzf = function(output)
+        local path = output:gsub('^%s*(.-)%s*$', '%1')
+        if path ~= '' then
+          print('opening: ' .. path)
+          vim.cmd('edit ' .. vim.fn.fnameescape(path))
+        end
+      end,
+    },
   }
 end
 

@@ -79,10 +79,10 @@
 
       mkNeovimBundle = {theme ? defaultConfig.theme}: let
         configRoot = "${configPlugin}/share/vim-plugins/datsnvim-config";
-      in
-        pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
-          viAlias = true;
-          vimAlias = true;
+
+        wrappedNeovim = pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
+          viAlias = false;
+          vimAlias = false;
           wrapperArgs = [
             "--set"
             "XDG_CONFIG_HOME"
@@ -136,6 +136,33 @@
               (buildPlug "console-nvim" inputs.console-nvim)
             ];
         };
+      in
+        # Wrapper Package
+        pkgs.runCommand "datsnvim" {
+          buildInputs = [pkgs.makeWrapper pkgs.bash];
+        } ''
+          mkdir -p $out/bin
+
+          # Copy wrapper
+          cp ${inputs.console-nvim}/scripts/wrapper.sh $out/bin/datsnvim
+          chmod +x $out/bin/datsnvim
+
+          # 1. Fix Interpreter
+          patchShebangs $out/bin/datsnvim
+
+          # 2. Inject our Nix-configured Neovim
+          # Replaces 'nvim --clean -u init.lua' with the full path to our wrapped neovim
+          sed -i "s|nvim --clean -u init.lua|${wrappedNeovim}/bin/nvim|g" $out/bin/datsnvim
+
+          # 3. FIX THE BUG: Replace 'else break' with 'else fg %1'
+          # This prevents the wrapper from exiting if the command file is missing
+          sed -i "s|else|elif kill -0 \$NVIM_PID 2>/dev/null; then fg %1; else|" $out/bin/datsnvim
+
+          # Symlinks
+          ln -s $out/bin/datsnvim $out/bin/nvim
+          ln -s $out/bin/datsnvim $out/bin/vi
+          ln -s $out/bin/datsnvim $out/bin/vim
+        '';
 
       hmModule = {
         config,
