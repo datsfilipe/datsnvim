@@ -21,7 +21,6 @@ jobs:
           extra-conf: |
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
             auto-optimise-store = false
-            # Performance tweak: Disable fsync for faster unpacking on CI
             fsync-metadata = false
 
       - name: Configure Cachix
