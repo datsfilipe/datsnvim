@@ -1,5 +1,6 @@
 local M = {}
 
+M.map_options = { noremap = true, silent = true }
 M.static_color = '#343434'
 
 M.is_bin_available = function(bin)
@@ -25,6 +26,15 @@ M.darken_color = function(color_int, factor)
   b = math.max(0, math.floor(b * (1 - factor)))
 
   return string.format('#%02x%02x%02x', r, g, b)
+end
+
+M.map = function(mode, lhs, rhs, opts)
+  vim.keymap.set(
+    mode,
+    lhs,
+    rhs,
+    vim.tbl_extend('force', { silent = true }, opts or {})
+  )
 end
 
 return M

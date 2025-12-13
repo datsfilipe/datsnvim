@@ -102,10 +102,7 @@
             ]
             ++ (
               if dev
-              then [
-                "--add-flags"
-                "--cmd 'set rtp^=./config' -u ./config/init.lua"
-              ]
+              then []
               else [
                 "--set"
                 "XDG_CONFIG_HOME"
@@ -115,7 +112,21 @@
 
           luaRcContent =
             if dev
-            then ""
+            then ''
+              vim.cmd("filetype plugin indent on")
+              vim.cmd("syntax on")
+
+              local cwd = vim.fn.getcwd()
+              local local_config = cwd .. "/config"
+
+              vim.opt.rtp:prepend(local_config)
+              vim.env.MYVIMRC = local_config .. "/init.lua"
+
+              local ok, err = pcall(dofile, vim.env.MYVIMRC)
+              if not ok then
+                vim.notify("Error loading local config: " .. err, vim.log.levels.ERROR)
+              end
+            ''
             else ''
               vim.opt.runtimepath:prepend("${configHome}/nvim")
               vim.opt.runtimepath:prepend("${configRoot}")
@@ -203,6 +214,14 @@
           pkgs.ripgrep
           pkgs.fd
         ];
+
+        shellHook = ''
+          export XDG_CONFIG_HOME="$PWD/.dev"
+          mkdir -p "$XDG_CONFIG_HOME"
+          ln -snf "$PWD/config" "$XDG_CONFIG_HOME/nvim"
+          mkdir -p "$XDG_CONFIG_HOME/git"
+          ln -sf "$HOME/.config/git/config" "$XDG_CONFIG_HOME/git/config"
+        '';
       };
 
       homeManagerModules.default = hmModule;

@@ -14,7 +14,7 @@ function M.setup()
           pcall(vim.notify, "u're better than that", vim.log.levels.WARN, {
             id = 'improve',
             keep = function()
-              return count >= 5
+              return count >= 4
             end,
           })
         if not ok then
