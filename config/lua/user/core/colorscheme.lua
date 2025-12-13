@@ -54,7 +54,6 @@ end
 
 function M.setup()
   local theme = resolve_theme()
-  -- ensure theme-specific setup runs with the correct theme value
   pcall(require, 'user.plugins.colorschemes')
 
   local ok, err = pcall(vim.cmd.colorscheme, theme)

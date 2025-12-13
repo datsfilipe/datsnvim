@@ -1,4 +1,5 @@
 local M = {}
+local icons = require 'user.icons'
 
 local scrollbar_blocks =
   { ' ', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
@@ -43,7 +44,7 @@ local function smart_path()
   local name = vim.api.nvim_buf_get_name(buf)
 
   if name == '' then
-    return '[No Name]'
+    return '[NONE]'
   end
 
   if name:match '^oil://' then
@@ -72,16 +73,12 @@ local function get_git_branch()
   if not branch or branch == '' then
     return nil
   end
-  return hl_str('StatusBranch', branch)
+  return hl_str('StatusBranch', '#' .. branch:upper())
 end
 
-local function counts()
+local function line_count()
   local buf = vim.api.nvim_get_current_buf()
-  local wc = vim.fn.wordcount()
-  local lines = vim.api.nvim_buf_line_count(buf)
-  local words = wc.words or 0
-  local chars = wc.chars or wc.bytes or 0
-  return lines, words, chars
+  return vim.api.nvim_buf_line_count(buf)
 end
 
 local function diag_str()
@@ -91,21 +88,61 @@ local function diag_str()
     or {}
   local err = total[vim.diagnostic.severity.ERROR] or 0
   local warn = total[vim.diagnostic.severity.WARN] or 0
+  local hint = total[vim.diagnostic.severity.HINT] or 0
+  local info = total[vim.diagnostic.severity.INFO] or 0
 
   local parts = {}
 
   if err > 0 then
-    table.insert(parts, hl_str('DiagnosticError', 'x ' .. err))
+    table.insert(
+      parts,
+      hl_str('DiagnosticError', icons.diagnostics.ERROR .. err)
+    )
   end
 
   if warn > 0 then
-    table.insert(parts, hl_str('DiagnosticWarn', '! ' .. warn))
+    table.insert(
+      parts,
+      hl_str('DiagnosticWarn', icons.diagnostics.WARN .. warn)
+    )
+  end
+
+  if hint > 0 then
+    table.insert(
+      parts,
+      hl_str('DiagnosticHint', icons.diagnostics.HINT .. hint)
+    )
+  end
+
+  if info > 0 then
+    table.insert(
+      parts,
+      hl_str('DiagnosticInfo', icons.diagnostics.INFO .. info)
+    )
   end
 
   if #parts == 0 then
     return ''
   end
-  return table.concat(parts, ' ')
+  return table.concat(parts, '')
+end
+
+local function get_workspace_info()
+  local branch = get_git_branch()
+  if not branch or branch == '' then
+    return nil
+  end
+
+  local diag = diag_str()
+  local grouped_info = '['
+    .. hl_str('StatusFiletype', vim.bo.filetype:upper() or 'NONE')
+    .. ', '
+    .. branch
+  if diag ~= '' then
+    grouped_info = grouped_info .. ', ' .. diag
+  end
+
+  return grouped_info .. ']'
 end
 
 local function scroll_segment()
@@ -125,11 +162,11 @@ local function scroll_segment()
     hl = 'StatusScrollMid'
   end
   local block = scrollbar_blocks[idx] .. scrollbar_blocks[idx]
-  return hl_str(hl, block) .. string.format(' %3d%%', pct)
+  return hl_str(hl, block)
 end
 
 local function render()
-  local left_parts = { mode_segment(), smart_path(), get_git_branch() }
+  local left_parts = { mode_segment(), smart_path(), get_workspace_info() }
   local left_filtered = {}
   for _, part in ipairs(left_parts) do
     if part and part ~= '' then
@@ -138,11 +175,9 @@ local function render()
   end
   local left = table.concat(left_filtered, '  ')
 
-  local lines, words, chars = counts()
-  local diag = diag_str()
+  local lines = line_count()
   local right_parts = {
-    diag,
-    string.format('%d lines %d words %d chars', lines, words, chars),
+    string.format('%d lines', lines),
     scroll_segment(),
   }
   local right_filtered = {}
@@ -155,6 +190,7 @@ local function render()
   return table.concat({ left, '%=', table.concat(right_filtered, '  ') }, ' ')
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function _G.statusline_render()
   return render()
 end
@@ -176,8 +212,8 @@ local function set_highlights()
   vim.api.nvim_set_hl(0, 'StatusScrollLow', { link = 'String' })
   vim.api.nvim_set_hl(0, 'StatusScrollMid', { link = 'WarningMsg' })
   vim.api.nvim_set_hl(0, 'StatusScrollHigh', { link = 'ErrorMsg' })
-
   vim.api.nvim_set_hl(0, 'StatusBranch', { link = 'DiagnosticError' })
+  vim.api.nvim_set_hl(0, 'StatusFiletype', { link = 'Float' })
 
   set_block('StatusModeNormal', 'Function')
   set_block('StatusModeInsert', 'String')

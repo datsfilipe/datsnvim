@@ -1,97 +1,82 @@
-local M = {}
+local utils = require 'user.utils'
 
-local function map(mode, lhs, rhs, opts)
-  vim.keymap.set(
-    mode,
-    lhs,
-    rhs,
-    vim.tbl_extend('force', { silent = true }, opts or {})
-  )
-end
+utils.map(
+  'i',
+  '<C-c>',
+  '<Esc>',
+  vim.tbl_extend('force', utils.map_options, { desc = 'curse' })
+)
 
-function M.setup()
-  local options = { noremap = true, silent = true }
+utils.map(
+  'n',
+  '<leader><leader>',
+  '',
+  vim.tbl_extend('force', utils.map_options, { desc = 'no walking on space' })
+)
 
-  map(
-    'i',
-    '<C-c>',
-    '<Esc>',
-    vim.tbl_extend('force', options, { desc = 'curse' })
-  )
+utils.map('n', '<C-d>', '<C-d>zz', { desc = 'scroll downwards' })
+utils.map('n', '<C-u>', '<C-u>zz', { desc = 'scroll upwards' })
+utils.map('n', 'n', 'nzzzv', { desc = 'next result' })
+utils.map('n', 'N', 'Nzzzv', { desc = 'previous result' })
 
-  map(
-    'n',
-    '<leader><leader>',
-    '',
-    vim.tbl_extend('force', options, { desc = 'no walking on space' })
-  )
+utils.map(
+  'v',
+  '<',
+  '<gv',
+  vim.tbl_extend('force', utils.map_options, { desc = 'indent left' })
+)
+utils.map(
+  'v',
+  '>',
+  '>gv',
+  vim.tbl_extend('force', utils.map_options, { desc = 'indent right' })
+)
+utils.map(
+  'n',
+  '<A-z>',
+  ':set wrap!<Return>',
+  vim.tbl_extend('force', utils.map_options, { desc = 'toggle wrap' })
+)
 
-  map('n', '<C-d>', '<C-d>zz', { desc = 'scroll downwards' })
-  map('n', '<C-u>', '<C-u>zz', { desc = 'scroll upwards' })
-  map('n', 'n', 'nzzzv', { desc = 'next result' })
-  map('n', 'N', 'Nzzzv', { desc = 'previous result' })
+utils.map(
+  'v',
+  'J',
+  ":m '>+1<Return>gv=gv",
+  vim.tbl_extend('force', utils.map_options, { desc = 'move lines down' })
+)
+utils.map(
+  'v',
+  'K',
+  ":m '<-2<Return>gv=gv",
+  vim.tbl_extend('force', utils.map_options, { desc = 'move lines up' })
+)
+utils.map(
+  'n',
+  '<leader>j',
+  ':m .+1<Return>==',
+  vim.tbl_extend('force', utils.map_options, { desc = 'move line down' })
+)
+utils.map(
+  'n',
+  '<leader>k',
+  ':m .-2<Return>==',
+  vim.tbl_extend('force', utils.map_options, { desc = 'move line down' })
+)
 
-  map(
-    'v',
-    '<',
-    '<gv',
-    vim.tbl_extend('force', options, { desc = 'indent left' })
-  )
-  map(
-    'v',
-    '>',
-    '>gv',
-    vim.tbl_extend('force', options, { desc = 'indent right' })
-  )
-  map(
-    'n',
-    '<A-z>',
-    ':set wrap!<Return>',
-    vim.tbl_extend('force', options, { desc = 'toggle wrap' })
-  )
+utils.map('n', ';]', ':split<Return>', utils.map_options)
+utils.map('n', ';[', ':vsplit<Return>', utils.map_options)
+utils.map('n', '<leader>-', '<C-w>_<C-w><Bar>', utils.map_options)
+utils.map('n', '<leader>=', '<C-w>=', utils.map_options)
 
-  map(
-    'v',
-    'J',
-    ":m '>+1<Return>gv=gv",
-    vim.tbl_extend('force', options, { desc = 'move lines down' })
-  )
-  map(
-    'v',
-    'K',
-    ":m '<-2<Return>gv=gv",
-    vim.tbl_extend('force', options, { desc = 'move lines up' })
-  )
-  map(
-    'n',
-    '<leader>j',
-    ':m .+1<Return>==',
-    vim.tbl_extend('force', options, { desc = 'move line down' })
-  )
-  map(
-    'n',
-    '<leader>k',
-    ':m .-2<Return>==',
-    vim.tbl_extend('force', options, { desc = 'move line down' })
-  )
+utils.map('n', '<leader>t', ':tabnew<Return>', utils.map_options)
+utils.map('n', '>', ':tabnext<Return>', utils.map_options)
+utils.map('n', '<', ':tabprev<Return>', utils.map_options)
 
-  map('n', ';]', ':split<Return>', options)
-  map('n', ';[', ':vsplit<Return>', options)
-  map('n', '<leader>-', '<C-w>_<C-w><Bar>', options)
-  map('n', '<leader>=', '<C-w>=', options)
+utils.map('n', '<leader>Y', 'ggVG"+y', utils.map_options)
+utils.map({ 'n', 'v' }, '<leader>y', [["+y]], utils.map_options)
+utils.map({ 'n', 'v' }, '<leader>d', [["_d]], utils.map_options)
+utils.map('x', '<leader>p', [["_dP]], utils.map_options)
 
-  map('n', '<leader>t', ':tabnew<Return>', options)
-  map('n', '>', ':tabnext<Return>', options)
-  map('n', '<', ':tabprev<Return>', options)
-
-  map('n', '<leader>Y', 'ggVG"+y', options)
-  map({ 'n', 'v' }, '<leader>y', [["+y]], options)
-  map({ 'n', 'v' }, '<leader>d', [["_d]], options)
-  map('x', '<leader>p', [["_dP]], options)
-
-  map('n', ';o', 'o<Esc>^Da', options)
-  map('n', ';O', 'O<Esc>^Da', options)
-  map('n', ';p', ":let @+=expand('%:p')<Return>", options)
-end
-
-return M
+utils.map('n', ';o', 'o<Esc>^Da', utils.map_options)
+utils.map('n', ';O', 'O<Esc>^Da', utils.map_options)
+utils.map('n', ';p', ":let @+=expand('%:p')<Return>", utils.map_options)

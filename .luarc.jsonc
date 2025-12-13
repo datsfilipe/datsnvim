@@ -8,7 +8,7 @@
     "library": [
       "$VIMRUNTIME/lua",
       "${3rd}/luv/library",
-      "lua/plugins/nvim_lspconfig/server_config",
+      "lua/plugins/nvim_lspconfig/server_config"
     ]
   }
 }

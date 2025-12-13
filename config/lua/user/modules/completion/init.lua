@@ -3,22 +3,43 @@ local M = {}
 local docs_debounce_ms = 200
 local docs_timer = vim.loop.new_timer()
 
+vim.o.completeopt = 'menu,menuone,noselect,popup'
+
 local function get_docs(result)
   if not result then
     return nil
   end
+
+  local lines = {}
+
+  if result.detail and result.detail ~= '' then
+    table.insert(lines, '```')
+    table.insert(lines, result.detail)
+    table.insert(lines, '```')
+  end
+
   local docs = result.documentation
+  local doc_content = nil
   if type(docs) == 'table' and docs.value then
-    return docs.value
+    doc_content = docs.value
   elseif type(docs) == 'table' and docs.contents then
-    return vim.inspect(docs.contents)
+    doc_content = vim.inspect(docs.contents)
   elseif type(docs) == 'string' then
-    return docs
+    doc_content = docs
   end
-  if type(result.detail) == 'string' and result.detail ~= '' then
-    return result.detail
+
+  if doc_content and doc_content ~= '' then
+    if #lines > 0 then
+      table.insert(lines, '\n---\n')
+    end
+    table.insert(lines, doc_content)
   end
-  return nil
+
+  if #lines == 0 then
+    return nil
+  end
+
+  return table.concat(lines, '\n')
 end
 
 local function show_docs_popup(doc)
@@ -131,11 +152,10 @@ M.setup = function()
 
       setup_auto_completion(client, bufnr)
 
-      local comp_aug =
-        vim.api.nvim_create_augroup(
-          'LspCompDocs' .. bufnr .. '_' .. client.id,
-          { clear = true }
-        )
+      local comp_aug = vim.api.nvim_create_augroup(
+        'LspCompDocs' .. bufnr .. '_' .. client.id,
+        { clear = true }
+      )
 
       vim.api.nvim_create_autocmd('CompleteChanged', {
         group = comp_aug,
@@ -152,17 +172,13 @@ M.setup = function()
             return
           end
 
-          local completed_client_id = vim.tbl_get(
-            completed_item,
-            'user_data',
-            'nvim',
-            'lsp',
-            'client_id'
-          )
+          local completed_client_id =
+            vim.tbl_get(completed_item, 'user_data', 'nvim', 'lsp', 'client_id')
           if not completed_client_id or completed_client_id ~= client.id then
             return
           end
 
+          ---@diagnostic disable-next-line: undefined-field
           if completed_item.documentation then
             local doc = get_docs(completed_item)
             if doc then
@@ -193,18 +209,18 @@ M.setup = function()
                 item,
                 ---@diagnostic disable-next-line: param-type-mismatch
                 function(err, result)
-                if err then
-                  return
-                end
-                local doc = get_docs(result)
-                if doc then
-                  show_docs_popup(doc)
-                end
-              end,
-              ---@diagnostic disable-next-line: param-type-mismatch
-              bufnr
-            )
-          end)
+                  if err then
+                    return
+                  end
+                  local doc = get_docs(result)
+                  if doc then
+                    show_docs_popup(doc)
+                  end
+                end,
+                ---@diagnostic disable-next-line: param-type-mismatch
+                bufnr
+              )
+            end)
           )
         end,
       })

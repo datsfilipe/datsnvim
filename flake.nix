@@ -77,43 +77,72 @@
         '';
       };
 
-      mkNeovimBundle = {theme ? defaultConfig.theme}: let
+      mkNeovimBundle = {
+        theme ? defaultConfig.theme,
+        dev ? false,
+      }: let
         configRoot = "${configPlugin}/share/vim-plugins/datsnvim-config";
       in
         pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
           viAlias = true;
           vimAlias = true;
-          wrapperArgs = [
-            "--set"
-            "XDG_CONFIG_HOME"
-            "${configHome}"
-            "--set"
-            "DATSNVIM_THEME"
-            "${theme}"
-            "--suffix"
-            "LIBRARY_PATH"
-            ":"
-            "${pkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc pkgs.zlib]}"
-            "--suffix"
-            "PKG_CONFIG_PATH"
-            ":"
-            "${pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" [pkgs.stdenv.cc.cc pkgs.zlib]}"
-          ];
+          wrapperArgs =
+            [
+              "--set"
+              "DATSNVIM_THEME"
+              "${theme}"
+              "--suffix"
+              "LIBRARY_PATH"
+              ":"
+              "${pkgs.lib.makeLibraryPath [pkgs.stdenv.cc.cc pkgs.zlib]}"
+              "--suffix"
+              "PKG_CONFIG_PATH"
+              ":"
+              "${pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" [pkgs.stdenv.cc.cc pkgs.zlib]}"
+            ]
+            ++ (
+              if dev
+              then []
+              else [
+                "--set"
+                "XDG_CONFIG_HOME"
+                "${configHome}"
+              ]
+            );
 
-          luaRcContent = ''
-            vim.opt.runtimepath:prepend("${configHome}/nvim")
-            vim.opt.runtimepath:prepend("${configRoot}")
-            local init_path = "${configRoot}/init.lua"
-            local ok, err = pcall(dofile, init_path)
-            if not ok then
-              vim.api.nvim_err_writeln(err)
-            end
-          '';
+          luaRcContent =
+            if dev
+            then ''
+              vim.cmd("filetype plugin indent on")
+              vim.cmd("syntax on")
+
+              local cwd = vim.fn.getcwd()
+              local local_config = cwd .. "/config"
+
+              vim.opt.rtp:prepend(local_config)
+              vim.env.MYVIMRC = local_config .. "/init.lua"
+
+              local ok, err = pcall(dofile, vim.env.MYVIMRC)
+              if not ok then
+                vim.notify("Error loading local config: " .. err, vim.log.levels.ERROR)
+              end
+            ''
+            else ''
+              vim.opt.runtimepath:prepend("${configHome}/nvim")
+              vim.opt.runtimepath:prepend("${configRoot}")
+              local init_path = "${configRoot}/init.lua"
+              local ok, err = pcall(dofile, init_path)
+              if not ok then
+                vim.api.nvim_err_writeln(err)
+              end
+            '';
 
           plugins =
-            [
-              configPlugin
-            ]
+            (
+              if dev
+              then []
+              else [configPlugin]
+            )
             ++ (with pkgs; [
               vimPlugins.conform-nvim
               vimPlugins.nvim-lspconfig
@@ -173,6 +202,28 @@
         };
     in {
       packages.default = pkgs.lib.makeOverridable mkNeovimBundle defaultConfig;
+
+      devShells.default = pkgs.mkShell {
+        name = "datsnvim-dev";
+        packages = [
+          (mkNeovimBundle {dev = true;})
+          pkgs.lua-language-server
+          pkgs.stylua
+          pkgs.nil
+          pkgs.alejandra
+          pkgs.ripgrep
+          pkgs.fd
+        ];
+
+        shellHook = ''
+          export XDG_CONFIG_HOME="$PWD/.dev"
+          mkdir -p "$XDG_CONFIG_HOME"
+          ln -snf "$PWD/config" "$XDG_CONFIG_HOME/nvim"
+          mkdir -p "$XDG_CONFIG_HOME/git"
+          ln -sf "$HOME/.config/git/config" "$XDG_CONFIG_HOME/git/config"
+        '';
+      };
+
       homeManagerModules.default = hmModule;
       overlays.default = final: prev: {
         datsnvim = self.packages.${prev.system}.default;
