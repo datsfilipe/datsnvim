@@ -1,4 +1,3 @@
-local M = {}
 local icons = require 'user.icons'
 
 local scrollbar_blocks =
@@ -224,43 +223,43 @@ local function set_highlights()
   set_block('StatusModeOther', 'Normal')
 end
 
-function M.setup()
-  vim.o.statusline = '%!v:lua.statusline_render()'
-  set_highlights()
+return {
+  setup = function()
+    vim.o.statusline = '%!v:lua.statusline_render()'
+    set_highlights()
 
-  local aug =
-      vim.api.nvim_create_augroup('custom_statusline_simple', { clear = true })
+    local aug =
+        vim.api.nvim_create_augroup('custom_statusline_simple', { clear = true })
 
-  vim.api.nvim_create_autocmd('ColorScheme', {
-    group = aug,
-    callback = set_highlights,
-  })
+    vim.api.nvim_create_autocmd('ColorScheme', {
+      group = aug,
+      callback = set_highlights,
+    })
 
-  ---@diagnostic disable-next-line: param-type-mismatch
-  vim.api.nvim_create_autocmd({ 'DiagnosticChanged', 'ModeChanged' }, {
-    group = aug,
-    callback = function()
-      vim.cmd 'redrawstatus'
-    end,
-  })
+    ---@diagnostic disable-next-line: param-type-mismatch
+    vim.api.nvim_create_autocmd({ 'DiagnosticChanged', 'ModeChanged' }, {
+      group = aug,
+      callback = function()
+        vim.cmd 'redrawstatus'
+      end,
+    })
 
-  ---@diagnostic disable-next-line: param-type-mismatch
-  vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'BufWritePost' }, {
-    group = aug,
-    callback = function()
-      local handle = io.popen 'git branch --show-current 2> /dev/null'
-      if handle then
-        local result = handle:read '*a'
-        handle:close()
-        local branch = result:gsub('[\n\r]', '')
-        if branch ~= '' then
-          vim.b.git_branch = branch
-        else
-          vim.b.git_branch = nil
+    ---@diagnostic disable-next-line: param-type-mismatch
+    vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'BufWritePost' }, {
+      group = aug,
+      callback = function()
+        local handle = io.popen 'git branch --show-current 2> /dev/null'
+        if handle then
+          local result = handle:read '*a'
+          handle:close()
+          local branch = result:gsub('[\n\r]', '')
+          if branch ~= '' then
+            vim.b.git_branch = branch
+          else
+            vim.b.git_branch = nil
+          end
         end
-      end
-    end,
-  })
-end
-
-return M
+      end,
+    })
+  end,
+}

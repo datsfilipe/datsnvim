@@ -1,5 +1,3 @@
-local M = {}
-
 local function render()
   local t = {}
   local cur = vim.fn.tabpagenr()
@@ -16,9 +14,9 @@ local function render()
   return table.concat(t)
 end
 
-function M.setup()
-  _G.tabline_render = render
-  vim.o.tabline = '%!v:lua.tabline_render()'
-end
-
-return M
+return {
+  setup = function()
+    _G.tabline_render = render
+    vim.o.tabline = '%!v:lua.tabline_render()'
+  end,
+}
