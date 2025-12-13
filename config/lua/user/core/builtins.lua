@@ -25,6 +25,11 @@ local to_be_disabled = {
   'compiler',
   'bugreport',
   'ftplugin',
+  'python3_provider',
+  'ruby_provider',
+  'perl_provider',
+  'node_provider',
+  'netrw_banner'
 }
 
 for _, plugin in pairs(to_be_disabled) do

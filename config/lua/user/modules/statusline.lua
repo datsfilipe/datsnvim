@@ -2,7 +2,7 @@ local M = {}
 local icons = require 'user.icons'
 
 local scrollbar_blocks =
-  { ' ', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
+{ ' ', '▂', '▃', '▄', '▅', '▆', '▇', '█' }
 
 local function hl_str(group, text)
   return string.format('%%#%s#%s%%#StatusLine#', group, text)
@@ -85,7 +85,7 @@ local function diag_str()
   local total = vim.diagnostic
       and vim.diagnostic.count
       and vim.diagnostic.count(0)
-    or {}
+      or {}
   local err = total[vim.diagnostic.severity.ERROR] or 0
   local warn = total[vim.diagnostic.severity.WARN] or 0
   local hint = total[vim.diagnostic.severity.HINT] or 0
@@ -135,9 +135,9 @@ local function get_workspace_info()
 
   local diag = diag_str()
   local grouped_info = '['
-    .. hl_str('StatusFiletype', vim.bo.filetype:upper() or 'NONE')
-    .. ', '
-    .. branch
+      .. hl_str('StatusFiletype', vim.bo.filetype:upper() or 'NONE')
+      .. ', '
+      .. branch
   if diag ~= '' then
     grouped_info = grouped_info .. ', ' .. diag
   end
@@ -229,7 +229,7 @@ function M.setup()
   set_highlights()
 
   local aug =
-    vim.api.nvim_create_augroup('custom_statusline_simple', { clear = true })
+      vim.api.nvim_create_augroup('custom_statusline_simple', { clear = true })
 
   vim.api.nvim_create_autocmd('ColorScheme', {
     group = aug,

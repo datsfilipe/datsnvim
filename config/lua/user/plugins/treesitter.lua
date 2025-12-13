@@ -1,61 +1,33 @@
-local M = {}
+return {
+  event = { 'BufReadPre', 'BufNewFile' },
+  setup = function()
+    local parser_dir = vim.fn.stdpath 'data' .. '/treesitter'
+    vim.opt.runtimepath:prepend(parser_dir)
 
-function M.setup()
-  if M._loaded then
-    return
-  end
-  M._loaded = true
+    local ok, ts = pcall(require, 'nvim-treesitter.configs')
+    if not ok then
+      vim.notify('nvim-treesitter not available', vim.log.levels.WARN)
+      return
+    end
 
-  local parser_dir = vim.fn.stdpath 'data' .. '/treesitter'
-  vim.opt.runtimepath:prepend(parser_dir)
-
-  ---@diagnostic disable-next-line: param-type-mismatch
-  pcall(vim.cmd, 'packadd nvim-treesitter')
-
-  local ok, ts = pcall(require, 'nvim-treesitter.configs')
-  if not ok then
-    vim.notify(
-      'nvim-treesitter not available: ' .. tostring(ts),
-      vim.log.levels.WARN
-    )
-    return
-  end
-
-  ts.setup {
-    parser_install_dir = parser_dir,
-    ensure_installed = {
-      'bash',
-      'fish',
-      'gitcommit',
-      'graphql',
-      'html',
-      'json',
-      'json5',
-      -- file downloaded was not gzip; ts couldn't install it, so commented out for now
-      -- 'jsonc',
-      'lua',
-      'markdown',
-      'markdown_inline',
-      'regex',
-      'scss',
-      'toml',
-      'tsx',
-      'javascript',
-      'typescript',
-      'yaml',
-    },
-    highlight = { enable = true },
-    indent = { enable = true },
-    incremental_selection = {
-      enable = true,
-      keymaps = {
-        init_selection = '<cr>',
-        node_incremental = '<cr>',
-        scope_incremental = false,
-        node_decremental = '<bs>',
+    ts.setup {
+      parser_install_dir = parser_dir,
+      ensure_installed = {
+        'bash', 'fish', 'gitcommit', 'graphql', 'html', 'json', 'json5',
+        'lua', 'markdown', 'markdown_inline', 'regex', 'scss', 'toml',
+        'tsx', 'javascript', 'typescript', 'yaml',
       },
-    },
-  }
-end
-
-return M
+      highlight = { enable = true },
+      indent = { enable = true },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = '<cr>',
+          node_incremental = '<cr>',
+          scope_incremental = false,
+          node_decremental = '<bs>',
+        },
+      },
+    }
+  end,
+}
