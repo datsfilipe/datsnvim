@@ -82,7 +82,10 @@ return {
     require('fzf-lua').setup {
       { 'ivy', 'borderless', 'hide', 'max-perf' },
       previewers = {
-        meow = { cmd = 'meow', args = nil },
+        cat = {
+          cmd = 'meow',
+          args = '-p no',
+        },
       },
       fzf_colors = {
         bg = { 'bg', 'Normal' },
@@ -109,6 +112,7 @@ return {
         height = 0.7,
         width = 0.55,
         preview = {
+          default = 'cat',
           hidden = true,
           scrollbar = false,
           layout = 'vertical',
