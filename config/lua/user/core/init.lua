@@ -1,18 +1,13 @@
 local M = {}
 
-function M.setup()
-  require('user.core.builtins').setup()
-  require('user.core.options').setup()
-  require('user.core.autocmds').setup()
-  require('user.core.keymaps').setup()
-  require('user.core.folding').setup()
+function M.init()
+  require 'user.core.builtins'
+  require 'user.core.options'
+  require 'user.core.autocmds'
+  require 'user.core.keymaps'
+  require 'user.core.folding'
 
-  local theme = require 'user.core.theme'
-  theme.setup()
-
-  require('user.loader').setup {
-    apply_transparency = theme.apply_transparency,
-  }
+  require('user.loader').setup()
 end
 
 return M

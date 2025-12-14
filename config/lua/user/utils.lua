@@ -1,15 +1,15 @@
 local M = {}
 
+M.map_options = { noremap = true, silent = true }
 M.static_color = '#343434'
 
 M.is_bin_available = function(bin)
-  local path = vim.fn.executable(bin)
-  return path == 1
+  return vim.fn.executable(bin) == 1
 end
 
-M.is_file_available = function(file)
-  local path = vim.fn.findfile(file, '.;')
-  return path ~= ''
+M.is_file_available = function(filename)
+  local found = vim.fn.findfile(filename, '.;')
+  return found ~= ''
 end
 
 M.darken_color = function(color_int, factor)
@@ -25,6 +25,15 @@ M.darken_color = function(color_int, factor)
   b = math.max(0, math.floor(b * (1 - factor)))
 
   return string.format('#%02x%02x%02x', r, g, b)
+end
+
+M.map = function(mode, lhs, rhs, opts)
+  vim.keymap.set(
+    mode,
+    lhs,
+    rhs,
+    vim.tbl_extend('force', { silent = true }, opts or {})
+  )
 end
 
 return M

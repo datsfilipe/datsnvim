@@ -1,5 +1,3 @@
-local M = {}
-
 local function highlight_qf(win)
   if not win or win == 0 then
     return
@@ -25,41 +23,49 @@ local function toggle_qf()
   vim.cmd 'wincmd p'
 end
 
-function M.setup()
-  vim.keymap.set('n', ';e', toggle_qf, { desc = 'quickfix list: toggle' })
-  vim.keymap.set(
+local keys = {
+  { 'n', ';e', toggle_qf, 'quickfix list: toggle' },
+  {
     'n',
     '<C-p>',
     '<cmd>cprev<CR>zz<cmd>lua print("qflist: prev")<CR>',
-    { desc = 'quickfix list: prev' }
-  )
-  vim.keymap.set(
+    'quickfix list: prev',
+  },
+  {
     'n',
     '<C-n>',
     '<cmd>cnext<CR>zz<cmd>lua print("qflist: next")<CR>',
-    { desc = 'quickfix list: next' }
-  )
-  vim.keymap.set(
+    'quickfix list: next',
+  },
+  {
     'n',
     ';E',
     '<cmd>call setqflist([], "r")<CR><cmd>ccl<CR><cmd>lua print("qflist: clear")<CR>',
-    { desc = 'quickfix list: clear' }
-  )
+    'quickfix list: clear',
+  },
+}
 
-  for i = 1, 9 do
-    vim.keymap.set('n', ';' .. i, function()
+for i = 1, 9 do
+  table.insert(keys, {
+    'n',
+    ';' .. i,
+    function()
       vim.cmd('cc ' .. i)
       print('qflist: selected ' .. i)
-    end, { desc = 'quickfix list: select ' .. i })
-  end
-
-  vim.api.nvim_create_autocmd('FileType', {
-    pattern = 'qf',
-    callback = function(args)
-      highlight_qf(vim.api.nvim_get_current_win())
-      vim.bo[args.buf].buflisted = false
     end,
+    'quickfix list: select ' .. i,
   })
 end
 
-return M
+return {
+  keys = keys,
+  setup = function()
+    vim.api.nvim_create_autocmd('FileType', {
+      pattern = 'qf',
+      callback = function(args)
+        highlight_qf(vim.api.nvim_get_current_win())
+        vim.bo[args.buf].buflisted = false
+      end,
+    })
+  end,
+}

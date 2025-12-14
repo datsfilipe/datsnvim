@@ -1,38 +1,40 @@
-local M = {}
+local to_be_disabled = {
+  '2html_plugin',
+  'getscript',
+  'getscriptPlugin',
+  'gzip',
+  'logipat',
+  'netrw',
+  'netrwPlugin',
+  'netrwSettings',
+  'netrwFileHandlers',
+  'matchit',
+  'tar',
+  'tarPlugin',
+  'rrhelper',
+  'spellfile_plugin',
+  'vimball',
+  'vimballPlugin',
+  'zip',
+  'zipPlugin',
+  'tutor_mode_plugin',
+  'rplugin',
+  'syntax_completion',
+  'synmenu',
+  'optwin',
+  'compiler',
+  'bugreport',
+  'ftplugin',
+  'python3_provider',
+  'ruby_provider',
+  'perl_provider',
+  'node_provider',
+  'netrw_banner',
+}
 
-function M.setup()
-  local to_be_disabled = {
-    '2html_plugin',
-    'getscript',
-    'getscriptPlugin',
-    'gzip',
-    'logipat',
-    'netrw',
-    'netrwPlugin',
-    'netrwSettings',
-    'netrwFileHandlers',
-    'matchit',
-    'tar',
-    'tarPlugin',
-    'rrhelper',
-    'spellfile_plugin',
-    'vimball',
-    'vimballPlugin',
-    'zip',
-    'zipPlugin',
-    'tutor_mode_plugin',
-    'rplugin',
-    'syntax_completion',
-    'synmenu',
-    'optwin',
-    'compiler',
-    'bugreport',
-    'ftplugin',
-  }
-
-  for _, plugin in pairs(to_be_disabled) do
-    vim.g['loaded_' .. plugin] = 1
-  end
+for _, plugin in pairs(to_be_disabled) do
+  vim.g['loaded_' .. plugin] = 1
 end
 
-return M
+vim.cmd.packadd 'nvim.difftool'
+vim.cmd.packadd 'nvim.undotree'

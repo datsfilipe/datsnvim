@@ -1,7 +1,5 @@
 local utils = require 'user.utils'
 
-local M = {}
-
 local function markdown_preview()
   if not utils.is_bin_available 'gh' then
     print 'gh is not available'
@@ -32,8 +30,8 @@ local function markdown_preview()
   })
 end
 
-function M.setup()
-  vim.api.nvim_create_user_command('MarkdownPreview', markdown_preview, {})
-end
-
-return M
+return {
+  commands = {
+    { 'MarkdownPreview', markdown_preview, {} },
+  },
+}

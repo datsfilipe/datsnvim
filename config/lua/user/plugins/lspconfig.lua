@@ -2,8 +2,6 @@ local utils = require 'user.utils'
 local diagnostic_icons = require('user.icons').diagnostics
 local methods = vim.lsp.protocol.Methods
 
-local M = {}
-
 local servers = {
   { name = 'lua_ls', bin = 'lua-language-server' },
   {
@@ -66,6 +64,10 @@ local servers = {
     name = 'gopls',
     bin = 'gopls',
     config = { filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' } },
+  },
+  {
+    name = 'nil_ls',
+    bin = 'nil',
   },
 }
 
@@ -219,60 +221,56 @@ local function wrap_handlers()
   end
 end
 
-function M.setup()
-  if M._loaded then
-    return
-  end
-  M._loaded = true
-
-  local ok, lspconfig = pcall(require, 'lspconfig')
-  if not ok or not lspconfig then
-    return
-  end
-
-  configure_diagnostics()
-  wrap_handlers()
-
-  vim.api.nvim_create_autocmd('LspAttach', {
-    desc = 'lsp keymaps',
-    callback = function(args)
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-
-      if not client then
-        return
-      end
-
-      on_attach(client, args.buf)
-    end,
-  })
-
-  local to_enable = {}
-  for _, srv in ipairs(servers) do
-    if utils.is_bin_available(srv.bin) then
-      local cfg = vim.tbl_deep_extend('force', {}, srv.config or {})
-
-      if srv.name == 'ts_ls' then
-        cfg.capabilities = cfg.capabilities or {}
-        cfg.capabilities.documentFormattingProvider = false
-        cfg.capabilities.documentRangeFormattingProvider = false
-      end
-
-      if srv.cmd then
-        cfg.cmd = srv.cmd
-      elseif not cfg.cmd and srv.bin:match '^vscode%-' then
-        cfg.cmd = { srv.bin, '--stdio' }
-      end
-
-      local existing = vim.lsp.config[srv.name] or {}
-      cfg = vim.tbl_deep_extend('force', existing, cfg)
-      vim.lsp.config[srv.name] = cfg
-      table.insert(to_enable, srv.name)
+return {
+  event = { 'BufReadPre', 'BufNewFile' },
+  setup = function()
+    local ok, lspconfig = pcall(require, 'lspconfig')
+    if not ok or not lspconfig then
+      return
     end
-  end
 
-  if #to_enable > 0 then
-    vim.lsp.enable(to_enable)
-  end
-end
+    configure_diagnostics()
+    wrap_handlers()
 
-return M
+    vim.api.nvim_create_autocmd('LspAttach', {
+      desc = 'lsp keymaps',
+      callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+        if not client then
+          return
+        end
+
+        on_attach(client, args.buf)
+      end,
+    })
+
+    local to_enable = {}
+    for _, srv in ipairs(servers) do
+      if utils.is_bin_available(srv.bin) then
+        local cfg = vim.tbl_deep_extend('force', {}, srv.config or {})
+
+        if srv.name == 'ts_ls' then
+          cfg.capabilities = cfg.capabilities or {}
+          cfg.capabilities.documentFormattingProvider = false
+          cfg.capabilities.documentRangeFormattingProvider = false
+        end
+
+        if srv.cmd then
+          cfg.cmd = srv.cmd
+        elseif not cfg.cmd and srv.bin:match '^vscode%-' then
+          cfg.cmd = { srv.bin, '--stdio' }
+        end
+
+        local existing = vim.lsp.config[srv.name] or {}
+        cfg = vim.tbl_deep_extend('force', existing, cfg)
+        vim.lsp.config[srv.name] = cfg
+        table.insert(to_enable, srv.name)
+      end
+    end
+
+    if #to_enable > 0 then
+      vim.lsp.enable(to_enable)
+    end
+  end,
+}
