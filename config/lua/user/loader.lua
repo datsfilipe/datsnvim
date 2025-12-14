@@ -107,6 +107,7 @@ function M.setup(opts)
     { name = 'oil', module = 'user.plugins.oil' },
     { name = 'tools', module = 'user.modules.tools' },
     { name = 'marks', module = 'user.modules.marks' },
+    { name = 'ghost', module = 'user.modules.ghost' },
   }
 
   registry = {}
