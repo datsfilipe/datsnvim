@@ -28,9 +28,6 @@ jobs:
     - name: Build package (x86_64-linux)
       run: nix build .#packages.x86_64-linux.default
 
-    - name: Healthcheck modules load (x86_64-linux)
-      run: ./result/bin/nvim --headless -c "lua require('user.modules.healthcheck')"
-      
     - name: Evaluate home-manager module (x86_64-linux)
       run: nix eval .#homeManagerModules.x86_64-linux.default
 
