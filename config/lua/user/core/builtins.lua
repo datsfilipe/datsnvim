@@ -1,3 +1,14 @@
+local providers = {
+  'python3_provider',
+  'ruby_provider',
+  'perl_provider',
+  'node_provider',
+}
+
+for i = 1, #providers do
+  vim.g['loaded_' .. providers[i]] = 0
+end
+
 local to_be_disabled = {
   '2html_plugin',
   'getscript',
@@ -25,16 +36,13 @@ local to_be_disabled = {
   'compiler',
   'bugreport',
   'ftplugin',
-  'python3_provider',
-  'ruby_provider',
-  'perl_provider',
-  'node_provider',
 }
 
-for _, plugin in ipairs(to_be_disabled) do
-  vim.g['loaded_' .. plugin] = 1
+for i = 1, #to_be_disabled do
+  vim.g['loaded_' .. to_be_disabled[i]] = 1
 end
-vim.g.loaded_netrw_banner = 1
+
+vim.g.netrw_banner = 0
 
 vim.cmd.packadd 'nvim.difftool'
 vim.cmd.packadd 'nvim.undotree'
