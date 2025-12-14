@@ -49,12 +49,12 @@ return {
     { 'n', ';f', '<cmd>FzfLua files<cr>', 'files' },
     { 'n', ';F', '<cmd>FzfLua oldfiles<cr>', 'opened files' },
     { 'n', ';r', '<cmd>FzfLua live_grep<cr>', 'grep' },
-    { 'n', ';s', '<cmd>FzfLua resume<cr>', 'resume fzf' },
     { 'n', 'z=', '<cmd>FzfLua spell_suggest<cr>', 'spell suggestions' },
   },
   setup = function()
     local actions = require 'fzf-lua.actions'
 
+    ---@diagnostic disable-next-line duplicate-set-field
     vim.ui.select = function(items, opts, on_choice)
       local ui_select = require 'fzf-lua.providers.ui_select'
       if not ui_select.is_registered() then
