@@ -1,3 +1,6 @@
+local insert = table.insert
+local concat = table.concat
+
 return {
   event = 'InsertEnter',
   setup = function()
@@ -9,60 +12,55 @@ return {
     local timer = nil
     local suggestion = ''
     local ns_id = vim.api.nvim_create_namespace 'ai_ghost_text'
-    local output_buffer = {}
 
-    local function get_context()
-      local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-      row = row - 1
-      local total_lines = vim.api.nvim_buf_line_count(0)
-      local start_row = math.max(0, row - 60)
-      local end_row = math.min(total_lines, row + 60)
-
-      local prefix_lines =
-        vim.api.nvim_buf_get_lines(0, start_row, row + 1, false)
-      if #prefix_lines > 0 then
-        prefix_lines[#prefix_lines] =
-          string.sub(prefix_lines[#prefix_lines], 1, col)
-      end
-
-      local suffix_lines = vim.api.nvim_buf_get_lines(0, row, end_row, false)
-      if #suffix_lines > 0 then
-        suffix_lines[1] = string.sub(suffix_lines[1], col + 1)
-      end
-
-      return table.concat(prefix_lines, '\n'), table.concat(suffix_lines, '\n')
-    end
-
-    local function render_ghost(text)
-      if vim.fn.mode() ~= 'i' then
-        vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
-        suggestion = ''
-        return
-      end
-
+    local function clear()
       vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
       suggestion = ''
+    end
 
-      if not text or text == '' then
+    local function get_context()
+      local cursor = vim.api.nvim_win_get_cursor(0)
+      local row, col = cursor[1] - 1, cursor[2]
+      local total_lines = vim.api.nvim_buf_line_count(0)
+
+      local prefix_lines =
+        vim.api.nvim_buf_get_lines(0, math.max(0, row - 60), row + 1, false)
+      if #prefix_lines > 0 then
+        prefix_lines[#prefix_lines] = prefix_lines[#prefix_lines]:sub(1, col)
+      end
+
+      local suffix_lines = vim.api.nvim_buf_get_lines(
+        0,
+        row,
+        math.min(total_lines, row + 60),
+        false
+      )
+      if #suffix_lines > 0 then
+        suffix_lines[1] = suffix_lines[1]:sub(col + 1)
+      end
+
+      return concat(prefix_lines, '\n'), concat(suffix_lines, '\n')
+    end
+
+    local function render_ghost(text, target_row, target_col)
+      if vim.api.nvim_get_mode().mode ~= 'i' then
         return
       end
 
-      local clean = text:gsub('```', ''):gsub('<\\|file_sep\\|>', '')
-      local first_line = vim.split(clean, '\n')[1]
-
+      local clean = text:gsub('```', ''):gsub('<|.-|>', '')
+      local first_line = clean:match '[^\n]+'
       if not first_line or first_line == '' then
         return
       end
 
       suggestion = first_line
-      local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-      local line_len = #vim.api.nvim_get_current_line()
 
-      if col > line_len then
+      local cur = vim.api.nvim_win_get_cursor(0)
+      if cur[1] - 1 ~= target_row or cur[2] ~= target_col then
         return
       end
 
-      vim.api.nvim_buf_set_extmark(0, ns_id, row - 1, col, {
+      vim.api.nvim_buf_set_extmark(0, ns_id, target_row, target_col, {
         virt_text = { { first_line, 'Comment' } },
         virt_text_pos = 'overlay',
         hl_mode = 'combine',
@@ -71,13 +69,16 @@ return {
 
     local function fetch_completion()
       local prefix, suffix = get_context()
+      local cursor = vim.api.nvim_win_get_cursor(0)
+      local row, col = cursor[1] - 1, cursor[2]
+
       local prompt = '<|fim_prefix|>'
         .. prefix
         .. '<|fim_suffix|>'
         .. suffix
         .. '<|fim_middle|>'
 
-      local payload = vim.fn.json_encode {
+      local payload = vim.json.encode {
         model = MODEL,
         prompt = prompt,
         raw = true,
@@ -85,7 +86,6 @@ return {
         options = {
           num_predict = 50,
           temperature = 0.1,
-          top_p = 0.9,
           stop = { '<|file_separator|>', '\n' },
         },
       }
@@ -93,63 +93,53 @@ return {
       if job then
         vim.fn.jobstop(job)
       end
-      output_buffer = {}
+      local output = {}
 
       job = vim.fn.jobstart(
-        { 'curl', '-s', '-X', 'POST', API_URL, '-d', '@-' },
+        { 'curl', '-s', '-X', 'POST', API_URL, '-d', payload },
         {
-          on_stdout = function(_, data, _)
+          on_stdout = function(_, data)
             for _, chunk in ipairs(data) do
-              table.insert(output_buffer, chunk)
+              insert(output, chunk)
             end
           end,
-          on_exit = function(_, code, _)
+          on_exit = function(_, code)
             if code ~= 0 then
               return
             end
-            local raw = table.concat(output_buffer, '')
-            if raw == '' then
-              return
-            end
-
-            local success, decoded = pcall(vim.json.decode, raw)
-            if success and decoded.response then
+            local raw = concat(output, '')
+            local ok, decoded = pcall(vim.json.decode, raw)
+            if ok and decoded.response then
               vim.schedule(function()
-                render_ghost(decoded.response)
+                render_ghost(decoded.response, row, col)
               end)
             end
           end,
-          stdin = 'pipe',
         }
       )
-
-      vim.fn.chansend(job, payload)
-      vim.fn.chanclose(job, 'stdin')
     end
 
     vim.api.nvim_create_autocmd('TextChangedI', {
       callback = function()
+        if timer then
+          timer:stop()
+        end
         vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
         suggestion = ''
 
-        if timer then
-          vim.loop.timer_stop(timer)
-        end
-        timer = vim.loop.new_timer()
-        ---@diagnostic disable-next-line: need-check-nil
+        timer = vim.uv.new_timer()
         timer:start(DEBOUNCE_MS, 0, vim.schedule_wrap(fetch_completion))
       end,
     })
 
     vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufLeave' }, {
       callback = function()
-        vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
-        suggestion = ''
+        clear()
         if job then
           vim.fn.jobstop(job)
         end
         if timer then
-          vim.loop.timer_stop(timer)
+          timer:stop()
         end
       end,
     })
@@ -160,13 +150,11 @@ return {
       end
       local row, col = unpack(vim.api.nvim_win_get_cursor(0))
       local line = vim.api.nvim_get_current_line()
-      local new_line = string.sub(line, 1, col)
-        .. suggestion
-        .. string.sub(line, col + 1)
+
+      local new_line = line:sub(1, col) .. suggestion .. line:sub(col + 1)
       vim.api.nvim_set_current_line(new_line)
       vim.api.nvim_win_set_cursor(0, { row, col + #suggestion })
-      vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
-      suggestion = ''
+      clear()
     end, { silent = true })
   end,
 }

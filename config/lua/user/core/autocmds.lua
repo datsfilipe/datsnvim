@@ -1,4 +1,7 @@
 vim.api.nvim_create_autocmd('InsertLeave', {
-  pattern = '*',
-  command = 'set nopaste',
+  callback = function()
+    if vim.bo.buftype == '' then
+      vim.opt.paste = false
+    end
+  end,
 })

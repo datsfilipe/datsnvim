@@ -36,11 +36,7 @@ local servers = {
     bin = 'vscode-css-language-server',
     config = { init_options = { provideFormatter = false } },
   },
-  {
-    name = 'biome',
-    bin = 'biome',
-    cmd = { 'biome', 'lsp-proxy' },
-  },
+  { name = 'biome', bin = 'biome', cmd = { 'biome', 'lsp-proxy' } },
   {
     name = 'bashls',
     bin = 'bash-language-server',
@@ -51,10 +47,7 @@ local servers = {
     bin = 'vscode-json-language-server',
     config = { init_options = { provideFormatter = true } },
   },
-  {
-    name = 'solidity_ls',
-    bin = 'vscode-solidity-server',
-  },
+  { name = 'solidity_ls', bin = 'vscode-solidity-server' },
   {
     name = 'rust_analyzer',
     bin = 'rust-analyzer',
@@ -65,25 +58,16 @@ local servers = {
     bin = 'gopls',
     config = { filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' } },
   },
-  {
-    name = 'nil_ls',
-    bin = 'nil',
-  },
+  { name = 'nil_ls', bin = 'nil' },
 }
 
 local function on_attach(client, bufnr)
-  if client.name == 'ts_ls' then
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-  end
-
-  local function keymap(lhs, rhs, desc, mode, opts)
-    mode = mode or 'n'
+  local function keymap(lhs, rhs, desc)
     vim.keymap.set(
-      mode,
+      'n',
       lhs,
       rhs,
-      vim.tbl_extend('force', { buffer = bufnr, desc = desc }, opts or {})
+      { buffer = bufnr, desc = desc, noremap = true, silent = true }
     )
   end
 
@@ -93,23 +77,22 @@ local function on_attach(client, bufnr)
   if client:supports_method(methods.textDocument_definition) then
     keymap('gd', vim.lsp.buf.definition, 'peek definition')
   end
-
   if client:supports_method(methods.textDocument_typeDefinition) then
-    keymap('gt', vim.lsp.buf.definition, 'peek type definition')
+    keymap('gt', vim.lsp.buf.type_definition, 'peek type definition')
   end
 
   if client:supports_method(methods.textDocument_documentHighlight) then
-    local under_cursor_highlights_group =
-      vim.api.nvim_create_augroup('cursor_highlights', { clear = false })
+    local group = vim.api.nvim_create_augroup(
+      'cursor_highlights_' .. bufnr,
+      { clear = true }
+    )
     vim.api.nvim_create_autocmd({ 'CursorHold', 'InsertLeave' }, {
-      group = under_cursor_highlights_group,
-      desc = 'highlight references under the cursor',
+      group = group,
       buffer = bufnr,
       callback = vim.lsp.buf.document_highlight,
     })
     vim.api.nvim_create_autocmd({ 'CursorMoved', 'InsertEnter', 'BufLeave' }, {
-      group = under_cursor_highlights_group,
-      desc = 'clear highlight references',
+      group = group,
       buffer = bufnr,
       callback = vim.lsp.buf.clear_references,
     })
@@ -127,24 +110,16 @@ local function configure_diagnostics()
       prefix = '',
       spacing = 2,
       format = function(diagnostic)
-        local special_sources = {
-          ['Lua Diagnostics.'] = 'lua',
-          ['Lua Syntax Check.'] = 'lua',
-        }
-
-        local message =
+        local icon =
           diagnostic_icons[vim.diagnostic.severity[diagnostic.severity]]
-        if diagnostic.source then
-          message = string.format(
-            '%s %s',
-            message,
-            special_sources[diagnostic.source] or diagnostic.source
-          )
+        local source = diagnostic.source or ''
+        if source == 'Lua Diagnostics.' or source == 'Lua Syntax Check.' then
+          source = 'lua'
         end
+        local message = string.format('%s %s', icon, source)
         if diagnostic.code then
           message = string.format('%s[%s]', message, diagnostic.code)
         end
-
         return message .. ' '
       end,
     },
@@ -153,60 +128,39 @@ local function configure_diagnostics()
       source = 'if_many',
       prefix = function(diag)
         local level = vim.diagnostic.severity[diag.severity]
-        local prefix = string.format(' %s ', diagnostic_icons[level])
-        return prefix, 'Diagnostic' .. level:gsub('^%l', string.upper)
+        return string.format(' %s ', diagnostic_icons[level]),
+          'Diagnostic' .. level:gsub('^%l', string.upper)
       end,
     },
-
     signs = false,
   }
 
-  local show_handler = vim.diagnostic.handlers.virtual_text.show
-  assert(show_handler)
-  local hide_handler = vim.diagnostic.handlers.virtual_text.hide
-  vim.diagnostic.handlers.virtual_text = {
-    show = function(ns, bufnr, diagnostics, opts)
-      table.sort(diagnostics, function(diag1, diag2)
-        return diag1.severity > diag2.severity
-      end)
-      return show_handler(ns, bufnr, diagnostics, opts)
-    end,
-    hide = hide_handler,
-  }
+  local vt_handler = vim.diagnostic.handlers.virtual_text
+  local show_handler = vt_handler.show
+  vt_handler.show = function(ns, bufnr, diagnostics, opts)
+    table.sort(diagnostics, function(a, b)
+      return a.severity > b.severity
+    end)
+    show_handler(ns, bufnr, diagnostics, opts)
+  end
 end
 
 local function wrap_handlers()
-  local hover = vim.lsp.buf.hover
-  ---@diagnostic disable-next-line: duplicate-set-field
   vim.lsp.buf.hover = function()
-    return hover {
+    return vim.lsp.handlers.hover(nil, nil, nil, {
       border = 'none',
       max_height = math.floor(vim.o.lines * 0.5),
       max_width = math.floor(vim.o.columns * 0.4),
-    }
+    })
   end
 
-  local signature_help = vim.lsp.buf.signature_help
-  ---@diagnostic disable-next-line: duplicate-set-field
   vim.lsp.buf.signature_help = function()
-    return signature_help {
+    return vim.lsp.handlers.signature_help(nil, nil, nil, {
       border = 'none',
       focusable = false,
       max_height = math.floor(vim.o.lines * 0.5),
       max_width = math.floor(vim.o.columns * 0.4),
-    }
-  end
-
-  ---@diagnostic disable-next-line: duplicate-set-field
-  vim.lsp.util.stylize_markdown = function(bufnr, contents, opts)
-    contents = vim.lsp.util._normalize_markdown(contents, {
-      width = vim.lsp.util._make_floating_popup_size(contents, opts),
     })
-    vim.bo[bufnr].filetype = 'markdown'
-    vim.treesitter.start(bufnr)
-    vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, contents)
-
-    return contents
   end
 
   local register_capability =
@@ -216,7 +170,6 @@ local function wrap_handlers()
     if client then
       on_attach(client, vim.api.nvim_get_current_buf())
     end
-
     return register_capability(err, res, ctx)
   end
 end
@@ -225,7 +178,7 @@ return {
   event = { 'BufReadPre', 'BufNewFile' },
   setup = function()
     local ok, lspconfig = pcall(require, 'lspconfig')
-    if not ok or not lspconfig then
+    if not ok then
       return
     end
 
@@ -233,37 +186,30 @@ return {
     wrap_handlers()
 
     vim.api.nvim_create_autocmd('LspAttach', {
-      desc = 'lsp keymaps',
       callback = function(args)
         local client = vim.lsp.get_client_by_id(args.data.client_id)
-
-        if not client then
-          return
+        if client then
+          on_attach(client, args.buf)
         end
-
-        on_attach(client, args.buf)
       end,
     })
 
     local to_enable = {}
     for _, srv in ipairs(servers) do
       if utils.is_bin_available(srv.bin) then
-        local cfg = vim.tbl_deep_extend('force', {}, srv.config or {})
-
+        local cfg = srv.config or {}
         if srv.name == 'ts_ls' then
-          cfg.capabilities = cfg.capabilities or {}
-          cfg.capabilities.documentFormattingProvider = false
-          cfg.capabilities.documentRangeFormattingProvider = false
+          cfg.capabilities = vim.tbl_extend('force', cfg.capabilities or {}, {
+            documentFormattingProvider = false,
+            documentRangeFormattingProvider = false,
+          })
         end
-
         if srv.cmd then
           cfg.cmd = srv.cmd
-        elseif not cfg.cmd and srv.bin:match '^vscode%-' then
+        elseif srv.bin:match '^vscode%-' then
           cfg.cmd = { srv.bin, '--stdio' }
         end
 
-        local existing = vim.lsp.config[srv.name] or {}
-        cfg = vim.tbl_deep_extend('force', existing, cfg)
         vim.lsp.config[srv.name] = cfg
         table.insert(to_enable, srv.name)
       end

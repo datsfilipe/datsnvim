@@ -3,8 +3,12 @@ local M = {}
 M.map_options = { noremap = true, silent = true }
 M.static_color = '#343434'
 
+local bin_cache = {}
 M.is_bin_available = function(bin)
-  return vim.fn.executable(bin) == 1
+  if bin_cache[bin] == nil then
+    bin_cache[bin] = vim.fn.executable(bin) == 1
+  end
+  return bin_cache[bin]
 end
 
 M.is_file_available = function(filename)
