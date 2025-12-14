@@ -13,7 +13,10 @@ return {
             preview = { vertical = 'up:60%' },
             treesitter = {
               enabled = false,
-              fzf_colors = { ['fg'] = { 'fg', 'CursorLine' }, ['bg'] = { 'bg', 'Normal' } },
+              fzf_colors = {
+                ['fg'] = { 'fg', 'CursorLine' },
+                ['bg'] = { 'bg', 'Normal' },
+              },
             },
           },
           fzf_opts = { ['--layout'] = 'reverse' },
@@ -27,7 +30,7 @@ return {
       ';b',
       function()
         local opts = {
-           winopts = {
+          winopts = {
             height = 0.6,
             width = 0.5,
             preview = { vertical = 'up:60%' },
@@ -51,13 +54,14 @@ return {
   },
   setup = function()
     local actions = require 'fzf-lua.actions'
-    
+
     vim.ui.select = function(items, opts, on_choice)
       local ui_select = require 'fzf-lua.providers.ui_select'
       if not ui_select.is_registered() then
         ui_select.register(function(ui_opts)
           if ui_opts.kind == 'color_presentation' then
-            ui_opts.winopts = { relative = 'cursor', height = 0.35, width = 0.3 }
+            ui_opts.winopts =
+              { relative = 'cursor', height = 0.35, width = 0.3 }
           else
             ui_opts.winopts = { height = 0.5, width = 0.4 }
           end
@@ -90,7 +94,7 @@ return {
       fzf_opts = {
         ['--info'] = 'default',
         ['--layout'] = 'reverse-list',
-        ['--border'] = "none",
+        ['--border'] = 'none',
       },
       keymap = {
         builtin = {
@@ -117,7 +121,8 @@ return {
         rg_opts = '--column --line-number --no-heading --color=always --smart-case --max-columns=4096 -g "!.git" -e',
         fzf_opts = { ['--ansi'] = true },
         rg_glob_fn = function(query, opts)
-          local regex, flags = query:match(string.format('^(.*)%s(.*)$', opts.glob_separator))
+          local regex, flags =
+            query:match(string.format('^(.*)%s(.*)$', opts.glob_separator))
           return (regex or query), flags
         end,
       },

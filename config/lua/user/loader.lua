@@ -88,15 +88,21 @@ local function register_event(name, mod)
   })
 end
 
-function M.setup(opts)
+function M.setup()
   registry_list = {
-    { name = 'colorschemes', module = 'user.plugins.colorschemes' },
+    -- modules
+    { name = 'tools', module = 'user.modules.tools' },
+    { name = 'marks', module = 'user.modules.marks' },
+    { name = 'ghost', module = 'user.modules.ghost' },
     { name = 'statusline', module = 'user.modules.statusline' },
     { name = 'tabline', module = 'user.modules.tabline' },
     { name = 'quickfix', module = 'user.modules.quickfix' },
     { name = 'discipline', module = 'user.modules.discipline' },
     { name = 'markdown', module = 'user.modules.markdown' },
     { name = 'completion', module = 'user.modules.completion' },
+
+    -- plugins
+    { name = 'colorschemes', module = 'user.plugins.colorschemes' },
     { name = 'treesitter', module = 'user.plugins.treesitter' },
     { name = 'indentmini', module = 'user.plugins.indentmini' },
     { name = 'lspconfig', module = 'user.plugins.lspconfig' },
@@ -105,9 +111,6 @@ function M.setup(opts)
     { name = 'minidiff', module = 'user.plugins.minidiff' },
     { name = 'console', module = 'user.plugins.console' },
     { name = 'oil', module = 'user.plugins.oil' },
-    { name = 'tools', module = 'user.modules.tools' },
-    { name = 'marks', module = 'user.modules.marks' },
-    { name = 'ghost', module = 'user.modules.ghost' },
   }
 
   registry = {}

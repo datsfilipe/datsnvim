@@ -14,13 +14,13 @@ return {
         ['<C-c>'] = 'actions.refresh',
         [';y'] = {
           callback = function()
-            local dir = require("oil").get_current_dir()
+            local dir = require('oil').get_current_dir()
             if dir then
-              vim.fn.setreg("+", dir)
-              vim.notify("path copied")
+              vim.fn.setreg('+', dir)
+              vim.notify 'path copied'
             end
           end,
-          desc = "copy path",
+          desc = 'copy path',
         },
       },
       view_options = {

@@ -10,12 +10,12 @@ return {
         end
         if count >= 5 and vim.bo.buftype ~= 'nofile' then
           local ok =
-              pcall(vim.notify, ' not good enough!', vim.log.levels.ERROR, {
-                id = 'improve',
-                keep = function()
-                  return count >= 4
-                end,
-              })
+            pcall(vim.notify, ' not good enough!', vim.log.levels.ERROR, {
+              id = 'improve',
+              keep = function()
+                return count >= 4
+              end,
+            })
           if not ok then
             return map
           end

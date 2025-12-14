@@ -49,8 +49,8 @@ return {
       vim.cmd.colorscheme(theme)
     end
   end,
-  
+
   apply_transparency = function(groups)
     apply(groups)
-  end
+  end,
 }

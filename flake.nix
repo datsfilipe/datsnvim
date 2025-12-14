@@ -31,29 +31,25 @@
     };
   };
 
-  outputs =
-    {
-      self,
-      nixpkgs,
-      flake-utils,
-      neovim-nightly-overlay,
-      ...
-    }@inputs:
-    let
-      defaultConfig = {
-        theme = "vesper";
-      };
-    in
+  outputs = {
+    self,
+    nixpkgs,
+    flake-utils,
+    neovim-nightly-overlay,
+    ...
+  } @ inputs: let
+    defaultConfig = {
+      theme = "vesper";
+    };
+  in
     flake-utils.lib.eachDefaultSystem (
-      system:
-      let
+      system: let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ neovim-nightly-overlay.overlays.default ];
+          overlays = [neovim-nightly-overlay.overlays.default];
         };
 
-        buildPlug =
-          name: input:
+        buildPlug = name: input:
           pkgs.vimUtils.buildVimPlugin {
             pname = name;
             version = "latest";
@@ -82,77 +78,78 @@
           '';
         };
 
-        mkNeovimBundle =
-          {
-            theme ? defaultConfig.theme,
-            dev ? false,
-          }:
-          let
-            configRoot = "${configPlugin}/share/vim-plugins/datsnvim-config";
-          in
+        mkNeovimBundle = {
+          theme ? defaultConfig.theme,
+          dev ? false,
+        }: let
+          configRoot = "${configPlugin}/share/vim-plugins/datsnvim-config";
+        in
           pkgs.wrapNeovimUnstable pkgs.neovim-unwrapped {
             viAlias = true;
             vimAlias = true;
-            wrapperArgs = [
-              "--set"
-              "DATSNVIM_THEME"
-              "${theme}"
-              "--suffix"
-              "LIBRARY_PATH"
-              ":"
-              "${pkgs.lib.makeLibraryPath [
-                pkgs.stdenv.cc.cc
-                pkgs.zlib
-              ]}"
-              "--suffix"
-              "PKG_CONFIG_PATH"
-              ":"
-              "${pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" [
-                pkgs.stdenv.cc.cc
-                pkgs.zlib
-              ]}"
-            ]
-            ++ (
-              if dev then
-                [ ]
-              else
-                [
+            wrapperArgs =
+              [
+                "--set"
+                "DATSNVIM_THEME"
+                "${theme}"
+                "--suffix"
+                "LIBRARY_PATH"
+                ":"
+                "${pkgs.lib.makeLibraryPath [
+                  pkgs.stdenv.cc.cc
+                  pkgs.zlib
+                ]}"
+                "--suffix"
+                "PKG_CONFIG_PATH"
+                ":"
+                "${pkgs.lib.makeSearchPathOutput "dev" "lib/pkgconfig" [
+                  pkgs.stdenv.cc.cc
+                  pkgs.zlib
+                ]}"
+              ]
+              ++ (
+                if dev
+                then []
+                else [
                   "--set"
                   "XDG_CONFIG_HOME"
                   "${configHome}"
                 ]
-            );
+              );
 
             luaRcContent =
-              if dev then
-                ''
-                  vim.cmd("filetype plugin indent on")
-                  vim.cmd("syntax on")
+              if dev
+              then ''
+                vim.cmd("filetype plugin indent on")
+                vim.cmd("syntax on")
 
-                  local cwd = vim.fn.getcwd()
-                  local local_config = cwd .. "/config"
+                local cwd = vim.fn.getcwd()
+                local local_config = cwd .. "/config"
 
-                  vim.opt.rtp:prepend(local_config)
-                  vim.env.MYVIMRC = local_config .. "/init.lua"
+                vim.opt.rtp:prepend(local_config)
+                vim.env.MYVIMRC = local_config .. "/init.lua"
 
-                  local ok, err = pcall(dofile, vim.env.MYVIMRC)
-                  if not ok then
-                    vim.notify("Error loading local config: " .. err, vim.log.levels.ERROR)
-                  end
-                ''
-              else
-                ''
-                  vim.opt.runtimepath:prepend("${configHome}/nvim")
-                  vim.opt.runtimepath:prepend("${configRoot}")
-                  local init_path = "${configRoot}/init.lua"
-                  local ok, err = pcall(dofile, init_path)
-                  if not ok then
-                    vim.api.nvim_err_writeln(err)
-                  end
-                '';
+                local ok, err = pcall(dofile, vim.env.MYVIMRC)
+                if not ok then
+                  vim.notify("Error loading local config: " .. err, vim.log.levels.ERROR)
+                end
+              ''
+              else ''
+                vim.opt.runtimepath:prepend("${configHome}/nvim")
+                vim.opt.runtimepath:prepend("${configRoot}")
+                local init_path = "${configRoot}/init.lua"
+                local ok, err = pcall(dofile, init_path)
+                if not ok then
+                  vim.api.nvim_err_writeln(err)
+                end
+              '';
 
             plugins =
-              (if dev then [ ] else [ configPlugin ])
+              (
+                if dev
+                then []
+                else [configPlugin]
+              )
               ++ (with pkgs; [
                 vimPlugins.conform-nvim
                 vimPlugins.nvim-lspconfig
@@ -177,18 +174,15 @@
               ];
           };
 
-        hmModule =
-          {
-            config,
-            lib,
-            pkgs,
-            ...
-          }:
-          with lib;
-          let
+        hmModule = {
+          config,
+          lib,
+          pkgs,
+          ...
+        }:
+          with lib; let
             cfg = config.programs.datsnvim;
-          in
-          {
+          in {
             options.programs.datsnvim = {
               enable = mkEnableOption "datsnvim";
               package = mkOption {
@@ -205,7 +199,7 @@
                     };
                   };
                 };
-                default = { };
+                default = {};
               };
             };
             config = mkIf cfg.enable {
@@ -214,14 +208,13 @@
               ];
             };
           };
-      in
-      {
+      in {
         packages.default = pkgs.lib.makeOverridable mkNeovimBundle defaultConfig;
 
         devShells.default = pkgs.mkShell {
           name = "datsnvim-dev";
           packages = [
-            (mkNeovimBundle { dev = true; })
+            (mkNeovimBundle {dev = true;})
             pkgs.lua-language-server
             pkgs.stylua
             pkgs.nil

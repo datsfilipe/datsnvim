@@ -1,4 +1,5 @@
-vim.opt.guicursor = 'n-v-c-i-ci-ve-sm:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor'
+vim.opt.guicursor =
+  'n-v-c-i-ci-ve-sm:block,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor'
 
 vim.wo.relativenumber = true
 vim.wo.number = true
@@ -32,7 +33,7 @@ vim.o.autowrite = false
 vim.o.autoread = true
 
 vim.opt.list = true
-vim.opt.iskeyword:append('-')
+vim.opt.iskeyword:append '-'
 vim.opt.listchars = { lead = '.', trail = '.', tab = '  -' }
 vim.opt.fillchars = {
   eob = ' ',

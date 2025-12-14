@@ -7,7 +7,7 @@ function M.init()
   require 'user.core.keymaps'
   require 'user.core.folding'
 
-  require('user.loader').setup {}
+  require('user.loader').setup()
 end
 
 return M
