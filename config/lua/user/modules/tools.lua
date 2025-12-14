@@ -1,5 +1,7 @@
 local utils = require 'user.utils'
 
+local codespell_ns = vim.api.nvim_create_namespace 'user/codespell'
+
 local function is_oil_buffer(bufnr)
   bufnr = bufnr or 0
   if not vim.api.nvim_buf_is_valid(bufnr) then
@@ -134,11 +136,55 @@ return {
       return true
     end
 
+    local function run_codespell_diagnostics(bufnr)
+      if is_oil_buffer(bufnr) then
+        return
+      end
+
+      if not utils.is_bin_available 'codespell' then
+        return
+      end
+
+      local filename = vim.api.nvim_buf_get_name(bufnr)
+      if filename == '' then
+        return
+      end
+
+      vim.system({ 'codespell', filename }, {}, function(out)
+        local diagnostics = {}
+        if out.stdout and out.stdout ~= '' then
+          for _, line in ipairs(vim.split(out.stdout, '\n')) do
+            local lnum, typo, suggestion =
+              line:match '^.+:(%d+):%s+(.*)%s+==>%s+(.*)'
+
+            if lnum then
+              table.insert(diagnostics, {
+                bufnr = bufnr,
+                lnum = tonumber(lnum) - 1,
+                col = 0,
+                message = string.format("'%s' -> '%s'", typo, suggestion),
+                severity = vim.diagnostic.severity.WARN,
+                source = 'codespell',
+              })
+            end
+          end
+        end
+
+        vim.schedule(function()
+          if vim.api.nvim_buf_is_valid(bufnr) then
+            vim.diagnostic.set(codespell_ns, bufnr, diagnostics)
+          end
+        end)
+      end)
+    end
+
+    local format_group =
+      vim.api.nvim_create_augroup('NativeFormatChain', { clear = true })
+    local diag_group =
+      vim.api.nvim_create_augroup('NativeDiagChain', { clear = true })
+
     vim.api.nvim_create_autocmd('BufWritePre', {
-      group = vim.api.nvim_create_augroup(
-        'NativeFormatChain',
-        { clear = true }
-      ),
+      group = format_group,
       callback = function(ev)
         if is_oil_buffer(ev.buf) then
           return
@@ -155,6 +201,13 @@ return {
             end
           end
         end
+      end,
+    })
+
+    vim.api.nvim_create_autocmd({ 'BufWritePost', 'BufEnter' }, {
+      group = diag_group,
+      callback = function(ev)
+        run_codespell_diagnostics(ev.buf)
       end,
     })
   end,

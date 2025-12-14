@@ -220,6 +220,7 @@
             pkgs.nil
             pkgs.alejandra
             pkgs.ripgrep
+            pkgs.codespell
             pkgs.fd
           ];
 
