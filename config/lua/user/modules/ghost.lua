@@ -34,6 +34,12 @@ return {
     end
 
     local function render_ghost(text)
+      if vim.fn.mode() ~= 'i' then
+        vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
+        suggestion = ''
+        return
+      end
+
       vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
       suggestion = ''
 
@@ -125,6 +131,7 @@ return {
       callback = function()
         vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
         suggestion = ''
+
         if timer then
           vim.loop.timer_stop(timer)
         end
@@ -137,8 +144,12 @@ return {
     vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufLeave' }, {
       callback = function()
         vim.api.nvim_buf_clear_namespace(0, ns_id, 0, -1)
+        suggestion = ''
         if job then
           vim.fn.jobstop(job)
+        end
+        if timer then
+          vim.loop.timer_stop(timer)
         end
       end,
     })
