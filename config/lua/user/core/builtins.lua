@@ -29,12 +29,12 @@ local to_be_disabled = {
   'ruby_provider',
   'perl_provider',
   'node_provider',
-  'netrw_banner',
 }
 
-for _, plugin in pairs(to_be_disabled) do
+for _, plugin in ipairs(to_be_disabled) do
   vim.g['loaded_' .. plugin] = 1
 end
+vim.g.loaded_netrw_banner = 1
 
 vim.cmd.packadd 'nvim.difftool'
 vim.cmd.packadd 'nvim.undotree'
