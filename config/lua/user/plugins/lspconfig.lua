@@ -1,4 +1,6 @@
 local utils = require 'user.utils'
+local map = utils.map
+
 local diagnostic_icons = require('user.icons').diagnostics
 local methods = vim.lsp.protocol.Methods
 
@@ -62,8 +64,15 @@ local servers = {
 }
 
 local function on_attach(client, bufnr)
+  client.server_capabilities.semanticTokensProvider = nil
+
+  if client.name == 'ts_ls' then
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+  end
+
   local function keymap(lhs, rhs, desc)
-    vim.keymap.set(
+    map(
       'n',
       lhs,
       rhs,
@@ -146,21 +155,23 @@ local function configure_diagnostics()
 end
 
 local function wrap_handlers()
+  local orig_hover = vim.lsp.buf.hover
   vim.lsp.buf.hover = function()
-    return vim.lsp.handlers.hover(nil, nil, nil, {
+    orig_hover {
       border = 'none',
       max_height = math.floor(vim.o.lines * 0.5),
       max_width = math.floor(vim.o.columns * 0.4),
-    })
+    }
   end
 
+  local orig_sig = vim.lsp.buf.signature_help
   vim.lsp.buf.signature_help = function()
-    return vim.lsp.handlers.signature_help(nil, nil, nil, {
+    orig_sig {
       border = 'none',
       focusable = false,
       max_height = math.floor(vim.o.lines * 0.5),
       max_width = math.floor(vim.o.columns * 0.4),
-    })
+    }
   end
 
   local register_capability =
@@ -174,10 +185,10 @@ local function wrap_handlers()
   end
 end
 
-return {
-  event = { 'BufReadPre', 'BufNewFile' },
-  setup = function()
-    local ok, lspconfig = pcall(require, 'lspconfig')
+vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufNewFile' }, {
+  once = true,
+  callback = function()
+    local ok, _ = pcall(require, 'lspconfig')
     if not ok then
       return
     end
@@ -198,12 +209,7 @@ return {
     for _, srv in ipairs(servers) do
       if utils.is_bin_available(srv.bin) then
         local cfg = srv.config or {}
-        if srv.name == 'ts_ls' then
-          cfg.capabilities = vim.tbl_extend('force', cfg.capabilities or {}, {
-            documentFormattingProvider = false,
-            documentRangeFormattingProvider = false,
-          })
-        end
+
         if srv.cmd then
           cfg.cmd = srv.cmd
         elseif srv.bin:match '^vscode%-' then
@@ -219,4 +225,52 @@ return {
       vim.lsp.enable(to_enable)
     end
   end,
-}
+})
+
+vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufNewFile' }, {
+  once = true,
+  callback = function()
+    local parser_dir = vim.fn.stdpath 'data' .. '/treesitter'
+    vim.opt.runtimepath:prepend(parser_dir)
+
+    local ok, ts = pcall(require, 'nvim-treesitter.configs')
+    if not ok then
+      vim.notify('nvim-treesitter not available', vim.log.levels.WARN)
+      return
+    end
+
+    ts.setup {
+      parser_install_dir = parser_dir,
+      ensure_installed = {
+        'bash',
+        'fish',
+        'gitcommit',
+        'graphql',
+        'html',
+        'json',
+        'json5',
+        'lua',
+        'markdown',
+        'markdown_inline',
+        'regex',
+        'scss',
+        'toml',
+        'tsx',
+        'javascript',
+        'typescript',
+        'yaml',
+      },
+      highlight = { enable = true },
+      indent = { enable = true },
+      incremental_selection = {
+        enable = true,
+        keymaps = {
+          init_selection = '<cr>',
+          node_incremental = '<cr>',
+          scope_incremental = false,
+          node_decremental = '<bs>',
+        },
+      },
+    }
+  end,
+})

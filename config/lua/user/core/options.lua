@@ -23,7 +23,6 @@ vim.opt.updatetime = 50
 vim.opt.showmode = false
 vim.opt.showmatch = false
 vim.opt.pumheight = 15
-vim.opt.pumblend = 10
 
 vim.o.backup = false
 vim.o.swapfile = false

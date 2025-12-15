@@ -14,9 +14,5 @@ local function render()
   return table.concat(t)
 end
 
-return {
-  setup = function()
-    _G.tabline_render = render
-    vim.o.tabline = '%!v:lua.tabline_render()'
-  end,
-}
+_G.tabline_render = render
+vim.o.tabline = '%!v:lua.tabline_render()'

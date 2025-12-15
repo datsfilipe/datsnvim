@@ -1,10 +1,8 @@
-local M = {}
-
-M.diagnostics = {
-  ERROR = '-',
-  WARN = '~',
-  HINT = '+',
-  INFO = '∴',
+return {
+  diagnostics = {
+    ERROR = '-',
+    WARN = '~',
+    HINT = '+',
+    INFO = '∴',
+  },
 }
-
-return M

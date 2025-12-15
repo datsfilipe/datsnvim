@@ -1,3 +1,6 @@
+local utils = require 'user.utils'
+local map = utils.map
+
 local function highlight_qf(win)
   if not win or win == 0 then
     return
@@ -23,49 +26,38 @@ local function toggle_qf()
   vim.cmd 'wincmd p'
 end
 
-local keys = {
-  { 'n', ';e', toggle_qf, 'quickfix list: toggle' },
-  {
-    'n',
-    '<C-p>',
-    '<cmd>cprev<CR>zz<cmd>lua print("qflist: prev")<CR>',
-    'quickfix list: prev',
-  },
-  {
-    'n',
-    '<C-n>',
-    '<cmd>cnext<CR>zz<cmd>lua print("qflist: next")<CR>',
-    'quickfix list: next',
-  },
-  {
-    'n',
-    ';E',
-    '<cmd>call setqflist([], "r")<CR><cmd>ccl<CR><cmd>lua print("qflist: clear")<CR>',
-    'quickfix list: clear',
-  },
-}
+map('n', ';e', toggle_qf, { desc = 'toggle qf list' })
+
+map(
+  'n',
+  '<C-p>',
+  '<cmd>cprev<CR>zz<cmd>lua print("qflist: prev")<CR>',
+  { desc = 'prev qf list item' }
+)
+map(
+  'n',
+  '<C-n>',
+  '<cmd>cnext<CR>zz<cmd>lua print("qflist: next")<CR>',
+  { desc = 'next qf list item' }
+)
+map(
+  'n',
+  ';E',
+  '<cmd>call setqflist([], "r")<CR><cmd>ccl<CR><cmd>lua print("qflist: clear")<CR>',
+  { desc = 'clear qf list' }
+)
 
 for i = 1, 9 do
-  table.insert(keys, {
-    'n',
-    ';' .. i,
-    function()
-      vim.cmd('cc ' .. i)
-      print('qflist: selected ' .. i)
-    end,
-    'quickfix list: select ' .. i,
-  })
+  map('n', ';' .. i, function()
+    vim.cmd('cc ' .. i)
+    print('qflist: selected ' .. i)
+  end, { desc = 'select qf list item in pos ' .. i })
 end
 
-return {
-  keys = keys,
-  setup = function()
-    vim.api.nvim_create_autocmd('FileType', {
-      pattern = 'qf',
-      callback = function(args)
-        highlight_qf(vim.api.nvim_get_current_win())
-        vim.bo[args.buf].buflisted = false
-      end,
-    })
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'qf',
+  callback = function(args)
+    highlight_qf(vim.api.nvim_get_current_win())
+    vim.bo[args.buf].buflisted = false
   end,
-}
+})

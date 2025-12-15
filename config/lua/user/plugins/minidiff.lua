@@ -1,7 +1,5 @@
-return {
-  event = 'BufReadPost',
-  once = true,
-  setup = function()
+vim.api.nvim_create_autocmd('BufReadPost', {
+  callback = function()
     require('mini.diff').setup {
       mappings = {
         apply = ';gs',
@@ -11,4 +9,4 @@ return {
       },
     }
   end,
-}
+})

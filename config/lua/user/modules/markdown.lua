@@ -30,8 +30,4 @@ local function markdown_preview()
   })
 end
 
-return {
-  commands = {
-    { 'MarkdownPreview', markdown_preview, {} },
-  },
-}
+vim.api.nvim_create_user_command('MarkdownPreview', markdown_preview, {})

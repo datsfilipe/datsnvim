@@ -11,7 +11,10 @@ M.is_bin_available = function(bin)
   return bin_cache[bin]
 end
 
-M.is_file_available = function(filename)
+M.is_file_available = function(filename, path)
+  if path then
+    return #vim.fs.find(filename, { upward = true, path = path }) > 0
+  end
   local found = vim.fn.findfile(filename, '.;')
   return found ~= ''
 end
