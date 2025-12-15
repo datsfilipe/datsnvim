@@ -88,7 +88,7 @@ local function get_workspace_info()
   local base = '['
     .. hl_str('StatusFiletype', ft ~= '' and ft or 'NONE')
     .. ', '
-    .. hl_str('StatusBranch', '#' .. branch:upper())
+    .. hl_str('StatusBranch', '#' .. branch)
   return diag ~= '' and (base .. ', ' .. diag .. ']') or (base .. ']')
 end
 
