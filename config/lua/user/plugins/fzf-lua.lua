@@ -3,7 +3,7 @@ local utils = require 'user.utils'
 local map = utils.map
 local opts = utils.map_options
 
-map('n', ';b', function()
+map('n', ';B', function()
   require('fzf-lua').lgrep_curbuf {
     winopts = {
       height = 0.6,
@@ -13,7 +13,7 @@ map('n', ';b', function()
   }
 end, vim.tbl_extend('force', opts, { desc = 'search buffer' }))
 
-map('x', ';b', function()
+map('x', ';B', function()
   require('fzf-lua').blines {
     winopts = {
       height = 0.6,
@@ -23,7 +23,7 @@ map('x', ';b', function()
   }
 end, vim.tbl_extend('force', opts, { desc = 'search buffer (visual)' }))
 
-map('n', ';B', '<cmd>FzfLua buffers<cr>', { desc = 'buffers' })
+map('n', ';b', '<cmd>FzfLua buffers<cr>', { desc = 'buffers' })
 map('n', ';h', '<cmd>FzfLua highlights<cr>', { desc = 'highlights' })
 map('n', ';H', '<cmd>FzfLua help_tags<cr>', { desc = 'help' })
 map(
@@ -65,12 +65,6 @@ end
 
 require('fzf-lua').setup {
   { 'ivy', 'borderless', 'hide', 'max-perf' },
-  previewers = {
-    cat = {
-      cmd = 'meow',
-      args = '-p no',
-    },
-  },
   fzf_colors = {
     bg = { 'bg', 'Normal' },
     gutter = { 'bg', 'Normal' },
@@ -86,23 +80,15 @@ require('fzf-lua').setup {
   keymap = {
     builtin = {
       ['<C-a>'] = 'toggle-fullscreen',
-      ['<C-i>'] = 'toggle-preview',
     },
     fzf = {
-      ['ctrl-i'] = 'toggle-preview',
       ['ctrl-l'] = 'select-all+accept',
     },
   },
   winopts = {
     height = 0.7,
     width = 0.55,
-    preview = {
-      default = 'cat',
-      hidden = true,
-      scrollbar = false,
-      layout = 'vertical',
-      vertical = 'up:40%',
-    },
+    preview = { hidden = true },
   },
   defaults = { git_icons = false },
   grep = {
