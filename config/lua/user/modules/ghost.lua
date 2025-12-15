@@ -11,10 +11,9 @@ local API_URL = 'http://127.0.0.1:11434/api/generate'
 local MODEL = 'qwen2.5-coder:1.5b'
 local DEBOUNCE_MS = 75
 local MAX_CONTEXT_LINES = 60
-local MAX_SUGGESTION_LINES = 4
 
 local function log_msg(msg)
-  vim.notify('ghost ' .. msg, vim.log.levels.INFO)
+  vim.notify('ghost: ' .. msg, vim.log.levels.INFO)
 end
 
 local function clear_ghost()
@@ -45,23 +44,21 @@ local function show_ghost(text)
   end
   text = text:gsub('```%w*', ''):gsub('```', '')
 
-  local lines = vim.split(text, '\n', { plain = true })
-  if #lines > MAX_SUGGESTION_LINES then
-    lines = vim.list_slice(lines, 1, MAX_SUGGESTION_LINES)
+  local line = vim.split(text, '\n', { plain = true })[1]
+  if not line or line == '' then
+    return
   end
 
-  suggestion = table.concat(lines, '\n')
+  suggestion = line
 
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
   vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
 
-  if lines[1] and lines[1] ~= '' then
-    vim.api.nvim_buf_set_extmark(0, ns, row - 1, col, {
-      virt_text = { { lines[1], 'Comment' } },
-      virt_text_pos = 'overlay',
-      hl_mode = 'combine',
-    })
-  end
+  vim.api.nvim_buf_set_extmark(0, ns, row - 1, col, {
+    virt_text = { { line, 'Comment' } },
+    virt_text_pos = 'overlay',
+    hl_mode = 'combine',
+  })
 end
 
 local function get_context(row, col)
@@ -108,7 +105,11 @@ local function fetch_completion()
     return
   end
 
+  local file_path = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ':.')
+  local file_header = '// File: ' .. file_path .. '\n'
+
   local prompt = '<|fim_prefix|>'
+    .. file_header
     .. table.concat(before, '\n')
     .. '<|fim_suffix|>'
     .. table.concat(after, '\n')
@@ -123,8 +124,8 @@ local function fetch_completion()
     options = {
       num_predict = 128,
       temperature = 0.1,
-      num_ctx = 4096,
-      stop = { '<|file_separator|>' },
+      num_ctx = 8192,
+      stop = { '<|file_separator|>', '\n' },
     },
   }
 
@@ -160,18 +161,17 @@ local function fetch_completion()
 
           local ok, json = pcall(vim.json.decode, line)
           if ok and json.response then
-            current_suggestion = current_suggestion .. json.response
-
-            local _, newlines = current_suggestion:gsub('\n', '\n')
-            if newlines >= MAX_SUGGESTION_LINES then
+            if json.response:find '\n' then
               if job then
                 pcall(function()
                   job:kill()
                 end)
               end
               job = nil
+              return
             end
 
+            current_suggestion = current_suggestion .. json.response
             show_ghost(current_suggestion)
           end
           if ok and json.done then
@@ -204,17 +204,8 @@ map('i', '<C-g>', function()
   end
   local row, col = unpack(vim.api.nvim_win_get_cursor(0))
 
-  local lines = vim.split(suggestion, '\n', { plain = true })
-  vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, lines)
+  vim.api.nvim_buf_set_text(0, row - 1, col, row - 1, col, { suggestion })
+  vim.api.nvim_win_set_cursor(0, { row, col + #suggestion })
 
-  local new_row = row + #lines - 1
-  local new_col
-  if #lines == 1 then
-    new_col = col + #lines[1]
-  else
-    new_col = #lines[#lines]
-  end
-
-  vim.api.nvim_win_set_cursor(0, { new_row, new_col })
   clear_ghost()
 end, utils.map_options)
