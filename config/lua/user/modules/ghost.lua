@@ -13,6 +13,10 @@ local DEBOUNCE_MS = 75
 local MAX_CONTEXT_LINES = 60
 local MAX_SUGGESTION_LINES = 4
 
+local function log_msg(msg)
+  vim.notify('ghost ' .. msg, vim.log.levels.INFO)
+end
+
 local function clear_ghost()
   if timer then
     if not timer:is_closing() then
@@ -62,26 +66,34 @@ end
 
 local function get_context(row, col)
   local ok, result = pcall(function()
-    local before = vim.api.nvim_buf_get_text(
+    local line_count = vim.api.nvim_buf_line_count(0)
+    local line_idx = row - 1
+
+    local start_line = math.max(0, line_idx - MAX_CONTEXT_LINES)
+    local before_lines =
+      vim.api.nvim_buf_get_lines(0, start_line, line_idx, false)
+
+    local current_line = vim.api.nvim_buf_get_lines(
       0,
-      math.max(0, row - MAX_CONTEXT_LINES),
-      0,
-      row - 1,
-      col,
-      {}
-    )
-    local after = vim.api.nvim_buf_get_text(
-      0,
-      row - 1,
-      col,
-      math.min(vim.api.nvim_buf_line_count(0), row + MAX_CONTEXT_LINES),
-      0,
-      {}
-    )
-    return { before, after }
+      line_idx,
+      line_idx + 1,
+      false
+    )[1] or ''
+    local prefix = current_line:sub(1, col)
+    local suffix = current_line:sub(col + 1)
+
+    local end_line = math.min(line_count, line_idx + 1 + MAX_CONTEXT_LINES)
+    local after_lines =
+      vim.api.nvim_buf_get_lines(0, line_idx + 1, end_line, false)
+
+    table.insert(before_lines, prefix)
+    table.insert(after_lines, 1, suffix)
+
+    return { before_lines, after_lines }
   end)
 
   if not ok then
+    log_msg('get_context failed: ' .. tostring(result))
     return nil, nil
   end
   return result[1], result[2]
@@ -96,11 +108,11 @@ local function fetch_completion()
     return
   end
 
-  local prompt = string.format(
-    '<|fim_prefix|>%s<|fim_suffix|>%s<|fim_middle|>',
-    table.concat(before, '\n'),
-    table.concat(after, '\n')
-  )
+  local prompt = '<|fim_prefix|>'
+    .. table.concat(before, '\n')
+    .. '<|fim_suffix|>'
+    .. table.concat(after, '\n')
+    .. '<|fim_middle|>'
 
   local payload = {
     model = MODEL,
@@ -111,50 +123,64 @@ local function fetch_completion()
     options = {
       num_predict = 128,
       temperature = 0.1,
-      num_ctx = 2048,
+      num_ctx = 4096,
       stop = { '<|file_separator|>' },
     },
   }
 
   local current_suggestion = ''
+  local output_buffer = ''
 
-  job = vim.system(
-    { 'curl', '-s', '-N', API_URL, '-d', vim.json.encode(payload) },
-    {
-      stdout = function(_, data)
-        if not data then
+  job = vim.system({ 'curl', '-s', '-N', API_URL, '-d', '@-' }, {
+    stdin = vim.json.encode(payload),
+    stderr = function(_, data)
+      if data then
+        log_msg('curl err: ' .. data)
+      end
+    end,
+    stdout = function(_, data)
+      if not data then
+        return
+      end
+      vim.schedule(function()
+        if state_ver ~= current_ver then
           return
         end
-        vim.schedule(function()
-          if state_ver ~= current_ver then
-            return
+
+        output_buffer = output_buffer .. data
+
+        while true do
+          local newline_idx = output_buffer:find '\n'
+          if not newline_idx then
+            break
           end
 
-          for line in data:gmatch '[^\r\n]+' do
-            local ok, json = pcall(vim.json.decode, line)
-            if ok and json.response then
-              current_suggestion = current_suggestion .. json.response
+          local line = output_buffer:sub(1, newline_idx - 1)
+          output_buffer = output_buffer:sub(newline_idx + 1)
 
-              local _, newlines = current_suggestion:gsub('\n', '\n')
-              if newlines >= MAX_SUGGESTION_LINES then
-                if job then
-                  pcall(function()
-                    job:kill()
-                  end)
-                end
-                job = nil
+          local ok, json = pcall(vim.json.decode, line)
+          if ok and json.response then
+            current_suggestion = current_suggestion .. json.response
+
+            local _, newlines = current_suggestion:gsub('\n', '\n')
+            if newlines >= MAX_SUGGESTION_LINES then
+              if job then
+                pcall(function()
+                  job:kill()
+                end)
               end
-
-              show_ghost(current_suggestion)
-            end
-            if ok and json.done then
               job = nil
             end
+
+            show_ghost(current_suggestion)
           end
-        end)
-      end,
-    }
-  )
+          if ok and json.done then
+            job = nil
+          end
+        end
+      end)
+    end,
+  })
 end
 
 vim.api.nvim_create_autocmd({ 'TextChangedI', 'CursorMovedI' }, {
