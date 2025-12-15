@@ -113,6 +113,7 @@ end
 
 local function set_highlights()
   local dark = '#1e1f29'
+
   local function set_b(target, source)
     local hl = vim.api.nvim_get_hl(0, { name = source, link = false })
     vim.api.nvim_set_hl(
@@ -121,11 +122,13 @@ local function set_highlights()
       { bg = hl.fg or '#ffffff', fg = dark, bold = true }
     )
   end
+
   vim.api.nvim_set_hl(0, 'StatusScrollLow', { link = 'String' })
   vim.api.nvim_set_hl(0, 'StatusScrollMid', { link = 'WarningMsg' })
   vim.api.nvim_set_hl(0, 'StatusScrollHigh', { link = 'ErrorMsg' })
   vim.api.nvim_set_hl(0, 'StatusBranch', { link = 'DiagnosticError' })
   vim.api.nvim_set_hl(0, 'StatusFiletype', { link = 'Float' })
+
   set_b('StatusModeNormal', 'Function')
   set_b('StatusModeInsert', 'String')
   set_b('StatusModeVisual', 'Statement')
@@ -137,17 +140,21 @@ end
 
 vim.o.laststatus, vim.o.statusline = 3, '%!v:lua.statusline_render()'
 set_highlights()
+
 local aug = vim.api.nvim_create_augroup('custom_statusline', { clear = true })
+
 vim.api.nvim_create_autocmd(
   'ColorScheme',
   { group = aug, callback = set_highlights }
 )
+
 vim.api.nvim_create_autocmd({ 'DiagnosticChanged', 'ModeChanged' }, {
   group = aug,
   callback = function()
     vim.cmd 'redrawstatus'
   end,
 })
+
 vim.api.nvim_create_autocmd({ 'BufEnter', 'FocusGained', 'BufWritePost' }, {
   group = aug,
   callback = function()

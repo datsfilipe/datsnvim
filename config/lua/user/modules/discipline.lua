@@ -7,7 +7,7 @@ for _, key in ipairs { 'h', 'j', 'k', 'l', 'w', 'b', 'e' } do
       count = 0
     end
     if count >= 5 and vim.bo.buftype ~= 'nofile' then
-      local ok = pcall(vim.notify, ' not good enough!', vim.log.levels.ERROR, {
+      local ok = pcall(vim.notify, 'not good enough!', vim.log.levels.ERROR, {
         id = 'improve',
         keep = function()
           return count >= 4

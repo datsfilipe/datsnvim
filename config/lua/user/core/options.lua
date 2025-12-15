@@ -19,7 +19,6 @@ vim.o.smartcase = true
 vim.wo.signcolumn = 'yes'
 vim.opt.winborder = 'none'
 vim.opt.termguicolors = true
-vim.opt.updatetime = 50
 vim.opt.showmode = false
 vim.opt.showmatch = false
 vim.opt.pumheight = 15

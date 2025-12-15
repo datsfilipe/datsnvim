@@ -1,5 +1,13 @@
-vim.api.nvim_create_autocmd('LspAttach', {
-  callback = function()
-    require('fidget').setup { progress = { display = { done_icon = 'OK' } } }
-  end,
-})
+require('fidget').setup {
+  progress = {
+    display = {
+      done_icon = 'OK',
+    },
+  },
+  notification = {
+    override_vim_notify = true,
+    configs = {
+      default = { icon = '', name = '' },
+    },
+  },
+}

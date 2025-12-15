@@ -4,6 +4,7 @@ local opts = utils.map_options
 
 -- curse
 map('i', '<C-c>', '<Esc>', vim.tbl_extend('force', opts, { desc = 'curse' }))
+map('n', ',', ';', { desc = 'repeat search forward' })
 map(
   'n',
   '<leader><leader>',

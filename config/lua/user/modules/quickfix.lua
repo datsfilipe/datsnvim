@@ -27,23 +27,12 @@ local function toggle_qf()
 end
 
 map('n', ';e', toggle_qf, { desc = 'toggle qf list' })
-
-map(
-  'n',
-  '<C-p>',
-  '<cmd>cprev<CR>zz<cmd>lua print("qflist: prev")<CR>',
-  { desc = 'prev qf list item' }
-)
-map(
-  'n',
-  '<C-n>',
-  '<cmd>cnext<CR>zz<cmd>lua print("qflist: next")<CR>',
-  { desc = 'next qf list item' }
-)
+map('n', '<C-p>', '<cmd>cprev<CR>zz', { desc = 'prev qf list item' })
+map('n', '<C-n>', '<cmd>cnext<CR>zz', { desc = 'next qf list item' })
 map(
   'n',
   ';E',
-  '<cmd>call setqflist([], "r")<CR><cmd>ccl<CR><cmd>lua print("qflist: clear")<CR>',
+  '<cmd>call setqflist([], "r")<CR><cmd>ccl<CR>',
   { desc = 'clear qf list' }
 )
 
