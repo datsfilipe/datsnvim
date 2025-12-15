@@ -1,7 +1,5 @@
-return {
-  event = { 'BufReadPre', 'BufNewFile' },
-  after = 'apply_transparency',
-  setup = function()
+vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufNewFile' }, {
+  callback = function()
     require('indentmini').setup {}
   end,
-}
+})

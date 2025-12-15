@@ -1,6 +1,5 @@
-return {
-  event = { 'BufReadPre', 'BufNewFile' },
-  setup = function()
+vim.api.nvim_create_autocmd({ 'BufReadPre', 'BufNewFile' }, {
+  callback = function()
     local parser_dir = vim.fn.stdpath 'data' .. '/treesitter'
     vim.opt.runtimepath:prepend(parser_dir)
 
@@ -44,4 +43,4 @@ return {
       },
     }
   end,
-}
+})

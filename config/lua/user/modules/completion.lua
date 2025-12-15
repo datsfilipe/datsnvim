@@ -123,159 +123,145 @@ local function setup_auto_completion(client, bufnr)
   })
 end
 
-return {
-  setup = function()
-    local augroup =
-      vim.api.nvim_create_augroup('DatsCompletionFinalSetup', { clear = true })
-    ---@diagnostic disable-next-line: param-type-mismatch
-    vim.api.nvim_create_autocmd('VimEnter', {
-      group = augroup,
-      pattern = '*',
-      callback = function()
-        vim.opt.shortmess:append 'c'
-        vim.opt.completeopt = { 'menu', 'menuone', 'noselect', 'popup' }
-      end,
-    })
-
-    vim.api.nvim_create_autocmd('LspAttach', {
-      callback = function(args)
-        local bufnr = args.buf
-        if not vim.api.nvim_buf_is_valid(bufnr) then
-          return
-        end
-
-        local client = vim.lsp.get_client_by_id(args.data.client_id)
-        if not client then
-          return
-        end
-
-        setup_auto_completion(client, bufnr)
-
-        local comp_aug = vim.api.nvim_create_augroup(
-          'LspCompDocs' .. bufnr .. '_' .. client.id,
-          { clear = true }
-        )
-
-        vim.api.nvim_create_autocmd('CompleteChanged', {
-          group = comp_aug,
-          buffer = bufnr,
-          callback = function()
-            ---@diagnostic disable-next-line: need-check-nil
-            docs_timer:stop()
-            if vim.fn.pumvisible() == 0 then
-              return
-            end
-
-            local completed_item = vim.v.completed_item
-            if not completed_item then
-              return
-            end
-
-            local completed_client_id = vim.tbl_get(
-              completed_item,
-              'user_data',
-              'nvim',
-              'lsp',
-              'client_id'
-            )
-            if not completed_client_id or completed_client_id ~= client.id then
-              return
-            end
-
-            ---@diagnostic disable-next-line: undefined-field
-            if completed_item.documentation then
-              local doc = get_docs(completed_item)
-              if doc then
-                show_docs_popup(doc)
-                return
-              end
-            end
-
-            local item = vim.tbl_get(
-              completed_item,
-              'user_data',
-              'nvim',
-              'lsp',
-              'completion_item'
-            )
-            if not item then
-              return
-            end
-
-            ---@diagnostic disable-next-line: need-check-nil
-            docs_timer:start(
-              docs_debounce_ms,
-              0,
-              vim.schedule_wrap(function()
-                client.request(
-                  ---@diagnostic disable-next-line: param-type-mismatch
-                  'completionItem/resolve',
-                  item,
-                  ---@diagnostic disable-next-line: param-type-mismatch
-                  function(err, result)
-                    if err then
-                      return
-                    end
-                    local doc = get_docs(result)
-                    if doc then
-                      show_docs_popup(doc)
-                    end
-                  end,
-                  ---@diagnostic disable-next-line: param-type-mismatch
-                  bufnr
-                )
-              end)
-            )
-          end,
-        })
-
-        vim.lsp.completion.enable(
-          true,
-          client.id,
-          bufnr,
-          { autotrigger = true }
-        )
-
-        local expr_opts = { noremap = true, silent = true, expr = true }
-        vim.api.nvim_buf_set_keymap(
-          bufnr,
-          'i',
-          '<CR>',
-          'v:lua.vim.fn.pumvisible() == 1 ? "\\<C-y>" : "\\<CR>"',
-          expr_opts
-        )
-        vim.api.nvim_buf_set_keymap(
-          bufnr,
-          'i',
-          '<Tab>',
-          'v:lua.vim.fn.pumvisible() == 1 ? "\\<C-n>" : "\\<Tab>"',
-          expr_opts
-        )
-        vim.api.nvim_buf_set_keymap(
-          bufnr,
-          'i',
-          '<S-Tab>',
-          'v:lua.vim.fn.pumvisible() == 1 ? "\\<C-p>" : "\\<S-Tab>"',
-          expr_opts
-        )
-        vim.api.nvim_buf_set_keymap(
-          bufnr,
-          'i',
-          '<C-e>',
-          'v:lua.vim.fn.pumvisible() == 1 ? "\\<C-e>" : "\\<End>"',
-          expr_opts
-        )
-
-        local simple_opts =
-          { noremap = true, silent = true, desc = 'Trigger completion' }
-        vim.api.nvim_buf_set_keymap(
-          bufnr,
-          'i',
-          '<C-Space>',
-          '<C-x><C-o>',
-          simple_opts
-        )
-      end,
-    })
+local augroup =
+  vim.api.nvim_create_augroup('DatsCompletionFinalSetup', { clear = true })
+---@diagnostic disable-next-line: param-type-mismatch
+vim.api.nvim_create_autocmd('VimEnter', {
+  group = augroup,
+  pattern = '*',
+  callback = function()
+    vim.opt.shortmess:append 'c'
+    vim.opt.completeopt = { 'menu', 'menuone', 'noselect', 'popup' }
   end,
-}
+})
+
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    local bufnr = args.buf
+    if not vim.api.nvim_buf_is_valid(bufnr) then
+      return
+    end
+
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if not client then
+      return
+    end
+
+    setup_auto_completion(client, bufnr)
+
+    local comp_aug = vim.api.nvim_create_augroup(
+      'LspCompDocs' .. bufnr .. '_' .. client.id,
+      { clear = true }
+    )
+
+    vim.api.nvim_create_autocmd('CompleteChanged', {
+      group = comp_aug,
+      buffer = bufnr,
+      callback = function()
+        ---@diagnostic disable-next-line: need-check-nil
+        docs_timer:stop()
+        if vim.fn.pumvisible() == 0 then
+          return
+        end
+
+        local completed_item = vim.v.completed_item
+        if not completed_item then
+          return
+        end
+
+        local completed_client_id =
+          vim.tbl_get(completed_item, 'user_data', 'nvim', 'lsp', 'client_id')
+        if not completed_client_id or completed_client_id ~= client.id then
+          return
+        end
+
+        ---@diagnostic disable-next-line: undefined-field
+        if completed_item.documentation then
+          local doc = get_docs(completed_item)
+          if doc then
+            show_docs_popup(doc)
+            return
+          end
+        end
+
+        local item = vim.tbl_get(
+          completed_item,
+          'user_data',
+          'nvim',
+          'lsp',
+          'completion_item'
+        )
+        if not item then
+          return
+        end
+
+        ---@diagnostic disable-next-line: need-check-nil
+        docs_timer:start(
+          docs_debounce_ms,
+          0,
+          vim.schedule_wrap(function()
+            client.request(
+              ---@diagnostic disable-next-line: param-type-mismatch
+              'completionItem/resolve',
+              item,
+              ---@diagnostic disable-next-line: param-type-mismatch
+              function(err, result)
+                if err then
+                  return
+                end
+                local doc = get_docs(result)
+                if doc then
+                  show_docs_popup(doc)
+                end
+              end,
+              ---@diagnostic disable-next-line: param-type-mismatch
+              bufnr
+            )
+          end)
+        )
+      end,
+    })
+
+    vim.lsp.completion.enable(true, client.id, bufnr, { autotrigger = true })
+
+    local expr_opts = { noremap = true, silent = true, expr = true }
+    vim.api.nvim_buf_set_keymap(
+      bufnr,
+      'i',
+      '<CR>',
+      'v:lua.vim.fn.pumvisible() == 1 ? "\\<C-y>" : "\\<CR>"',
+      expr_opts
+    )
+    vim.api.nvim_buf_set_keymap(
+      bufnr,
+      'i',
+      '<Tab>',
+      'v:lua.vim.fn.pumvisible() == 1 ? "\\<C-n>" : "\\<Tab>"',
+      expr_opts
+    )
+    vim.api.nvim_buf_set_keymap(
+      bufnr,
+      'i',
+      '<S-Tab>',
+      'v:lua.vim.fn.pumvisible() == 1 ? "\\<C-p>" : "\\<S-Tab>"',
+      expr_opts
+    )
+    vim.api.nvim_buf_set_keymap(
+      bufnr,
+      'i',
+      '<C-e>',
+      'v:lua.vim.fn.pumvisible() == 1 ? "\\<C-e>" : "\\<End>"',
+      expr_opts
+    )
+
+    local simple_opts =
+      { noremap = true, silent = true, desc = 'Trigger completion' }
+    vim.api.nvim_buf_set_keymap(
+      bufnr,
+      'i',
+      '<C-Space>',
+      '<C-x><C-o>',
+      simple_opts
+    )
+  end,
+})

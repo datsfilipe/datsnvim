@@ -1,4 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-require('user.core').init()
+require 'user.core'
+require 'user.modules'
+require 'user.plugins'
