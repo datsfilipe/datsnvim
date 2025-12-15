@@ -418,6 +418,24 @@ local function run_cspell_diagnostics(bufnr)
     return
   end
 
+  local ignored_words = {}
+  local buf_dir = vim.fs.dirname(filename)
+  local root = vim.fs.find({ '.vscode' }, { upward = true, path = buf_dir })[1]
+
+  if root then
+    local f = io.open(root .. '/settings.json', 'r')
+    if f then
+      local c = f:read '*a'
+      f:close()
+      local words_content = c:match '"[cC][sS]pell%.words":%s*%[([^%]]+)%]'
+      if words_content then
+        for w in words_content:gmatch '"([^"]+)"' do
+          ignored_words[w:lower()] = true
+        end
+      end
+    end
+  end
+
   local cmd = {
     'cspell',
     'lint',
@@ -428,38 +446,24 @@ local function run_cspell_diagnostics(bufnr)
     filename,
   }
 
-  local buf_dir = vim.fs.dirname(filename)
-  local root = vim.fs.find({ '.vscode' }, { upward = true, path = buf_dir })[1]
-
-  if root then
-    local f = io.open(root .. '/settings.json', 'r')
-    if f then
-      local c = f:read '*a'
-      f:close()
-      local words = c:match '"cspell.words":%s*%[([^%]]+)%]'
-      if words then
-        for w in words:gmatch '"([^"]+)"' do
-          insert(cmd, '--words-list')
-          insert(cmd, w)
-        end
-      end
-    end
-  end
-
   vim.system(cmd, { cwd = buf_dir }, function(out)
     local diagnostics = {}
     if out.stdout and out.stdout ~= '' then
       for _, line in ipairs(vim.split(out.stdout, '\n')) do
         local lnum, col, msg = line:match ':(%d+):(%d+)%s%-%s(.*)'
         if lnum then
-          insert(diagnostics, {
-            bufnr = bufnr,
-            lnum = tonumber(lnum) - 1,
-            col = tonumber(col) - 1,
-            message = msg,
-            severity = vim.diagnostic.severity.HINT,
-            source = 'cspell',
-          })
+          local word = msg:match '%(([^%)]+)%)'
+
+          if not (word and ignored_words[word:lower()]) then
+            insert(diagnostics, {
+              bufnr = bufnr,
+              lnum = tonumber(lnum) - 1,
+              col = tonumber(col) - 1,
+              message = msg,
+              severity = vim.diagnostic.severity.HINT,
+              source = 'cspell',
+            })
+          end
         end
       end
     end
