@@ -1,0 +1,57 @@
+{
+  "plugins": {
+    "fidget.nvim": {
+      "rev": "64463022a1f2ff1318ab22a2ea4125ed9313a483",
+      "src": "https://github.com/j-hui/fidget.nvim"
+    },
+    "fzf-lua": {
+      "rev": "9d579feab4d3035627150e5e9b6e8fbf5e814ef6",
+      "src": "https://github.com/ibhagwan/fzf-lua"
+    },
+    "gruvbox.nvim": {
+      "rev": "97f3529df609ddb824bc472f2b5a470ce7e9780a",
+      "src": "https://github.com/datsfilipe/gruvbox.nvim"
+    },
+    "indentmini.nvim": {
+      "rev": "e0f1e381a3949ea6757365fa33f8f1722d3eae90",
+      "src": "https://github.com/nvimdev/indentmini.nvim"
+    },
+    "kanagawa.nvim": {
+      "rev": "aef7f5cec0a40dbe7f3304214850c472e2264b10",
+      "src": "https://github.com/rebelot/kanagawa.nvim"
+    },
+    "min-theme.nvim": {
+      "rev": "29fe6f031202619e6285789f47ce37ead5165b8d",
+      "src": "https://github.com/datsfilipe/min-theme.nvim"
+    },
+    "nvim": {
+      "rev": "ce8d176faa4643e026e597ae3c31db59b63cef09",
+      "src": "https://github.com/catppuccin/nvim"
+    },
+    "nvim-lspconfig": {
+      "rev": "d20d83b3f24f5884da73a9fc92fdc47e778b8d0d",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-treesitter": {
+      "rev": "6e42d823ce0a5a76180c473c119c7677738a09d1",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
+      "version": "'main'"
+    },
+    "oil.nvim": {
+      "rev": "3b249b71957ee35d5adbfb21f77992809a4c4683",
+      "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "solarized-osaka.nvim": {
+      "rev": "f796014c14b1910e08d42cc2077fef34f08e0295",
+      "src": "https://github.com/craftzdog/solarized-osaka.nvim"
+    },
+    "vesper.nvim": {
+      "rev": "1717b1ad657c94bec3fc2bdebb0c55452d9fe46d",
+      "src": "https://github.com/datsfilipe/vesper.nvim"
+    },
+    "vim-wakatime": {
+      "rev": "d7973b157a632d1edeff01818f18d67e584eeaff",
+      "src": "https://github.com/wakatime/vim-wakatime"
+    }
+  }
+}
