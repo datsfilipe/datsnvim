@@ -1,11 +1,11 @@
----@diagnostic disable: assign-type-mismatch
-
 vim.pack.add {
-  'https://github.com/ibhagwan/fzf-lua',
   'https://github.com/neovim/nvim-lspconfig',
-  'https://github.com/nvimdev/indentmini.nvim',
   'https://github.com/stevearc/oil.nvim',
   'https://github.com/wakatime/vim-wakatime',
+  {
+    src = 'https://github.com/datsfilipe/console.nvim',
+    version = 'grep',
+  },
   {
     src = 'https://github.com/nvim-treesitter/nvim-treesitter',
     version = 'main',
@@ -45,7 +45,7 @@ vim.cmd.packadd 'cfilter'
 vim.cmd.packadd 'nvim.undotree'
 vim.cmd.packadd 'nvim.difftool'
 
-require('indentmini').setup {}
+require('console').setup()
 
 vim.keymap.set('n', '<Space>e', '<cmd>Oil<cr>')
 require('oil').setup {
@@ -87,63 +87,4 @@ vim.lsp.enable {
   'rust_analyzer',
   'solidity_ls',
   'ts_ls',
-}
-
-vim.keymap.set('n', '<leader>w', function()
-  require('fzf-lua').lgrep_curbuf {
-    winopts = {
-      height = 0.6,
-      width = 0.5,
-    },
-    fzf_opts = { ['--layout'] = 'reverse' },
-  }
-end, { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>b', '<cmd>FzfLua buffers<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>h', '<cmd>FzfLua highlights<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>m', '<cmd>FzfLua help_tags<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>d', '<cmd>FzfLua lsp_document_diagnostics<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>f', '<cmd>FzfLua files<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>o', '<cmd>FzfLua oldfiles<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>r', '<cmd>FzfLua live_grep<cr>', { noremap = true, silent = true })
-vim.keymap.set('n', 'z=', '<cmd>FzfLua spell_suggest<cr>', { noremap = true, silent = true })
-
-local actions = require 'fzf-lua.actions'
-
-require('fzf-lua').setup {
-  { 'ivy', 'borderless', 'hide', 'max-perf' },
-  fzf_opts = {
-    ['--info'] = 'default',
-    ['--layout'] = 'reverse-list',
-  },
-  fzf_colors = {
-    bg = { 'bg', 'Normal' },
-    gutter = { 'bg', 'Normal' },
-    info = { 'fg', 'Conditional' },
-    scrollbar = { 'bg', 'Normal' },
-    separator = { 'fg', 'Comment' },
-  },
-  ---@diagnostic disable-next-line: missing-fields
-  winopts = { preview = { hidden = true } },
-  defaults = { git_icons = false },
-  keymap = {
-    fzf = {
-      ['ctrl-q'] = 'select-all+accept',
-    },
-  },
-  oldfiles = { include_current_session = true },
-  helptags = {
-    actions = { ['enter'] = actions.help_vert },
-  },
-  lsp = {
-    code_actions = { winopts = { relative = 'cursor' } },
-  },
-  diagnostics = {
-    multiline = 1,
-    diag_icons = {
-      ['Error'] = 'E ',
-      ['Warn'] = 'W ',
-      ['Info'] = 'I ',
-      ['Hint'] = 'H ',
-    },
-  },
 }

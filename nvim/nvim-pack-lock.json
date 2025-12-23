@@ -1,5 +1,10 @@
 {
   "plugins": {
+    "console.nvim": {
+      "rev": "3a5137d6a9bb99850eb87af2996eb530d2492b30",
+      "src": "https://github.com/datsfilipe/console.nvim",
+      "version": "'grep'"
+    },
     "fidget.nvim": {
       "rev": "64463022a1f2ff1318ab22a2ea4125ed9313a483",
       "src": "https://github.com/j-hui/fidget.nvim"

@@ -10,6 +10,9 @@ vim.o.mouse = ''
 vim.opt.cursorline = true
 vim.opt.sidescrolloff = 8
 vim.opt.smoothscroll = true
+vim.opt.grepprg = 'rg --vimgrep --no-messages --smart-case'
+vim.opt.wildoptions:append { 'fuzzy' }
+vim.opt.path:append { '**' }
 
 vim.o.sw = 2
 vim.o.ts = 2
