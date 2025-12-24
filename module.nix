@@ -25,7 +25,7 @@ in {
 
       extraLuaConfig = ''
         vim.g.datsnvim_theme = "${cfg.settings.theme}"
-        ${builtins.readFile ./init.lua}
+        ${builtins.readFile ./nvim/init.lua}
       '';
     };
   };
