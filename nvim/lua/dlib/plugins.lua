@@ -89,3 +89,20 @@ vim.lsp.enable {
   'solidity_ls',
   'ts_ls',
 }
+
+vim.api.nvim_create_autocmd('PackChanged', {
+  callback = function(event)
+    local data = event.data or {}
+    local kind = data.kind or ''
+    local callback = vim.tbl_get(data, 'spec', 'data', 'on_' .. kind)
+
+    if type(callback) ~= 'function' then
+      return
+    end
+
+    local ok, err = pcall(callback, data)
+    if not ok then
+      vim.notify(err, vim.log.levels.ERROR)
+    end
+  end,
+})

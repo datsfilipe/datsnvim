@@ -25,3 +25,11 @@ vim.keymap.set('n', '<C-,>', ':bprev<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<Space>t', ':tabnew<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '>', ':tabn<CR>', { noremap = true, silent = true })
 vim.keymap.set('n', '<', ':tabp<CR>', { noremap = true, silent = true })
+
+vim.keymap.set('i', '<CR>', function()
+  if vim.fn.pumvisible() == 1 then
+    return vim.api.nvim_replace_termcodes('<C-y>', true, true, true)
+  else
+    return vim.api.nvim_replace_termcodes('<CR>', true, true, true)
+  end
+end, { expr = true, noremap = true, silent = true })

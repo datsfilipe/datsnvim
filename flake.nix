@@ -19,7 +19,6 @@
   in {
     homeManagerModules.default = {pkgs, ...}: {
       imports = [./module.nix];
-
       programs.neovim.package = neovim-nightly-overlay.packages.${pkgs.system}.default;
     };
 
@@ -30,7 +29,7 @@
         nil
         alejandra
         (writeShellScriptBin "vim" ''
-          exec ${neovim}/bin/nvim "$@"
+          exec ${pkgs.neovim}/bin/nvim "$@"
         '')
       ];
 

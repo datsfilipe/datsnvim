@@ -28,6 +28,8 @@ in {
 
     programs.neovim = {
       enable = true;
+      viAlias = true;
+      vimAlias = true;
 
       extraLuaConfig = ''
         vim.g.datsnvim_theme = "${cfg.settings.theme}"

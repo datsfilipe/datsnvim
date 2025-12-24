@@ -4,7 +4,7 @@ vim.wo.relativenumber = true
 vim.wo.number = true
 
 vim.o.complete = 'o,.,w,b,u'
-vim.o.completeopt = 'menu,menuone,popup,noinsert'
+vim.o.completeopt = 'menu,menuone,noselect,popup'
 
 vim.o.mouse = ''
 vim.opt.cursorline = true
