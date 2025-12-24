@@ -1,11 +1,8 @@
 vim.pack.add {
+  'https://github.com/datsfilipe/console.nvim',
   'https://github.com/neovim/nvim-lspconfig',
   'https://github.com/stevearc/oil.nvim',
   'https://github.com/wakatime/vim-wakatime',
-  {
-    src = 'https://github.com/datsfilipe/console.nvim',
-    version = 'grep',
-  },
   {
     src = 'https://github.com/nvim-treesitter/nvim-treesitter',
     version = 'main',
@@ -45,6 +42,10 @@ vim.cmd.packadd 'cfilter'
 vim.cmd.packadd 'nvim.undotree'
 vim.cmd.packadd 'nvim.difftool'
 
+vim.keymap.set('n', '<leader>f', '<cmd>LiveFiles<cr>')
+vim.keymap.set('n', '<leader>r', '<cmd>LiveGrep<cr>')
+vim.keymap.set('n', '<leader>C', '<cmd>ConsoleClose<cr>')
+vim.keymap.set('n', '<leader>c', ':ConsoleRun ')
 require('console').setup()
 
 vim.keymap.set('n', '<Space>e', '<cmd>Oil<cr>')
