@@ -2,7 +2,7 @@
 
 # datsnvim
 
-This is a simple Neovim configuration for @datsfilipe use.
+This is a simple Neovim configuration for [@datsfilipe](https://github.com/datsfilipe) use.
 
 </div>
 

@@ -40,6 +40,7 @@ for _, parser in ipairs {
   'bash',
   'c',
   'fish',
+  'gitcommit',
   'graphql',
   'html',
   'javascript',

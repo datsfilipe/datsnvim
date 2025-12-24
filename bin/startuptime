@@ -1,3 +1,7 @@
 #!/usr/bin/env sh
 GIT_ROOT=$(git rev-parse --show-toplevel)
-exec nix run .#default -- --startuptime $GIT_ROOT/assets/startuptime.txt $GIT_ROOT/nvim/init.lua +q
+
+exec nix develop "$GIT_ROOT" --command \
+  nvim --startuptime "$GIT_ROOT/assets/startuptime.txt" \
+       "$GIT_ROOT/nvim/init.lua" \
+       +q
