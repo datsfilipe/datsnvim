@@ -4,21 +4,9 @@
       "rev": "22bdfe4b0acfd724672eac629d10c35d5ea2a4b5",
       "src": "https://github.com/datsfilipe/console.nvim"
     },
-    "gruvbox.nvim": {
-      "rev": "97f3529df609ddb824bc472f2b5a470ce7e9780a",
-      "src": "https://github.com/datsfilipe/gruvbox.nvim"
-    },
-    "kanagawa.nvim": {
-      "rev": "aef7f5cec0a40dbe7f3304214850c472e2264b10",
-      "src": "https://github.com/rebelot/kanagawa.nvim"
-    },
-    "min-theme.nvim": {
-      "rev": "29fe6f031202619e6285789f47ce37ead5165b8d",
-      "src": "https://github.com/datsfilipe/min-theme.nvim"
-    },
-    "nvim": {
-      "rev": "ce8d176faa4643e026e597ae3c31db59b63cef09",
-      "src": "https://github.com/catppuccin/nvim"
+    "datscolorscheme.nvim": {
+      "rev": "6d29f7fc8025177188bd16af68da15dc40a479df",
+      "src": "https://github.com/datsfilipe/datscolorscheme.nvim"
     },
     "nvim-lspconfig": {
       "rev": "8973916a3d015d65a8c4614e141f4270a713cf33",
@@ -31,14 +19,6 @@
     "oil.nvim": {
       "rev": "756dec855b4811f2d27f067a3aca477f368d99f5",
       "src": "https://github.com/stevearc/oil.nvim"
-    },
-    "solarized-osaka.nvim": {
-      "rev": "f796014c14b1910e08d42cc2077fef34f08e0295",
-      "src": "https://github.com/craftzdog/solarized-osaka.nvim"
-    },
-    "vesper.nvim": {
-      "rev": "1717b1ad657c94bec3fc2bdebb0c55452d9fe46d",
-      "src": "https://github.com/datsfilipe/vesper.nvim"
     },
     "vim-wakatime": {
       "rev": "d7973b157a632d1edeff01818f18d67e584eeaff",
