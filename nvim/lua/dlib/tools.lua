@@ -76,6 +76,8 @@ local function run_formatter(bufnr)
   return false
 end
 
+local HINT_SEVERITY = 4
+
 local function run_cspell(bufnr)
   if not has_bin 'cspell' or vim.bo[bufnr].filetype == 'oil' then
     return
@@ -114,7 +116,7 @@ local function run_cspell(bufnr)
                 lnum = tonumber(lnum) - 1,
                 col = tonumber(col) - 1,
                 message = msg,
-                severity = vim.diagnostic.severity.HINT,
+                severity = HINT_SEVERITY,
                 source = 'cspell',
               })
             end
@@ -123,7 +125,10 @@ local function run_cspell(bufnr)
       end
       vim.schedule(function()
         if vim.api.nvim_buf_is_valid(bufnr) then
-          vim.diagnostic.set(vim.api.nvim_create_namespace 'user_cspell', bufnr, diags)
+          pcall(function()
+            local ns = vim.api.nvim_create_namespace 'user_cspell'
+            vim.diagnostic.set(ns, bufnr, diags)
+          end)
         end
       end)
     end
