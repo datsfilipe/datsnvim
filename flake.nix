@@ -17,7 +17,11 @@
       overlays = [neovim-nightly-overlay.overlays.default];
     };
   in {
-    homeManagerModules.default = import ./module.nix;
+    homeManagerModules.default = {pkgs, ...}: {
+      imports = [./module.nix];
+
+      programs.neovim.package = neovim-nightly-overlay.packages.${pkgs.system}.default;
+    };
 
     devShells.${system}.default = pkgs.mkShell {
       packages = with pkgs; [
@@ -25,7 +29,6 @@
         stylua
         nil
         alejandra
-
         (writeShellScriptBin "vim" ''
           exec ${neovim}/bin/nvim "$@"
         '')
