@@ -1,41 +1,9 @@
 vim.pack.add {
   'https://github.com/datsfilipe/console.nvim',
   'https://github.com/neovim/nvim-lspconfig',
+  'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/stevearc/oil.nvim',
   'https://github.com/wakatime/vim-wakatime',
-  {
-    src = 'https://github.com/nvim-treesitter/nvim-treesitter',
-    version = 'main',
-    data = {
-      on_update = function()
-        require('nvim-treesitter').install {
-          'bash',
-          'c',
-          'fish',
-          'gitcommit',
-          'graphql',
-          'html',
-          'javascript',
-          'json',
-          'json5',
-          'kdl',
-          'lua',
-          'markdown',
-          'markdown_inline',
-          'nix',
-          'query',
-          'regex',
-          'scss',
-          'toml',
-          'tsx',
-          'typescript',
-          'vim',
-          'vimdoc',
-          'yaml',
-        }
-      end,
-    },
-  },
 }
 
 vim.cmd.packadd 'cfilter'
@@ -58,6 +26,48 @@ require('oil').setup {
   default_file_explorer = true,
   skip_confirm_for_simple_edits = true,
 }
+
+local ts = require 'nvim-treesitter'
+local installed_list = ts.get_installed()
+local installed = {}
+
+for _, parser in ipairs(installed_list) do
+  installed[parser] = true
+end
+
+local to_install = {}
+for _, parser in ipairs {
+  'bash',
+  'c',
+  'fish',
+  'graphql',
+  'html',
+  'javascript',
+  'json',
+  'json5',
+  'kdl',
+  'lua',
+  'markdown',
+  'markdown_inline',
+  'nix',
+  'query',
+  'regex',
+  'scss',
+  'toml',
+  'tsx',
+  'typescript',
+  'vim',
+  'vimdoc',
+  'yaml',
+} do
+  if not installed[parser] then
+    table.insert(to_install, parser)
+  end
+end
+
+if #to_install > 0 then
+  ts.install(to_install)
+end
 
 vim.cmd 'syntax off'
 vim.api.nvim_create_autocmd('FileType', {
@@ -89,20 +99,3 @@ vim.lsp.enable {
   'solidity_ls',
   'ts_ls',
 }
-
-vim.api.nvim_create_autocmd('PackChanged', {
-  callback = function(event)
-    local data = event.data or {}
-    local kind = data.kind or ''
-    local callback = vim.tbl_get(data, 'spec', 'data', 'on_' .. kind)
-
-    if type(callback) ~= 'function' then
-      return
-    end
-
-    local ok, err = pcall(callback, data)
-    if not ok then
-      vim.notify(err, vim.log.levels.ERROR)
-    end
-  end,
-})
