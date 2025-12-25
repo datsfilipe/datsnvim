@@ -1,0 +1,28 @@
+{
+  "plugins": {
+    "console.nvim": {
+      "rev": "22bdfe4b0acfd724672eac629d10c35d5ea2a4b5",
+      "src": "https://github.com/datsfilipe/console.nvim"
+    },
+    "datscolorscheme.nvim": {
+      "rev": "6d29f7fc8025177188bd16af68da15dc40a479df",
+      "src": "https://github.com/datsfilipe/datscolorscheme.nvim"
+    },
+    "nvim-lspconfig": {
+      "rev": "8973916a3d015d65a8c4614e141f4270a713cf33",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-treesitter": {
+      "rev": "6e42d823ce0a5a76180c473c119c7677738a09d1",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter"
+    },
+    "oil.nvim": {
+      "rev": "756dec855b4811f2d27f067a3aca477f368d99f5",
+      "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "vim-wakatime": {
+      "rev": "d7973b157a632d1edeff01818f18d67e584eeaff",
+      "src": "https://github.com/wakatime/vim-wakatime"
+    }
+  }
+}
