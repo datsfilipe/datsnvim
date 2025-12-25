@@ -10,8 +10,8 @@ local function toggle_qf()
 end
 
 vim.keymap.set('n', '<leader>q', toggle_qf, { desc = 'toggle qf list' })
-vim.keymap.set('n', '<C-j>', '<cmd>cprev<CR>')
-vim.keymap.set('n', '<C-k>', '<cmd>cnext<CR>')
+vim.keymap.set('n', '<C-k>', '<cmd>cprev<CR>')
+vim.keymap.set('n', '<C-j>', '<cmd>cnext<CR>')
 vim.keymap.set('n', '<leader>Q', '<cmd>call setqflist([], "r")<CR><cmd>ccl<CR>')
 
 for i = 1, 9 do
