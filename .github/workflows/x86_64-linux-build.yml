@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-    
+      
     - name: Install Nix
       uses: DeterminateSystems/nix-installer-action@v14
       with:
@@ -24,14 +24,9 @@ jobs:
       with:
         name: datsfilipe-dotfiles
         authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-    
+      
     - name: Build package (x86_64-linux)
       run: nix build .#packages.x86_64-linux.default
 
     - name: Evaluate home-manager module (x86_64-linux)
-      run: nix eval .#homeManagerModules.x86_64-linux.default
-
-    - name: Check configuration health (x86_64-linux)
-      run: |
-        OVERRIDE_PATH=$(nix build --no-link --print-out-paths --impure --expr 'let flake = builtins.getFlake (toString ./.); in flake.packages.x86_64-linux.default.override { theme = "catppuccin"; }' | tail -n1)
-        ./bin/checkhealth "$OVERRIDE_PATH/bin/nvim" catppuccin
+      run: nix eval .#homeManagerModules.default

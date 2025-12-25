@@ -17,6 +17,8 @@
       overlays = [neovim-nightly-overlay.overlays.default];
     };
   in {
+    packages.${system}.default = neovim-nightly-overlay.packages.${system}.default;
+
     homeManagerModules.default = {pkgs, ...}: {
       imports = [./module.nix];
       programs.neovim.package = neovim-nightly-overlay.packages.${pkgs.system}.default;
