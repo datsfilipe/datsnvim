@@ -105,6 +105,26 @@ dats.setup {
       match_bg = '#fab387',
       match_fg = '#1e1e2e',
     },
+
+    carbon = {
+      bg = '#161616',
+      fg = '#f4f4f4',
+      line_bg = '#262626',
+      float_bg = '#262626',
+      dim = '#6f6f6f',
+      keyword = '#ff7eb6',
+      definition = '#78a9ff',
+      call = '#33b1ff',
+      value = '#42be65',
+      variable = '#f4f4f4',
+      param = '#be95ff',
+      error = '#fa4d56',
+      selection_bg = '#393939',
+      search_bg = '#005d5d',
+      search_fg = '#ffffff',
+      match_bg = '#0043ce',
+      match_fg = '#ffffff',
+    },
   },
 }
 
