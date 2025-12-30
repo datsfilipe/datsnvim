@@ -1,4 +1,3 @@
-local M = {}
 local bin_cache = {}
 
 local function has_bin(bin)
@@ -139,7 +138,9 @@ local tools_group = vim.api.nvim_create_augroup('ToolsChain', { clear = true })
 vim.api.nvim_create_autocmd('BufWritePre', {
   group = tools_group,
   callback = function(ev)
-    run_formatter(ev.buf)
+    if not run_formatter(ev.buf) then
+      vim.lsp.buf.format { bufnr = ev.buf, async = false }
+    end
   end,
 })
 
