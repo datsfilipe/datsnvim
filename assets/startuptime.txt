@@ -5,59 +5,59 @@ times in msec
  clock   elapsed:              other lines
 
 000.002  000.002: --- NVIM STARTING ---
-000.161  000.159: event init
-000.230  000.069: early init
-001.491  001.261: locale set
-001.540  000.049: init first window
-001.953  000.413: inits 1
-001.965  000.012: window checked
-001.969  000.004: parsing arguments
-002.428  000.041  000.041: require('vim.shared')
-002.518  000.036  000.036: require('vim.inspect')
-002.560  000.034  000.034: require('vim._options')
-002.566  000.136  000.065: require('vim._editor')
-002.601  000.033  000.033: require('vim._system')
-002.602  000.234  000.024: require('vim._init_packages')
-002.606  000.403: init lua interpreter
-002.644  000.038: expanding arguments
-002.662  000.018: inits 2
-002.927  000.265: init highlight
-002.943  000.016: clear screen
-003.082  000.012  000.012: require('vim.keymap')
-003.724  000.109  000.109: sourcing nvim_exec2()
-003.920  000.974  000.853: require('vim._defaults')
-003.922  000.005: init default mappings & autocommands
-004.288  000.046  000.046: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/ftplugin.vim
-004.346  000.022  000.022: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/indent.vim
-004.411  000.421: sourcing vimrc file(s)
-004.579  000.030  000.030: sourcing nvim_exec2() called at /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/filetype.lua:0
-004.582  000.147  000.117: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/filetype.lua
-004.737  000.059  000.059: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/syntax/synload.vim
-004.814  000.182  000.122: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/syntax/syntax.vim
-005.552  000.149  000.149: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/gzip.vim
-006.012  000.137  000.137: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/pack/dist/opt/matchit/plugin/matchit.vim
-006.059  000.480  000.342: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/matchit.vim
-006.210  000.129  000.129: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/matchparen.vim
-006.700  000.175  000.175: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/pack/dist/opt/netrw/plugin/netrwPlugin.vim
-006.746  000.508  000.334: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/netrwPlugin.vim
-007.061  000.287  000.287: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/rplugin.vim
-007.178  000.082  000.082: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/tarPlugin.vim
-007.226  000.018  000.018: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/tutor.vim
-007.406  000.143  000.143: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/zipPlugin.vim
-007.495  000.055  000.055: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/editorconfig.lua
-007.601  000.077  000.077: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/man.lua
-007.695  000.065  000.065: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/nvim/net.lua
-007.751  000.027  000.027: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/nvim/spellfile.lua
-007.930  000.151  000.151: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/osc52.lua
-008.058  000.097  000.097: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/shada.lua
-008.129  000.031  000.031: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/tohtml.lua
-008.149  001.112: loading rtp plugins
-008.255  000.105: loading packages
-008.491  000.236: loading after plugins
-008.498  000.008: inits 3
-008.511  000.013: reading ShaDa
-008.615  000.103: opening buffers
-008.633  000.019: BufEnter autocommands
-008.635  000.001: editing files in windows
-008.640  000.005: --- NVIM STARTED ---
+000.134  000.133: event init
+000.201  000.066: early init
+001.232  001.032: locale set
+001.269  000.036: init first window
+001.606  000.337: inits 1
+001.616  000.010: window checked
+001.619  000.003: parsing arguments
+002.132  000.034  000.034: require('vim.shared')
+002.212  000.032  000.032: require('vim.inspect')
+002.249  000.030  000.030: require('vim._options')
+002.255  000.120  000.059: require('vim._editor')
+002.290  000.035  000.035: require('vim._system')
+002.292  000.212  000.023: require('vim._init_packages')
+002.293  000.462: init lua interpreter
+002.326  000.032: expanding arguments
+002.340  000.015: inits 2
+002.574  000.234: init highlight
+002.593  000.018: clear screen
+002.703  000.009  000.009: require('vim.keymap')
+003.353  000.109  000.109: sourcing nvim_exec2()
+003.481  000.886  000.768: require('vim._defaults')
+003.483  000.003: init default mappings & autocommands
+003.765  000.039  000.039: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/ftplugin.vim
+003.858  000.023  000.023: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/indent.vim
+003.901  000.356: sourcing vimrc file(s)
+004.049  000.020  000.020: sourcing nvim_exec2() called at /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/filetype.lua:0
+004.052  000.139  000.119: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/filetype.lua
+004.166  000.055  000.055: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/syntax/synload.vim
+004.240  000.158  000.103: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/syntax/syntax.vim
+004.736  000.133  000.133: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/gzip.vim
+005.076  000.126  000.126: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/pack/dist/opt/matchit/plugin/matchit.vim
+005.107  000.357  000.231: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/matchit.vim
+005.209  000.090  000.090: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/matchparen.vim
+005.545  000.157  000.157: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/pack/dist/opt/netrw/plugin/netrwPlugin.vim
+005.579  000.357  000.200: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/netrwPlugin.vim
+005.829  000.234  000.234: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/rplugin.vim
+005.924  000.072  000.072: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/tarPlugin.vim
+005.955  000.014  000.014: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/tutor.vim
+006.077  000.107  000.107: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/zipPlugin.vim
+006.139  000.043  000.043: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/editorconfig.lua
+006.213  000.058  000.058: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/man.lua
+006.293  000.062  000.062: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/nvim/net.lua
+006.329  000.019  000.019: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/nvim/spellfile.lua
+006.444  000.100  000.100: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/osc52.lua
+006.555  000.097  000.097: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/shada.lua
+006.605  000.025  000.025: sourcing /nix/store/7pvsaya33j5mpi9f39aw8nlr4wy3h7zn-neovim-unwrapped-nightly/share/nvim/runtime/plugin/tohtml.lua
+006.621  000.654: loading rtp plugins
+006.694  000.073: loading packages
+006.882  000.188: loading after plugins
+006.891  000.009: inits 3
+006.901  000.010: reading ShaDa
+006.982  000.081: opening buffers
+007.000  000.018: BufEnter autocommands
+007.001  000.001: editing files in windows
+007.005  000.005: --- NVIM STARTED ---
 
