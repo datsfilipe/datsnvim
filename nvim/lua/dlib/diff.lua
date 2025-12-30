@@ -22,7 +22,7 @@ local function update_git_signs()
         return
       end
 
-      vim.system({ 'git', 'show', 'HEAD:' .. vim.fn.fnamemodify(filepath, ':.') }, { text = true }, function(obj)
+      vim.system({ 'git', 'show', ':' .. vim.fn.fnamemodify(filepath, ':.') }, { text = true }, function(obj)
         if obj.code ~= 0 then
           return
         end
@@ -80,7 +80,7 @@ local function update_git_signs()
 end
 
 local group = vim.api.nvim_create_augroup('NativeGitSigns', { clear = true })
-vim.api.nvim_create_autocmd({ 'BufRead', 'BufWritePost', 'TextChanged', 'TextChangedI' }, {
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufWritePost', 'TextChanged', 'TextChangedI', 'FocusGained' }, {
   group = group,
   callback = update_git_signs,
 })

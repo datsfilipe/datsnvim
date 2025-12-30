@@ -7,6 +7,7 @@ vim.o.complete = 'o,.,w,b,u'
 vim.o.completeopt = 'menu,menuone,noselect,popup'
 
 vim.o.mouse = ''
+vim.o.updatetime = 300
 vim.opt.cursorline = true
 vim.opt.sidescrolloff = 8
 vim.opt.smoothscroll = true
