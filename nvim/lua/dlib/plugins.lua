@@ -80,8 +80,13 @@ vim.api.nvim_create_autocmd('FileType', {
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-
     client.server_capabilities.semanticTokensProvider = nil
+
+    if client.name == 'cssls' then
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+    end
+
     if client:supports_method 'textDocument/completion' then
       vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
     end
