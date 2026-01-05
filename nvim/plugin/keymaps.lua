@@ -33,3 +33,5 @@ vim.keymap.set('i', '<CR>', function()
     return vim.api.nvim_replace_termcodes('<CR>', true, true, true)
   end
 end, { expr = true, noremap = true, silent = true })
+
+vim.keymap.set('n', 'gd', '<C-]>', { noremap = true, silent = true })
