@@ -70,9 +70,9 @@ local function run_formatter(bufnr)
     if table.concat(new_lines, '\n') ~= content then
       vim.api.nvim_buf_set_lines(bufnr, 0, -1, false, new_lines)
     end
-    return true
   end
-  return false
+
+  return true
 end
 
 local HINT_SEVERITY = 4
