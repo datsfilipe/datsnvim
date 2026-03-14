@@ -21,7 +21,7 @@
 
     homeManagerModules.default = {pkgs, ...}: {
       imports = [./module.nix];
-      programs.neovim.package = neovim-nightly-overlay.packages.${pkgs.system}.default;
+      programs.neovim.package = neovim-nightly-overlay.packages.${pkgs.stdenv.hostPlatform.system}.default;
     };
 
     devShells.${system}.default = pkgs.mkShell {
