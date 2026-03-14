@@ -31,7 +31,7 @@ in {
       viAlias = true;
       vimAlias = true;
 
-      extraLuaConfig = ''
+      initLua = ''
         vim.g.datsnvim_theme = "${cfg.settings.theme}"
         ${builtins.readFile ./nvim/init.lua}
       '';
