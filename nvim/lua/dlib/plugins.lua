@@ -12,7 +12,6 @@ vim.cmd.packadd 'nvim.difftool'
 
 vim.keymap.set('n', '<leader>f', '<cmd>LiveFiles<cr>')
 vim.keymap.set('n', '<leader>r', '<cmd>LiveGrep<cr>')
-vim.keymap.set('n', '<leader>C', '<cmd>ConsoleClose<cr>')
 vim.keymap.set('n', '<leader>c', ':ConsoleRun ')
 require('console').setup()
 
