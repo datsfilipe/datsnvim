@@ -14,6 +14,7 @@ vim.keymap.set('n', '<leader>f', '<cmd>LiveFiles<cr>')
 vim.keymap.set('n', '<leader>r', '<cmd>LiveGrep<cr>')
 vim.keymap.set('n', '<leader>c', ':ConsoleRun ')
 require('console').setup()
+vim.cmd.cnoreabbrev('qc', 'ConsoleClose')
 
 vim.keymap.set('n', '<Space>e', '<cmd>Oil<cr>')
 require('oil').setup {
