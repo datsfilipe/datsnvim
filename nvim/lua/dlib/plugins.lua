@@ -3,7 +3,6 @@ vim.pack.add {
   'https://github.com/neovim/nvim-lspconfig',
   'https://github.com/nvim-treesitter/nvim-treesitter',
   'https://github.com/stevearc/oil.nvim',
-  'https://github.com/wakatime/vim-wakatime',
 }
 
 vim.cmd.packadd 'cfilter'
